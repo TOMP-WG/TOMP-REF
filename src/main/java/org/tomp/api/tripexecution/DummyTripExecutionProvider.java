@@ -1,6 +1,7 @@
 package org.tomp.api.tripexecution;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.tomp.api.repository.DummyRepository;
 
@@ -8,6 +9,7 @@ import io.swagger.model.LegEvent;
 import io.swagger.model.SimpleLeg;
 
 @Component
+@Profile(value = { "dummy", "bike", "bus", "train", "car" })
 public class DummyTripExecutionProvider implements TripExecutionProvider {
 
 	@Autowired
@@ -40,7 +42,7 @@ public class DummyTripExecutionProvider implements TripExecutionProvider {
 
 	private void startTrip(String id, LegEvent body) {
 		SimpleLeg savedOption = repository.getSavedOption(id);
-		System.out.println("Starting trip " + savedOption.getLeg().getFrom());
+		System.out.println("Starting trip " + id);
 	}
 
 }
