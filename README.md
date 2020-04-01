@@ -40,7 +40,7 @@ e.g. calling http://localhost:8090/planning-options/ with body
 }</pre>
 will result in a few planning options. There is a very simple implementation, dividing the route in a few legs and for each leg it will look for TOs that can fulfill the request. 
 
-##Operators
+## Operators
 These operators are available:<br>
 java -jar tomp-ref-1.0.0.jar -Dspring.profiles.active=bike<br>
 java -jar tomp-ref-1.0.0.jar -Dspring.profiles.active=car<br>
