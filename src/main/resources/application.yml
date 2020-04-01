@@ -1,0 +1,88 @@
+spring:
+   application:
+      name: tomp-ref
+server:
+   port: 8080
+tomp:
+   lookup-service: http://localhost:7999/
+   accept-language: nl
+   api-version: 1.2
+
+---
+spring:
+   profiles: dummy
+   application:
+      name: dummy-to
+server:
+   port: 8080
+tomp:
+   maas-id: 2
+
+---
+spring: 
+   profiles: bike
+   application:
+      name: bike-to
+server: 
+   port: 8082
+tomp:
+   maas-id: 3
+   
+---
+spring: 
+   profiles: bus
+   application:
+      name: bus-to
+server: 
+   port: 8082
+tomp:
+   maas-id: 4
+
+---
+spring: 
+   profiles: car
+   application:
+      name: car-to
+server: 
+   port: 8083
+tomp:
+   maas-id: 5
+
+---
+spring: 
+   profiles: train
+   application:
+      name: train-to
+server: 
+   port: 8084
+tomp:
+   maas-id: 6
+ 
+---
+spring: 
+   profiles: scooter
+   application:
+      name: scooter-to
+server: 
+   port: 8085
+tomp:
+   maas-id: 7
+
+---
+spring: 
+   profiles: maasprovider
+   application:
+      name: maasprovider
+server: 
+   port: 8090
+tomp:
+   maas-id: 1   
+   transport-operators:
+#     - name: dummy
+#       tomp-api-url: http://localhost:8080
+     - name: bike
+       tomp-api-url: http://localhost:8082
+     - name: car
+       tomp-api-url: http://localhost:8083
+
+   
