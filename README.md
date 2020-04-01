@@ -7,6 +7,10 @@ This is an example of building a swagger-enabled server in Java using the Spring
 
 The underlying library integrating swagger to SpringBoot is [springfox](https://github.com/springfox/springfox)  
 
+The spring application can be started as MP or as TO, dependend on the supplied profile.<br>
+![alt text](demo-setup.png "The demo setup")
+
+
 ## MaaS Provider
 The MaaS Provider can start this application using this profile: -Dspring.profiles.active=maasprovider<br>
 This means you can start the MaaS Provider like this: _java -jar tomp-ref-1.0.0.jar -Dspring.profiles.active=maasprovider_<br>
@@ -47,7 +51,10 @@ java -jar tomp-ref-1.0.0.jar -Dspring.profiles.active=car<br>
 
 There are also other possibilities to start up other operators, look at the application.yml. 
 
-If you want to add extra functionality to a (new) operator, please make another provider class for that TO in each module. 
+If you want to add extra functionality to a (new) operator, please make another provider class for that TO in each module.
+
+## Front end
+There is no front end yet. The front end to develop can use the endpoints from the TOMP API to access the information. This way you can also test TO component.
 
 ## Example calls
 The {id} is produced by the example planning call. All the components don't persist data, so restarting them requires new calls.
