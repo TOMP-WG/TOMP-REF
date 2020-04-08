@@ -2,12 +2,16 @@ package org.tomp.api.operatorinformation;
 
 import java.util.List;
 
+import io.swagger.model.StationInformation;
 import io.swagger.model.SystemInformation;
+import io.swagger.model.TypeOfAsset;
 
 public interface OperatorInformationProvider {
 
-	List<Object> getAvailableAssetTypes(String acceptLanguage);
+	List<TypeOfAsset> getAvailableAssetTypes(String acceptLanguage);
 
 	List<SystemInformation> getOperatorInformation(String acceptLanguage);
+
+	StationInformation getStations(String acceptLanguage);
 
 }

@@ -1,10 +1,10 @@
 package io.swagger.api;
 
+import java.math.BigDecimal;
 import io.swagger.model.Error;
 import io.swagger.model.ExtraCosts;
 import io.swagger.model.JournalEntry;
 import io.swagger.model.JournalState;
-import java.sql.Timestamp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-24T15:10:42.894Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
 @Controller
 public class PaymentApiController implements PaymentApi {
 
@@ -64,8 +64,8 @@ public class PaymentApiController implements PaymentApi {
     public ResponseEntity<List<JournalEntry>> paymentJournalEntryGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
-,@ApiParam(value = "start of the selection",required=true) @PathVariable("from") Timestamp from
-,@ApiParam(value = "end of the selection",required=true) @PathVariable("to") Timestamp to
+,@ApiParam(value = "start of the selection",required=true) @PathVariable("from") BigDecimal from
+,@ApiParam(value = "end of the selection",required=true) @PathVariable("to") BigDecimal to
 ,@ApiParam(value = "",required=true) @PathVariable("state") JournalState state
 ,@ApiParam(value = "type of booking line (e.g. fare, addition costs, fines, ...)",required=true, allowableValues="ALL, DAMAGE, LOSS, STOLEN, EXTRA_USAGE, REFUND, FINE, OTHER_ASSET_USED, CREDIT, VOUCHER, DEPOSIT, OTHER") @PathVariable("category") String category
 ) {

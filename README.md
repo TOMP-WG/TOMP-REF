@@ -89,3 +89,11 @@ _POST_ http://localhost:8090/legs/{id}/events
     }
   }
 }</pre>
+
+# Demo
+To facilitate the adoption, we've added a demo: 
+
+- Build the jar file in /target
+- Now you can call demo.bat (Windows, 64bit machine) that will set up a MaaS provider, a bike TO and a car TO. <br>
+- When running the script 'plan-and-book.bat' in the scripts directory (open first a cmd box), you'll see the interaction between the three boxes. The planning is fired from the cmd box to the MP box, it will interact with the TO boxes and will send the result to the cmd box. 
+- After that, you can select a trip to book. <br> The booking will be done in 2 steps: adding bookings to the TO and after that a commit.

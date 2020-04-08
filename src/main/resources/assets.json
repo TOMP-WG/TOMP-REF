@@ -1,0 +1,121 @@
+[
+	{
+		"asset-class": "BICYCLE",
+		"amount-available": 18
+	},
+	{
+		"asset-class": "BICYCLE",
+		"asset-sub-class": "Child, 26 inch",
+		"energy-label": "A",
+		"model": "Batavus"
+	},
+	{
+		"asset-id": "string",
+		"place": {
+			"name": "string",
+			"stop-reference": [
+				{
+					"type": "GTFS_STOP_ID",
+					"id": "string",
+					"country": "NL"
+				}
+			],
+			"station-id": "string",
+			"coordinate": {
+				"lng": 6.169639,
+				"lat": 52.253279
+			},
+			"extra-info": [
+				{
+					"key": "value"
+				}
+			],
+			"physical-address": {
+				"street-address": "example street 18, 2nd floor, 18B-33",
+				"area-reference": "Smallcity, Pinetree county",
+				"postal-code": "string",
+				"country": "NL"
+			}
+		},
+		"is-reserved": true,
+		"is-reserved-from": 1546336800,
+		"is-reserved-to": 1546336800,
+		"is-disabled": true,
+		"image": "https://files.fietsersbond.nl/app/uploads/2014/10/30151126/ST2_Men_Side_CityKit-Stromer.jpg",
+		"rental-url": "https://www.rentmyfreebike.com/rental"
+	},
+	{
+		"type-id": "string",
+		"name": "string",
+		"asset-class": "AIR",
+		"asset-sub-class": "string",
+		"amount-available": 0,
+		"assets": [
+			{
+				"asset-id": "string",
+				"place": {
+					"name": "string",
+					"stop-reference": [
+						{
+							"type": "GTFS_STOP_ID",
+							"id": "string",
+							"country": "NL"
+						}
+					],
+					"station-id": "string",
+					"coordinate": {
+						"lng": 6.169639,
+						"lat": 52.253279
+					},
+					"extra-info": [
+						{
+							"key": "value"
+						}
+					],
+					"physical-address": {
+						"street-address": "example street 18, 2nd floor, 18B-33",
+						"area-reference": "Smallcity, Pinetree county",
+						"postal-code": "string",
+						"country": "NL"
+					}
+				},
+				"is-reserved": true,
+				"is-reserved-from": 1546336800,
+				"is-reserved-to": 1546336800,
+				"is-disabled": true,
+				"image": "https://files.fietsersbond.nl/app/uploads/2014/10/30151126/ST2_Men_Side_CityKit-Stromer.jpg",
+				"rental-url": "https://www.rentmyfreebike.com/rental"
+			}
+		],
+		"fuel": "NONE",
+		"energy-label": "A",
+		"co2-per-km": 0,
+		"brand": "string",
+		"model": "string",
+		"building-year": 0,
+		"travel-abroad": true,
+		"air-conditioning": true,
+		"cabrio": true,
+		"colour": "string",
+		"cargo": "string",
+		"easy-accessibility": "LIFT",
+		"gears": 0,
+		"gearbox": "MANUAL",
+		"image": "string",
+		"infant-seat": true,
+		"persons": 0,
+		"pets": true,
+		"propulsion": "MUSCLE",
+		"smoking": true,
+		"state-of-charge": 0,
+		"towing-hook": true,
+		"underground-parking": true,
+		"winter-tires": true,
+		"other": "string",
+		"meta": [
+			{
+				"key": "value"
+			}
+		]
+	}
+]

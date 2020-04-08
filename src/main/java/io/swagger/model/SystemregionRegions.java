@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.model.Polygon;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,13 +14,16 @@ import javax.validation.constraints.*;
  * SystemregionRegions
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
 public class SystemregionRegions   {
   @JsonProperty("region-id")
   private String regionId = null;
 
   @JsonProperty("name")
   private String name = null;
+
+  @JsonProperty("area")
+  private Polygon area = null;
 
   public SystemregionRegions regionId(String regionId) {
     this.regionId = regionId;
@@ -61,6 +65,26 @@ public class SystemregionRegions   {
     this.name = name;
   }
 
+  public SystemregionRegions area(Polygon area) {
+    this.area = area;
+    return this;
+  }
+
+  /**
+   * Get area
+   * @return area
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public Polygon getArea() {
+    return area;
+  }
+
+  public void setArea(Polygon area) {
+    this.area = area;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -72,12 +96,13 @@ public class SystemregionRegions   {
     }
     SystemregionRegions systemregionRegions = (SystemregionRegions) o;
     return Objects.equals(this.regionId, systemregionRegions.regionId) &&
-        Objects.equals(this.name, systemregionRegions.name);
+        Objects.equals(this.name, systemregionRegions.name) &&
+        Objects.equals(this.area, systemregionRegions.area);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(regionId, name);
+    return Objects.hash(regionId, name, area);
   }
 
   @Override
@@ -87,6 +112,7 @@ public class SystemregionRegions   {
     
     sb.append("    regionId: ").append(toIndentedString(regionId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    area: ").append(toIndentedString(area)).append("\n");
     sb.append("}");
     return sb.toString();
   }

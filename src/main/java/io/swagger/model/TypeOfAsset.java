@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.model.Asset;
 import io.swagger.model.AssetClass;
 import io.swagger.model.KeyValue;
 import java.math.BigDecimal;
@@ -20,7 +21,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "what kind of asset is this? Classify it, give the aspects. Most aspects are optional and should be used when applicable.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
 public class TypeOfAsset   {
   @JsonProperty("type-id")
   private String typeId = null;
@@ -36,6 +37,10 @@ public class TypeOfAsset   {
 
   @JsonProperty("amount-available")
   private BigDecimal amountAvailable = null;
+
+  @JsonProperty("assets")
+  @Valid
+  private List<Asset> assets = null;
 
   /**
    * Gets or Sets fuel
@@ -410,6 +415,33 @@ public class TypeOfAsset   {
 
   public void setAmountAvailable(BigDecimal amountAvailable) {
     this.amountAvailable = amountAvailable;
+  }
+
+  public TypeOfAsset assets(List<Asset> assets) {
+    this.assets = assets;
+    return this;
+  }
+
+  public TypeOfAsset addAssetsItem(Asset assetsItem) {
+    if (this.assets == null) {
+      this.assets = new ArrayList<Asset>();
+    }
+    this.assets.add(assetsItem);
+    return this;
+  }
+
+  /**
+   * Get assets
+   * @return assets
+  **/
+  @ApiModelProperty(value = "")
+      @Valid
+    public List<Asset> getAssets() {
+    return assets;
+  }
+
+  public void setAssets(List<Asset> assets) {
+    this.assets = assets;
   }
 
   public TypeOfAsset fuel(FuelEnum fuel) {
@@ -934,6 +966,7 @@ public class TypeOfAsset   {
         Objects.equals(this.assetClass, typeOfAsset.assetClass) &&
         Objects.equals(this.assetSubClass, typeOfAsset.assetSubClass) &&
         Objects.equals(this.amountAvailable, typeOfAsset.amountAvailable) &&
+        Objects.equals(this.assets, typeOfAsset.assets) &&
         Objects.equals(this.fuel, typeOfAsset.fuel) &&
         Objects.equals(this.energyLabel, typeOfAsset.energyLabel) &&
         Objects.equals(this.co2PerKm, typeOfAsset.co2PerKm) &&
@@ -964,7 +997,7 @@ public class TypeOfAsset   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(typeId, name, assetClass, assetSubClass, amountAvailable, fuel, energyLabel, co2PerKm, brand, model, buildingYear, travelAbroad, airConditioning, cabrio, colour, cargo, easyAccessibility, gears, gearbox, image, infantSeat, persons, pets, propulsion, smoking, stateOfCharge, towingHook, undergroundParking, winterTires, other, meta);
+    return Objects.hash(typeId, name, assetClass, assetSubClass, amountAvailable, assets, fuel, energyLabel, co2PerKm, brand, model, buildingYear, travelAbroad, airConditioning, cabrio, colour, cargo, easyAccessibility, gears, gearbox, image, infantSeat, persons, pets, propulsion, smoking, stateOfCharge, towingHook, undergroundParking, winterTires, other, meta);
   }
 
   @Override
@@ -977,6 +1010,7 @@ public class TypeOfAsset   {
     sb.append("    assetClass: ").append(toIndentedString(assetClass)).append("\n");
     sb.append("    assetSubClass: ").append(toIndentedString(assetSubClass)).append("\n");
     sb.append("    amountAvailable: ").append(toIndentedString(amountAvailable)).append("\n");
+    sb.append("    assets: ").append(toIndentedString(assets)).append("\n");
     sb.append("    fuel: ").append(toIndentedString(fuel)).append("\n");
     sb.append("    energyLabel: ").append(toIndentedString(energyLabel)).append("\n");
     sb.append("    co2PerKm: ").append(toIndentedString(co2PerKm)).append("\n");

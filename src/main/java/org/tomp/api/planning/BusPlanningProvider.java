@@ -1,7 +1,6 @@
 package org.tomp.api.planning;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.validation.Valid;

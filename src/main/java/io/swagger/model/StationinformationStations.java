@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Address;
 import io.swagger.model.Coordinate;
+import io.swagger.model.Polygon;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +20,7 @@ import javax.validation.constraints.*;
  * StationinformationStations
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
 public class StationinformationStations   {
   @JsonProperty("station-id")
   private String stationId = null;
@@ -37,6 +39,9 @@ public class StationinformationStations   {
 
   @JsonProperty("region-id")
   private String regionId = null;
+
+  @JsonProperty("service-area")
+  private Polygon serviceArea = null;
 
   /**
    * Gets or Sets rentalMethods
@@ -88,6 +93,30 @@ public class StationinformationStations   {
 
   @JsonProperty("rental-url")
   private String rentalUrl = null;
+
+  @JsonProperty("num-bikes-available")
+  private Integer numBikesAvailable = null;
+
+  @JsonProperty("num-bikes-disabled")
+  private Integer numBikesDisabled = null;
+
+  @JsonProperty("num-docks-available")
+  private Integer numDocksAvailable = null;
+
+  @JsonProperty("num-docks-disabled")
+  private Integer numDocksDisabled = null;
+
+  @JsonProperty("is-installed")
+  private Boolean isInstalled = null;
+
+  @JsonProperty("is-renting")
+  private Boolean isRenting = null;
+
+  @JsonProperty("is-returning")
+  private Boolean isReturning = null;
+
+  @JsonProperty("last-reported")
+  private BigDecimal lastReported = null;
 
   public StationinformationStations stationId(String stationId) {
     this.stationId = stationId;
@@ -208,6 +237,26 @@ public class StationinformationStations   {
     this.regionId = regionId;
   }
 
+  public StationinformationStations serviceArea(Polygon serviceArea) {
+    this.serviceArea = serviceArea;
+    return this;
+  }
+
+  /**
+   * Get serviceArea
+   * @return serviceArea
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public Polygon getServiceArea() {
+    return serviceArea;
+  }
+
+  public void setServiceArea(Polygon serviceArea) {
+    this.serviceArea = serviceArea;
+  }
+
   public StationinformationStations rentalMethods(List<RentalMethodsEnum> rentalMethods) {
     this.rentalMethods = rentalMethods;
     return this;
@@ -254,6 +303,163 @@ public class StationinformationStations   {
     this.rentalUrl = rentalUrl;
   }
 
+  public StationinformationStations numBikesAvailable(Integer numBikesAvailable) {
+    this.numBikesAvailable = numBikesAvailable;
+    return this;
+  }
+
+  /**
+   * Get numBikesAvailable
+   * minimum: 0
+   * @return numBikesAvailable
+  **/
+  @ApiModelProperty(value = "")
+  
+  @Min(0)  public Integer getNumBikesAvailable() {
+    return numBikesAvailable;
+  }
+
+  public void setNumBikesAvailable(Integer numBikesAvailable) {
+    this.numBikesAvailable = numBikesAvailable;
+  }
+
+  public StationinformationStations numBikesDisabled(Integer numBikesDisabled) {
+    this.numBikesDisabled = numBikesDisabled;
+    return this;
+  }
+
+  /**
+   * Get numBikesDisabled
+   * minimum: 0
+   * @return numBikesDisabled
+  **/
+  @ApiModelProperty(value = "")
+  
+  @Min(0)  public Integer getNumBikesDisabled() {
+    return numBikesDisabled;
+  }
+
+  public void setNumBikesDisabled(Integer numBikesDisabled) {
+    this.numBikesDisabled = numBikesDisabled;
+  }
+
+  public StationinformationStations numDocksAvailable(Integer numDocksAvailable) {
+    this.numDocksAvailable = numDocksAvailable;
+    return this;
+  }
+
+  /**
+   * Get numDocksAvailable
+   * minimum: 0
+   * @return numDocksAvailable
+  **/
+  @ApiModelProperty(value = "")
+  
+  @Min(0)  public Integer getNumDocksAvailable() {
+    return numDocksAvailable;
+  }
+
+  public void setNumDocksAvailable(Integer numDocksAvailable) {
+    this.numDocksAvailable = numDocksAvailable;
+  }
+
+  public StationinformationStations numDocksDisabled(Integer numDocksDisabled) {
+    this.numDocksDisabled = numDocksDisabled;
+    return this;
+  }
+
+  /**
+   * Get numDocksDisabled
+   * minimum: 0
+   * @return numDocksDisabled
+  **/
+  @ApiModelProperty(value = "")
+  
+  @Min(0)  public Integer getNumDocksDisabled() {
+    return numDocksDisabled;
+  }
+
+  public void setNumDocksDisabled(Integer numDocksDisabled) {
+    this.numDocksDisabled = numDocksDisabled;
+  }
+
+  public StationinformationStations isInstalled(Boolean isInstalled) {
+    this.isInstalled = isInstalled;
+    return this;
+  }
+
+  /**
+   * Get isInstalled
+   * @return isInstalled
+  **/
+  @ApiModelProperty(value = "")
+  
+    public Boolean isIsInstalled() {
+    return isInstalled;
+  }
+
+  public void setIsInstalled(Boolean isInstalled) {
+    this.isInstalled = isInstalled;
+  }
+
+  public StationinformationStations isRenting(Boolean isRenting) {
+    this.isRenting = isRenting;
+    return this;
+  }
+
+  /**
+   * Get isRenting
+   * @return isRenting
+  **/
+  @ApiModelProperty(value = "")
+  
+    public Boolean isIsRenting() {
+    return isRenting;
+  }
+
+  public void setIsRenting(Boolean isRenting) {
+    this.isRenting = isRenting;
+  }
+
+  public StationinformationStations isReturning(Boolean isReturning) {
+    this.isReturning = isReturning;
+    return this;
+  }
+
+  /**
+   * Get isReturning
+   * @return isReturning
+  **/
+  @ApiModelProperty(value = "")
+  
+    public Boolean isIsReturning() {
+    return isReturning;
+  }
+
+  public void setIsReturning(Boolean isReturning) {
+    this.isReturning = isReturning;
+  }
+
+  public StationinformationStations lastReported(BigDecimal lastReported) {
+    this.lastReported = lastReported;
+    return this;
+  }
+
+  /**
+   * Get lastReported
+   * @return lastReported
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public BigDecimal getLastReported() {
+    return lastReported;
+  }
+
+  public void setLastReported(BigDecimal lastReported) {
+    this.lastReported = lastReported;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -270,13 +476,22 @@ public class StationinformationStations   {
         Objects.equals(this.physicalAddress, stationinformationStations.physicalAddress) &&
         Objects.equals(this.crossStreet, stationinformationStations.crossStreet) &&
         Objects.equals(this.regionId, stationinformationStations.regionId) &&
+        Objects.equals(this.serviceArea, stationinformationStations.serviceArea) &&
         Objects.equals(this.rentalMethods, stationinformationStations.rentalMethods) &&
-        Objects.equals(this.rentalUrl, stationinformationStations.rentalUrl);
+        Objects.equals(this.rentalUrl, stationinformationStations.rentalUrl) &&
+        Objects.equals(this.numBikesAvailable, stationinformationStations.numBikesAvailable) &&
+        Objects.equals(this.numBikesDisabled, stationinformationStations.numBikesDisabled) &&
+        Objects.equals(this.numDocksAvailable, stationinformationStations.numDocksAvailable) &&
+        Objects.equals(this.numDocksDisabled, stationinformationStations.numDocksDisabled) &&
+        Objects.equals(this.isInstalled, stationinformationStations.isInstalled) &&
+        Objects.equals(this.isRenting, stationinformationStations.isRenting) &&
+        Objects.equals(this.isReturning, stationinformationStations.isReturning) &&
+        Objects.equals(this.lastReported, stationinformationStations.lastReported);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(stationId, name, coordinate, physicalAddress, crossStreet, regionId, rentalMethods, rentalUrl);
+    return Objects.hash(stationId, name, coordinate, physicalAddress, crossStreet, regionId, serviceArea, rentalMethods, rentalUrl, numBikesAvailable, numBikesDisabled, numDocksAvailable, numDocksDisabled, isInstalled, isRenting, isReturning, lastReported);
   }
 
   @Override
@@ -290,8 +505,17 @@ public class StationinformationStations   {
     sb.append("    physicalAddress: ").append(toIndentedString(physicalAddress)).append("\n");
     sb.append("    crossStreet: ").append(toIndentedString(crossStreet)).append("\n");
     sb.append("    regionId: ").append(toIndentedString(regionId)).append("\n");
+    sb.append("    serviceArea: ").append(toIndentedString(serviceArea)).append("\n");
     sb.append("    rentalMethods: ").append(toIndentedString(rentalMethods)).append("\n");
     sb.append("    rentalUrl: ").append(toIndentedString(rentalUrl)).append("\n");
+    sb.append("    numBikesAvailable: ").append(toIndentedString(numBikesAvailable)).append("\n");
+    sb.append("    numBikesDisabled: ").append(toIndentedString(numBikesDisabled)).append("\n");
+    sb.append("    numDocksAvailable: ").append(toIndentedString(numDocksAvailable)).append("\n");
+    sb.append("    numDocksDisabled: ").append(toIndentedString(numDocksDisabled)).append("\n");
+    sb.append("    isInstalled: ").append(toIndentedString(isInstalled)).append("\n");
+    sb.append("    isRenting: ").append(toIndentedString(isRenting)).append("\n");
+    sb.append("    isReturning: ").append(toIndentedString(isReturning)).append("\n");
+    sb.append("    lastReported: ").append(toIndentedString(lastReported)).append("\n");
     sb.append("}");
     return sb.toString();
   }

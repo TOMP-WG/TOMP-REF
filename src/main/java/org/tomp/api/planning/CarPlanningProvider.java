@@ -2,41 +2,22 @@ package org.tomp.api.planning;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.UUID;
-
-import javax.validation.Valid;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import io.swagger.model.AssetClass;
+import io.swagger.model.Condition;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
 import io.swagger.model.OptionsLeg;
-import io.swagger.model.PlanningCheck;
-import io.swagger.model.PlanningResult;
-import io.swagger.model.SimpleLeg;
 import io.swagger.model.TypeOfAsset;
 import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
 
 @Component
 @Profile("car")
-public class CarPlanningProvider extends DummyPlanningProvider {
-
-	@Override
-	protected ArrayList<PlanningResult> getResults(@Valid PlanningCheck body) {
-		ArrayList<PlanningResult> arrayList = new ArrayList<>();
-		SimpleLeg result = new SimpleLeg();
-		result.setTypeOfAsset(getAssetType());
-		result.setLeg(getLeg());
-		result.setPricing(getFare());
-		if (body.isProvideIds() != null && body.isProvideIds().booleanValue()) {
-			result.setId(UUID.randomUUID().toString());
-		}
-		arrayList.add(result);
-		return arrayList;
-	}
+public class CarPlanningProvider extends BasePlanningProvider {
 
 	@Override
 	protected Fare getFare() {
@@ -50,7 +31,8 @@ public class CarPlanningProvider extends DummyPlanningProvider {
 		return fare;
 	}
 
-	private OptionsLeg getLeg() {
+	@Override
+	protected OptionsLeg getLeg() {
 		OptionsLeg leg = new OptionsLeg();
 		leg.setFrom(from);
 		leg.setTo(to);
@@ -59,13 +41,19 @@ public class CarPlanningProvider extends DummyPlanningProvider {
 		return leg;
 	}
 
-	private TypeOfAsset getAssetType() {
+	@Override
+	protected TypeOfAsset getAssetType() {
 		TypeOfAsset typeOfAsset = new TypeOfAsset();
 		typeOfAsset.setAssetClass(AssetClass.CAR);
 		typeOfAsset.setAssetSubClass("Small car");
 		typeOfAsset.setModel("Peugeot 208");
 		typeOfAsset.setEnergyLabel(EnergyLabelEnum.A);
 		return typeOfAsset;
+	}
+
+	@Override
+	protected ArrayList<Condition> getConditions() {
+		return new ArrayList<>();
 	}
 
 }

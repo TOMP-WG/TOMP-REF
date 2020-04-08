@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Card;
-import io.swagger.model.KeyValue;
 import io.swagger.model.License;
+import io.swagger.model.Requirements;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  * User
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
 public class User   {
   @JsonProperty("validated")
   private Boolean validated = null;
@@ -36,8 +36,7 @@ public class User   {
   private List<Card> cards = null;
 
   @JsonProperty("requirements")
-  @Valid
-  private List<KeyValue> requirements = null;
+  private Requirements requirements = null;
 
   public User validated(Boolean validated) {
     this.validated = validated;
@@ -132,30 +131,23 @@ public class User   {
     this.cards = cards;
   }
 
-  public User requirements(List<KeyValue> requirements) {
+  public User requirements(Requirements requirements) {
     this.requirements = requirements;
     return this;
   }
 
-  public User addRequirementsItem(KeyValue requirementsItem) {
-    if (this.requirements == null) {
-      this.requirements = new ArrayList<KeyValue>();
-    }
-    this.requirements.add(requirementsItem);
-    return this;
-  }
-
   /**
-   * Requirements the users has ((dis)abilities, share [TRUE|FALSE], preferences [TBD]). See also 'https://github.com/efel85/TOMP-API/blob/master/documents/Woordenboek%20Reizigerskenmerken%20CROW%20Eindversie%208%20mei%202019.pdf' [https://github.com/efel85/TOMP-API/issues/17 and https://github.com/efel85/TOMP-API/issues/27]
+   * Get requirements
    * @return requirements
   **/
-  @ApiModelProperty(value = "Requirements the users has ((dis)abilities, share [TRUE|FALSE], preferences [TBD]). See also 'https://github.com/efel85/TOMP-API/blob/master/documents/Woordenboek%20Reizigerskenmerken%20CROW%20Eindversie%208%20mei%202019.pdf' [https://github.com/efel85/TOMP-API/issues/17 and https://github.com/efel85/TOMP-API/issues/27]")
-      @Valid
-    public List<KeyValue> getRequirements() {
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public Requirements getRequirements() {
     return requirements;
   }
 
-  public void setRequirements(List<KeyValue> requirements) {
+  public void setRequirements(Requirements requirements) {
     this.requirements = requirements;
   }
 

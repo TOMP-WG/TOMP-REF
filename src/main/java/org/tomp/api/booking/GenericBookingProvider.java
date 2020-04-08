@@ -14,16 +14,17 @@ import io.swagger.model.BookingState;
 
 @Component
 @Profile(value = { "dummy", "bike", "bus", "train", "car" })
-public class DummyBookingProvider implements BookingProvider {
+public class GenericBookingProvider implements BookingProvider {
 
 	@Autowired
 	DummyRepository repository;
 
 	@Override
 	public Booking addNewBooking(@Valid BookingOption body, String acceptLanguage) {
+		System.out.println("Booking request " + body.getId());
+
 		String id = body.getId();
 		validateId(body.getId());
-
 		Booking booking = new Booking();
 		booking.setId(id);
 		booking.setState(BookingState.PENDING);
@@ -32,7 +33,7 @@ public class DummyBookingProvider implements BookingProvider {
 
 	private void validateId(String id) {
 		if (repository.getSavedOption(id) == null) {
-			System.out.println("Missing booking " + id);
+			System.out.println("Did not provide this leg " + id);
 			throw new RuntimeException();
 		}
 	}
@@ -40,11 +41,24 @@ public class DummyBookingProvider implements BookingProvider {
 	@Override
 	public Booking addNewBookingEvent(BookingOperation body, String acceptLanguage, String id) {
 		validateId(id);
+		System.out.println(body.getOperation() + " " + id);
 
-		Booking booking = new Booking();
-		booking.setId(id);
-		booking.setState(BookingState.CONFIRMED);
-		return booking;
+		switch (body.getOperation()) {
+		case COMMIT:
+			Booking booking = new Booking();
+			booking.setId(id);
+			booking.setState(BookingState.CONFIRMED);
+			return booking;
+		case CANCEL:
+			break;
+		case DENY:
+			break;
+		case EXPIRE:
+			break;
+		default:
+			break;
+		}
+		return null;
 	}
 
 }

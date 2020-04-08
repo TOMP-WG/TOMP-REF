@@ -6,18 +6,13 @@ server:
 tomp:
    lookup-service: http://localhost:7999/
    accept-language: nl
-   api-version: 1.2
-
----
-spring:
-   profiles: dummy
-   application:
-      name: dummy-to
-server:
-   port: 8080
-tomp:
-   maas-id: 2
-
+   api-version: 0.4.0
+   asset-class: org.tomp.api.operatorinformation.assets.AssetsFromFileProvider
+   asset-file: src/main/resources/assets.json
+logging:
+  level:
+    org.springframework: ERROR
+    
 ---
 spring: 
    profiles: bike
@@ -27,6 +22,7 @@ server:
    port: 8082
 tomp:
    maas-id: 3
+   asset-file: src/main/resources/bikes.json
    
 ---
 spring: 
@@ -34,7 +30,7 @@ spring:
    application:
       name: bus-to
 server: 
-   port: 8082
+   port: 8086
 tomp:
    maas-id: 4
 
@@ -47,6 +43,7 @@ server:
    port: 8083
 tomp:
    maas-id: 5
+   asset-file: src/main/resources/cars.json
 
 ---
 spring: 
@@ -78,8 +75,6 @@ server:
 tomp:
    maas-id: 1   
    transport-operators:
-#     - name: dummy
-#       tomp-api-url: http://localhost:8080
      - name: bike
        tomp-api-url: http://localhost:8082
      - name: car

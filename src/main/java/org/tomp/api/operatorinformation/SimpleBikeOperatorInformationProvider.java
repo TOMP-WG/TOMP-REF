@@ -14,8 +14,8 @@ import io.swagger.model.SysteminformationInformation;
 import io.swagger.model.TypeOfAsset;
 
 @Component
-@Profile(value = { "car" })
-public class CarOperatorInformationProvider implements OperatorInformationProvider {
+@Profile(value = { "bike" })
+public class SimpleBikeOperatorInformationProvider implements OperatorInformationProvider {
 
 	@Autowired
 	AssetsProvider assetProvider;
@@ -36,10 +36,10 @@ public class CarOperatorInformationProvider implements OperatorInformationProvid
 		SystemInformation systemInformation = new SystemInformation();
 		ArrayList<SysteminformationInformation> information = new ArrayList<>();
 		SysteminformationInformation info = new SysteminformationInformation();
-		info.setSystemId("maas-car-3342");
-		info.setEmail("email@caroperator.org");
+		info.setSystemId("maas-3234434");
+		info.setEmail("email@bike-operator.org");
 		info.setLanguage(acceptLanguage);
-		info.setName("Car Operator");
+		info.setName("Bike Operator");
 		information.add(info);
 		systemInformation.setInformation(information);
 		return systemInformation;

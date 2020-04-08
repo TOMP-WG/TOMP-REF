@@ -13,7 +13,6 @@ import org.tomp.api.mp.TransportOperator;
 @Validated
 public class ExternalConfiguration {
 
-	@NotBlank
 	private String lookupService;
 	@NotBlank
 	private String maasId;
@@ -21,6 +20,7 @@ public class ExternalConfiguration {
 	private String acceptLanguage;
 	@NotBlank
 	private String apiVersion;
+	private String assetFile;
 
 	private List<TransportOperator> transportOperators;
 
@@ -62,5 +62,13 @@ public class ExternalConfiguration {
 
 	public void setTransportOperators(List<TransportOperator> transportOperators) {
 		this.transportOperators = transportOperators;
+	}
+
+	public String getAssetFile() {
+		return assetFile;
+	}
+
+	public void setAssetFile(String assetFile) {
+		this.assetFile = assetFile;
 	}
 }

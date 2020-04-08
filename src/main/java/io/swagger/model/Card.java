@@ -3,23 +3,72 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.AssetClass;
 import java.util.ArrayList;
 import java.util.List;
+import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Card
+ * card object. Only provide the cards that are requested. The asset type property is only allowed for the DISCOUNT card in combination with certain card-acceptors.
  */
+@ApiModel(description = "card object. Only provide the cards that are requested. The asset type property is only allowed for the DISCOUNT card in combination with certain card-acceptors.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
 public class Card   {
+  /**
+   * Gets or Sets cardType
+   */
+  public enum CardTypeEnum {
+    ID("ID"),
+    
+    DISCOUNT("DISCOUNT"),
+    
+    TRAVEL("TRAVEL"),
+    
+    BANK("BANK"),
+    
+    CREDIT("CREDIT"),
+    
+    PASSPORT("PASSPORT"),
+    
+    OTHER("OTHER");
+
+    private String value;
+
+    CardTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static CardTypeEnum fromValue(String text) {
+      for (CardTypeEnum b : CardTypeEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
   @JsonProperty("card-type")
-  private String cardType = null;
+  private CardTypeEnum cardType = null;
+
+  @JsonProperty("card-sub-type")
+  private String cardSubType = null;
+
+  @JsonProperty("card-description")
+  private String cardDescription = null;
 
   @JsonProperty("card-acceptors")
   @Valid
@@ -28,13 +77,19 @@ public class Card   {
   @JsonProperty("card-number")
   private String cardNumber = null;
 
+  @JsonProperty("card-additional-number")
+  private String cardAdditionalNumber = null;
+
+  @JsonProperty("valid-until")
+  private LocalDate validUntil = null;
+
   @JsonProperty("country")
   private String country = null;
 
   @JsonProperty("asset-type")
   private AssetClass assetType = null;
 
-  public Card cardType(String cardType) {
+  public Card cardType(CardTypeEnum cardType) {
     this.cardType = cardType;
     return this;
   }
@@ -43,14 +98,53 @@ public class Card   {
    * Get cardType
    * @return cardType
   **/
-  @ApiModelProperty(value = "")
-  
-    public String getCardType() {
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
+    public CardTypeEnum getCardType() {
     return cardType;
   }
 
-  public void setCardType(String cardType) {
+  public void setCardType(CardTypeEnum cardType) {
     this.cardType = cardType;
+  }
+
+  public Card cardSubType(String cardSubType) {
+    this.cardSubType = cardSubType;
+    return this;
+  }
+
+  /**
+   * mandatory in case of OTHER. Can be used in bilateral agreements.
+   * @return cardSubType
+  **/
+  @ApiModelProperty(value = "mandatory in case of OTHER. Can be used in bilateral agreements.")
+  
+    public String getCardSubType() {
+    return cardSubType;
+  }
+
+  public void setCardSubType(String cardSubType) {
+    this.cardSubType = cardSubType;
+  }
+
+  public Card cardDescription(String cardDescription) {
+    this.cardDescription = cardDescription;
+    return this;
+  }
+
+  /**
+   * description of the card
+   * @return cardDescription
+  **/
+  @ApiModelProperty(value = "description of the card")
+  
+    public String getCardDescription() {
+    return cardDescription;
+  }
+
+  public void setCardDescription(String cardDescription) {
+    this.cardDescription = cardDescription;
   }
 
   public Card cardAcceptors(List<String> cardAcceptors) {
@@ -67,10 +161,10 @@ public class Card   {
   }
 
   /**
-   * references to maas-ids of accepting parties
+   * references to maas-ids of accepting parties. Only if applicable (DISCOUNT).
    * @return cardAcceptors
   **/
-  @ApiModelProperty(value = "references to maas-ids of accepting parties")
+  @ApiModelProperty(value = "references to maas-ids of accepting parties. Only if applicable (DISCOUNT).")
   
     public List<String> getCardAcceptors() {
     return cardAcceptors;
@@ -86,17 +180,58 @@ public class Card   {
   }
 
   /**
-   * Get cardNumber
+   * number of the card, like ID number, credit card or bank account number
    * @return cardNumber
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "number of the card, like ID number, credit card or bank account number")
+      @NotNull
+
     public String getCardNumber() {
     return cardNumber;
   }
 
   public void setCardNumber(String cardNumber) {
     this.cardNumber = cardNumber;
+  }
+
+  public Card cardAdditionalNumber(String cardAdditionalNumber) {
+    this.cardAdditionalNumber = cardAdditionalNumber;
+    return this;
+  }
+
+  /**
+   * additional number, like CVC code or IBAN code
+   * @return cardAdditionalNumber
+  **/
+  @ApiModelProperty(value = "additional number, like CVC code or IBAN code")
+  
+    public String getCardAdditionalNumber() {
+    return cardAdditionalNumber;
+  }
+
+  public void setCardAdditionalNumber(String cardAdditionalNumber) {
+    this.cardAdditionalNumber = cardAdditionalNumber;
+  }
+
+  public Card validUntil(LocalDate validUntil) {
+    this.validUntil = validUntil;
+    return this;
+  }
+
+  /**
+   * Get validUntil
+   * @return validUntil
+  **/
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
+    @Valid
+    public LocalDate getValidUntil() {
+    return validUntil;
+  }
+
+  public void setValidUntil(LocalDate validUntil) {
+    this.validUntil = validUntil;
   }
 
   public Card country(String country) {
@@ -149,15 +284,19 @@ public class Card   {
     }
     Card card = (Card) o;
     return Objects.equals(this.cardType, card.cardType) &&
+        Objects.equals(this.cardSubType, card.cardSubType) &&
+        Objects.equals(this.cardDescription, card.cardDescription) &&
         Objects.equals(this.cardAcceptors, card.cardAcceptors) &&
         Objects.equals(this.cardNumber, card.cardNumber) &&
+        Objects.equals(this.cardAdditionalNumber, card.cardAdditionalNumber) &&
+        Objects.equals(this.validUntil, card.validUntil) &&
         Objects.equals(this.country, card.country) &&
         Objects.equals(this.assetType, card.assetType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(cardType, cardAcceptors, cardNumber, country, assetType);
+    return Objects.hash(cardType, cardSubType, cardDescription, cardAcceptors, cardNumber, cardAdditionalNumber, validUntil, country, assetType);
   }
 
   @Override
@@ -166,8 +305,12 @@ public class Card   {
     sb.append("class Card {\n");
     
     sb.append("    cardType: ").append(toIndentedString(cardType)).append("\n");
+    sb.append("    cardSubType: ").append(toIndentedString(cardSubType)).append("\n");
+    sb.append("    cardDescription: ").append(toIndentedString(cardDescription)).append("\n");
     sb.append("    cardAcceptors: ").append(toIndentedString(cardAcceptors)).append("\n");
     sb.append("    cardNumber: ").append(toIndentedString(cardNumber)).append("\n");
+    sb.append("    cardAdditionalNumber: ").append(toIndentedString(cardAdditionalNumber)).append("\n");
+    sb.append("    validUntil: ").append(toIndentedString(validUntil)).append("\n");
     sb.append("    country: ").append(toIndentedString(country)).append("\n");
     sb.append("    assetType: ").append(toIndentedString(assetType)).append("\n");
     sb.append("}");

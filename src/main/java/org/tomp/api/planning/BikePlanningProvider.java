@@ -1,12 +1,8 @@
 package org.tomp.api.planning;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.UUID;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -18,32 +14,17 @@ import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
 import io.swagger.model.OptionsLeg;
-import io.swagger.model.PlanningCheck;
-import io.swagger.model.PlanningOptions;
-import io.swagger.model.PlanningResult;
-import io.swagger.model.SimpleLeg;
+import io.swagger.model.Period;
+import io.swagger.model.Polygon;
+import io.swagger.model.ReturnAreaCondition;
 import io.swagger.model.TypeOfAsset;
 import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
 
 @Component
 @Profile("bike")
-public class BikePlanningProvider extends DummyPlanningProvider {
+public class BikePlanningProvider extends BasePlanningProvider {
 
 	@Override
-	protected ArrayList<PlanningResult> getResults(@Valid PlanningCheck body) {
-		ArrayList<PlanningResult> arrayList = new ArrayList<>();
-		SimpleLeg result = new SimpleLeg();
-		result.setTypeOfAsset(getAssetType());
-		result.setLeg(getLeg());
-		result.setPricing(getFare());
-		if (body.isProvideIds() != null && body.isProvideIds().booleanValue()) {
-			result.setId(UUID.randomUUID().toString());
-		}
-		arrayList.add(result);
-		return arrayList;
-	}
-
-	@Override 
 	protected Fare getFare() {
 		Fare fare = new Fare();
 		FarePart part = new FarePart();
@@ -55,7 +36,7 @@ public class BikePlanningProvider extends DummyPlanningProvider {
 		return fare;
 	}
 
-	private OptionsLeg getLeg() {
+	protected OptionsLeg getLeg() {
 		OptionsLeg leg = new OptionsLeg();
 		leg.setFrom(from);
 		leg.setTo(to);
@@ -64,7 +45,8 @@ public class BikePlanningProvider extends DummyPlanningProvider {
 		return leg;
 	}
 
-	private TypeOfAsset getAssetType() {
+	@Override
+	protected TypeOfAsset getAssetType() {
 		TypeOfAsset typeOfAsset = new TypeOfAsset();
 		typeOfAsset.setAssetClass(AssetClass.BICYCLE);
 		typeOfAsset.setAssetSubClass("Child, 26 inch");
@@ -73,4 +55,28 @@ public class BikePlanningProvider extends DummyPlanningProvider {
 		return typeOfAsset;
 	}
 
+	@Override
+	protected List<Condition> getConditions() {
+		ReturnAreaCondition condition = new ReturnAreaCondition();
+		condition.setName("Haarlem");
+		Polygon geometry = new Polygon();
+		geometry.addPointsItem(toPoint(4.599516, 52.42857));
+		geometry.addPointsItem(toPoint(4.686921, 52.42857));
+		geometry.addPointsItem(toPoint(4.686921, 52.338906));
+		geometry.addPointsItem(toPoint(4.599516, 52.338906));
+		geometry.addPointsItem(toPoint(4.599516, 52.42857));
+		condition.setGeometry(geometry);
+		Period period = new Period();
+		period.setStartTime(BigDecimal.valueOf(1586334600));
+		period.setEndTime(BigDecimal.valueOf(1586367000));
+		condition.setOpeningTimes(Arrays.asList(period));
+		return Arrays.asList((Condition) condition);
+	}
+
+	private Coordinate toPoint(double d, double e) {
+		Coordinate coordinate = new Coordinate();
+		coordinate.setLng(BigDecimal.valueOf(d));
+		coordinate.setLat(BigDecimal.valueOf(e));
+		return coordinate;
+	}
 }

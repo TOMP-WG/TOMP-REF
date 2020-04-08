@@ -6,39 +6,50 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.AssetClass;
+import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * License
+ * driver or usage license for a specific user. Contains the number and the asset-type you&#x27;re allowed to operate (e.g. driver license for CAR)
  */
+@ApiModel(description = "driver or usage license for a specific user. Contains the number and the asset-type you're allowed to operate (e.g. driver license for CAR)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
 public class License   {
-  @JsonProperty("country")
-  private String country = null;
+  @JsonProperty("number")
+  private String number = null;
 
   @JsonProperty("asset-type")
   private AssetClass assetType = null;
 
-  public License country(String country) {
-    this.country = country;
+  @JsonProperty("license-code")
+  private String licenseCode = null;
+
+  @JsonProperty("country")
+  private String country = null;
+
+  @JsonProperty("valid-until")
+  private LocalDate validUntil = null;
+
+  public License number(String number) {
+    this.number = number;
     return this;
   }
 
   /**
-   * Get country
-   * @return country
+   * Get number
+   * @return number
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "1287948792", value = "")
   
-  @Size(min=2,max=2)   public String getCountry() {
-    return country;
+    public String getNumber() {
+    return number;
   }
 
-  public void setCountry(String country) {
-    this.country = country;
+  public void setNumber(String number) {
+    this.number = number;
   }
 
   public License assetType(AssetClass assetType) {
@@ -61,6 +72,64 @@ public class License   {
     this.assetType = assetType;
   }
 
+  public License licenseCode(String licenseCode) {
+    this.licenseCode = licenseCode;
+    return this;
+  }
+
+  /**
+   * in most countries a driver license has also a code. As TO you can exactly verify, based on this code if the license allows to operate it's assets, if the asset-type too generic.
+   * @return licenseCode
+  **/
+  @ApiModelProperty(example = "D4", value = "in most countries a driver license has also a code. As TO you can exactly verify, based on this code if the license allows to operate it's assets, if the asset-type too generic.")
+  
+    public String getLicenseCode() {
+    return licenseCode;
+  }
+
+  public void setLicenseCode(String licenseCode) {
+    this.licenseCode = licenseCode;
+  }
+
+  public License country(String country) {
+    this.country = country;
+    return this;
+  }
+
+  /**
+   * Get country
+   * @return country
+  **/
+  @ApiModelProperty(value = "")
+  
+  @Size(min=2,max=2)   public String getCountry() {
+    return country;
+  }
+
+  public void setCountry(String country) {
+    this.country = country;
+  }
+
+  public License validUntil(LocalDate validUntil) {
+    this.validUntil = validUntil;
+    return this;
+  }
+
+  /**
+   * Get validUntil
+   * @return validUntil
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public LocalDate getValidUntil() {
+    return validUntil;
+  }
+
+  public void setValidUntil(LocalDate validUntil) {
+    this.validUntil = validUntil;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -71,13 +140,16 @@ public class License   {
       return false;
     }
     License license = (License) o;
-    return Objects.equals(this.country, license.country) &&
-        Objects.equals(this.assetType, license.assetType);
+    return Objects.equals(this.number, license.number) &&
+        Objects.equals(this.assetType, license.assetType) &&
+        Objects.equals(this.licenseCode, license.licenseCode) &&
+        Objects.equals(this.country, license.country) &&
+        Objects.equals(this.validUntil, license.validUntil);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(country, assetType);
+    return Objects.hash(number, assetType, licenseCode, country, validUntil);
   }
 
   @Override
@@ -85,8 +157,11 @@ public class License   {
     StringBuilder sb = new StringBuilder();
     sb.append("class License {\n");
     
-    sb.append("    country: ").append(toIndentedString(country)).append("\n");
+    sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    assetType: ").append(toIndentedString(assetType)).append("\n");
+    sb.append("    licenseCode: ").append(toIndentedString(licenseCode)).append("\n");
+    sb.append("    country: ").append(toIndentedString(country)).append("\n");
+    sb.append("    validUntil: ").append(toIndentedString(validUntil)).append("\n");
     sb.append("}");
     return sb.toString();
   }

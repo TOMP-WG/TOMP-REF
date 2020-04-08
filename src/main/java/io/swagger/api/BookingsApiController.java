@@ -51,7 +51,7 @@ public class BookingsApiController implements BookingsApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<List<Booking>>(objectMapper.readValue("[ {\n  \"webhook\" : \"https://myserver.com/booking/{id}/events\",\n  \"meta\" : [ null, null ],\n  \"id\" : \"id\",\n  \"state\" : \"CONFIRMED\",\n  \"conditions\" : [ {\n    \"name\" : \"name\",\n    \"conditionType\" : \"POSTPONED-COMMIT\"\n  }, {\n    \"name\" : \"name\",\n    \"conditionType\" : \"POSTPONED-COMMIT\"\n  } ],\n  \"token\" : {\n    \"meta\" : [ {\n      \"key\" : \"value\"\n    }, {\n      \"key\" : \"value\"\n    } ]\n  }\n}, {\n  \"webhook\" : \"https://myserver.com/booking/{id}/events\",\n  \"meta\" : [ null, null ],\n  \"id\" : \"id\",\n  \"state\" : \"CONFIRMED\",\n  \"conditions\" : [ {\n    \"name\" : \"name\",\n    \"conditionType\" : \"POSTPONED-COMMIT\"\n  }, {\n    \"name\" : \"name\",\n    \"conditionType\" : \"POSTPONED-COMMIT\"\n  } ],\n  \"token\" : {\n    \"meta\" : [ {\n      \"key\" : \"value\"\n    }, {\n      \"key\" : \"value\"\n    } ]\n  }\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<List<Booking>>(objectMapper.readValue("[ {\n  \"webhook\" : \"https://myserver.com/booking/{id}/events\",\n  \"meta\" : [ null, null ],\n  \"id\" : \"id\",\n  \"state\" : \"CONFIRMED\",\n  \"conditions\" : [ {\n    \"name\" : \"name\"\n  }, {\n    \"name\" : \"name\"\n  } ],\n  \"token\" : {\n    \"meta\" : [ {\n      \"key\" : \"value\"\n    }, {\n      \"key\" : \"value\"\n    } ]\n  }\n}, {\n  \"webhook\" : \"https://myserver.com/booking/{id}/events\",\n  \"meta\" : [ null, null ],\n  \"id\" : \"id\",\n  \"state\" : \"CONFIRMED\",\n  \"conditions\" : [ {\n    \"name\" : \"name\"\n  }, {\n    \"name\" : \"name\"\n  } ],\n  \"token\" : {\n    \"meta\" : [ {\n      \"key\" : \"value\"\n    }, {\n      \"key\" : \"value\"\n    } ]\n  }\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<Booking>>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -70,7 +70,7 @@ public class BookingsApiController implements BookingsApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Booking>(objectMapper.readValue("{\n  \"webhook\" : \"https://myserver.com/booking/{id}/events\",\n  \"meta\" : [ null, null ],\n  \"id\" : \"id\",\n  \"state\" : \"CONFIRMED\",\n  \"conditions\" : [ {\n    \"name\" : \"name\",\n    \"conditionType\" : \"POSTPONED-COMMIT\"\n  }, {\n    \"name\" : \"name\",\n    \"conditionType\" : \"POSTPONED-COMMIT\"\n  } ],\n  \"token\" : {\n    \"meta\" : [ {\n      \"key\" : \"value\"\n    }, {\n      \"key\" : \"value\"\n    } ]\n  }\n}", Booking.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Booking>(objectMapper.readValue("{\n  \"webhook\" : \"https://myserver.com/booking/{id}/events\",\n  \"meta\" : [ null, null ],\n  \"id\" : \"id\",\n  \"state\" : \"CONFIRMED\",\n  \"conditions\" : [ {\n    \"name\" : \"name\"\n  }, {\n    \"name\" : \"name\"\n  } ],\n  \"token\" : {\n    \"meta\" : [ {\n      \"key\" : \"value\"\n    }, {\n      \"key\" : \"value\"\n    } ]\n  }\n}", Booking.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Booking>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -88,7 +88,7 @@ public class BookingsApiController implements BookingsApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Booking>(objectMapper.readValue("{\n  \"webhook\" : \"https://myserver.com/booking/{id}/events\",\n  \"meta\" : [ null, null ],\n  \"id\" : \"id\",\n  \"state\" : \"CONFIRMED\",\n  \"conditions\" : [ {\n    \"name\" : \"name\",\n    \"conditionType\" : \"POSTPONED-COMMIT\"\n  }, {\n    \"name\" : \"name\",\n    \"conditionType\" : \"POSTPONED-COMMIT\"\n  } ],\n  \"token\" : {\n    \"meta\" : [ {\n      \"key\" : \"value\"\n    }, {\n      \"key\" : \"value\"\n    } ]\n  }\n}", Booking.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Booking>(objectMapper.readValue("{\n  \"webhook\" : \"https://myserver.com/booking/{id}/events\",\n  \"meta\" : [ null, null ],\n  \"id\" : \"id\",\n  \"state\" : \"CONFIRMED\",\n  \"conditions\" : [ {\n    \"name\" : \"name\"\n  }, {\n    \"name\" : \"name\"\n  } ],\n  \"token\" : {\n    \"meta\" : [ {\n      \"key\" : \"value\"\n    }, {\n      \"key\" : \"value\"\n    } ]\n  }\n}", Booking.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Booking>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -135,7 +135,7 @@ public class BookingsApiController implements BookingsApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Booking>(objectMapper.readValue("{\n  \"webhook\" : \"https://myserver.com/booking/{id}/events\",\n  \"meta\" : [ null, null ],\n  \"id\" : \"id\",\n  \"state\" : \"CONFIRMED\",\n  \"conditions\" : [ {\n    \"name\" : \"name\",\n    \"conditionType\" : \"POSTPONED-COMMIT\"\n  }, {\n    \"name\" : \"name\",\n    \"conditionType\" : \"POSTPONED-COMMIT\"\n  } ],\n  \"token\" : {\n    \"meta\" : [ {\n      \"key\" : \"value\"\n    }, {\n      \"key\" : \"value\"\n    } ]\n  }\n}", Booking.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Booking>(objectMapper.readValue("{\n  \"webhook\" : \"https://myserver.com/booking/{id}/events\",\n  \"meta\" : [ null, null ],\n  \"id\" : \"id\",\n  \"state\" : \"CONFIRMED\",\n  \"conditions\" : [ {\n    \"name\" : \"name\"\n  }, {\n    \"name\" : \"name\"\n  } ],\n  \"token\" : {\n    \"meta\" : [ {\n      \"key\" : \"value\"\n    }, {\n      \"key\" : \"value\"\n    } ]\n  }\n}", Booking.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Booking>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -172,7 +172,7 @@ public class BookingsApiController implements BookingsApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Booking>(objectMapper.readValue("{\n  \"webhook\" : \"https://myserver.com/booking/{id}/events\",\n  \"meta\" : [ null, null ],\n  \"id\" : \"id\",\n  \"state\" : \"CONFIRMED\",\n  \"conditions\" : [ {\n    \"name\" : \"name\",\n    \"conditionType\" : \"POSTPONED-COMMIT\"\n  }, {\n    \"name\" : \"name\",\n    \"conditionType\" : \"POSTPONED-COMMIT\"\n  } ],\n  \"token\" : {\n    \"meta\" : [ {\n      \"key\" : \"value\"\n    }, {\n      \"key\" : \"value\"\n    } ]\n  }\n}", Booking.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Booking>(objectMapper.readValue("{\n  \"webhook\" : \"https://myserver.com/booking/{id}/events\",\n  \"meta\" : [ null, null ],\n  \"id\" : \"id\",\n  \"state\" : \"CONFIRMED\",\n  \"conditions\" : [ {\n    \"name\" : \"name\"\n  }, {\n    \"name\" : \"name\"\n  } ],\n  \"token\" : {\n    \"meta\" : [ {\n      \"key\" : \"value\"\n    }, {\n      \"key\" : \"value\"\n    } ]\n  }\n}", Booking.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Booking>(HttpStatus.INTERNAL_SERVER_ERROR);

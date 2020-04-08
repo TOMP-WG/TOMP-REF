@@ -18,7 +18,6 @@ import org.tomp.api.mp.Segment;
 import org.tomp.api.mp.TOProvider;
 import org.tomp.api.mp.TransportOperator;
 import org.tomp.api.mp.Trip;
-import org.tomp.api.repository.DummyRepository;
 import org.tomp.api.repository.MaaSRepository;
 
 import io.swagger.client.ApiException;
@@ -45,15 +44,22 @@ public class MaaSPlanningProvider implements PlanningProvider {
 	MaaSRepository repository;
 
 	public PlanningOptions getOptions(@Valid PlanningCheck body, String acceptLanguage) {
+		System.out.println("Request for planning options");
 		applyPersonalStuff(body);
 
 		List<Trip> trips = constructPossibleTrips(body);
+		System.out.println("Number of trips constructed " + trips.size());
 		findTransportOperatorsPerLeg(trips);
+		System.out.println("Looking for transport operators");
 
 		try {
 			getTransportOperatorInformation(trips);
+			System.out.println("Fetched planning options from TOs");
 			trips = constructBestTrips(trips);
+			System.out.println("Constructed best trips " + trips.size());
+			System.out.println("Request ids");
 			provideIds(trips);
+			System.out.println("Done");
 		} catch (ApiException e) {
 			e.printStackTrace();
 		}
@@ -66,7 +72,6 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		option.setConditions(gatherConditions(trips));
 		option.setValidUntil(getMinimalValidUntil(trips));
 		option.setResults(gatherResults(trips));
-
 		return option;
 	}
 

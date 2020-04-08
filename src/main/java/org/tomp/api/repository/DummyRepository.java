@@ -20,7 +20,7 @@ public class DummyRepository {
 			if (result instanceof SimpleLeg) {
 				SimpleLeg leg = (SimpleLeg) result;
 				options.put(leg.getId(), optionsToSave);
-				System.out.println("saving leg: " + leg.getId());
+				System.out.println("I've got to remember this leg: " + leg.getId());
 			}
 		}
 	}

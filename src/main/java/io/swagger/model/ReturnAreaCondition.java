@@ -3,7 +3,6 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Condition;
@@ -20,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "a return area. In the condition list there can be multiple return area's. In case the return area is a building, it's allowed to put a single point in the geometry.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
 public class ReturnAreaCondition extends Condition implements OneOfcondition {
   @JsonProperty("station-id")
   private String stationId = null;

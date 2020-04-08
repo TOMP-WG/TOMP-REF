@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.model.Polygon;
+import java.util.ArrayList;
+import java.util.List;
 import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -16,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "operation successful")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
 public class SysteminformationInformation   {
   @JsonProperty("system-id")
   private String systemId = null;
@@ -91,6 +94,10 @@ public class SysteminformationInformation   {
 
   @JsonProperty("conditions")
   private String conditions = null;
+
+  @JsonProperty("service-areas")
+  @Valid
+  private List<Polygon> serviceAreas = null;
 
   public SysteminformationInformation systemId(String systemId) {
     this.systemId = systemId;
@@ -364,6 +371,33 @@ public class SysteminformationInformation   {
     this.conditions = conditions;
   }
 
+  public SysteminformationInformation serviceAreas(List<Polygon> serviceAreas) {
+    this.serviceAreas = serviceAreas;
+    return this;
+  }
+
+  public SysteminformationInformation addServiceAreasItem(Polygon serviceAreasItem) {
+    if (this.serviceAreas == null) {
+      this.serviceAreas = new ArrayList<Polygon>();
+    }
+    this.serviceAreas.add(serviceAreasItem);
+    return this;
+  }
+
+  /**
+   * the area's where the operator is allowed to operate by the (local) authorities
+   * @return serviceAreas
+  **/
+  @ApiModelProperty(value = "the area's where the operator is allowed to operate by the (local) authorities")
+      @Valid
+    public List<Polygon> getServiceAreas() {
+    return serviceAreas;
+  }
+
+  public void setServiceAreas(List<Polygon> serviceAreas) {
+    this.serviceAreas = serviceAreas;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -387,12 +421,13 @@ public class SysteminformationInformation   {
         Objects.equals(this.timezone, systeminformationInformation.timezone) &&
         Objects.equals(this.licenseUrl, systeminformationInformation.licenseUrl) &&
         Objects.equals(this.typeOfSystem, systeminformationInformation.typeOfSystem) &&
-        Objects.equals(this.conditions, systeminformationInformation.conditions);
+        Objects.equals(this.conditions, systeminformationInformation.conditions) &&
+        Objects.equals(this.serviceAreas, systeminformationInformation.serviceAreas);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(systemId, language, name, shortName, operator, url, purchaseUrl, startDate, phoneNumber, email, timezone, licenseUrl, typeOfSystem, conditions);
+    return Objects.hash(systemId, language, name, shortName, operator, url, purchaseUrl, startDate, phoneNumber, email, timezone, licenseUrl, typeOfSystem, conditions, serviceAreas);
   }
 
   @Override
@@ -414,6 +449,7 @@ public class SysteminformationInformation   {
     sb.append("    licenseUrl: ").append(toIndentedString(licenseUrl)).append("\n");
     sb.append("    typeOfSystem: ").append(toIndentedString(typeOfSystem)).append("\n");
     sb.append("    conditions: ").append(toIndentedString(conditions)).append("\n");
+    sb.append("    serviceAreas: ").append(toIndentedString(serviceAreas)).append("\n");
     sb.append("}");
     return sb.toString();
   }

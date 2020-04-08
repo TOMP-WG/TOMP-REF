@@ -3,23 +3,35 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Address;
+import io.swagger.model.Card;
+import io.swagger.model.License;
+import io.swagger.model.Phone;
+import io.swagger.model.Requirements;
+import io.swagger.model.User;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * this object should be as small as possible. Only provide address, email and birth-date in case of a direct request in the planning-option (condition).
+ * a person that wants to travel. Only use the properties that are needed.
  */
-@ApiModel(description = "this object should be as small as possible. Only provide address, email and birth-date in case of a direct request in the planning-option (condition).")
+@ApiModel(description = "a person that wants to travel. Only use the properties that are needed.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
-public class Customer   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
+public class Customer extends User  {
   @JsonProperty("id")
   private String id = null;
+
+  @JsonProperty("initials")
+  private String initials = null;
 
   @JsonProperty("first-name")
   private String firstName = null;
@@ -27,8 +39,56 @@ public class Customer   {
   @JsonProperty("last-name")
   private String lastName = null;
 
-  @JsonProperty("phone")
-  private String phone = null;
+  @JsonProperty("middle-name")
+  private String middleName = null;
+
+  @JsonProperty("prefix")
+  private String prefix = null;
+
+  @JsonProperty("postfix")
+  private String postfix = null;
+
+  @JsonProperty("phones")
+  @Valid
+  private List<Phone> phones = null;
+
+  @JsonProperty("personal-requirements")
+  private Requirements personalRequirements = null;
+
+  /**
+   * Gets or Sets gender
+   */
+  public enum GenderEnum {
+    M("M"),
+    
+    F("F"),
+    
+    U("U");
+
+    private String value;
+
+    GenderEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static GenderEnum fromValue(String text) {
+      for (GenderEnum b : GenderEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+  @JsonProperty("gender")
+  private GenderEnum gender = null;
 
   @JsonProperty("email")
   private String email = null;
@@ -38,6 +98,9 @@ public class Customer   {
 
   @JsonProperty("address")
   private Address address = null;
+
+  @JsonProperty("photo")
+  private byte[] photo = null;
 
   public Customer id(String id) {
     this.id = id;
@@ -57,6 +120,25 @@ public class Customer   {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public Customer initials(String initials) {
+    this.initials = initials;
+    return this;
+  }
+
+  /**
+   * Get initials
+   * @return initials
+  **/
+  @ApiModelProperty(value = "")
+  
+    public String getInitials() {
+    return initials;
+  }
+
+  public void setInitials(String initials) {
+    this.initials = initials;
   }
 
   public Customer firstName(String firstName) {
@@ -97,23 +179,127 @@ public class Customer   {
     this.lastName = lastName;
   }
 
-  public Customer phone(String phone) {
-    this.phone = phone;
+  public Customer middleName(String middleName) {
+    this.middleName = middleName;
     return this;
   }
 
   /**
-   * Phone number that the customer may be reached from
-   * @return phone
+   * Middle name of the customer
+   * @return middleName
   **/
-  @ApiModelProperty(value = "Phone number that the customer may be reached from")
+  @ApiModelProperty(example = "von", value = "Middle name of the customer")
   
-    public String getPhone() {
-    return phone;
+    public String getMiddleName() {
+    return middleName;
   }
 
-  public void setPhone(String phone) {
-    this.phone = phone;
+  public void setMiddleName(String middleName) {
+    this.middleName = middleName;
+  }
+
+  public Customer prefix(String prefix) {
+    this.prefix = prefix;
+    return this;
+  }
+
+  /**
+   * prefix of the customer, like titles
+   * @return prefix
+  **/
+  @ApiModelProperty(value = "prefix of the customer, like titles")
+  
+    public String getPrefix() {
+    return prefix;
+  }
+
+  public void setPrefix(String prefix) {
+    this.prefix = prefix;
+  }
+
+  public Customer postfix(String postfix) {
+    this.postfix = postfix;
+    return this;
+  }
+
+  /**
+   * postfix of the customer, like titles
+   * @return postfix
+  **/
+  @ApiModelProperty(value = "postfix of the customer, like titles")
+  
+    public String getPostfix() {
+    return postfix;
+  }
+
+  public void setPostfix(String postfix) {
+    this.postfix = postfix;
+  }
+
+  public Customer phones(List<Phone> phones) {
+    this.phones = phones;
+    return this;
+  }
+
+  public Customer addPhonesItem(Phone phonesItem) {
+    if (this.phones == null) {
+      this.phones = new ArrayList<Phone>();
+    }
+    this.phones.add(phonesItem);
+    return this;
+  }
+
+  /**
+   * Get phones
+   * @return phones
+  **/
+  @ApiModelProperty(value = "")
+      @Valid
+    public List<Phone> getPhones() {
+    return phones;
+  }
+
+  public void setPhones(List<Phone> phones) {
+    this.phones = phones;
+  }
+
+  public Customer personalRequirements(Requirements personalRequirements) {
+    this.personalRequirements = personalRequirements;
+    return this;
+  }
+
+  /**
+   * Get personalRequirements
+   * @return personalRequirements
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public Requirements getPersonalRequirements() {
+    return personalRequirements;
+  }
+
+  public void setPersonalRequirements(Requirements personalRequirements) {
+    this.personalRequirements = personalRequirements;
+  }
+
+  public Customer gender(GenderEnum gender) {
+    this.gender = gender;
+    return this;
+  }
+
+  /**
+   * Get gender
+   * @return gender
+  **/
+  @ApiModelProperty(value = "")
+  
+    public GenderEnum getGender() {
+    return gender;
+  }
+
+  public void setGender(GenderEnum gender) {
+    this.gender = gender;
   }
 
   public Customer email(String email) {
@@ -175,6 +361,25 @@ public class Customer   {
     this.address = address;
   }
 
+  public Customer photo(byte[] photo) {
+    this.photo = photo;
+    return this;
+  }
+
+  /**
+   * base64 encoded
+   * @return photo
+  **/
+  @ApiModelProperty(value = "base64 encoded")
+  
+    public byte[] getPhoto() {
+    return photo;
+  }
+
+  public void setPhoto(byte[] photo) {
+    this.photo = photo;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -186,31 +391,46 @@ public class Customer   {
     }
     Customer customer = (Customer) o;
     return Objects.equals(this.id, customer.id) &&
+        Objects.equals(this.initials, customer.initials) &&
         Objects.equals(this.firstName, customer.firstName) &&
         Objects.equals(this.lastName, customer.lastName) &&
-        Objects.equals(this.phone, customer.phone) &&
+        Objects.equals(this.middleName, customer.middleName) &&
+        Objects.equals(this.prefix, customer.prefix) &&
+        Objects.equals(this.postfix, customer.postfix) &&
+        Objects.equals(this.phones, customer.phones) &&
+        Objects.equals(this.personalRequirements, customer.personalRequirements) &&
+        Objects.equals(this.gender, customer.gender) &&
         Objects.equals(this.email, customer.email) &&
         Objects.equals(this.birthDate, customer.birthDate) &&
-        Objects.equals(this.address, customer.address);
+        Objects.equals(this.address, customer.address) &&
+        Objects.equals(this.photo, customer.photo) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, firstName, lastName, phone, email, birthDate, address);
+    return Objects.hash(id, initials, firstName, lastName, middleName, prefix, postfix, phones, personalRequirements, gender, email, birthDate, address, photo, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Customer {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    initials: ").append(toIndentedString(initials)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
-    sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
+    sb.append("    middleName: ").append(toIndentedString(middleName)).append("\n");
+    sb.append("    prefix: ").append(toIndentedString(prefix)).append("\n");
+    sb.append("    postfix: ").append(toIndentedString(postfix)).append("\n");
+    sb.append("    phones: ").append(toIndentedString(phones)).append("\n");
+    sb.append("    personalRequirements: ").append(toIndentedString(personalRequirements)).append("\n");
+    sb.append("    gender: ").append(toIndentedString(gender)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    birthDate: ").append(toIndentedString(birthDate)).append("\n");
     sb.append("    address: ").append(toIndentedString(address)).append("\n");
+    sb.append("    photo: ").append(toIndentedString(photo)).append("\n");
     sb.append("}");
     return sb.toString();
   }
