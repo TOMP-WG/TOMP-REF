@@ -9,6 +9,8 @@ tomp:
    api-version: 0.4.0
    asset-class: org.tomp.api.operatorinformation.assets.AssetsFromFileProvider
    asset-file: src/main/resources/assets.json
+   system-information-file: src/main/resources/system-info-generic.json
+   condition-file: src/main/resources/conditions.json
 logging:
   level:
     org.springframework: ERROR
@@ -79,5 +81,7 @@ tomp:
        tomp-api-url: http://localhost:8082
      - name: car
        tomp-api-url: http://localhost:8083
+     - name: b2p
+       tomp-api-url: http://localhost:8084
 
    

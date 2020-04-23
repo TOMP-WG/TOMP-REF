@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.tomp.api.configuration.ExternalConfiguration;
+import org.tomp.api.mp.ObjectFromFileProvider;
 import org.tomp.api.operatorinformation.assets.AssetsProvider;
 
 import io.swagger.model.StationInformation;
@@ -20,6 +22,9 @@ public class GenericOperatorInformationProvider implements OperatorInformationPr
 	@Autowired
 	AssetsProvider assetProvider;
 
+	@Autowired
+	ExternalConfiguration configuration;
+
 	@Override
 	public List<TypeOfAsset> getAvailableAssetTypes(String acceptLanguage) {
 		return assetProvider.getAvailableAssetTypes(acceptLanguage);
@@ -27,22 +32,15 @@ public class GenericOperatorInformationProvider implements OperatorInformationPr
 
 	@Override
 	public List<SystemInformation> getOperatorInformation(String acceptLanguage) {
+
 		List<SystemInformation> informationList = new ArrayList<>();
 		informationList.add(getStationInformation(acceptLanguage));
 		return informationList;
 	}
 
 	private SystemInformation getStationInformation(String acceptLanguage) {
-		SystemInformation systemInformation = new SystemInformation();
-		ArrayList<SysteminformationInformation> information = new ArrayList<>();
-		SysteminformationInformation info = new SysteminformationInformation();
-		info.setSystemId("maas-3234");
-		info.setEmail("email@dummy-operator.org");
-		info.setLanguage(acceptLanguage);
-		info.setName("Generic Operator");
-		information.add(info);
-		systemInformation.setInformation(information);
-		return systemInformation;
+		ObjectFromFileProvider<SystemInformation> provider = new ObjectFromFileProvider<>();
+		return provider.getObject(acceptLanguage, SystemInformation.class, configuration.getSystemInformationFile());
 	}
 
 	@Override

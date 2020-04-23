@@ -1,10 +1,8 @@
 package io.swagger.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,30 +11,8 @@ import javax.validation.constraints.*;
  * KeyValue
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
-public class KeyValue   {
-  @JsonProperty("key")
-  private String key = null;
-
-  public KeyValue key(String key) {
-    this.key = key;
-    return this;
-  }
-
-  /**
-   * Get key
-   * @return key
-  **/
-  @ApiModelProperty(value = "")
-  
-    public String getKey() {
-    return key;
-  }
-
-  public void setKey(String key) {
-    this.key = key;
-  }
-
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-16T09:27:38.932Z[GMT]")
+public class KeyValue extends HashMap<String, Object>  {
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -46,21 +22,19 @@ public class KeyValue   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    KeyValue keyValue = (KeyValue) o;
-    return Objects.equals(this.key, keyValue.key);
+    return true;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key);
+    return Objects.hash(super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class KeyValue {\n");
-    
-    sb.append("    key: ").append(toIndentedString(key)).append("\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("}");
     return sb.toString();
   }

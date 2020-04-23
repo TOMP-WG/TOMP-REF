@@ -21,6 +21,10 @@ public class TOProvider {
 	private ExternalConfiguration configuration;
 
 	List<TransportOperator> cache = new ArrayList<>();
+	
+	public void clearCache() {
+		cache.clear();
+	}
 
 	public List<TransportOperator> getTransportOperators() {
 		if (cache.isEmpty()) {

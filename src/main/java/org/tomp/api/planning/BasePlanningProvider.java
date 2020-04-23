@@ -10,6 +10,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.tomp.api.configuration.ExternalConfiguration;
+import org.tomp.api.mp.ObjectFromFileProvider;
 import org.tomp.api.repository.DummyRepository;
 
 import io.swagger.model.Condition;
@@ -35,12 +37,15 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 	@Autowired
 	private DummyRepository repository;
 
+	@Autowired
+	ExternalConfiguration configuration;
+
 	public PlanningOptions getOptions(@Valid PlanningCheck body, String acceptLanguage) {
 		System.out.println("Request for options");
 		boolean provideIds = body.isProvideIds() != null && body.isProvideIds().booleanValue();
 
 		PlanningOptions options = new PlanningOptions();
-		options.setConditions(getConditions());
+		options.setConditions(getConditions(acceptLanguage));
 		from = body.getFrom();
 		to = body.getTo();
 		start = body.getStartTime();
@@ -55,7 +60,16 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		return options;
 	}
 
-	protected abstract List<Condition> getConditions();
+	protected List<Condition> getConditions(String acceptLanguage) {
+		ObjectFromFileProvider<Condition[]> conditionFileProvider = new ObjectFromFileProvider<>();
+		Condition[] conditions = conditionFileProvider.getObject(acceptLanguage, Condition[].class,
+				configuration.getConditionFile());
+		List<Condition> conditionList = new ArrayList<>();
+		for (Condition c : conditions) {
+			conditionList.add(c);
+		}
+		return conditionList;
+	}
 
 	protected ArrayList<PlanningResult> getResults(@Valid PlanningCheck body) {
 		boolean provideIds = body.isProvideIds() != null && body.isProvideIds().booleanValue();

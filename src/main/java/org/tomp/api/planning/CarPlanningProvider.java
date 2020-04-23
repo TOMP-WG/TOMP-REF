@@ -50,10 +50,4 @@ public class CarPlanningProvider extends BasePlanningProvider {
 		typeOfAsset.setEnergyLabel(EnergyLabelEnum.A);
 		return typeOfAsset;
 	}
-
-	@Override
-	protected ArrayList<Condition> getConditions() {
-		return new ArrayList<>();
-	}
-
 }

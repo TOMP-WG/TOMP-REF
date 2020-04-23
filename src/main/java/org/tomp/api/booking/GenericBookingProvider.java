@@ -17,7 +17,7 @@ import io.swagger.model.BookingState;
 public class GenericBookingProvider implements BookingProvider {
 
 	@Autowired
-	DummyRepository repository;
+	protected DummyRepository repository;
 
 	@Override
 	public Booking addNewBooking(@Valid BookingOption body, String acceptLanguage) {
@@ -31,7 +31,7 @@ public class GenericBookingProvider implements BookingProvider {
 		return booking;
 	}
 
-	private void validateId(String id) {
+	protected void validateId(String id) {
 		if (repository.getSavedOption(id) == null) {
 			System.out.println("Did not provide this leg " + id);
 			throw new RuntimeException();

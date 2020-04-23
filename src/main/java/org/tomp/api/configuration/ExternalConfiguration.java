@@ -21,8 +21,13 @@ public class ExternalConfiguration {
 	@NotBlank
 	private String apiVersion;
 	private String assetFile;
+	private String systemInformationFile;
+	private String conditionFile;
 
 	private List<TransportOperator> transportOperators;
+	private String fareFile;
+	private String legFile;
+	private String typeOfAssetFile;
 
 	public String getLookupService() {
 		return lookupService;
@@ -70,5 +75,49 @@ public class ExternalConfiguration {
 
 	public void setAssetFile(String assetFile) {
 		this.assetFile = assetFile;
+	}
+
+	public void setSystemInformationFile(String file) {
+		this.systemInformationFile = file;
+	}
+
+	public String getSystemInformationFile() {
+		return systemInformationFile;
+	}
+
+	public String getConditionFile() {
+		return conditionFile;
+	}
+
+	public void setConditionFile(String conditionFile) {
+		this.conditionFile = conditionFile;
+	}
+
+	public String getFareFile() {
+		return fareFile;
+	}
+
+	public void setFareFile(String fareFile) {
+		this.fareFile = fareFile;
+	}
+
+	public String getOptionsLegFile() {
+		return getLegFile();
+	}
+
+	public String getTypeOfAssetFile() {
+		return typeOfAssetFile;
+	}
+
+	public String getLegFile() {
+		return legFile;
+	}
+
+	public void setLegFile(String legFile) {
+		this.legFile = legFile;
+	}
+
+	public void setTypeOfAssetFile(String typeOfAssetFile) {
+		this.typeOfAssetFile = typeOfAssetFile;
 	}
 }

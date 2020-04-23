@@ -10,6 +10,8 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -37,6 +39,8 @@ import io.swagger.model.User;
 @Profile("maasprovider")
 public class MaaSPlanningProvider implements PlanningProvider {
 
+	private static final Logger log = LoggerFactory.getLogger(MaaSPlanningProvider.class);
+
 	@Autowired
 	TOProvider toProvider;
 
@@ -44,24 +48,26 @@ public class MaaSPlanningProvider implements PlanningProvider {
 	MaaSRepository repository;
 
 	public PlanningOptions getOptions(@Valid PlanningCheck body, String acceptLanguage) {
-		System.out.println("Request for planning options");
+		log.info("Request for planning options");
 		applyPersonalStuff(body);
 
 		List<Trip> trips = constructPossibleTrips(body);
-		System.out.println("Number of trips constructed " + trips.size());
+		log.info("Number of trips constructed " + trips.size());
 		findTransportOperatorsPerLeg(trips);
-		System.out.println("Looking for transport operators");
+		log.info("Looking for transport operators");
 
 		try {
-			getTransportOperatorInformation(trips);
-			System.out.println("Fetched planning options from TOs");
+			getTransportOperatorInformation(trips, body);
+			log.info("Fetched planning options from TOs");
 			trips = constructBestTrips(trips);
-			System.out.println("Constructed best trips " + trips.size());
-			System.out.println("Request ids");
-			provideIds(trips);
-			System.out.println("Done");
+			log.info("Constructed best trips " + trips.size());
+			log.info("Request ids");
+			provideIds(trips, body);
+			log.info("Done");
 		} catch (ApiException e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
+			log.error(e.getResponseBody());
+			// e.printStackTrace();
 		}
 
 		return createPlanningOption(trips);
@@ -123,11 +129,11 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		return null;
 	}
 
-	private void provideIds(List<Trip> trips) throws ApiException {
+	private void provideIds(List<Trip> trips, PlanningCheck body) throws ApiException {
 		for (Trip trip : trips) {
 			for (Segment segment : trip.getSegments()) {
 				for (TransportOperator operator : segment.getOperators()) {
-					PlanningCheck planningCheck = createPlanningCheck(segment);
+					PlanningCheck planningCheck = createPlanningCheck(segment, body);
 					planningCheck.provideIds(true);
 					PlanningOptions options = ClientUtil.post(operator, "/planning-options/", planningCheck,
 							PlanningOptions.class);
@@ -179,11 +185,11 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		for (int i = 0; i < numberOfLegs; i++) {
 			Segment segment = new Segment();
 			TypeOfAsset typeOfAsset = new TypeOfAsset();
-			if (i % 2 == 0) {
-				typeOfAsset.setAssetClass(AssetClass.BICYCLE);
-			} else {
-				typeOfAsset.setAssetClass(AssetClass.CAR);
-			}
+
+			List<TransportOperator> transportOperators = toProvider.getTransportOperators();
+			int index = new Random().nextInt(transportOperators.size());
+			AssetClass assetClass = transportOperators.get(index).getAssetClasses().get(0);
+			typeOfAsset.setAssetClass(assetClass);
 			segment.setAssetType(typeOfAsset);
 
 			segment.setFrom(from);
@@ -204,7 +210,7 @@ public class MaaSPlanningProvider implements PlanningProvider {
 	}
 
 	private void findTransportOperatorsPerLeg(List<Trip> trips) {
-
+		toProvider.clearCache();
 		for (Trip trip : trips) {
 			for (Segment segment : trip.getSegments()) {
 				for (TransportOperator to : toProvider.getTransportOperators()) {
@@ -216,24 +222,27 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		}
 	}
 
-	private void getTransportOperatorInformation(List<Trip> trips) throws ApiException {
+	private void getTransportOperatorInformation(List<Trip> trips, PlanningCheck body) throws ApiException {
 		for (Trip trip : trips) {
 			for (Segment segment : trip.getSegments()) {
 				for (TransportOperator operator : segment.getOperators()) {
 					PlanningOptions options = ClientUtil.post(operator, "/planning-options/",
-							createPlanningCheck(segment), PlanningOptions.class);
+							createPlanningCheck(segment, body), PlanningOptions.class);
 					segment.addResult(operator, options);
 				}
 			}
 		}
 	}
 
-	private PlanningCheck createPlanningCheck(Segment segment) {
+	private PlanningCheck createPlanningCheck(Segment segment, PlanningCheck body) {
 		PlanningCheck check = new PlanningCheck();
 		check.from(segment.getFrom());
 		check.to(segment.getTo());
+		check.setRadius(body.getRadius());
 		check.startTime(segment.getStartTime());
 		check.endTime(segment.getEndTime());
+		check.setUsers(body.getUsers());
+		check.setTravellers(body.getTravellers());
 		return check;
 	}
 

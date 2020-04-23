@@ -56,7 +56,7 @@ public class BikePlanningProvider extends BasePlanningProvider {
 	}
 
 	@Override
-	protected List<Condition> getConditions() {
+	protected List<Condition> getConditions(String acceptLanguage) {
 		ReturnAreaCondition condition = new ReturnAreaCondition();
 		condition.setName("Haarlem");
 		Polygon geometry = new Polygon();
