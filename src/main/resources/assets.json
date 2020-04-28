@@ -1,104 +1,102 @@
 [
 	{
-		"asset-class": "BICYCLE",
-		"amount-available": 18
+		"assetClass": "BICYCLE",
+		"amountAvailable": 18
 	},
 	{
-		"asset-class": "BICYCLE",
-		"asset-sub-class": "Child, 26 inch",
-		"energy-label": "A",
+		"assetClass": "BICYCLE",
+		"assetSubClass": "Child, 26 inch",
+		"energyLabel": "A",
 		"model": "Batavus"
 	},
 	{
-		"asset-id": "string",
+		"assetId": "string",
 		"place": {
 			"name": "string",
-			"stop-reference": [
+			"stopReference": [
 				{
 					"type": "GTFS_STOP_ID",
 					"id": "string",
 					"country": "NL"
 				}
 			],
-			"station-id": "string",
+			"stationId": "string",
 			"coordinate": {
 				"lng": 6.169639,
 				"lat": 52.253279
 			},
-			"extra-info": [
+			"extraInfo": [
 				{
 					"key": "value"
 				}
 			],
-			"physical-address": {
-				"street-address": "example street 18, 2nd floor, 18B-33",
-				"area-reference": "Smallcity, Pinetree county",
-				"postal-code": "string",
+			"physicalAddress": {
+				"streetAddress": "example street 18, 2nd floor, 18B-33",
+				"areaReference": "Smallcity, Pinetree county",
+				"postalCode": "string",
 				"country": "NL"
 			}
 		},
-		"is-reserved": true,
-		"is-reserved-from": 1546336800,
-		"is-reserved-to": 1546336800,
-		"is-disabled": true,
+		"isReserved": true,
+		"isReservedFrom": 1546336800,
+		"isReservedTo": 1546336800,
+		"isDisabled": true,
 		"image": "https://files.fietsersbond.nl/app/uploads/2014/10/30151126/ST2_Men_Side_CityKit-Stromer.jpg",
-		"rental-url": "https://www.rentmyfreebike.com/rental"
+		"rentalUrl": "https://www.rentmyfreebike.com/rental"
 	},
 	{
-		"type-id": "string",
+		"typeId": "string",
 		"name": "string",
-		"asset-class": "AIR",
-		"asset-sub-class": "string",
-		"amount-available": 0,
+		"assetClass": "AIR",
+		"assetSubClass": "string",
+		"amountAvailable": 0,
 		"assets": [
 			{
-				"asset-id": "string",
+				"assetId": "string",
 				"place": {
 					"name": "string",
-					"stop-reference": [
+					"stopReference": [
 						{
 							"type": "GTFS_STOP_ID",
 							"id": "string",
 							"country": "NL"
 						}
 					],
-					"station-id": "string",
+					"stationId": "string",
 					"coordinate": {
 						"lng": 6.169639,
 						"lat": 52.253279
 					},
-					"extra-info": [
+					"extraInfo": [
 						{
 							"key": "value"
 						}
 					],
-					"physical-address": {
-						"street-address": "example street 18, 2nd floor, 18B-33",
-						"area-reference": "Smallcity, Pinetree county",
-						"postal-code": "string",
+					"physicalAdress": {
+						"streetAddress": "example street 18, 2nd floor, 18B-33",
+						"areaReference": "Smallcity, Pinetree county",
+						"postalCode": "string",
 						"country": "NL"
 					}
 				},
-				"is-reserved": true,
-				"is-reserved-from": 1546336800,
-				"is-reserved-to": 1546336800,
-				"is-disabled": true,
+				"isReserved": true,
+				"isReservedFrom": 1546336800,
+				"isReservedTo": 1546336800,
+				"isDisabled": true,
 				"image": "https://files.fietsersbond.nl/app/uploads/2014/10/30151126/ST2_Men_Side_CityKit-Stromer.jpg",
-				"rental-url": "https://www.rentmyfreebike.com/rental"
+				"rentalUrl": "https://www.rentmyfreebike.com/rental"
 			}
 		],
 		"fuel": "NONE",
-		"energy-label": "A",
-		"co2-per-km": 0,
+		"energyLabel": "A",
+		"co2PerKm": 0,
 		"brand": "string",
 		"model": "string",
-		"building-year": 0,
-		"travel-abroad": true,
-		"air-conditioning": true,
+		"buildingYear": 0,
 		"cabrio": true,
 		"colour": "string",
 		"cargo": "string",
-		"easy-accessibility": "LIFT",
+		"easyAccessibility": "LIFT",
 		"gears": 0,
 		"gearbox": "MANUAL",
 		"image": "string",
@@ -107,10 +105,7 @@
 		"pets": true,
 		"propulsion": "MUSCLE",
 		"smoking": true,
-		"state-of-charge": 0,
-		"towing-hook": true,
-		"underground-parking": true,
-		"winter-tires": true,
+		"stateOfCharge": 80,
 		"other": "string",
 		"meta": [
 			{

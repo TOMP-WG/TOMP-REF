@@ -6,14 +6,14 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 import org.tomp.api.mp.Trip;
 
-import io.swagger.model.CompositLeg;
+import io.swagger.model.CompositeLeg;
 
 @Component
 public class MaaSRepository {
 
 	public Map<String, Trip> options = new HashMap<>();
 
-	public void saveTrip(CompositLeg leg, Trip trip) {
+	public void saveTrip(CompositeLeg leg, Trip trip) {
 		options.put(leg.getId(), trip);
 	}
 

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Address;
-import io.swagger.model.Coordinate;
+import io.swagger.model.Coordinates;
 import io.swagger.model.KeyValue;
 import io.swagger.model.StopReference;
 import java.util.ArrayList;
@@ -20,26 +20,26 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "a origin or destination of a leg, non 3D. lon/lat in WGS84.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class Place   {
   @JsonProperty("name")
   private String name = null;
 
-  @JsonProperty("stop-reference")
+  @JsonProperty("stopReference")
   @Valid
   private List<StopReference> stopReference = null;
 
-  @JsonProperty("station-id")
+  @JsonProperty("stationId")
   private String stationId = null;
 
-  @JsonProperty("coordinate")
-  private Coordinate coordinate = null;
+  @JsonProperty("coordinates")
+  private Coordinates coordinates = null;
 
-  @JsonProperty("extra-info")
+  @JsonProperty("extraInfo")
   @Valid
   private List<KeyValue> extraInfo = null;
 
-  @JsonProperty("physical-address")
+  @JsonProperty("physicalAddress")
   private Address physicalAddress = null;
 
   public Place name(String name) {
@@ -107,24 +107,24 @@ public class Place   {
     this.stationId = stationId;
   }
 
-  public Place coordinate(Coordinate coordinate) {
-    this.coordinate = coordinate;
+  public Place coordinates(Coordinates coordinates) {
+    this.coordinates = coordinates;
     return this;
   }
 
   /**
-   * Get coordinate
-   * @return coordinate
+   * Get coordinates
+   * @return coordinates
   **/
   @ApiModelProperty(value = "")
   
     @Valid
-    public Coordinate getCoordinate() {
-    return coordinate;
+    public Coordinates getCoordinates() {
+    return coordinates;
   }
 
-  public void setCoordinate(Coordinate coordinate) {
-    this.coordinate = coordinate;
+  public void setCoordinates(Coordinates coordinates) {
+    this.coordinates = coordinates;
   }
 
   public Place extraInfo(List<KeyValue> extraInfo) {
@@ -187,14 +187,14 @@ public class Place   {
     return Objects.equals(this.name, place.name) &&
         Objects.equals(this.stopReference, place.stopReference) &&
         Objects.equals(this.stationId, place.stationId) &&
-        Objects.equals(this.coordinate, place.coordinate) &&
+        Objects.equals(this.coordinates, place.coordinates) &&
         Objects.equals(this.extraInfo, place.extraInfo) &&
         Objects.equals(this.physicalAddress, place.physicalAddress);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, stopReference, stationId, coordinate, extraInfo, physicalAddress);
+    return Objects.hash(name, stopReference, stationId, coordinates, extraInfo, physicalAddress);
   }
 
   @Override
@@ -205,7 +205,7 @@ public class Place   {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    stopReference: ").append(toIndentedString(stopReference)).append("\n");
     sb.append("    stationId: ").append(toIndentedString(stationId)).append("\n");
-    sb.append("    coordinate: ").append(toIndentedString(coordinate)).append("\n");
+    sb.append("    coordinates: ").append(toIndentedString(coordinates)).append("\n");
     sb.append("    extraInfo: ").append(toIndentedString(extraInfo)).append("\n");
     sb.append("    physicalAddress: ").append(toIndentedString(physicalAddress)).append("\n");
     sb.append("}");

@@ -44,7 +44,11 @@ public class ClientUtil {
 	private static <T> T get(TransportOperator to, String acceptLanguage, String apiVersion, String localVarPath,
 			String maasId, Class<T> class1) throws ApiException {
 		ApiClient apiClient = new ApiClient();
-		apiClient.setBasePath(to.getTompApiUrl());
+		String url = to.getTompApiUrl();
+		if (url.endsWith("/") && localVarPath.startsWith("/")) {
+			url = url.substring(0, url.length() - 1);
+		}
+		apiClient.setBasePath(url);
 		Object localVarPostBody = null;
 
 		List<Pair> localVarQueryParams = new ArrayList<>();
@@ -88,7 +92,11 @@ public class ClientUtil {
 	private static <T> T post(TransportOperator to, String acceptLanguage, String apiVersion, String localVarPath,
 			String maasId, Object localVarPostBody, Class<T> class1) throws ApiException {
 		ApiClient apiClient = new ApiClient();
-		apiClient.setBasePath(to.getTompApiUrl());
+		String url = to.getTompApiUrl();
+		if (url.endsWith("/") && localVarPath.startsWith("/")) {
+			url = url.substring(0, url.length() - 1);
+		}
+		apiClient.setBasePath(url);
 
 		List<Pair> localVarQueryParams = new ArrayList<>();
 		List<Pair> localVarCollectionQueryParams = new ArrayList<>();

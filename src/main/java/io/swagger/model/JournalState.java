@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * Gets or Sets journal-state
+ * Gets or Sets journalState
  */
 public enum JournalState {
   TO_INVOICE("TO_INVOICE"),

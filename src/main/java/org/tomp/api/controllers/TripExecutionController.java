@@ -1,8 +1,5 @@
 package org.tomp.api.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -21,7 +18,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.api.LegsApiController;
-import io.swagger.model.Leg;
 import io.swagger.model.LegEvent;
 
 @RestController
@@ -41,7 +37,7 @@ public class TripExecutionController extends LegsApiController {
 		this.request = request;
 	}
 
-	public ResponseEntity<List<Leg>> legsIdEventsPost(
+	public ResponseEntity<Void> legsIdEventsPost(
 			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
@@ -52,6 +48,6 @@ public class TripExecutionController extends LegsApiController {
 
 		provider.addNewTripEvent(body, acceptLanguage, id);
 
-		return new ResponseEntity<>(new ArrayList<>(), HttpStatus.CREATED);
+		return new ResponseEntity<>(null, HttpStatus.CREATED);
 	}
 }

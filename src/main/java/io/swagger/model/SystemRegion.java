@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.SystemregionRegions;
-import java.util.ArrayList;
-import java.util.List;
+import io.swagger.model.Polygon;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -16,37 +14,75 @@ import javax.validation.constraints.*;
  * SystemRegion
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class SystemRegion   {
-  @JsonProperty("regions")
-  @Valid
-  private List<SystemregionRegions> regions = null;
+  @JsonProperty("regionId")
+  private String regionId = null;
 
-  public SystemRegion regions(List<SystemregionRegions> regions) {
-    this.regions = regions;
-    return this;
-  }
+  @JsonProperty("name")
+  private String name = null;
 
-  public SystemRegion addRegionsItem(SystemregionRegions regionsItem) {
-    if (this.regions == null) {
-      this.regions = new ArrayList<SystemregionRegions>();
-    }
-    this.regions.add(regionsItem);
+  @JsonProperty("serviceArea")
+  private Polygon serviceArea = null;
+
+  public SystemRegion regionId(String regionId) {
+    this.regionId = regionId;
     return this;
   }
 
   /**
-   * Get regions
-   * @return regions
+   * Unique identifier for this region
+   * @return regionId
   **/
-  @ApiModelProperty(value = "")
-      @Valid
-    public List<SystemregionRegions> getRegions() {
-    return regions;
+  @ApiModelProperty(example = "BikeRegion", required = true, value = "Unique identifier for this region")
+      @NotNull
+
+    public String getRegionId() {
+    return regionId;
   }
 
-  public void setRegions(List<SystemregionRegions> regions) {
-    this.regions = regions;
+  public void setRegionId(String regionId) {
+    this.regionId = regionId;
+  }
+
+  public SystemRegion name(String name) {
+    this.name = name;
+    return this;
+  }
+
+  /**
+   * Public name for this region
+   * @return name
+  **/
+  @ApiModelProperty(example = "BikeTown", required = true, value = "Public name for this region")
+      @NotNull
+
+    public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public SystemRegion serviceArea(Polygon serviceArea) {
+    this.serviceArea = serviceArea;
+    return this;
+  }
+
+  /**
+   * Get serviceArea
+   * @return serviceArea
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public Polygon getServiceArea() {
+    return serviceArea;
+  }
+
+  public void setServiceArea(Polygon serviceArea) {
+    this.serviceArea = serviceArea;
   }
 
 
@@ -59,12 +95,14 @@ public class SystemRegion   {
       return false;
     }
     SystemRegion systemRegion = (SystemRegion) o;
-    return Objects.equals(this.regions, systemRegion.regions);
+    return Objects.equals(this.regionId, systemRegion.regionId) &&
+        Objects.equals(this.name, systemRegion.name) &&
+        Objects.equals(this.serviceArea, systemRegion.serviceArea);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(regions);
+    return Objects.hash(regionId, name, serviceArea);
   }
 
   @Override
@@ -72,7 +110,9 @@ public class SystemRegion   {
     StringBuilder sb = new StringBuilder();
     sb.append("class SystemRegion {\n");
     
-    sb.append("    regions: ").append(toIndentedString(regions)).append("\n");
+    sb.append("    regionId: ").append(toIndentedString(regionId)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    serviceArea: ").append(toIndentedString(serviceArea)).append("\n");
     sb.append("}");
     return sb.toString();
   }

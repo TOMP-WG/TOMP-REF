@@ -22,7 +22,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Costs that the TO is charging the MP; credits are negative")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class ExtraCosts extends AmountOfMoney  {
   @JsonProperty("category")
   private JournalCategory category = null;
@@ -41,7 +41,7 @@ public class ExtraCosts extends AmountOfMoney  {
     
     KILOWATTHOUR("KILOWATTHOUR"),
     
-    CO2_COMPENSATION("CO2-COMPENSATION"),
+    CO2_COMPENSATION("CO2_COMPENSATION"),
     
     OTHER("OTHER");
 
@@ -67,7 +67,7 @@ public class ExtraCosts extends AmountOfMoney  {
       return null;
     }
   }
-  @JsonProperty("number-type")
+  @JsonProperty("numberType")
   private NumberTypeEnum numberType = null;
 
   @JsonProperty("account")

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.swagger.model.AssetClass;
+import io.swagger.model.SystemRegion;
 
 public class TransportOperator {
 
@@ -13,6 +14,7 @@ public class TransportOperator {
 	private String description;
 	private String contact;
 	private String tompApiUrl;
+	private List<SystemRegion> regions;
 
 	public boolean providesAssetClass(AssetClass assetClass) {
 		return getAssetClasses().contains(assetClass);
@@ -64,5 +66,13 @@ public class TransportOperator {
 
 	public void setTompApiUrl(String tompApiUrl) {
 		this.tompApiUrl = tompApiUrl;
+	}
+
+	public List<SystemRegion> getRegions() {
+		return regions;
+	}
+
+	public void setRegions(List<SystemRegion> regions) {
+		this.regions = regions;
 	}
 }

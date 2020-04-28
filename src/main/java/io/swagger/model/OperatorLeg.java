@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Asset;
 import io.swagger.model.Fare;
 import io.swagger.model.OptionsLeg;
 import io.swagger.model.SimpleLeg;
@@ -19,18 +18,18 @@ import javax.validation.constraints.*;
  * OperatorLeg
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class OperatorLeg extends SimpleLeg  {
-  @JsonProperty("operator-name")
+  @JsonProperty("operatorName")
   private String operatorName = null;
 
-  @JsonProperty("operator-maas-id")
+  @JsonProperty("operatorMaasId")
   private String operatorMaasId = null;
 
-  @JsonProperty("operator-description")
+  @JsonProperty("operatorDescription")
   private String operatorDescription = null;
 
-  @JsonProperty("operator-contact")
+  @JsonProperty("operatorContact")
   private String operatorContact = null;
 
   public OperatorLeg operatorName(String operatorName) {
@@ -58,10 +57,10 @@ public class OperatorLeg extends SimpleLeg  {
   }
 
   /**
-   * the maas-id from the operator
+   * the maasId from the operator
    * @return operatorMaasId
   **/
-  @ApiModelProperty(value = "the maas-id from the operator")
+  @ApiModelProperty(value = "the maasId from the operator")
   
     public String getOperatorMaasId() {
     return operatorMaasId;

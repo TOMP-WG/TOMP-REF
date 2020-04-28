@@ -8,6 +8,8 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
@@ -15,7 +17,7 @@ import org.tomp.api.mp.ObjectFromFileProvider;
 import org.tomp.api.repository.DummyRepository;
 
 import io.swagger.model.Condition;
-import io.swagger.model.Coordinate;
+import io.swagger.model.Coordinates;
 import io.swagger.model.Fare;
 import io.swagger.model.OptionsLeg;
 import io.swagger.model.PlanningCheck;
@@ -27,10 +29,12 @@ import io.swagger.model.TypeOfAsset;
 @Component
 public abstract class BasePlanningProvider implements PlanningProvider {
 
+	private static final Logger log = LoggerFactory.getLogger(BasePlanningProvider.class);
+
 	@NotNull
 	@Valid
-	protected Coordinate from;
-	protected @Valid Coordinate to;
+	protected Coordinates from;
+	protected @Valid Coordinates to;
 	protected @Valid BigDecimal start;
 	protected @Valid BigDecimal end;
 
@@ -41,7 +45,7 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 	ExternalConfiguration configuration;
 
 	public PlanningOptions getOptions(@Valid PlanningCheck body, String acceptLanguage) {
-		System.out.println("Request for options");
+		log.info("Request for options");
 		boolean provideIds = body.isProvideIds() != null && body.isProvideIds().booleanValue();
 
 		PlanningOptions options = new PlanningOptions();
@@ -55,7 +59,7 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		if (provideIds) {
 			repository.saveOptions(options);
 		} else {
-			System.out.println("Forget this one");
+			log.info("Forget this one");
 		}
 		return options;
 	}
@@ -80,8 +84,7 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		result.setLeg(getLeg());
 		result.setPricing(getFare());
 		if (provideIds) {
-			System.out.println(
-					"We have to take a closer look. Can we more or less guarantee that we can fulfill this request?");
+			log.info("We have to take a closer look. Can we more or less guarantee that we can fulfill this request?");
 			result.setId(UUID.randomUUID().toString());
 		}
 		arrayList.add(result);

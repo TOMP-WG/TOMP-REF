@@ -1,7 +1,6 @@
 package org.tomp.api.planning;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.validation.Valid;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import io.swagger.model.AssetClass;
 import io.swagger.model.Condition;
-import io.swagger.model.Coordinate;
+import io.swagger.model.Coordinates;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
@@ -28,8 +27,8 @@ import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
 @Profile("train")
 public class TrainPlanningProvider implements PlanningProvider {
 
-	private @NotNull @Valid Coordinate from;
-	private @Valid Coordinate to;
+	private @NotNull @Valid Coordinates from;
+	private @Valid Coordinates to;
 	private @Valid BigDecimal start;
 	private @Valid BigDecimal end;
 

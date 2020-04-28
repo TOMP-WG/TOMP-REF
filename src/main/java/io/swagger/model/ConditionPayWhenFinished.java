@@ -2,17 +2,18 @@ package io.swagger.model;
 
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
+import io.swagger.model.Condition;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * String in the form YYYY-MM-DD representing a date
+ * in case the TO demands a direct payment after usage.
  */
-@ApiModel(description = "String in the form YYYY-MM-DD representing a date")
+@ApiModel(description = "in case the TO demands a direct payment after usage.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
-public class Date   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T15:19:29.217Z[GMT]")
+public class ConditionPayWhenFinished extends Condition implements OneOfcondition {
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -27,14 +28,14 @@ public class Date   {
 
   @Override
   public int hashCode() {
-    return Objects.hash();
+    return Objects.hash(super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Date {\n");
-    
+    sb.append("class ConditionPayWhenFinished {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("}");
     return sb.toString();
   }

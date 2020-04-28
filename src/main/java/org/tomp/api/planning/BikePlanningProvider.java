@@ -9,14 +9,15 @@ import org.springframework.stereotype.Component;
 
 import io.swagger.model.AssetClass;
 import io.swagger.model.Condition;
-import io.swagger.model.Coordinate;
+import io.swagger.model.ConditionReturnArea;
+import io.swagger.model.Coordinates;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
 import io.swagger.model.OptionsLeg;
-import io.swagger.model.Period;
 import io.swagger.model.Polygon;
-import io.swagger.model.ReturnAreaCondition;
+import io.swagger.model.SystemHours;
+import io.swagger.model.Time;
 import io.swagger.model.TypeOfAsset;
 import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
 
@@ -57,7 +58,7 @@ public class BikePlanningProvider extends BasePlanningProvider {
 
 	@Override
 	protected List<Condition> getConditions(String acceptLanguage) {
-		ReturnAreaCondition condition = new ReturnAreaCondition();
+		ConditionReturnArea condition = new ConditionReturnArea();
 		condition.setName("Haarlem");
 		Polygon geometry = new Polygon();
 		geometry.addPointsItem(toPoint(4.599516, 52.42857));
@@ -65,16 +66,20 @@ public class BikePlanningProvider extends BasePlanningProvider {
 		geometry.addPointsItem(toPoint(4.686921, 52.338906));
 		geometry.addPointsItem(toPoint(4.599516, 52.338906));
 		geometry.addPointsItem(toPoint(4.599516, 52.42857));
-		condition.setGeometry(geometry);
-		Period period = new Period();
-		period.setStartTime(BigDecimal.valueOf(1586334600));
-		period.setEndTime(BigDecimal.valueOf(1586367000));
-		condition.setOpeningTimes(Arrays.asList(period));
+		condition.setReturnArea(geometry);
+		SystemHours period = new SystemHours();
+		Time startTime = new Time();
+		startTime.setTime("12:18");
+		period.setStartTime(startTime);
+		Time endTime = new Time();
+		endTime.setTime("13:02");
+		period.setEndTime(endTime);
+		condition.setReturnHours(Arrays.asList(period));
 		return Arrays.asList((Condition) condition);
 	}
 
-	private Coordinate toPoint(double d, double e) {
-		Coordinate coordinate = new Coordinate();
+	private Coordinates toPoint(double d, double e) {
+		Coordinates coordinate = new Coordinates();
 		coordinate.setLng(BigDecimal.valueOf(d));
 		coordinate.setLat(BigDecimal.valueOf(e));
 		return coordinate;

@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * Gets or Sets journal-category
+ * Gets or Sets journalCategory
  */
 public enum JournalCategory {
   ALL("ALL"),

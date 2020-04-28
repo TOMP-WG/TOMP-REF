@@ -3,7 +3,6 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Address;
@@ -25,7 +24,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "a person that wants to travel. Only use the properties that are needed.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class Customer extends User  {
   @JsonProperty("id")
   private String id = null;
@@ -33,13 +32,13 @@ public class Customer extends User  {
   @JsonProperty("initials")
   private String initials = null;
 
-  @JsonProperty("first-name")
+  @JsonProperty("firstName")
   private String firstName = null;
 
-  @JsonProperty("last-name")
+  @JsonProperty("lastName")
   private String lastName = null;
 
-  @JsonProperty("middle-name")
+  @JsonProperty("middleName")
   private String middleName = null;
 
   @JsonProperty("prefix")
@@ -52,48 +51,10 @@ public class Customer extends User  {
   @Valid
   private List<Phone> phones = null;
 
-  @JsonProperty("personal-requirements")
-  private Requirements personalRequirements = null;
-
-  /**
-   * Gets or Sets gender
-   */
-  public enum GenderEnum {
-    M("M"),
-    
-    F("F"),
-    
-    U("U");
-
-    private String value;
-
-    GenderEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static GenderEnum fromValue(String text) {
-      for (GenderEnum b : GenderEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-  @JsonProperty("gender")
-  private GenderEnum gender = null;
-
   @JsonProperty("email")
   private String email = null;
 
-  @JsonProperty("birth-date")
+  @JsonProperty("birthDate")
   private LocalDate birthDate = null;
 
   @JsonProperty("address")
@@ -263,45 +224,6 @@ public class Customer extends User  {
     this.phones = phones;
   }
 
-  public Customer personalRequirements(Requirements personalRequirements) {
-    this.personalRequirements = personalRequirements;
-    return this;
-  }
-
-  /**
-   * Get personalRequirements
-   * @return personalRequirements
-  **/
-  @ApiModelProperty(value = "")
-  
-    @Valid
-    public Requirements getPersonalRequirements() {
-    return personalRequirements;
-  }
-
-  public void setPersonalRequirements(Requirements personalRequirements) {
-    this.personalRequirements = personalRequirements;
-  }
-
-  public Customer gender(GenderEnum gender) {
-    this.gender = gender;
-    return this;
-  }
-
-  /**
-   * Get gender
-   * @return gender
-  **/
-  @ApiModelProperty(value = "")
-  
-    public GenderEnum getGender() {
-    return gender;
-  }
-
-  public void setGender(GenderEnum gender) {
-    this.gender = gender;
-  }
-
   public Customer email(String email) {
     this.email = email;
     return this;
@@ -398,8 +320,6 @@ public class Customer extends User  {
         Objects.equals(this.prefix, customer.prefix) &&
         Objects.equals(this.postfix, customer.postfix) &&
         Objects.equals(this.phones, customer.phones) &&
-        Objects.equals(this.personalRequirements, customer.personalRequirements) &&
-        Objects.equals(this.gender, customer.gender) &&
         Objects.equals(this.email, customer.email) &&
         Objects.equals(this.birthDate, customer.birthDate) &&
         Objects.equals(this.address, customer.address) &&
@@ -409,7 +329,7 @@ public class Customer extends User  {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, initials, firstName, lastName, middleName, prefix, postfix, phones, personalRequirements, gender, email, birthDate, address, photo, super.hashCode());
+    return Objects.hash(id, initials, firstName, lastName, middleName, prefix, postfix, phones, email, birthDate, address, photo, super.hashCode());
   }
 
   @Override
@@ -425,8 +345,6 @@ public class Customer extends User  {
     sb.append("    prefix: ").append(toIndentedString(prefix)).append("\n");
     sb.append("    postfix: ").append(toIndentedString(postfix)).append("\n");
     sb.append("    phones: ").append(toIndentedString(phones)).append("\n");
-    sb.append("    personalRequirements: ").append(toIndentedString(personalRequirements)).append("\n");
-    sb.append("    gender: ").append(toIndentedString(gender)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    birthDate: ").append(toIndentedString(birthDate)).append("\n");
     sb.append("    address: ").append(toIndentedString(address)).append("\n");

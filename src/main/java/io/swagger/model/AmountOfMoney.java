@@ -14,21 +14,21 @@ import javax.validation.constraints.*;
  * AmountOfMoney
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class AmountOfMoney   {
   @JsonProperty("amount")
   private BigDecimal amount = null;
 
-  @JsonProperty("amount-ex-vat")
+  @JsonProperty("amountExVat")
   private BigDecimal amountExVat = null;
 
-  @JsonProperty("currency-code")
+  @JsonProperty("currencyCode")
   private String currencyCode = null;
 
-  @JsonProperty("vat-rate")
+  @JsonProperty("vatRate")
   private BigDecimal vatRate = null;
 
-  @JsonProperty("vat-country-code")
+  @JsonProperty("vatCountryCode")
   private String vatCountryCode = null;
 
   public AmountOfMoney amount(BigDecimal amount) {

@@ -16,21 +16,21 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "driver or usage license for a specific user. Contains the number and the asset-type you're allowed to operate (e.g. driver license for CAR)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class License   {
   @JsonProperty("number")
   private String number = null;
 
-  @JsonProperty("asset-type")
-  private AssetClass assetType = null;
+  @JsonProperty("assetClass")
+  private AssetClass assetClass = null;
 
-  @JsonProperty("license-code")
+  @JsonProperty("licenseCode")
   private String licenseCode = null;
 
   @JsonProperty("country")
   private String country = null;
 
-  @JsonProperty("valid-until")
+  @JsonProperty("validUntil")
   private LocalDate validUntil = null;
 
   public License number(String number) {
@@ -52,24 +52,24 @@ public class License   {
     this.number = number;
   }
 
-  public License assetType(AssetClass assetType) {
-    this.assetType = assetType;
+  public License assetClass(AssetClass assetClass) {
+    this.assetClass = assetClass;
     return this;
   }
 
   /**
-   * Get assetType
-   * @return assetType
+   * Get assetClass
+   * @return assetClass
   **/
   @ApiModelProperty(value = "")
   
     @Valid
-    public AssetClass getAssetType() {
-    return assetType;
+    public AssetClass getAssetClass() {
+    return assetClass;
   }
 
-  public void setAssetType(AssetClass assetType) {
-    this.assetType = assetType;
+  public void setAssetClass(AssetClass assetClass) {
+    this.assetClass = assetClass;
   }
 
   public License licenseCode(String licenseCode) {
@@ -141,7 +141,7 @@ public class License   {
     }
     License license = (License) o;
     return Objects.equals(this.number, license.number) &&
-        Objects.equals(this.assetType, license.assetType) &&
+        Objects.equals(this.assetClass, license.assetClass) &&
         Objects.equals(this.licenseCode, license.licenseCode) &&
         Objects.equals(this.country, license.country) &&
         Objects.equals(this.validUntil, license.validUntil);
@@ -149,7 +149,7 @@ public class License   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(number, assetType, licenseCode, country, validUntil);
+    return Objects.hash(number, assetClass, licenseCode, country, validUntil);
   }
 
   @Override
@@ -158,7 +158,7 @@ public class License   {
     sb.append("class License {\n");
     
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
-    sb.append("    assetType: ").append(toIndentedString(assetType)).append("\n");
+    sb.append("    assetClass: ").append(toIndentedString(assetClass)).append("\n");
     sb.append("    licenseCode: ").append(toIndentedString(licenseCode)).append("\n");
     sb.append("    country: ").append(toIndentedString(country)).append("\n");
     sb.append("    validUntil: ").append(toIndentedString(validUntil)).append("\n");

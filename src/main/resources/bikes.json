@@ -1,11 +1,11 @@
 [
 	{
-		"asset-class": "BICYCLE",
-		"amount-available": 18,
+		"assetClass": "BICYCLE",
+		"amountAvailable": 18,
 		"assets": [
 			{
 				"place": {
-					"coordinate": {
+					"coordinates": {
 						"lng": 6.169639,
 						"lat": 52.253279
 					}
@@ -14,15 +14,15 @@
 		]
 	},
 	{
-		"asset-class": "BICYCLE",
-		"asset-sub-class": "Child, 26 inch",
-		"energy-label": "A",
+		"assetClass": "BICYCLE",
+		"assetSubClass": "Child, 26 inch",
+		"energyLabel": "A",
 		"brand": "Batavus",
 		"model": "Fonk",
 		"assets": [
 			{
 				"place": {
-					"coordinate": {
+					"coordinates": {
 						"lng": 6.169639,
 						"lat": 52.253279
 					}

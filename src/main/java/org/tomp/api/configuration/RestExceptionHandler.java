@@ -1,5 +1,7 @@
 package org.tomp.api.configuration;
 
+import java.math.BigDecimal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -39,9 +41,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 		log.error(exception.getMessage(), exception);
 
+		return toError(exception, HttpStatus.BAD_REQUEST);
+	}
+
+	private Error toError(Exception exception, HttpStatus status) {
 		Error error = new Error();
-		error.setCode(HttpStatus.BAD_REQUEST.name());
-		error.setMessage(exception.getMessage());
+		error.setStatus(BigDecimal.valueOf(status.value()));
+		error.setTitle(exception.getMessage());
+		error.setType(status.name());
 		return error;
 	}
 
@@ -50,10 +57,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		log.error(exception.getMessage(), exception);
 
-		Error error = new Error();
-		error.setCode(status.name());
-		error.setMessage(exception.getMessage());
-		return new ResponseEntity<>(error, headers, status);
+		return new ResponseEntity<>(toError(exception, status), headers, status);
 	}
 
 	@Override
@@ -61,31 +65,23 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		log.error(exception.getMessage(), exception);
 
-		Error error = new Error();
-		error.setCode(status.name());
-		error.setMessage(exception.getMessage());
-		return new ResponseEntity<>(error, headers, status);
+		return new ResponseEntity<>(toError(exception, status), headers, status);
 	}
 
 	@Override
-	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException exception,
-			HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
+			HttpRequestMethodNotSupportedException exception, HttpHeaders headers, HttpStatus status,
+			WebRequest request) {
 		log.error(exception.getMessage(), exception);
 
-		Error error = new Error();
-		error.setCode(status.name());
-		error.setMessage(exception.getMessage());
-		return new ResponseEntity<>(error, headers, status);
+		return new ResponseEntity<>(toError(exception, status), headers, status);
 	}
-	
+
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		log.error(exception.getMessage(), exception);
 
-		Error error = new Error();
-		error.setCode(status.name());
-		error.setMessage(exception.getMessage());
-		return new ResponseEntity<>(error, headers, status);
+		return new ResponseEntity<>(toError(exception, status), headers, status);
 	}
 }

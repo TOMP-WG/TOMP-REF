@@ -24,9 +24,9 @@ import org.tomp.api.repository.MaaSRepository;
 
 import io.swagger.client.ApiException;
 import io.swagger.model.AssetClass;
-import io.swagger.model.CompositLeg;
+import io.swagger.model.CompositeLeg;
 import io.swagger.model.Condition;
-import io.swagger.model.Coordinate;
+import io.swagger.model.Coordinates;
 import io.swagger.model.OperatorLeg;
 import io.swagger.model.PlanningCheck;
 import io.swagger.model.PlanningOptions;
@@ -52,7 +52,7 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		applyPersonalStuff(body);
 
 		List<Trip> trips = constructPossibleTrips(body);
-		log.info("Number of trips constructed " + trips.size());
+		log.info(String.format("Number of trips constructed %d", trips.size()));
 		findTransportOperatorsPerLeg(trips);
 		log.info("Looking for transport operators");
 
@@ -60,7 +60,7 @@ public class MaaSPlanningProvider implements PlanningProvider {
 			getTransportOperatorInformation(trips, body);
 			log.info("Fetched planning options from TOs");
 			trips = constructBestTrips(trips);
-			log.info("Constructed best trips " + trips.size());
+			log.info(String.format("Constructed best trips %d", trips.size()));
 			log.info("Request ids");
 			provideIds(trips, body);
 			log.info("Done");
@@ -84,7 +84,7 @@ public class MaaSPlanningProvider implements PlanningProvider {
 	private List<PlanningResult> gatherResults(List<Trip> trips) {
 		List<PlanningResult> results = new ArrayList<>();
 		for (Trip trip : trips) {
-			CompositLeg leg = new CompositLeg();
+			CompositeLeg leg = new CompositeLeg();
 			leg.setLegs(constructOperatorLegs(trip));
 			leg.setId(UUID.randomUUID().toString());
 			repository.saveTrip(leg, trip);
@@ -110,7 +110,6 @@ public class MaaSPlanningProvider implements PlanningProvider {
 
 	private OperatorLeg toOperatorLeg(SimpleLeg simpleLeg, TransportOperator operator) {
 		OperatorLeg leg = new OperatorLeg();
-		leg.setAsset(simpleLeg.getAsset());
 		leg.setTypeOfAsset(simpleLeg.getTypeOfAsset());
 		leg.setLeg(simpleLeg.getLeg());
 		leg.setId(simpleLeg.getId());
@@ -164,11 +163,11 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		int numberOfLegs = new Random().nextInt(3) + 1;
 		List<Segment> segments = new ArrayList<>();
 
-		Coordinate from = new Coordinate();
+		Coordinates from = new Coordinates();
 		from.setLat(body.getFrom().getLat());
 		from.setLng(body.getFrom().getLng());
 
-		Coordinate to = body.getTo();
+		Coordinates to = body.getTo();
 
 		BigDecimal deltaX = to.getLat().subtract(from.getLat());
 		deltaX = deltaX.divide(BigDecimal.valueOf(numberOfLegs), RoundingMode.DOWN);
@@ -177,20 +176,15 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		int deltaT = (body.getEndTime().subtract(body.getStartTime())).intValue();
 		deltaT = deltaT / numberOfLegs;
 
-		to = new Coordinate();
+		to = new Coordinates();
 		to.setLat(body.getFrom().getLat());
 		to.setLng(body.getFrom().getLng());
 		to = applyDelta(to, 1, deltaX, deltaY);
 
+
 		for (int i = 0; i < numberOfLegs; i++) {
 			Segment segment = new Segment();
 			TypeOfAsset typeOfAsset = new TypeOfAsset();
-
-			List<TransportOperator> transportOperators = toProvider.getTransportOperators();
-			int index = new Random().nextInt(transportOperators.size());
-			AssetClass assetClass = transportOperators.get(index).getAssetClasses().get(0);
-			typeOfAsset.setAssetClass(assetClass);
-			segment.setAssetType(typeOfAsset);
 
 			segment.setFrom(from);
 			segment.setTo(to);
@@ -198,6 +192,12 @@ public class MaaSPlanningProvider implements PlanningProvider {
 			from = applyDelta(from, i + 1, deltaX, deltaY);
 			to = applyDelta(to, i + 1, deltaX, deltaY);
 
+			List<TransportOperator> transportOperators = toProvider.getTransportOperators(segment);
+			int index = new Random().nextInt(transportOperators.size());
+			AssetClass assetClass = transportOperators.get(index).getAssetClasses().get(0);
+			typeOfAsset.setAssetClass(assetClass);
+			segment.setAssetType(typeOfAsset);
+			
 			segment.setStartTime(applyDelta(body.getStartTime(), i, deltaT));
 			segment.setEndTime(applyDelta(body.getStartTime(), i + 1, deltaT));
 
@@ -213,7 +213,7 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		toProvider.clearCache();
 		for (Trip trip : trips) {
 			for (Segment segment : trip.getSegments()) {
-				for (TransportOperator to : toProvider.getTransportOperators()) {
+				for (TransportOperator to : toProvider.getTransportOperators(segment)) {
 					if (to.providesAssetClass(segment.getAssetType().getAssetClass())) {
 						segment.addResult(to, null);
 					}
@@ -257,8 +257,8 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		return BigDecimal.valueOf(instance.getTimeInMillis() / 1000);
 	}
 
-	private Coordinate applyDelta(Coordinate coord, int i, BigDecimal deltaX, BigDecimal deltaY) {
-		Coordinate result = new Coordinate();
+	private Coordinates applyDelta(Coordinates coord, int i, BigDecimal deltaX, BigDecimal deltaY) {
+		Coordinates result = new Coordinates();
 		result.setLat(coord.getLat().add(deltaX.multiply(BigDecimal.valueOf(i))));
 		result.setLng(coord.getLng().add(deltaY.multiply(BigDecimal.valueOf(i))));
 		return result;

@@ -1,6 +1,6 @@
 [
     {
-        "asset-class": "CAR",
-        "amount-available": 11
+        "assetClass": "CAR",
+        "amountAvailable": 11
     }
 ]

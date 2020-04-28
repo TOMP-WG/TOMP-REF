@@ -14,14 +14,14 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 public class SwaggerDocumentationConfig {
 
-    ApiInfo apiInfo() {
+    public ApiInfo apiInfo() {
         return new ApiInfoBuilder()
             .title("Transport Operator MaaS Provider API")
             .description("An API between MaaS providers and transport operators for booking trips and corresponding assets. <p>The documentation (examples, process flows and sequence diagrams) can be found at <a href=\"https://github.com/TOMP-WG/TOMP-API/\">github</a>.")
             .license("Apache 2.0")
             .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
             .termsOfServiceUrl("")
-            .version("0.4.0")
+            .version("0.5.0")
             .contact(new Contact("","", ""))
             .build();
     }

@@ -21,21 +21,21 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "what kind of asset is this? Classify it, give the aspects. Most aspects are optional and should be used when applicable.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class TypeOfAsset   {
-  @JsonProperty("type-id")
+  @JsonProperty("typeId")
   private String typeId = null;
 
   @JsonProperty("name")
   private String name = null;
 
-  @JsonProperty("asset-class")
+  @JsonProperty("assetClass")
   private AssetClass assetClass = null;
 
-  @JsonProperty("asset-sub-class")
+  @JsonProperty("assetSubClass")
   private String assetSubClass = null;
 
-  @JsonProperty("amount-available")
+  @JsonProperty("amountAvailable")
   private BigDecimal amountAvailable = null;
 
   @JsonProperty("assets")
@@ -131,10 +131,10 @@ public class TypeOfAsset   {
       return null;
     }
   }
-  @JsonProperty("energy-label")
+  @JsonProperty("energyLabel")
   private EnergyLabelEnum energyLabel = null;
 
-  @JsonProperty("co2-per-km")
+  @JsonProperty("co2PerKm")
   private BigDecimal co2PerKm = null;
 
   @JsonProperty("brand")
@@ -143,13 +143,13 @@ public class TypeOfAsset   {
   @JsonProperty("model")
   private String model = null;
 
-  @JsonProperty("building-year")
+  @JsonProperty("buildingYear")
   private BigDecimal buildingYear = null;
 
-  @JsonProperty("travel-abroad")
+  @JsonProperty("travelAbroad")
   private Boolean travelAbroad = null;
 
-  @JsonProperty("air-conditioning")
+  @JsonProperty("airConditioning")
   private Boolean airConditioning = null;
 
   @JsonProperty("cabrio")
@@ -169,7 +169,7 @@ public class TypeOfAsset   {
     
     ESCALATOR("ESCALATOR"),
     
-    GROUND_LEVEL("GROUND LEVEL"),
+    GROUND_LEVEL("GROUND_LEVEL"),
     
     SIGHTIMPAIRMENT("SIGHTIMPAIRMENT"),
     
@@ -199,7 +199,7 @@ public class TypeOfAsset   {
       return null;
     }
   }
-  @JsonProperty("easy-accessibility")
+  @JsonProperty("easyAccessibility")
   private EasyAccessibilityEnum easyAccessibility = null;
 
   @JsonProperty("gears")
@@ -243,7 +243,7 @@ public class TypeOfAsset   {
   @JsonProperty("image")
   private String image = null;
 
-  @JsonProperty("infant-seat")
+  @JsonProperty("infantSeat")
   private Boolean infantSeat = null;
 
   @JsonProperty("persons")
@@ -298,16 +298,16 @@ public class TypeOfAsset   {
   @JsonProperty("smoking")
   private Boolean smoking = null;
 
-  @JsonProperty("state-of-charge")
+  @JsonProperty("stateOfCharge")
   private Integer stateOfCharge = null;
 
-  @JsonProperty("towing-hook")
+  @JsonProperty("towingHook")
   private Boolean towingHook = null;
 
-  @JsonProperty("underground-parking")
+  @JsonProperty("undergroundParking")
   private Boolean undergroundParking = null;
 
-  @JsonProperty("winter-tires")
+  @JsonProperty("winterTires")
   private Boolean winterTires = null;
 
   @JsonProperty("other")

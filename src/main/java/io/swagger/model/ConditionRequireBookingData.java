@@ -14,40 +14,38 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * RequireBookingDataCondition
+ * ConditionRequireBookingData
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
-public class RequireBookingDataCondition extends Condition implements OneOfcondition {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T15:19:29.217Z[GMT]")
+public class ConditionRequireBookingData extends Condition implements OneOfcondition {
   /**
    * Gets or Sets requiredFields
    */
   public enum RequiredFieldsEnum {
-    FROM_ADDRESS("FROM-ADDRESS"),
+    FROM_ADDRESS("FROM_ADDRESS"),
     
-    TO_ADDRESS("TO-ADDRESS"),
+    TO_ADDRESS("TO_ADDRESS"),
     
     BIRTHDATE("BIRTHDATE"),
     
     EMAIL("EMAIL"),
     
-    PERSONAL_ADDRESS("PERSONAL-ADDRESS"),
+    PERSONAL_ADDRESS("PERSONAL_ADDRESS"),
     
-    GENDER("GENDER"),
-    
-    PHONE_NUMBERS("PHONE-NUMBERS"),
+    PHONE_NUMBERS("PHONE_NUMBERS"),
     
     LICENSES("LICENSES"),
     
-    BANK_CARDS("BANK-CARDS"),
+    BANK_CARDS("BANK_CARDS"),
     
-    DISCOUNT_CARDS("DISCOUNT-CARDS"),
+    DISCOUNT_CARDS("DISCOUNT_CARDS"),
     
-    TRAVEL_CARDS("TRAVEL-CARDS"),
+    TRAVEL_CARDS("TRAVEL_CARDS"),
     
-    ID_CARDS("ID-CARDS"),
+    ID_CARDS("ID_CARDS"),
     
-    CREDIT_CARDS("CREDIT-CARDS");
+    CREDIT_CARDS("CREDIT_CARDS");
 
     private String value;
 
@@ -71,19 +69,16 @@ public class RequireBookingDataCondition extends Condition implements OneOfcondi
       return null;
     }
   }
-  @JsonProperty("required-fields")
+  @JsonProperty("requiredFields")
   @Valid
-  private List<RequiredFieldsEnum> requiredFields = null;
+  private List<RequiredFieldsEnum> requiredFields = new ArrayList<RequiredFieldsEnum>();
 
-  public RequireBookingDataCondition requiredFields(List<RequiredFieldsEnum> requiredFields) {
+  public ConditionRequireBookingData requiredFields(List<RequiredFieldsEnum> requiredFields) {
     this.requiredFields = requiredFields;
     return this;
   }
 
-  public RequireBookingDataCondition addRequiredFieldsItem(RequiredFieldsEnum requiredFieldsItem) {
-    if (this.requiredFields == null) {
-      this.requiredFields = new ArrayList<RequiredFieldsEnum>();
-    }
+  public ConditionRequireBookingData addRequiredFieldsItem(RequiredFieldsEnum requiredFieldsItem) {
     this.requiredFields.add(requiredFieldsItem);
     return this;
   }
@@ -92,8 +87,9 @@ public class RequireBookingDataCondition extends Condition implements OneOfcondi
    * Get requiredFields
    * @return requiredFields
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public List<RequiredFieldsEnum> getRequiredFields() {
     return requiredFields;
   }
@@ -111,8 +107,8 @@ public class RequireBookingDataCondition extends Condition implements OneOfcondi
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    RequireBookingDataCondition requireBookingDataCondition = (RequireBookingDataCondition) o;
-    return Objects.equals(this.requiredFields, requireBookingDataCondition.requiredFields) &&
+    ConditionRequireBookingData conditionRequireBookingData = (ConditionRequireBookingData) o;
+    return Objects.equals(this.requiredFields, conditionRequireBookingData.requiredFields) &&
         super.equals(o);
   }
 
@@ -124,7 +120,7 @@ public class RequireBookingDataCondition extends Condition implements OneOfcondi
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class RequireBookingDataCondition {\n");
+    sb.append("class ConditionRequireBookingData {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    requiredFields: ").append(toIndentedString(requiredFields)).append("\n");
     sb.append("}");

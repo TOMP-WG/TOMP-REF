@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * Phone
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class Phone   {
   @JsonProperty("preferred")
   private Boolean preferred = null;
@@ -26,9 +26,9 @@ public class Phone   {
    * Gets or Sets kind
    */
   public enum KindEnum {
-    LANDLINE("landline"),
+    LANDLINE("LANDLINE"),
     
-    MOBILE("mobile");
+    MOBILE("MOBILE");
 
     private String value;
 
@@ -59,11 +59,11 @@ public class Phone   {
    * Gets or Sets type
    */
   public enum TypeEnum {
-    PRIVATE("private"),
+    PRIVATE("PRIVATE"),
     
-    BUSINESS("business"),
+    BUSINESS("BUSINESS"),
     
-    OTHER("other");
+    OTHER("OTHER");
 
     private String value;
 

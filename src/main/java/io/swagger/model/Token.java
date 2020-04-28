@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "The validity token (such as booking ID, travel ticket etc.) that MaaS clients will display to validate the leg when starting the leg.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class Token extends Period  {
   @JsonProperty("meta")
   @Valid

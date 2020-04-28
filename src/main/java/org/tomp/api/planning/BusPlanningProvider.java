@@ -2,6 +2,7 @@ package org.tomp.api.planning;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import io.swagger.model.AssetClass;
 import io.swagger.model.Condition;
-import io.swagger.model.Coordinate;
+import io.swagger.model.Coordinates;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
@@ -27,8 +28,8 @@ import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
 @Profile("bus")
 public class BusPlanningProvider implements PlanningProvider {
 
-	private @NotNull @Valid Coordinate from;
-	private @Valid Coordinate to;
+	private @NotNull @Valid Coordinates from;
+	private @Valid Coordinates to;
 	private @Valid BigDecimal start;
 	private @Valid BigDecimal end;
 
@@ -47,7 +48,7 @@ public class BusPlanningProvider implements PlanningProvider {
 		ArrayList<PlanningResult> arrayList = new ArrayList<>();
 		SimpleLeg result = new SimpleLeg();
 		if (body.isProvideIds().booleanValue()) {
-			result.setId("DF(L<#NFSD=SFDKLJ");
+			result.setId(UUID.randomUUID().toString());
 		}
 		result.setTypeOfAsset(getAssetType());
 		result.setLeg(getLeg());

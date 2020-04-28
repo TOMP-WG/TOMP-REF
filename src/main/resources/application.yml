@@ -11,6 +11,9 @@ tomp:
    asset-file: src/main/resources/assets.json
    system-information-file: src/main/resources/system-info-generic.json
    condition-file: src/main/resources/conditions.json
+   regions-file: src/main/resources/regions.json
+   stations-file: src/main/resources/stations.json
+   external-url: http://localhost:8080/
 logging:
   level:
     org.springframework: ERROR
@@ -23,8 +26,9 @@ spring:
 server: 
    port: 8082
 tomp:
-   maas-id: 3
+   maas-id: da612986-3408-4c91-adf9-8dbbc16ff4f9
    asset-file: src/main/resources/bikes.json
+   regions-file: src/main/resources/regions.json
    
 ---
 spring: 
@@ -34,7 +38,7 @@ spring:
 server: 
    port: 8086
 tomp:
-   maas-id: 4
+   maas-id: d0d326a2-007c-4967-ba05-18f4c6bf294b
 
 ---
 spring: 
@@ -44,7 +48,7 @@ spring:
 server: 
    port: 8083
 tomp:
-   maas-id: 5
+   maas-id: aac7f6ae-1d0d-44cd-9da5-ca62d48eb48d
    asset-file: src/main/resources/cars.json
 
 ---
@@ -55,7 +59,7 @@ spring:
 server: 
    port: 8084
 tomp:
-   maas-id: 6
+   maas-id: 1b5f697f-47a2-41dc-95c1-d3443f70039c
  
 ---
 spring: 
@@ -65,7 +69,7 @@ spring:
 server: 
    port: 8085
 tomp:
-   maas-id: 7
+   maas-id: 1f269bc0-31fa-4dba-9f16-21c419eacf35
 
 ---
 spring: 
@@ -75,13 +79,4 @@ spring:
 server: 
    port: 8090
 tomp:
-   maas-id: 1   
-   transport-operators:
-     - name: bike
-       tomp-api-url: http://localhost:8082
-     - name: car
-       tomp-api-url: http://localhost:8083
-     - name: b2p
-       tomp-api-url: http://localhost:8084
-
-   
+   maas-id: 196aa22d-d05f-4ec9-9d65-a325516196bb

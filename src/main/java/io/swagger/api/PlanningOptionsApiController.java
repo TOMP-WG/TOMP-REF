@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-24T08:44:01.688Z[GMT]")
 @Controller
 public class PlanningOptionsApiController implements PlanningOptionsApi {
 
@@ -48,7 +48,7 @@ public class PlanningOptionsApiController implements PlanningOptionsApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<PlanningOptions>(objectMapper.readValue("{\n  \"valid-until\" : 1546336800,\n  \"conditions\" : [ {\n    \"name\" : \"name\"\n  }, {\n    \"name\" : \"name\"\n  } ],\n  \"results\" : [ \"\", \"\" ]\n}", PlanningOptions.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<PlanningOptions>(objectMapper.readValue("{\n  \"validUntil\" : 1546336800,\n  \"conditions\" : [ {\n    \"name\" : \"name\",\n    \"conditionType\" : \"conditionType\"\n  }, {\n    \"name\" : \"name\",\n    \"conditionType\" : \"conditionType\"\n  } ],\n  \"results\" : [ \"\", \"\" ]\n}", PlanningOptions.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<PlanningOptions>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "A UTC timestamp (number of milliseconds in a Date object since January 1, 1970, 00:00:00)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class Timestamp   {
 
   @Override

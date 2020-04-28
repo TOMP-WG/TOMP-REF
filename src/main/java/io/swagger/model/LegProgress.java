@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Coordinate;
+import io.swagger.model.Coordinates;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -15,10 +15,10 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "provides current asset location & duration and distance of the current leg")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class LegProgress   {
-  @JsonProperty("coordinate")
-  private Coordinate coordinate = null;
+  @JsonProperty("coordinates")
+  private Coordinates coordinates = null;
 
   @JsonProperty("duration")
   private Integer duration = null;
@@ -26,24 +26,24 @@ public class LegProgress   {
   @JsonProperty("distance")
   private Integer distance = null;
 
-  public LegProgress coordinate(Coordinate coordinate) {
-    this.coordinate = coordinate;
+  public LegProgress coordinates(Coordinates coordinates) {
+    this.coordinates = coordinates;
     return this;
   }
 
   /**
-   * Get coordinate
-   * @return coordinate
+   * Get coordinates
+   * @return coordinates
   **/
   @ApiModelProperty(value = "")
   
     @Valid
-    public Coordinate getCoordinate() {
-    return coordinate;
+    public Coordinates getCoordinates() {
+    return coordinates;
   }
 
-  public void setCoordinate(Coordinate coordinate) {
-    this.coordinate = coordinate;
+  public void setCoordinates(Coordinates coordinates) {
+    this.coordinates = coordinates;
   }
 
   public LegProgress duration(Integer duration) {
@@ -94,14 +94,14 @@ public class LegProgress   {
       return false;
     }
     LegProgress legProgress = (LegProgress) o;
-    return Objects.equals(this.coordinate, legProgress.coordinate) &&
+    return Objects.equals(this.coordinates, legProgress.coordinates) &&
         Objects.equals(this.duration, legProgress.duration) &&
         Objects.equals(this.distance, legProgress.distance);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(coordinate, duration, distance);
+    return Objects.hash(coordinates, duration, distance);
   }
 
   @Override
@@ -109,7 +109,7 @@ public class LegProgress   {
     StringBuilder sb = new StringBuilder();
     sb.append("class LegProgress {\n");
     
-    sb.append("    coordinate: ").append(toIndentedString(coordinate)).append("\n");
+    sb.append("    coordinates: ").append(toIndentedString(coordinates)).append("\n");
     sb.append("    duration: ").append(toIndentedString(duration)).append("\n");
     sb.append("    distance: ").append(toIndentedString(distance)).append("\n");
     sb.append("}");

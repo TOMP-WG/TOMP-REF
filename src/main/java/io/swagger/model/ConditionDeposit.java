@@ -17,24 +17,24 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "in case the TO demands a deposit before usage. Requesting and refunding should be done using the /payment/claim-extra-costs endpoint.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
-public class DepositCondition extends Condition implements OneOfcondition {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T15:19:29.217Z[GMT]")
+public class ConditionDeposit extends Condition implements OneOfcondition {
   @JsonProperty("amount")
   private BigDecimal amount = null;
 
-  @JsonProperty("amount-ex-vat")
+  @JsonProperty("amountExVat")
   private BigDecimal amountExVat = null;
 
-  @JsonProperty("currency-code")
+  @JsonProperty("currencyCode")
   private String currencyCode = null;
 
-  @JsonProperty("vat-rate")
+  @JsonProperty("vatRate")
   private BigDecimal vatRate = null;
 
-  @JsonProperty("vat-country-code")
+  @JsonProperty("vatCountryCode")
   private String vatCountryCode = null;
 
-  public DepositCondition amount(BigDecimal amount) {
+  public ConditionDeposit amount(BigDecimal amount) {
     this.amount = amount;
     return this;
   }
@@ -54,7 +54,7 @@ public class DepositCondition extends Condition implements OneOfcondition {
     this.amount = amount;
   }
 
-  public DepositCondition amountExVat(BigDecimal amountExVat) {
+  public ConditionDeposit amountExVat(BigDecimal amountExVat) {
     this.amountExVat = amountExVat;
     return this;
   }
@@ -74,7 +74,7 @@ public class DepositCondition extends Condition implements OneOfcondition {
     this.amountExVat = amountExVat;
   }
 
-  public DepositCondition currencyCode(String currencyCode) {
+  public ConditionDeposit currencyCode(String currencyCode) {
     this.currencyCode = currencyCode;
     return this;
   }
@@ -93,7 +93,7 @@ public class DepositCondition extends Condition implements OneOfcondition {
     this.currencyCode = currencyCode;
   }
 
-  public DepositCondition vatRate(BigDecimal vatRate) {
+  public ConditionDeposit vatRate(BigDecimal vatRate) {
     this.vatRate = vatRate;
     return this;
   }
@@ -113,7 +113,7 @@ public class DepositCondition extends Condition implements OneOfcondition {
     this.vatRate = vatRate;
   }
 
-  public DepositCondition vatCountryCode(String vatCountryCode) {
+  public ConditionDeposit vatCountryCode(String vatCountryCode) {
     this.vatCountryCode = vatCountryCode;
     return this;
   }
@@ -141,12 +141,12 @@ public class DepositCondition extends Condition implements OneOfcondition {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    DepositCondition depositCondition = (DepositCondition) o;
-    return Objects.equals(this.amount, depositCondition.amount) &&
-        Objects.equals(this.amountExVat, depositCondition.amountExVat) &&
-        Objects.equals(this.currencyCode, depositCondition.currencyCode) &&
-        Objects.equals(this.vatRate, depositCondition.vatRate) &&
-        Objects.equals(this.vatCountryCode, depositCondition.vatCountryCode) &&
+    ConditionDeposit conditionDeposit = (ConditionDeposit) o;
+    return Objects.equals(this.amount, conditionDeposit.amount) &&
+        Objects.equals(this.amountExVat, conditionDeposit.amountExVat) &&
+        Objects.equals(this.currencyCode, conditionDeposit.currencyCode) &&
+        Objects.equals(this.vatRate, conditionDeposit.vatRate) &&
+        Objects.equals(this.vatCountryCode, conditionDeposit.vatCountryCode) &&
         super.equals(o);
   }
 
@@ -158,7 +158,7 @@ public class DepositCondition extends Condition implements OneOfcondition {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class DepositCondition {\n");
+    sb.append("class ConditionDeposit {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    amountExVat: ").append(toIndentedString(amountExVat)).append("\n");

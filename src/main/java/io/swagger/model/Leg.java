@@ -20,7 +20,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "A OpenlegPlanner compatible definition of a leg (see OpenlegPlanner docs for reference)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class Leg   {
   @JsonProperty("from")
   private Place from = null;
@@ -28,10 +28,10 @@ public class Leg   {
   @JsonProperty("to")
   private Place to = null;
 
-  @JsonProperty("start-time")
+  @JsonProperty("startTime")
   private BigDecimal startTime = null;
 
-  @JsonProperty("end-time")
+  @JsonProperty("endTime")
   private BigDecimal endTime = null;
 
   @JsonProperty("mode")
@@ -40,10 +40,10 @@ public class Leg   {
   @JsonProperty("state")
   private LegState state = null;
 
-  @JsonProperty("departure-delay")
+  @JsonProperty("departureDelay")
   private Integer departureDelay = null;
 
-  @JsonProperty("arrival-delay")
+  @JsonProperty("arrivalDelay")
   private Integer arrivalDelay = null;
 
   @JsonProperty("distance")
@@ -55,19 +55,19 @@ public class Leg   {
   @JsonProperty("route")
   private String route = null;
 
-  @JsonProperty("route-short-name")
+  @JsonProperty("routeShortName")
   private String routeShortName = null;
 
-  @JsonProperty("route-long-name")
+  @JsonProperty("routeLongName")
   private String routeLongName = null;
 
-  @JsonProperty("agency-id")
+  @JsonProperty("agencyId")
   private String agencyId = null;
 
-  @JsonProperty("leg-geometry")
+  @JsonProperty("legGeometry")
   private String legGeometry = null;
 
-  @JsonProperty("asset-access-data")
+  @JsonProperty("assetAccessData")
   private Token assetAccessData = null;
 
   public Leg from(Place from) {

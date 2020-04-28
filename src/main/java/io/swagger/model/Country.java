@@ -7,11 +7,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * country codes according ISO 3166-2
+ * two-letter country codes according to ISO 3166-1
  */
-@ApiModel(description = "country codes according ISO 3166-2")
+@ApiModel(description = "two-letter country codes according to ISO 3166-1")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class Country   {
 
   @Override

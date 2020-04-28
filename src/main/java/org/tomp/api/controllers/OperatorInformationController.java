@@ -1,6 +1,5 @@
 package org.tomp.api.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +21,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.api.OperatorApiController;
 import io.swagger.model.StationInformation;
 import io.swagger.model.SystemInformation;
+import io.swagger.model.SystemRegion;
 import io.swagger.model.TypeOfAsset;
 
 @RestController
@@ -43,18 +43,14 @@ public class OperatorInformationController extends OperatorApiController {
 	}
 
 	@Override
-	public ResponseEntity<List<Object>> operatorAvailableAssetsGet(
+	public ResponseEntity<List<TypeOfAsset>> operatorAvailableAssetsGet(
 			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion) {
 		HeaderValidator.validateHeader(request);
 		try {
 			List<TypeOfAsset> list = provider.getAvailableAssetTypes(acceptLanguage);
-			List<Object> result = new ArrayList<>();
-			for (TypeOfAsset assetType : list) {
-				result.add(assetType);
-			}
-			return new ResponseEntity<>(result, HttpStatus.OK);
+			return new ResponseEntity<>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("operatorAvailableAssetsGet", e);
 			throw e;
@@ -62,7 +58,7 @@ public class OperatorInformationController extends OperatorApiController {
 	}
 
 	@Override
-	public ResponseEntity<List<SystemInformation>> operatorInformationGet(
+	public ResponseEntity<SystemInformation> operatorInformationGet(
 			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion) {
@@ -77,7 +73,7 @@ public class OperatorInformationController extends OperatorApiController {
 	}
 
 	@Override
-	public ResponseEntity<StationInformation> operatorStationsGet(
+	public ResponseEntity<List<StationInformation>> operatorStationsGet(
 			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion) {
@@ -85,6 +81,21 @@ public class OperatorInformationController extends OperatorApiController {
 		HeaderValidator.validateHeader(request);
 		try {
 			return new ResponseEntity<>(provider.getStations(acceptLanguage), HttpStatus.OK);
+		} catch (Exception e) {
+			log.error("operatorAvailableAssetsGet", e);
+			throw e;
+		}
+	}
+
+	@Override
+	public ResponseEntity<List<SystemRegion>> operatorRegionsGet(
+			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
+			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
+			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion) {
+
+		HeaderValidator.validateHeader(request);
+		try {
+			return new ResponseEntity<>(provider.getRegions(acceptLanguage), HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("operatorAvailableAssetsGet", e);
 			throw e;

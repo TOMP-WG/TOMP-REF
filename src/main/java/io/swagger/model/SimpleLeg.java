@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Asset;
 import io.swagger.model.Fare;
 import io.swagger.model.OptionsLeg;
 import io.swagger.model.PlanningResult;
@@ -20,7 +19,7 @@ import javax.validation.constraints.*;
  * SimpleLeg
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class SimpleLeg extends PlanningResult implements OneOfplanningResult {
   @JsonProperty("id")
   private String id = null;
@@ -28,14 +27,11 @@ public class SimpleLeg extends PlanningResult implements OneOfplanningResult {
   @JsonProperty("leg")
   private OptionsLeg leg = null;
 
-  @JsonProperty("type-of-asset")
+  @JsonProperty("typeOfAsset")
   private TypeOfAsset typeOfAsset = null;
 
   @JsonProperty("pricing")
   private Fare pricing = null;
-
-  @JsonProperty("asset")
-  private Asset asset = null;
 
   @JsonProperty("conditions")
   @Valid
@@ -120,26 +116,6 @@ public class SimpleLeg extends PlanningResult implements OneOfplanningResult {
     this.pricing = pricing;
   }
 
-  public SimpleLeg asset(Asset asset) {
-    this.asset = asset;
-    return this;
-  }
-
-  /**
-   * Get asset
-   * @return asset
-  **/
-  @ApiModelProperty(value = "")
-  
-    @Valid
-    public Asset getAsset() {
-    return asset;
-  }
-
-  public void setAsset(Asset asset) {
-    this.asset = asset;
-  }
-
   public SimpleLeg conditions(List<String> conditions) {
     this.conditions = conditions;
     return this;
@@ -181,14 +157,13 @@ public class SimpleLeg extends PlanningResult implements OneOfplanningResult {
         Objects.equals(this.leg, simpleLeg.leg) &&
         Objects.equals(this.typeOfAsset, simpleLeg.typeOfAsset) &&
         Objects.equals(this.pricing, simpleLeg.pricing) &&
-        Objects.equals(this.asset, simpleLeg.asset) &&
         Objects.equals(this.conditions, simpleLeg.conditions) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, leg, typeOfAsset, pricing, asset, conditions, super.hashCode());
+    return Objects.hash(id, leg, typeOfAsset, pricing, conditions, super.hashCode());
   }
 
   @Override
@@ -200,7 +175,6 @@ public class SimpleLeg extends PlanningResult implements OneOfplanningResult {
     sb.append("    leg: ").append(toIndentedString(leg)).append("\n");
     sb.append("    typeOfAsset: ").append(toIndentedString(typeOfAsset)).append("\n");
     sb.append("    pricing: ").append(toIndentedString(pricing)).append("\n");
-    sb.append("    asset: ").append(toIndentedString(asset)).append("\n");
     sb.append("    conditions: ").append(toIndentedString(conditions)).append("\n");
     sb.append("}");
     return sb.toString();

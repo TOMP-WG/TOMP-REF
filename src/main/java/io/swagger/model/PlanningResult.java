@@ -1,9 +1,11 @@
 package io.swagger.model;
 
 import java.util.Objects;
+import org.springframework.validation.annotation.Validated;
+
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.springframework.validation.annotation.Validated;
+
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -11,12 +13,12 @@ import javax.validation.constraints.*;
  * PlanningResult
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "result-type", visible = true )
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "resultType", visible = true )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = SimpleLeg.class, name = "simple-leg"),
-        @JsonSubTypes.Type(value = CompositLeg.class, name = "composit-leg"),
-        @JsonSubTypes.Type(value = OperatorLeg.class, name = "operator-leg"),
+        @JsonSubTypes.Type(value = SimpleLeg.class, name = "simpleLeg"),
+        @JsonSubTypes.Type(value = CompositeLeg.class, name = "compositeLeg"),
+        @JsonSubTypes.Type(value = OperatorLeg.class, name = "operatorLeg"),
 })
 public class PlanningResult  implements OneOfplanningResult {
 

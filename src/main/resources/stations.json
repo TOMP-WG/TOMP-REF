@@ -1,0 +1,24 @@
+[
+  {
+    "stationId": "XX:Y:12345678",
+    "name": "Island Central",
+    "coordinates": {
+      "lng": 6.169639,
+      "lat": 52.253279
+    },
+    "physicalAddress": {
+      "streetAddress": "example street 18, 2nd floor, 18-B33",
+      "areaReference": "Smallcity, Pinetree county",
+      "postalCode": "string",
+      "country": "NL"
+    },
+    "crossStreet": "on the corner with Secondary Road",
+    "regionId": "string",
+    "rentalMethods": [
+      "CREDITCARD",
+      "PAYPASS",
+      "APPLEPAY"
+    ],
+    "rentalUrl": "https://www.rentmyfreebike.com"
+  }
+]

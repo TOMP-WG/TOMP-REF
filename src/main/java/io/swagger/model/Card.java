@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "card object. Only provide the cards that are requested. The asset type property is only allowed for the DISCOUNT card in combination with certain card-acceptors.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class Card   {
   /**
    * Gets or Sets cardType
@@ -61,33 +61,33 @@ public class Card   {
       return null;
     }
   }
-  @JsonProperty("card-type")
+  @JsonProperty("cardType")
   private CardTypeEnum cardType = null;
 
-  @JsonProperty("card-sub-type")
+  @JsonProperty("cardSubType")
   private String cardSubType = null;
 
-  @JsonProperty("card-description")
+  @JsonProperty("cardDescription")
   private String cardDescription = null;
 
-  @JsonProperty("card-acceptors")
+  @JsonProperty("cardAcceptors")
   @Valid
   private List<String> cardAcceptors = null;
 
-  @JsonProperty("card-number")
+  @JsonProperty("cardNumber")
   private String cardNumber = null;
 
-  @JsonProperty("card-additional-number")
+  @JsonProperty("cardAdditionalNumber")
   private String cardAdditionalNumber = null;
 
-  @JsonProperty("valid-until")
+  @JsonProperty("validUntil")
   private LocalDate validUntil = null;
 
   @JsonProperty("country")
   private String country = null;
 
-  @JsonProperty("asset-type")
-  private AssetClass assetType = null;
+  @JsonProperty("assetClass")
+  private AssetClass assetClass = null;
 
   public Card cardType(CardTypeEnum cardType) {
     this.cardType = cardType;
@@ -253,24 +253,24 @@ public class Card   {
     this.country = country;
   }
 
-  public Card assetType(AssetClass assetType) {
-    this.assetType = assetType;
+  public Card assetClass(AssetClass assetClass) {
+    this.assetClass = assetClass;
     return this;
   }
 
   /**
-   * Get assetType
-   * @return assetType
+   * Get assetClass
+   * @return assetClass
   **/
   @ApiModelProperty(value = "")
   
     @Valid
-    public AssetClass getAssetType() {
-    return assetType;
+    public AssetClass getAssetClass() {
+    return assetClass;
   }
 
-  public void setAssetType(AssetClass assetType) {
-    this.assetType = assetType;
+  public void setAssetClass(AssetClass assetClass) {
+    this.assetClass = assetClass;
   }
 
 
@@ -291,12 +291,12 @@ public class Card   {
         Objects.equals(this.cardAdditionalNumber, card.cardAdditionalNumber) &&
         Objects.equals(this.validUntil, card.validUntil) &&
         Objects.equals(this.country, card.country) &&
-        Objects.equals(this.assetType, card.assetType);
+        Objects.equals(this.assetClass, card.assetClass);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(cardType, cardSubType, cardDescription, cardAcceptors, cardNumber, cardAdditionalNumber, validUntil, country, assetType);
+    return Objects.hash(cardType, cardSubType, cardDescription, cardAcceptors, cardNumber, cardAdditionalNumber, validUntil, country, assetClass);
   }
 
   @Override
@@ -312,7 +312,7 @@ public class Card   {
     sb.append("    cardAdditionalNumber: ").append(toIndentedString(cardAdditionalNumber)).append("\n");
     sb.append("    validUntil: ").append(toIndentedString(validUntil)).append("\n");
     sb.append("    country: ").append(toIndentedString(country)).append("\n");
-    sb.append("    assetType: ").append(toIndentedString(assetType)).append("\n");
+    sb.append("    assetClass: ").append(toIndentedString(assetClass)).append("\n");
     sb.append("}");
     return sb.toString();
   }

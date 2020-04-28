@@ -12,15 +12,15 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * PostponedCommitCondition
+ * ConditionPostponedCommit
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
-public class PostponedCommitCondition extends Condition implements OneOfcondition {
-  @JsonProperty("ultimate-response-time")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T15:19:29.217Z[GMT]")
+public class ConditionPostponedCommit extends Condition implements OneOfcondition {
+  @JsonProperty("ultimateResponseTime")
   private BigDecimal ultimateResponseTime = null;
 
-  public PostponedCommitCondition ultimateResponseTime(BigDecimal ultimateResponseTime) {
+  public ConditionPostponedCommit ultimateResponseTime(BigDecimal ultimateResponseTime) {
     this.ultimateResponseTime = ultimateResponseTime;
     return this;
   }
@@ -29,8 +29,9 @@ public class PostponedCommitCondition extends Condition implements OneOfconditio
    * Get ultimateResponseTime
    * @return ultimateResponseTime
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     @Valid
     public BigDecimal getUltimateResponseTime() {
     return ultimateResponseTime;
@@ -49,8 +50,8 @@ public class PostponedCommitCondition extends Condition implements OneOfconditio
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PostponedCommitCondition postponedCommitCondition = (PostponedCommitCondition) o;
-    return Objects.equals(this.ultimateResponseTime, postponedCommitCondition.ultimateResponseTime) &&
+    ConditionPostponedCommit conditionPostponedCommit = (ConditionPostponedCommit) o;
+    return Objects.equals(this.ultimateResponseTime, conditionPostponedCommit.ultimateResponseTime) &&
         super.equals(o);
   }
 
@@ -62,7 +63,7 @@ public class PostponedCommitCondition extends Condition implements OneOfconditio
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PostponedCommitCondition {\n");
+    sb.append("class ConditionPostponedCommit {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    ultimateResponseTime: ").append(toIndentedString(ultimateResponseTime)).append("\n");
     sb.append("}");

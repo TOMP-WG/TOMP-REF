@@ -1,4 +1,4 @@
-package io.swagger.model;
+package org.tomp.api.model.ref;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,47 +10,49 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Condition
+ * MaasLocation
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T15:19:29.217Z[GMT]")
-public class Condition  implements OneOfcondition {
-  @JsonProperty("conditionType")
-  private String conditionType = null;
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-24T07:16:19.146Z[GMT]")
+public class MaasLocation   {
+  @JsonProperty("id")
+  private String id = null;
 
   @JsonProperty("name")
   private String name = null;
 
-  public Condition conditionType(String conditionType) {
-    this.conditionType = conditionType;
+  @JsonProperty("url")
+  private String url = null;
+
+  public MaasLocation id(String id) {
+    this.id = id;
     return this;
   }
 
   /**
-   * The specific subclass of condition, should match the schema name exactly
-   * @return conditionType
+   * Get id
+   * @return id
   **/
-  @ApiModelProperty(required = true, value = "The specific subclass of condition, should match the schema name exactly")
-      @NotNull
-
-    public String getConditionType() {
-    return conditionType;
+  @ApiModelProperty(value = "")
+  
+    public String getId() {
+    return id;
   }
 
-  public void setConditionType(String conditionType) {
-    this.conditionType = conditionType;
+  public void setId(String id) {
+    this.id = id;
   }
 
-  public Condition name(String name) {
+  public MaasLocation name(String name) {
     this.name = name;
     return this;
   }
 
   /**
-   * TODO
+   * Get name
    * @return name
   **/
-  @ApiModelProperty(value = "TODO")
+  @ApiModelProperty(value = "")
   
     public String getName() {
     return name;
@@ -58,6 +60,25 @@ public class Condition  implements OneOfcondition {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public MaasLocation url(String url) {
+    this.url = url;
+    return this;
+  }
+
+  /**
+   * Get url
+   * @return url
+  **/
+  @ApiModelProperty(value = "")
+  
+    public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
   }
 
 
@@ -69,23 +90,25 @@ public class Condition  implements OneOfcondition {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Condition condition = (Condition) o;
-    return Objects.equals(this.conditionType, condition.conditionType) &&
-        Objects.equals(this.name, condition.name);
+    MaasLocation maasLocation = (MaasLocation) o;
+    return Objects.equals(this.id, maasLocation.id) &&
+        Objects.equals(this.name, maasLocation.name) &&
+        Objects.equals(this.url, maasLocation.url);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(conditionType, name);
+    return Objects.hash(id, name, url);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Condition {\n");
+    sb.append("class MaasLocation {\n");
     
-    sb.append("    conditionType: ").append(toIndentedString(conditionType)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    url: ").append(toIndentedString(url)).append("\n");
     sb.append("}");
     return sb.toString();
   }

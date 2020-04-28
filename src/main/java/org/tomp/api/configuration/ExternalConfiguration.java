@@ -28,6 +28,9 @@ public class ExternalConfiguration {
 	private String fareFile;
 	private String legFile;
 	private String typeOfAssetFile;
+	private String regionsFile;
+	private String stationsFile;
+	private String externalUrl;
 
 	public String getLookupService() {
 		return lookupService;
@@ -119,5 +122,29 @@ public class ExternalConfiguration {
 
 	public void setTypeOfAssetFile(String typeOfAssetFile) {
 		this.typeOfAssetFile = typeOfAssetFile;
+	}
+
+	public String getRegionsFile() {
+		return regionsFile;
+	}
+
+	public String getStationsFile() {
+		return stationsFile;
+	}
+
+	public void setRegionsFile(String regionsFile) {
+		this.regionsFile = regionsFile;
+	}
+
+	public void setStationsFile(String stationsFile) {
+		this.stationsFile = stationsFile;
+	}
+
+	public String getExternalUrl() {
+		return externalUrl;
+	}
+
+	public void setExternalUrl(String externalUrl) {
+		this.externalUrl = externalUrl;
 	}
 }

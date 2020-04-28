@@ -23,7 +23,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "The booking information describing the state and details of the transaction")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class Booking extends BookingOption  {
   @JsonProperty("id")
   private String id = null;

@@ -13,11 +13,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * the total fare is the sum of all parts, except for the &#x27;MAX&#x27; fare-part. This one descripes the maximum price for the complete leg.
+ * the total fare is the sum of all parts, except for the &#x27;MAX&#x27; farePart. This one descripes the maximum price for the complete leg.
  */
-@ApiModel(description = "the total fare is the sum of all parts, except for the 'MAX' fare-part. This one descripes the maximum price for the complete leg.")
+@ApiModel(description = "the total fare is the sum of all parts, except for the 'MAX' farePart. This one descripes the maximum price for the complete leg.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class Fare   {
   @JsonProperty("estimated")
   private Boolean estimated = null;

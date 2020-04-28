@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Coordinate;
+import io.swagger.model.Coordinates;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -16,20 +16,20 @@ import javax.validation.constraints.*;
  * Polygon
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class Polygon   {
   @JsonProperty("points")
   @Valid
-  private List<Coordinate> points = null;
+  private List<Coordinates> points = null;
 
-  public Polygon points(List<Coordinate> points) {
+  public Polygon points(List<Coordinates> points) {
     this.points = points;
     return this;
   }
 
-  public Polygon addPointsItem(Coordinate pointsItem) {
+  public Polygon addPointsItem(Coordinates pointsItem) {
     if (this.points == null) {
-      this.points = new ArrayList<Coordinate>();
+      this.points = new ArrayList<Coordinates>();
     }
     this.points.add(pointsItem);
     return this;
@@ -41,11 +41,11 @@ public class Polygon   {
   **/
   @ApiModelProperty(value = "")
       @Valid
-    public List<Coordinate> getPoints() {
+    public List<Coordinates> getPoints() {
     return points;
   }
 
-  public void setPoints(List<Coordinate> points) {
+  public void setPoints(List<Coordinates> points) {
     this.points = points;
   }
 

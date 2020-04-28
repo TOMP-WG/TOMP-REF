@@ -15,15 +15,15 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "a lon, lat (WGS84, EPSG:4326)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
-public class Coordinate   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+public class Coordinates   {
   @JsonProperty("lng")
   private BigDecimal lng = null;
 
   @JsonProperty("lat")
   private BigDecimal lat = null;
 
-  public Coordinate lng(BigDecimal lng) {
+  public Coordinates lng(BigDecimal lng) {
     this.lng = lng;
     return this;
   }
@@ -43,7 +43,7 @@ public class Coordinate   {
     this.lng = lng;
   }
 
-  public Coordinate lat(BigDecimal lat) {
+  public Coordinates lat(BigDecimal lat) {
     this.lat = lat;
     return this;
   }
@@ -72,9 +72,9 @@ public class Coordinate   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Coordinate coordinate = (Coordinate) o;
-    return Objects.equals(this.lng, coordinate.lng) &&
-        Objects.equals(this.lat, coordinate.lat);
+    Coordinates coordinates = (Coordinates) o;
+    return Objects.equals(this.lng, coordinates.lng) &&
+        Objects.equals(this.lat, coordinates.lat);
   }
 
   @Override
@@ -85,7 +85,7 @@ public class Coordinate   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Coordinate {\n");
+    sb.append("class Coordinates {\n");
     
     sb.append("    lng: ").append(toIndentedString(lng)).append("\n");
     sb.append("    lat: ").append(toIndentedString(lat)).append("\n");

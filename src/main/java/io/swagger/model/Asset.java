@@ -3,10 +3,16 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.model.Asset;
+import io.swagger.model.AssetClass;
+import io.swagger.model.KeyValue;
 import io.swagger.model.Place;
+import io.swagger.model.TypeOfAsset;
 import java.math.BigDecimal;
+import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -15,30 +21,30 @@ import javax.validation.constraints.*;
  * Asset
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
-public class Asset   {
-  @JsonProperty("asset-id")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+public class Asset extends TypeOfAsset  {
+  @JsonProperty("assetId")
   private String assetId = null;
 
   @JsonProperty("place")
   private Place place = null;
 
-  @JsonProperty("is-reserved")
+  @JsonProperty("isReserved")
   private Boolean isReserved = null;
 
-  @JsonProperty("is-reserved-from")
+  @JsonProperty("isReservedFrom")
   private BigDecimal isReservedFrom = null;
 
-  @JsonProperty("is-reserved-to")
+  @JsonProperty("isReservedTo")
   private BigDecimal isReservedTo = null;
 
-  @JsonProperty("is-disabled")
+  @JsonProperty("isDisabled")
   private Boolean isDisabled = null;
 
   @JsonProperty("image")
   private String image = null;
 
-  @JsonProperty("rental-url")
+  @JsonProperty("rentalUrl")
   private String rentalUrl = null;
 
   public Asset assetId(String assetId) {
@@ -214,19 +220,20 @@ public class Asset   {
         Objects.equals(this.isReservedTo, asset.isReservedTo) &&
         Objects.equals(this.isDisabled, asset.isDisabled) &&
         Objects.equals(this.image, asset.image) &&
-        Objects.equals(this.rentalUrl, asset.rentalUrl);
+        Objects.equals(this.rentalUrl, asset.rentalUrl) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(assetId, place, isReserved, isReservedFrom, isReservedTo, isDisabled, image, rentalUrl);
+    return Objects.hash(assetId, place, isReserved, isReservedFrom, isReservedTo, isDisabled, image, rentalUrl, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Asset {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    assetId: ").append(toIndentedString(assetId)).append("\n");
     sb.append("    place: ").append(toIndentedString(place)).append("\n");
     sb.append("    isReserved: ").append(toIndentedString(isReserved)).append("\n");

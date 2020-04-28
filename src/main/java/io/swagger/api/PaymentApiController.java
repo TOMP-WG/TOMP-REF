@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-24T08:44:01.688Z[GMT]")
 @Controller
 public class PaymentApiController implements PaymentApi {
 
@@ -51,7 +51,7 @@ public class PaymentApiController implements PaymentApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<JournalEntry>(objectMapper.readValue("{\n  \"invoice-date\" : 1546336800,\n  \"journal-id\" : \"journal-id\",\n  \"distance-type\" : \"KM\",\n  \"distance\" : 0.8008281904610115,\n  \"used-time\" : 6.027456183070403,\n  \"journal-sequence-id\" : \"journal-sequence-id\",\n  \"bank-account\" : {\n    \"number\" : \"number\",\n    \"country\" : \"NL\",\n    \"name\" : \"name\",\n    \"bank-identification\" : \"bank-identification\"\n  },\n  \"comment\" : \"comment\",\n  \"details\" : \"\",\n  \"state\" : \"TO_INVOICE\",\n  \"invoice-id\" : \"\"\n}", JournalEntry.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<JournalEntry>(objectMapper.readValue("\"\"", JournalEntry.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<JournalEntry>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -72,7 +72,7 @@ public class PaymentApiController implements PaymentApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<List<JournalEntry>>(objectMapper.readValue("[ {\n  \"invoice-date\" : 1546336800,\n  \"journal-id\" : \"journal-id\",\n  \"distance-type\" : \"KM\",\n  \"distance\" : 0.8008281904610115,\n  \"used-time\" : 6.027456183070403,\n  \"journal-sequence-id\" : \"journal-sequence-id\",\n  \"bank-account\" : {\n    \"number\" : \"number\",\n    \"country\" : \"NL\",\n    \"name\" : \"name\",\n    \"bank-identification\" : \"bank-identification\"\n  },\n  \"comment\" : \"comment\",\n  \"details\" : \"\",\n  \"state\" : \"TO_INVOICE\",\n  \"invoice-id\" : \"\"\n}, {\n  \"invoice-date\" : 1546336800,\n  \"journal-id\" : \"journal-id\",\n  \"distance-type\" : \"KM\",\n  \"distance\" : 0.8008281904610115,\n  \"used-time\" : 6.027456183070403,\n  \"journal-sequence-id\" : \"journal-sequence-id\",\n  \"bank-account\" : {\n    \"number\" : \"number\",\n    \"country\" : \"NL\",\n    \"name\" : \"name\",\n    \"bank-identification\" : \"bank-identification\"\n  },\n  \"comment\" : \"comment\",\n  \"details\" : \"\",\n  \"state\" : \"TO_INVOICE\",\n  \"invoice-id\" : \"\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<List<JournalEntry>>(objectMapper.readValue("[ \"\", \"\" ]", List.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<JournalEntry>>(HttpStatus.INTERNAL_SERVER_ERROR);

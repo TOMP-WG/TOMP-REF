@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "the current status of support")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class SupportStatus   {
   /**
    * Gets or Sets status
@@ -54,7 +54,7 @@ public class SupportStatus   {
   @JsonProperty("status")
   private StatusEnum status = null;
 
-  @JsonProperty("time-to-resolution")
+  @JsonProperty("timeToResolution")
   private Integer timeToResolution = null;
 
   public SupportStatus status(StatusEnum status) {

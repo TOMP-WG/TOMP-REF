@@ -28,7 +28,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-03T08:37:12.232Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-24T08:44:01.688Z[GMT]")
 @Api(value = "legs", description = "the legs API")
 public interface LegsApi {
 
@@ -75,7 +75,7 @@ public interface LegsApi {
 );
 
 
-    @ApiOperation(value = "", nickname = "legsIdEventsPost", notes = "This endpoint must be used to alter the state of a leg.<br> Operations:<br> `PREPARE` the TO can send a message telling the MP that he is preparing the booked leg [To be implemented by the MP] (see (7.2) in the process flow - trip execution),<br> `ASSIGN_ASSET` can assign an asset to a leg. Can be to assign an asset in case there is still an asset type assigned [Optionally implementable by the MP]. See (4.7) in the process flow - trip execution<br> `RESERVE` will claim an asset ahead in time [Optionally implementable by the TO],<br> `SET_IN_USE` will activate the leg or resume the leg [TO and MP] (see (4.6) in process flow),<br> `PAUSE` will pause the leg [TO and MP] (see (4.6) in process flow),<br> `START_FINISHING` will start the end-of-leg [Optionally implementable by TO and MP],<br> `FINISH` will end this leg (see (4.6) in process flow) [TO and MP]", response = Leg.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "", nickname = "legsIdEventsPost", notes = "This endpoint must be used to alter the state of a leg.<br> Operations:<br> `PREPARE` the TO can send a message telling the MP that he is preparing the booked leg [To be implemented by the MP] (see (7.2) in the process flow - trip execution),<br> `ASSIGN_ASSET` can assign an asset to a leg. Can be to assign an asset in case there is still an asset type assigned [Optionally implementable by the MP]. See (4.7) in the process flow - trip execution<br> `RESERVE` will claim an asset ahead in time [Optionally implementable by the TO],<br> `SET_IN_USE` will activate the leg or resume the leg [TO and MP] (see (4.6) in process flow),<br> `PAUSE` will pause the leg [TO and MP] (see (4.6) in process flow),<br> `START_FINISHING` will start the end-of-leg [Optionally implementable by TO and MP],<br> `FINISH` will end this leg (see (4.6) in process flow) [TO and MP]", authorizations = {
         @Authorization(value = "ApiKeyAuth"),
 @Authorization(value = "BasicAuth"),
 @Authorization(value = "BearerAuth"),
@@ -83,7 +83,6 @@ public interface LegsApi {
             }),
 @Authorization(value = "OpenId")    }, tags={ "trip execution","MP","TO", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The bookings matching the query", response = Leg.class, responseContainer = "List"),
         @ApiResponse(code = 204, message = "Request was successful, no content to return."),
         @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
         @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class),
@@ -92,7 +91,7 @@ public interface LegsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<List<Leg>> legsIdEventsPost(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<Void> legsIdEventsPost(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 ,@ApiParam(value = "Leg identifier",required=true) @PathVariable("id") String id

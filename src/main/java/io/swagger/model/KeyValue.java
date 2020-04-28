@@ -1,8 +1,6 @@
 package io.swagger.model;
 
 import java.util.Objects;
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -11,8 +9,8 @@ import javax.validation.constraints.*;
  * KeyValue
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-16T09:27:38.932Z[GMT]")
-public class KeyValue extends HashMap<String, Object>  {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+public class KeyValue   {
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -27,14 +25,14 @@ public class KeyValue extends HashMap<String, Object>  {
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode());
+    return Objects.hash();
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class KeyValue {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    
     sb.append("}");
     return sb.toString();
   }

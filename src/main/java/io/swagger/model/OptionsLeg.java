@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Coordinate;
+import io.swagger.model.Coordinates;
 import io.swagger.model.Period;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
@@ -16,15 +16,15 @@ import javax.validation.constraints.*;
  * OptionsLeg
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class OptionsLeg extends Period  {
   @JsonProperty("from")
-  private Coordinate from = null;
+  private Coordinates from = null;
 
   @JsonProperty("to")
-  private Coordinate to = null;
+  private Coordinates to = null;
 
-  public OptionsLeg from(Coordinate from) {
+  public OptionsLeg from(Coordinates from) {
     this.from = from;
     return this;
   }
@@ -36,15 +36,15 @@ public class OptionsLeg extends Period  {
   @ApiModelProperty(value = "")
   
     @Valid
-    public Coordinate getFrom() {
+    public Coordinates getFrom() {
     return from;
   }
 
-  public void setFrom(Coordinate from) {
+  public void setFrom(Coordinates from) {
     this.from = from;
   }
 
-  public OptionsLeg to(Coordinate to) {
+  public OptionsLeg to(Coordinates to) {
     this.to = to;
     return this;
   }
@@ -56,11 +56,11 @@ public class OptionsLeg extends Period  {
   @ApiModelProperty(value = "")
   
     @Valid
-    public Coordinate getTo() {
+    public Coordinates getTo() {
     return to;
   }
 
-  public void setTo(Coordinate to) {
+  public void setTo(Coordinates to) {
     this.to = to;
   }
 

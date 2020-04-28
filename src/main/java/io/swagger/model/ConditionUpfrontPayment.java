@@ -8,12 +8,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * in case the TO demands a direct payment after usage.
+ * in case the TO demands a upfront payment before usage. The payment should be made in the booking phase.
  */
-@ApiModel(description = "in case the TO demands a direct payment after usage.")
+@ApiModel(description = "in case the TO demands a upfront payment before usage. The payment should be made in the booking phase.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
-public class PayWhenFinishedCondition extends Condition implements OneOfcondition {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T15:19:29.217Z[GMT]")
+public class ConditionUpfrontPayment extends Condition implements OneOfcondition {
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -34,7 +34,7 @@ public class PayWhenFinishedCondition extends Condition implements OneOfconditio
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PayWhenFinishedCondition {\n");
+    sb.append("class ConditionUpfrontPayment {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("}");
     return sb.toString();

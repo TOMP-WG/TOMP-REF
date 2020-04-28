@@ -19,8 +19,8 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "this leg type should be used when returning multiple legs to fullfil a single request from A to B. For instance handling overlegs or when acting as broker for multiple sub contractors.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
-public class CompositLeg extends PlanningResult implements OneOfplanningResult {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+public class CompositeLeg extends PlanningResult implements OneOfplanningResult {
   @JsonProperty("id")
   private String id = null;
 
@@ -35,7 +35,7 @@ public class CompositLeg extends PlanningResult implements OneOfplanningResult {
   @Valid
   private List<String> conditions = null;
 
-  public CompositLeg id(String id) {
+  public CompositeLeg id(String id) {
     this.id = id;
     return this;
   }
@@ -54,7 +54,7 @@ public class CompositLeg extends PlanningResult implements OneOfplanningResult {
     this.id = id;
   }
 
-  public CompositLeg pricing(Fare pricing) {
+  public CompositeLeg pricing(Fare pricing) {
     this.pricing = pricing;
     return this;
   }
@@ -74,12 +74,12 @@ public class CompositLeg extends PlanningResult implements OneOfplanningResult {
     this.pricing = pricing;
   }
 
-  public CompositLeg legs(List<OperatorLeg> legs) {
+  public CompositeLeg legs(List<OperatorLeg> legs) {
     this.legs = legs;
     return this;
   }
 
-  public CompositLeg addLegsItem(OperatorLeg legsItem) {
+  public CompositeLeg addLegsItem(OperatorLeg legsItem) {
     if (this.legs == null) {
       this.legs = new ArrayList<OperatorLeg>();
     }
@@ -101,12 +101,12 @@ public class CompositLeg extends PlanningResult implements OneOfplanningResult {
     this.legs = legs;
   }
 
-  public CompositLeg conditions(List<String> conditions) {
+  public CompositeLeg conditions(List<String> conditions) {
     this.conditions = conditions;
     return this;
   }
 
-  public CompositLeg addConditionsItem(String conditionsItem) {
+  public CompositeLeg addConditionsItem(String conditionsItem) {
     if (this.conditions == null) {
       this.conditions = new ArrayList<String>();
     }
@@ -137,11 +137,11 @@ public class CompositLeg extends PlanningResult implements OneOfplanningResult {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CompositLeg compositLeg = (CompositLeg) o;
-    return Objects.equals(this.id, compositLeg.id) &&
-        Objects.equals(this.pricing, compositLeg.pricing) &&
-        Objects.equals(this.legs, compositLeg.legs) &&
-        Objects.equals(this.conditions, compositLeg.conditions) &&
+    CompositeLeg compositeLeg = (CompositeLeg) o;
+    return Objects.equals(this.id, compositeLeg.id) &&
+        Objects.equals(this.pricing, compositeLeg.pricing) &&
+        Objects.equals(this.legs, compositeLeg.legs) &&
+        Objects.equals(this.conditions, compositeLeg.conditions) &&
         super.equals(o);
   }
 
@@ -153,7 +153,7 @@ public class CompositLeg extends PlanningResult implements OneOfplanningResult {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CompositLeg {\n");
+    sb.append("class CompositeLeg {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    pricing: ").append(toIndentedString(pricing)).append("\n");

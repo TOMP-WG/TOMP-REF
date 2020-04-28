@@ -8,21 +8,14 @@ import java.io.InputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Conditional;
-import org.springframework.stereotype.Component;
-import org.tomp.api.operatorinformation.assets.AssetsFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@Component
-@Conditional(AssetsFactory.class)
 public class ObjectFromFileProvider<T> implements ObjectProvider<T> {
 
 	private static final Logger log = LoggerFactory.getLogger(ObjectFromFileProvider.class);
 
-	@Autowired
-	ObjectMapper mapper;
+	ObjectMapper mapper = new ObjectMapper();
 
 	@Override
 	public T getObject(String acceptLanguage, Class<T> c, String fromFile) {

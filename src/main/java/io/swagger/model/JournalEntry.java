@@ -18,24 +18,24 @@ import javax.validation.constraints.*;
  * JournalEntry
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class JournalEntry extends AmountOfMoney  {
-  @JsonProperty("journal-id")
+  @JsonProperty("journalId")
   private String journalId = null;
 
-  @JsonProperty("journal-sequence-id")
+  @JsonProperty("journalSequenceId")
   private String journalSequenceId = null;
 
-  @JsonProperty("invoice-id")
+  @JsonProperty("invoiceId")
   private Object invoiceId = null;
 
-  @JsonProperty("invoice-date")
+  @JsonProperty("invoiceDate")
   private BigDecimal invoiceDate = null;
 
   @JsonProperty("state")
   private JournalState state = null;
 
-  @JsonProperty("expiration-date")
+  @JsonProperty("expirationDate")
   private BigDecimal expirationDate = null;
 
   @JsonProperty("comment")
@@ -74,13 +74,13 @@ public class JournalEntry extends AmountOfMoney  {
       return null;
     }
   }
-  @JsonProperty("distance-type")
+  @JsonProperty("distanceType")
   private DistanceTypeEnum distanceType = null;
 
-  @JsonProperty("used-time")
+  @JsonProperty("usedTime")
   private BigDecimal usedTime = null;
 
-  @JsonProperty("bank-account")
+  @JsonProperty("bankAccount")
   private BankAccount bankAccount = null;
 
   @JsonProperty("details")
@@ -111,10 +111,10 @@ public class JournalEntry extends AmountOfMoney  {
   }
 
   /**
-   * sequence id of the entry, in combination with journal-id unique from TO perspective.
+   * sequence id of the entry, in combination with journalId unique from TO perspective.
    * @return journalSequenceId
   **/
-  @ApiModelProperty(value = "sequence id of the entry, in combination with journal-id unique from TO perspective.")
+  @ApiModelProperty(value = "sequence id of the entry, in combination with journalId unique from TO perspective.")
   
     public String getJournalSequenceId() {
     return journalSequenceId;

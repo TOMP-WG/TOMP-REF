@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Coordinate;
+import io.swagger.model.Coordinates;
 import io.swagger.model.Period;
 import io.swagger.model.User;
 import java.math.BigDecimal;
@@ -20,31 +20,32 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "the request for available assets. User's location in comma separated form e.g. 60.123,27.456 (lat/long, WGS84)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T13:22:30.099Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
 public class PlanningCheck extends Period  {
   @JsonProperty("from")
-  private Coordinate from = null;
+  private Coordinates from = null;
 
   @JsonProperty("radius")
   private BigDecimal radius = null;
 
   @JsonProperty("to")
-  private Coordinate to = null;
+  private Coordinates to = null;
 
   @JsonProperty("travellers")
   private BigDecimal travellers = null;
 
-  @JsonProperty("use-asset")
-  private String useAsset = null;
+  @JsonProperty("useAssets")
+  @Valid
+  private List<String> useAssets = null;
 
-  @JsonProperty("provide-ids")
+  @JsonProperty("provideIds")
   private Boolean provideIds = null;
 
   @JsonProperty("users")
   @Valid
   private List<User> users = null;
 
-  public PlanningCheck from(Coordinate from) {
+  public PlanningCheck from(Coordinates from) {
     this.from = from;
     return this;
   }
@@ -57,11 +58,11 @@ public class PlanningCheck extends Period  {
       @NotNull
 
     @Valid
-    public Coordinate getFrom() {
+    public Coordinates getFrom() {
     return from;
   }
 
-  public void setFrom(Coordinate from) {
+  public void setFrom(Coordinates from) {
     this.from = from;
   }
 
@@ -85,7 +86,7 @@ public class PlanningCheck extends Period  {
     this.radius = radius;
   }
 
-  public PlanningCheck to(Coordinate to) {
+  public PlanningCheck to(Coordinates to) {
     this.to = to;
     return this;
   }
@@ -97,11 +98,11 @@ public class PlanningCheck extends Period  {
   @ApiModelProperty(value = "")
   
     @Valid
-    public Coordinate getTo() {
+    public Coordinates getTo() {
     return to;
   }
 
-  public void setTo(Coordinate to) {
+  public void setTo(Coordinates to) {
     this.to = to;
   }
 
@@ -125,23 +126,31 @@ public class PlanningCheck extends Period  {
     this.travellers = travellers;
   }
 
-  public PlanningCheck useAsset(String useAsset) {
-    this.useAsset = useAsset;
+  public PlanningCheck useAssets(List<String> useAssets) {
+    this.useAssets = useAssets;
+    return this;
+  }
+
+  public PlanningCheck addUseAssetsItem(String useAssetsItem) {
+    if (this.useAssets == null) {
+      this.useAssets = new ArrayList<String>();
+    }
+    this.useAssets.add(useAssetsItem);
     return this;
   }
 
   /**
    * when you use the /operator/available-assets and you want to book a displayed asset, you must be able to request o a planning-option for the specific asset (with provide-ids=true), post a booking with the provided id and send directly a commit. This field should contain the asset to book.
-   * @return useAsset
+   * @return useAssets
   **/
   @ApiModelProperty(value = "when you use the /operator/available-assets and you want to book a displayed asset, you must be able to request o a planning-option for the specific asset (with provide-ids=true), post a booking with the provided id and send directly a commit. This field should contain the asset to book.")
   
-    public String getUseAsset() {
-    return useAsset;
+    public List<String> getUseAssets() {
+    return useAssets;
   }
 
-  public void setUseAsset(String useAsset) {
-    this.useAsset = useAsset;
+  public void setUseAssets(List<String> useAssets) {
+    this.useAssets = useAssets;
   }
 
   public PlanningCheck provideIds(Boolean provideIds) {
@@ -204,7 +213,7 @@ public class PlanningCheck extends Period  {
         Objects.equals(this.radius, planningCheck.radius) &&
         Objects.equals(this.to, planningCheck.to) &&
         Objects.equals(this.travellers, planningCheck.travellers) &&
-        Objects.equals(this.useAsset, planningCheck.useAsset) &&
+        Objects.equals(this.useAssets, planningCheck.useAssets) &&
         Objects.equals(this.provideIds, planningCheck.provideIds) &&
         Objects.equals(this.users, planningCheck.users) &&
         super.equals(o);
@@ -212,7 +221,7 @@ public class PlanningCheck extends Period  {
 
   @Override
   public int hashCode() {
-    return Objects.hash(from, radius, to, travellers, useAsset, provideIds, users, super.hashCode());
+    return Objects.hash(from, radius, to, travellers, useAssets, provideIds, users, super.hashCode());
   }
 
   @Override
@@ -224,7 +233,7 @@ public class PlanningCheck extends Period  {
     sb.append("    radius: ").append(toIndentedString(radius)).append("\n");
     sb.append("    to: ").append(toIndentedString(to)).append("\n");
     sb.append("    travellers: ").append(toIndentedString(travellers)).append("\n");
-    sb.append("    useAsset: ").append(toIndentedString(useAsset)).append("\n");
+    sb.append("    useAssets: ").append(toIndentedString(useAssets)).append("\n");
     sb.append("    provideIds: ").append(toIndentedString(provideIds)).append("\n");
     sb.append("    users: ").append(toIndentedString(users)).append("\n");
     sb.append("}");
