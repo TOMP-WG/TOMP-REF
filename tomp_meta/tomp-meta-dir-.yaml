@@ -1,0 +1,285 @@
+openapi: 3.0.0
+info:
+  title: MaaS Lookup Directory
+  description: A lookup directory for TOs and MPs (TOMP API)
+  version: "0.1.0"
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+paths:
+  /registration:
+    parameters:
+      - $ref: '#/components/parameters/acceptLanguage'
+      - $ref: '#/components/parameters/api'
+      - $ref: '#/components/parameters/apiVersion'
+    post:
+      description: registrate a TO
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/maasOperator'
+                - type: object
+                  properties:
+                    registrationresult: 
+                      type: string
+                      format: url
+      responses:
+        '202':
+          $ref: '#/components/responses/202Accepted'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+      callbacks:   # webhooks
+        # as described in https://swagger.io/docs/specification/callbacks/
+        registration-result:
+          '{$request.body#/registrationresult}':
+            post:
+              requestBody:   # Contents of the callback message
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/registrationResult'
+              responses:
+                '204':
+                  $ref: '#/components/responses/204NoContent'
+
+  /locations:
+    parameters:
+      - $ref: '#/components/parameters/acceptLanguage'
+      - $ref: '#/components/parameters/api'
+      - $ref: '#/components/parameters/apiVersion'
+    post:
+      description: returns TOs based on the search conditions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/searchCondition'
+      responses:
+        '200':
+          description: A new booking was succesfully created, status pending
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/maasLocation'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+
+  /validation:
+    parameters:
+      - $ref: '#/components/parameters/acceptLanguage'
+      - $ref: '#/components/parameters/api'
+      - $ref: '#/components/parameters/apiVersion'
+    post:
+      description: validates if the MaaS Operator is valid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/validationRequest'
+      responses:
+        '200':
+          description: The MaaS Operator is found, result contains details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validationResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+
+components:
+  schemas:
+    assetClass:
+      type: string
+      description: the class of asset. It's possible to specify it more in the assetSubType in typeOfAsset. These classes are taken from the NeTeX standard, but ALL and UNKNOWN are removed. On the other hand OTHER and PARKING are added.
+      enum: [AIR, BUS, TROLLEYBUS, TRAM, COACH, RAIL, INTERCITYRAIL, URBANRAIL, METRO, WATER, CABLEWAY, FUNICULAR, TAXI, SELFDRIVE, FOOT, BICYCLE, MOTORCYCLE, CAR, SHUTTLE, OTHER, PARKING, MOPED, STEP]
+      
+    coordinates:
+      type: object
+      description: a lon, lat (WGS84, EPSG:4326)
+      properties:
+        lng:
+          type: number
+          example: 6.169639
+        lat:
+          type: number
+          example: 52.253279
+
+    maasLocation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+        version:
+          type: string
+          
+    maasOperator:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/maasLocation'
+        - type: object
+          properties:
+            validationToken:
+              type: string
+              description: can be a thumbprint of a certificate
+      
+    polygon:
+      type: object
+      properties:
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/coordinates'
+          minLength: 3
+
+    searchCondition:
+      type: object
+      properties:
+        area: 
+          $ref: '#/components/schemas/polygon'
+        assetClass:
+          $ref: '#/components/schemas/assetClass'
+      
+    validationRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          description: the maasId to validate
+        validationToken:
+          type: string
+          description: can be a thumbprint of a certificate
+        registrationResult:
+          type: string
+          description: webhook url to post results to
+      
+    validationResponse:
+      allOf:
+        - $ref: '#/components/schemas/maasLocation'
+      
+    registrationResult:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [ACCEPTED, REJECTED]
+        reason:
+          type: string
+      
+    error:
+      type: object
+      description: An error that the service may send, e.g. in case of invalid input,
+        missing authorization or internal service error. see https://tools.ietf.org/html/rfc7807
+      required:
+        - message
+        - code
+      properties:
+        type:
+          type: string
+          description: A URI reference [RFC3986] that identifies the problem type.  This specification encourages that, when  dereferenced, it provide human-readable documentation for the problem type (e.g., using HTML [W3C.REC-html5-20141028]).  When this member is not present, its value is assumed to be "about:blank".
+        title:
+          type: string
+          description: A short, human-readable summary of the problem type.  It SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization (e.g., using proactive content negotiation; see [RFC7231], Section 3.4).
+        status:
+          type: number
+          description: The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem.
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced.
+
+
+  parameters:
+    acceptLanguage:
+      in: header
+      name: Accept-Language
+      required: true
+      schema:
+        type: string
+      description: ISO 639-1 two letter language code
+      example: NL
+    api:
+      in: header
+      name: Api
+      required: true
+      schema:
+        type: string
+      description: API description, can be TOMP or maybe other (specific/derived) API definitions
+      example: TOMP
+    apiVersion:
+      in: header
+      name: Api-Version
+      required: true
+      schema:
+        type: string
+      description: Version of the API.
+      example: 0.5.0
+    maasId:
+      in: header
+      name: maas-id
+      required: true
+      schema:
+        type: string
+      description: The ID of the sending maas operator
+      example: 1324A-DFB3482-32ACD
+  
+  responses:
+    202Accepted:
+      description: Request was successfully accepted for processing but has not yet completed.
+      headers:
+        Location:
+          schema:
+            type: string
+          description: The URI where the created or updated resource will eventually be found.
+          example: '/bookings/1234'
+    204NoContent:
+      description: Request was successful, no content to return.
+    400BadRequest:
+      description: Bad request (invalid query or body parameters).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    401Unauthorized:
+      description: Authorization error (invalid API key) or insufficient access rights given current authorization.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    403Forbidden:
+      description: The request will not be fulfilled, because the request is not legal in the current state. Authorization will not help.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    404NotFound:
+      description: The requested resources does not exist or the requester is not authorized to see it or know it exists.
+    409Conflict:
+      description: The request will not be fulfilled. The request itself is legal, but the content conflicts with the server and might be stale. The user might try again after looking up the current state of the resource.
+    410Gone:
+      description: The requested resource is no longer available. This is permanent.
+      

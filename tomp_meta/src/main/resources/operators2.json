@@ -1,0 +1,17 @@
+[
+  {
+    "id": "da612986-3408-4c91-adf9-8dbbc16ff4f9",
+    "name": "bike-to",
+    "url": "http://localhost:8082/"
+  },
+  {
+    "id": "b54c2980-0f9e-450a-bf50-e3c8f7d2b230",
+    "name": "bike-car",
+    "url": "http://localhost:8083/"
+  },
+  {
+    "id": "f53b15b2-57c7-433b-94de-aa5148ef4a9f",
+    "name": "b2p",
+    "url": "http://localhost:8084/"
+  }
+]
