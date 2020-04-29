@@ -54,7 +54,7 @@ public class TOProvider {
 
 	private void populateTOs() {
 		ObjectFromFileProvider<Polygon> areaProvider = new ObjectFromFileProvider<>();
-		Polygon area = areaProvider.getObject("", Polygon.class, "area.json");
+		Polygon area = areaProvider.getObject("", Polygon.class, "src/main/resources/area.json");
 		try {
 			addTOsFromAreaToCache(area);
 		} catch (JsonProcessingException e) {

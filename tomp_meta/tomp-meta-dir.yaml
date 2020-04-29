@@ -144,6 +144,8 @@ components:
             validationToken:
               type: string
               description: can be a thumbprint of a certificate
+            servicedArea:
+              $ref: '#/components/schemas/polygon'
       
     polygon:
       type: object

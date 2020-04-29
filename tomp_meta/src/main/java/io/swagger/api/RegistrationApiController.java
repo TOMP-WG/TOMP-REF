@@ -80,53 +80,58 @@ public class RegistrationApiController implements RegistrationApi {
 	}
 
 	private void fetchArea(MaasOperator operator) {
-		ApiClient client = new ApiClient();
-		String url = operator.getUrl();
-		if (url.endsWith("/")) {
-			url = url.substring(0, url.length() - 1);
-		}
-		client.setBasePath(url);
-		List<Pair> queryParams = new ArrayList<>();
-		List<Pair> collectionQueryParams = new ArrayList<>();
-		Map<String, String> headerParams = new HashMap<>();
-		Map<String, Object> formParams = new HashMap<>();
-		String[] authNames = new String[] {};
-		ProgressRequestListener progressRequestListener = null;
+		if (operator.getServicedArea() == null || operator.getServicedArea().getPoints() == null
+				|| operator.getServicedArea().getPoints().isEmpty()) {
 
-		headerParams.put("Accept-Language", client.parameterToString("nl"));
-		headerParams.put("Api", client.parameterToString("TOMP"));
-		headerParams.put("Api-Version", client.parameterToString(operator.getVersion()));
-		headerParams.put("maas-id", "1");
-
-		final String[] localVarAccepts = { "application/json" };
-		final String localVarAccept = client.selectHeaderAccept(localVarAccepts);
-		if (localVarAccept != null)
-			headerParams.put("Accept", localVarAccept);
-		headerParams.put("Content-Type", "application/json");
-
-		try {
-			Object responsebody = null;
-			Call call = client.buildCall("/operator/regions/", "GET", queryParams, collectionQueryParams, responsebody,
-					headerParams, formParams, authNames, progressRequestListener);
-
-			ApiResponse<SystemRegion[]> response = client.execute(call, SystemRegion[].class);
-
-			Polygon polygon = null;
-			for (SystemRegion region : response.getData()) {
-				if (polygon == null) {
-					polygon = toGeometry(region);
-				} else {
-					polygon.union(toGeometry(region));
-				}
+			ApiClient client = new ApiClient();
+			String url = operator.getUrl();
+			if (url.endsWith("/")) {
+				url = url.substring(0, url.length() - 1);
 			}
+			client.setBasePath(url);
+			List<Pair> queryParams = new ArrayList<>();
+			List<Pair> collectionQueryParams = new ArrayList<>();
+			Map<String, String> headerParams = new HashMap<>();
+			Map<String, Object> formParams = new HashMap<>();
+			String[] authNames = new String[] {};
+			ProgressRequestListener progressRequestListener = null;
 
-			io.swagger.model.Polygon serviceArea = toPolygon(polygon);
-			repository.registerArea(operator.getId(), serviceArea);
+			headerParams.put("Accept-Language", client.parameterToString("nl"));
+			headerParams.put("Api", client.parameterToString("TOMP"));
+			headerParams.put("Api-Version", client.parameterToString(operator.getVersion()));
+			headerParams.put("maas-id", "1");
 
-		} catch (ApiException e) {
-			log.error(e.getMessage());
+			final String[] localVarAccepts = { "application/json" };
+			final String localVarAccept = client.selectHeaderAccept(localVarAccepts);
+			if (localVarAccept != null)
+				headerParams.put("Accept", localVarAccept);
+			headerParams.put("Content-Type", "application/json");
+
+			try {
+				Object responsebody = null;
+				Call call = client.buildCall("/operator/regions/", "GET", queryParams, collectionQueryParams,
+						responsebody, headerParams, formParams, authNames, progressRequestListener);
+
+				ApiResponse<SystemRegion[]> response = client.execute(call, SystemRegion[].class);
+
+				Polygon polygon = null;
+				for (SystemRegion region : response.getData()) {
+					if (polygon == null) {
+						polygon = toGeometry(region);
+					} else {
+						polygon.union(toGeometry(region));
+					}
+				}
+
+				io.swagger.model.Polygon serviceArea = toPolygon(polygon);
+				repository.registerArea(operator.getId(), serviceArea);
+
+			} catch (ApiException e) {
+				log.error(e.getMessage());
+			}
+		} else {
+			repository.registerArea(operator.getId(), operator.getServicedArea());
 		}
-
 	}
 
 	private io.swagger.model.Polygon toPolygon(Polygon polygon) {

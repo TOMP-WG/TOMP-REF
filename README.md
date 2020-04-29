@@ -13,7 +13,7 @@ The spring application can be started as MP or as TO, dependend on the supplied 
 
 ## MaaS Provider
 The MaaS Provider can start this application using this profile: -Dspring.profiles.active=maasprovider<br>
-This means you can start the MaaS Provider like this: _java -jar tomp-ref-1.0.0.jar -Dspring.profiles.active=maasprovider_<br>
+This means you can start the MaaS Provider like this: _java -jar reference-[version]-exec.jar -Dspring.profiles.active=maasprovider_<br>
 
 The MaaS component will start at port 8090. This means you can call the API using http://localhost:8090/{localPath}
 
@@ -44,10 +44,13 @@ e.g. calling POST http://localhost:8090/planning-options/ with body
 }</pre>
 will result in a few planning options. There is a very simple implementation, dividing the route in a few legs and for each leg it will look for TOs that can fulfill the request. 
 
+## Meta lookup
+There is a seperate project with a meta lookup webservice. It contains the available TOs and MPs. It's modifiable in 'operators.json'.
+
 ## Operators
 These operators are available:<br>
-java -jar tomp-ref-1.0.0.jar -Dspring.profiles.active=bike<br>
-java -jar tomp-ref-1.0.0.jar -Dspring.profiles.active=car<br>
+java -jar reference-[version]-exec.jar -Dspring.profiles.active=bike<br>
+java -jar reference-[version]-exec.jar -Dspring.profiles.active=car<br>
 
 There are also other possibilities to start up other operators, look at the application.yml. 
 
