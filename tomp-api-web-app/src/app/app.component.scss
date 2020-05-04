@@ -1,0 +1,15 @@
+.main {
+  display: flex;
+
+  app-plan {
+    flex: auto;
+  }
+
+  app-request {
+    flex: auto;
+  }
+
+  app-response {
+    flex: auto;
+  }
+}

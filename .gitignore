@@ -105,3 +105,6 @@ tomp_meta/target/classes/application.properties
 tomp_meta/target/classes/META-INF/maven/io.swagger/swagger-spring/pom.xml
 tomp_meta/target/classes/META-INF/maven/io.swagger/swagger-spring/pom.properties
 tomp_meta/target/classes/META-INF/MANIFEST.MF
+tomp_ref/target/
+tomp_ref/.settings/
+tomp_ref/scripts/*.json
