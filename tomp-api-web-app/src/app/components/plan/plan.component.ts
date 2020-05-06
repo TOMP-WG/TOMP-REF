@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PlanningOptions } from '../../domain/planning-options.model';
 
 @Component({
   selector: 'app-plan',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlanComponent implements OnInit {
 
+  planning: PlanningOptions;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.planning = new PlanningOptions();
+  }
+
+  onSubmit() {
+
   }
 
 }

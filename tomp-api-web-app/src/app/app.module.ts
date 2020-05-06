@@ -7,6 +7,14 @@ import { RequestComponent } from './components/request/request.component';
 import { ResponseComponent } from './components/response/response.component';
 import { MapComponent } from './components/plan/map/map.component';
 import { PlanComponent } from './components/plan/plan.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatMomentDateModule, MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { PeriodComponent } from './components/period/period.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -14,13 +22,23 @@ import { PlanComponent } from './components/plan/plan.component';
     RequestComponent,
     ResponseComponent,
     MapComponent,
-    PlanComponent
+    PlanComponent,
+    PeriodComponent
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatMomentDateModule,
+    MatInputModule,
+    NgxMaterialTimepickerModule,
+    MatButtonModule
   ],
-  providers: [],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

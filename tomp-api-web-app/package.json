@@ -18,10 +18,13 @@
     "@angular/core": "~9.1.4",
     "@angular/forms": "~9.1.4",
     "@angular/material": "^9.2.2",
+    "@angular/material-moment-adapter": "^9.2.2",
     "@angular/platform-browser": "~9.1.4",
     "@angular/platform-browser-dynamic": "~9.1.4",
     "@angular/router": "~9.1.4",
     "leaflet": "^1.6.0",
+    "moment": "^2.25.1",
+    "ngx-material-timepicker": "^5.5.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

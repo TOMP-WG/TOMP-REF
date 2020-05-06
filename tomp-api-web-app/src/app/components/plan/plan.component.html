@@ -1,4 +1,9 @@
 <h3>Planning</h3>
+<div class="period">
+  <app-period [(period)]="planning.startTime"></app-period>
+  <app-period [(period)]="planning.endTime"></app-period>
+</div>
 <div class="map-wrapper">
   <app-map></app-map>
+  <button mat-raised-button color="primary" class="submit-button" (click)="onSubmit()">Plan</button>
 </div>
