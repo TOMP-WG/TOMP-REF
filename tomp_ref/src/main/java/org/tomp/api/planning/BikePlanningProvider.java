@@ -4,8 +4,11 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.tomp.api.configuration.ExternalConfiguration;
+import org.tomp.api.repository.DummyRepository;
 
 import io.swagger.model.AssetClass;
 import io.swagger.model.Condition;
@@ -24,6 +27,11 @@ import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
 @Component
 @Profile("bike")
 public class BikePlanningProvider extends BasePlanningProvider {
+
+	@Autowired
+	public BikePlanningProvider(DummyRepository repository, ExternalConfiguration configuration) {
+		super(repository, configuration);
+	}
 
 	@Override
 	protected Fare getFare() {

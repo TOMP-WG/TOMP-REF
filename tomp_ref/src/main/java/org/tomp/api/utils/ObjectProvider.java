@@ -1,4 +1,4 @@
-package org.tomp.api.mp;
+package org.tomp.api.utils;
 
 public interface ObjectProvider<T> {
 

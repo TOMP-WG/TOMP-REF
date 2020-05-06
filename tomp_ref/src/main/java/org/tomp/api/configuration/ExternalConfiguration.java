@@ -3,15 +3,23 @@ package org.tomp.api.configuration;
 import java.util.List;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
-import org.tomp.api.mp.TransportOperator;
+import org.tomp.api.model.TransportOperator;
 
 @Component
 @ConfigurationProperties(prefix = "tomp")
 @Validated
 public class ExternalConfiguration {
+
+	private static final Logger log = LoggerFactory.getLogger(ExternalConfiguration.class);
+
+	public ExternalConfiguration() {
+		log.info("Configuration file");
+	}
 
 	private String lookupService;
 	@NotBlank
@@ -30,6 +38,9 @@ public class ExternalConfiguration {
 	private String typeOfAssetFile;
 	private String regionsFile;
 	private String stationsFile;
+	private String areaFile;
+	private String bookingMailBox;
+
 	private String externalUrl;
 
 	public String getLookupService() {
@@ -146,5 +157,21 @@ public class ExternalConfiguration {
 
 	public void setExternalUrl(String externalUrl) {
 		this.externalUrl = externalUrl;
+	}
+
+	public String getAreaFile() {
+		return areaFile;
+	}
+
+	public void setAreaFile(String areaFile) {
+		this.areaFile = areaFile;
+	}
+
+	public String getBookingMailBox() {
+		return bookingMailBox;
+	}
+
+	public void setBookingMailBox(String bookingMailBox) {
+		this.bookingMailBox = bookingMailBox;
 	}
 }

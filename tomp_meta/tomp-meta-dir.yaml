@@ -8,7 +8,7 @@ info:
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 
 paths:
-  /registration:
+  /operators/registrate:
     parameters:
       - $ref: '#/components/parameters/acceptLanguage'
       - $ref: '#/components/parameters/api'
@@ -48,7 +48,7 @@ paths:
                 '204':
                   $ref: '#/components/responses/204NoContent'
 
-  /locations:
+  /transport-operators:
     parameters:
       - $ref: '#/components/parameters/acceptLanguage'
       - $ref: '#/components/parameters/api'
@@ -67,9 +67,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/maasLocation'
+                $ref: '#/components/schemas/maasOperator'
         '400':
           $ref: '#/components/responses/400BadRequest'
         '401':
@@ -77,7 +75,7 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
 
-  /validation:
+  /operators/validate:
     parameters:
       - $ref: '#/components/parameters/acceptLanguage'
       - $ref: '#/components/parameters/api'
@@ -96,13 +94,43 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/validationResponse'
+                $ref: '#/components/schemas/maasOperator'
         '400':
           $ref: '#/components/responses/400BadRequest'
         '401':
           $ref: '#/components/responses/401Unauthorized'
         '404':
           $ref: '#/components/responses/404NotFound'
+          
+  /operators/{id}:
+    parameters:
+      - $ref: '#/components/parameters/acceptLanguage'
+      - $ref: '#/components/parameters/api'
+      - $ref: '#/components/parameters/apiVersion'
+      - name: id
+        in: path
+        description: maasId
+        required: true
+        schema:
+          type: string
+    get:
+      description: get information about the TO or MP with provided maasId
+      responses:
+        '200':
+          description: A new booking was succesfully created, status pending
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/maasOperator'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+
 
 components:
   schemas:
@@ -122,11 +150,13 @@ components:
           type: number
           example: 52.253279
 
-    maasLocation:
+    maasOperator:
       type: object
       properties:
         id:
           type: string
+        type:
+          $ref: '#/components/schemas/maasEnvironmentType'
         name:
           type: string
         url:
@@ -134,18 +164,15 @@ components:
           format: uri
         version:
           type: string
-          
-    maasOperator:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/maasLocation'
-        - type: object
-          properties:
-            validationToken:
-              type: string
-              description: can be a thumbprint of a certificate
-            servicedArea:
-              $ref: '#/components/schemas/polygon'
+        validationToken:
+          type: string
+          description: can be a thumbprint of a certificate
+        servicedArea:
+          $ref: '#/components/schemas/polygon'
+    
+    maasEnvironmentType:
+      type: string
+      enum: [TO, MP, LOOKUP_SERVICE, TP, VAULT, DATA_DRAIN]
       
     polygon:
       type: object
@@ -173,13 +200,9 @@ components:
         validationToken:
           type: string
           description: can be a thumbprint of a certificate
-        registrationResult:
+        registrationResultUrl:
           type: string
           description: webhook url to post results to
-      
-    validationResponse:
-      allOf:
-        - $ref: '#/components/schemas/maasLocation'
       
     registrationResult:
       type: object
@@ -213,7 +236,6 @@ components:
         instance:
           type: string
           description: A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced.
-
 
   parameters:
     acceptLanguage:

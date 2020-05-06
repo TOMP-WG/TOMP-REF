@@ -1,5 +1,6 @@
 package io.swagger.api;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,9 +20,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.Call;
 
 import io.swagger.annotations.ApiParam;
@@ -38,12 +41,15 @@ import io.swagger.model.MaasOperator;
 import io.swagger.model.RegistrationResult;
 import io.swagger.model.RegistrationResult.StatusEnum;
 import io.swagger.model.SystemRegion;
+import io.swagger.model.ValidationRequest;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-24T07:16:19.146Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-06T06:58:30.612Z[GMT]")
 @Controller
-public class RegistrationApiController implements RegistrationApi {
+public class OperatorsApiController implements OperatorsApi {
 
-	private static final Logger log = LoggerFactory.getLogger(RegistrationApiController.class);
+	private static final Logger log = LoggerFactory.getLogger(OperatorsApiController.class);
+
+	private final ObjectMapper objectMapper;
 
 	private final HttpServletRequest request;
 
@@ -52,16 +58,35 @@ public class RegistrationApiController implements RegistrationApi {
 	private GeometryFactory factory = new GeometryFactory();
 
 	@org.springframework.beans.factory.annotation.Autowired
-	public RegistrationApiController(HttpServletRequest request, Registry repository) {
+	public OperatorsApiController(ObjectMapper objectMapper, HttpServletRequest request, Registry repository) {
+		this.objectMapper = objectMapper;
 		this.request = request;
 		this.repository = repository;
 	}
 
-	public ResponseEntity<Void> registrationPost(
+	public ResponseEntity<MaasOperator> operatorsIdGet(
+			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
+			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
+			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
+			@ApiParam(value = "maasId", required = true) @PathVariable("id") String id) {
+		String accept = request.getHeader("Accept");
+		if (accept != null && accept.contains("application/json")) {
+			MaasOperator maasOperator = repository.get(id);
+			if (maasOperator != null) {
+				log.info("Someone looked for maas operator {}", id);
+				return new ResponseEntity<MaasOperator>(maasOperator, HttpStatus.OK);
+			}
+		}
+
+		return new ResponseEntity<MaasOperator>(HttpStatus.BAD_REQUEST);
+	}
+
+	public ResponseEntity<Void> operatorsRegistratePost(
 			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
 			@ApiParam(value = "") @Valid @RequestBody Body body) {
+		String accept = request.getHeader("Accept");
 
 		log.info("Registration request of " + body.getName() + " (" + body.getId() + ")");
 		log.info("Address " + body.getUrl() + "/" + body.getRegistrationresult());
@@ -76,7 +101,24 @@ public class RegistrationApiController implements RegistrationApi {
 		sendResult(body);
 		fetchArea(operator);
 
-		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
+	public ResponseEntity<MaasOperator> operatorsValidatePost(
+			@ApiParam(value = "", required = true) @Valid @RequestBody ValidationRequest body,
+			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
+			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
+			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion) {
+		String accept = request.getHeader("Accept");
+		if (accept != null && accept.contains("application/json")) {
+			MaasOperator maasOperator = repository.get(body.getId());
+			if (maasOperator == null) {
+				return new ResponseEntity<MaasOperator>(HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<MaasOperator>(maasOperator, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<MaasOperator>(HttpStatus.BAD_REQUEST);
 	}
 
 	private void fetchArea(MaasOperator operator) {
@@ -89,6 +131,7 @@ public class RegistrationApiController implements RegistrationApi {
 				url = url.substring(0, url.length() - 1);
 			}
 			client.setBasePath(url);
+			List<Pair> queryParams = new ArrayList<>();
 			List<Pair> collectionQueryParams = new ArrayList<>();
 			Map<String, String> headerParams = new HashMap<>();
 			Map<String, Object> formParams = new HashMap<>();
@@ -171,6 +214,7 @@ public class RegistrationApiController implements RegistrationApi {
 		int port = request.getRemotePort();
 		ApiClient client = new ApiClient();
 		String url = host + ":" + port + "/" + registrationresult;
+		List<Pair> queryParams = new ArrayList<>();
 		List<Pair> collectionQueryParams = new ArrayList<>();
 		Map<String, String> headerParams = new HashMap<>();
 		Map<String, Object> formParams = new HashMap<>();
@@ -202,5 +246,4 @@ public class RegistrationApiController implements RegistrationApi {
 			}
 		}
 	}
-
 }

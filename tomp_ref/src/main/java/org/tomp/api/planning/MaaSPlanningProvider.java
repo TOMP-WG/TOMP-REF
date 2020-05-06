@@ -15,12 +15,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.tomp.api.mp.ClientUtil;
-import org.tomp.api.mp.Segment;
+import org.tomp.api.model.Segment;
+import org.tomp.api.model.TransportOperator;
+import org.tomp.api.model.Trip;
 import org.tomp.api.mp.TOProvider;
-import org.tomp.api.mp.TransportOperator;
-import org.tomp.api.mp.Trip;
-import org.tomp.api.repository.MaaSRepository;
+import org.tomp.api.repository.MPRepository;
+import org.tomp.api.utils.ClientUtil;
 
 import io.swagger.client.ApiException;
 import io.swagger.model.AssetClass;
@@ -45,14 +45,17 @@ public class MaaSPlanningProvider implements PlanningProvider {
 	TOProvider toProvider;
 
 	@Autowired
-	MaaSRepository repository;
+	MPRepository repository;
+
+	@Autowired
+	ClientUtil clientUtil;
 
 	public PlanningOptions getOptions(@Valid PlanningCheck body, String acceptLanguage) {
 		log.info("Request for planning options");
 		applyPersonalStuff(body);
 
 		List<Trip> trips = constructPossibleTrips(body);
-		log.info(String.format("Number of trips constructed %d", trips.size()));
+		log.info("Number of trips constructed {}", trips.size());
 		findTransportOperatorsPerLeg(trips);
 		log.info("Looking for transport operators");
 
@@ -60,14 +63,13 @@ public class MaaSPlanningProvider implements PlanningProvider {
 			getTransportOperatorInformation(trips, body);
 			log.info("Fetched planning options from TOs");
 			trips = constructBestTrips(trips);
-			log.info(String.format("Constructed best trips %d", trips.size()));
+			log.info("Constructed best trips {}", trips.size());
 			log.info("Request ids");
 			provideIds(trips, body);
 			log.info("Done");
 		} catch (ApiException e) {
 			log.error(e.getMessage());
 			log.error(e.getResponseBody());
-			// e.printStackTrace();
 		}
 
 		return createPlanningOption(trips);
@@ -134,7 +136,7 @@ public class MaaSPlanningProvider implements PlanningProvider {
 				for (TransportOperator operator : segment.getOperators()) {
 					PlanningCheck planningCheck = createPlanningCheck(segment, body);
 					planningCheck.provideIds(true);
-					PlanningOptions options = ClientUtil.post(operator, "/planning-options/", planningCheck,
+					PlanningOptions options = clientUtil.post(operator, "/planning-options/", planningCheck,
 							PlanningOptions.class);
 					segment.addResult(operator, options);
 				}
@@ -181,7 +183,6 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		to.setLng(body.getFrom().getLng());
 		to = applyDelta(to, 1, deltaX, deltaY);
 
-
 		for (int i = 0; i < numberOfLegs; i++) {
 			Segment segment = new Segment();
 			TypeOfAsset typeOfAsset = new TypeOfAsset();
@@ -197,7 +198,7 @@ public class MaaSPlanningProvider implements PlanningProvider {
 			AssetClass assetClass = transportOperators.get(index).getAssetClasses().get(0);
 			typeOfAsset.setAssetClass(assetClass);
 			segment.setAssetType(typeOfAsset);
-			
+
 			segment.setStartTime(applyDelta(body.getStartTime(), i, deltaT));
 			segment.setEndTime(applyDelta(body.getStartTime(), i + 1, deltaT));
 
@@ -210,7 +211,6 @@ public class MaaSPlanningProvider implements PlanningProvider {
 	}
 
 	private void findTransportOperatorsPerLeg(List<Trip> trips) {
-		toProvider.clearCache();
 		for (Trip trip : trips) {
 			for (Segment segment : trip.getSegments()) {
 				for (TransportOperator to : toProvider.getTransportOperators(segment)) {
@@ -226,7 +226,7 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		for (Trip trip : trips) {
 			for (Segment segment : trip.getSegments()) {
 				for (TransportOperator operator : segment.getOperators()) {
-					PlanningOptions options = ClientUtil.post(operator, "/planning-options/",
+					PlanningOptions options = clientUtil.post(operator, "/planning-options/",
 							createPlanningCheck(segment, body), PlanningOptions.class);
 					segment.addResult(operator, options);
 				}

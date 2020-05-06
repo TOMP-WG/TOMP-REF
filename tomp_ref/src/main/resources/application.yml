@@ -6,77 +6,101 @@ server:
 tomp:
    lookup-service: http://localhost:7999/
    accept-language: nl
-   api-version: 0.4.0
-   asset-class: org.tomp.api.operatorinformation.assets.AssetsFromFileProvider
+   api-version: 0.5.0
    asset-file: src/main/resources/assets.json
    system-information-file: src/main/resources/system-info-generic.json
    condition-file: src/main/resources/conditions.json
    regions-file: src/main/resources/regions.json
    stations-file: src/main/resources/stations.json
+   area-file: src/main/resources/area.json
    external-url: http://localhost:8080/
 logging:
-  level:
-    org.springframework: ERROR
-    
----
-spring: 
+   level:
+      org.springframework: ERROR
+---      
+spring:
    profiles: bike
    application:
       name: bike-to
-server: 
+server:
    port: 8082
 tomp:
    maas-id: da612986-3408-4c91-adf9-8dbbc16ff4f9
    asset-file: src/main/resources/bikes.json
    regions-file: src/main/resources/regions.json
-   
 ---
-spring: 
+spring:
    profiles: bus
    application:
       name: bus-to
-server: 
+server:
    port: 8086
 tomp:
    maas-id: d0d326a2-007c-4967-ba05-18f4c6bf294b
-
 ---
-spring: 
+spring:
    profiles: car
    application:
       name: car-to
-server: 
+server:
    port: 8083
 tomp:
    maas-id: aac7f6ae-1d0d-44cd-9da5-ca62d48eb48d
    asset-file: src/main/resources/cars.json
-
 ---
-spring: 
+spring:
    profiles: train
    application:
       name: train-to
-server: 
+server:
    port: 8084
 tomp:
    maas-id: 1b5f697f-47a2-41dc-95c1-d3443f70039c
- 
 ---
-spring: 
+spring:
    profiles: scooter
    application:
       name: scooter-to
-server: 
+server:
    port: 8085
 tomp:
    maas-id: 1f269bc0-31fa-4dba-9f16-21c419eacf35
-
 ---
-spring: 
+spring:
    profiles: maasprovider
    application:
       name: maasprovider
-server: 
+server:
    port: 8090
 tomp:
    maas-id: 196aa22d-d05f-4ec9-9d65-a325516196bb
+   area-file: src/main/resources/area.json
+---
+spring:
+   profiles: shared-car
+   application:
+      name: shared-car
+   mail:
+      host: smtp.gmail.com
+      port: 587
+      username: <gmail account>
+      password: <gmail password>
+      properties:
+         mail:
+            smpt:
+               auth: true
+               starttls:
+                  enable: true
+server:
+   port: 8086
+tomp:
+   maas-id: e54f5550-f577-4718-99e0-fce0cd973ba4
+   asset-file: src/main/resources/shared-cars.json
+   system-information-file: src/main/resources/system-info-generic.json
+   condition-file: src/main/resources/conditions.json
+   regions-file: src/main/resources/regions.json
+   stations-file: src/main/resources/stations.json
+   area-file: src/main/resources/area.json
+   external-url: http://localhost:8086/
+   booking-mailbox: evdbelt@dat.nl
+   

@@ -1,7 +1,10 @@
 package org.tomp.api.booking;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -16,24 +19,31 @@ import io.swagger.model.BookingState;
 @Profile(value = { "dummy", "bike", "bus", "train", "car" })
 public class GenericBookingProvider implements BookingProvider {
 
-	@Autowired
+	private static final Logger log = LoggerFactory.getLogger(GenericBookingProvider.class);
+
 	protected DummyRepository repository;
+
+	@Autowired
+	public GenericBookingProvider(DummyRepository repository) {
+		this.repository = repository;
+
+	}
 
 	@Override
 	public Booking addNewBooking(@Valid BookingOption body, String acceptLanguage) {
-		System.out.println("Booking request " + body.getId());
+		log.info("Booking request {}", body.getId());
 
 		String id = body.getId();
-		validateId(body.getId());
-		Booking booking = new Booking();
-		booking.setId(id);
+		validateId(id);
+		Booking booking = repository.getBooking(id);
 		booking.setState(BookingState.PENDING);
+		repository.saveBooking(booking);
 		return booking;
 	}
 
 	protected void validateId(String id) {
 		if (repository.getSavedOption(id) == null) {
-			System.out.println("Did not provide this leg " + id);
+			log.error("Did not provide this leg {}", id);
 			throw new RuntimeException();
 		}
 	}
@@ -41,13 +51,13 @@ public class GenericBookingProvider implements BookingProvider {
 	@Override
 	public Booking addNewBookingEvent(BookingOperation body, String acceptLanguage, String id) {
 		validateId(id);
-		System.out.println(body.getOperation() + " " + id);
+		log.info("{} {}", body.getOperation(), id);
 
 		switch (body.getOperation()) {
 		case COMMIT:
-			Booking booking = new Booking();
-			booking.setId(id);
+			Booking booking = repository.getBooking(id);
 			booking.setState(BookingState.CONFIRMED);
+			repository.saveBooking(booking);
 			return booking;
 		case CANCEL:
 			break;
@@ -59,6 +69,10 @@ public class GenericBookingProvider implements BookingProvider {
 			break;
 		}
 		return null;
+	}
+
+	@Override
+	public void setRequest(HttpServletRequest request) {
 	}
 
 }

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
-import org.tomp.api.mp.ObjectFromFileProvider;
+import org.tomp.api.utils.ObjectFromFileProvider;
 
 import io.swagger.model.StationInformation;
 import io.swagger.model.SystemInformation;
@@ -19,8 +19,12 @@ import io.swagger.model.TypeOfAsset;
 @Profile(value = { "car" })
 public class CarOperatorInformationProvider implements OperatorInformationProvider {
 
-	@Autowired
 	ExternalConfiguration configuration;
+
+	@Autowired
+	public CarOperatorInformationProvider(ExternalConfiguration configuration) {
+		this.configuration = configuration;
+	}
 
 	@Override
 	public List<TypeOfAsset> getAvailableAssetTypes(String acceptLanguage) {

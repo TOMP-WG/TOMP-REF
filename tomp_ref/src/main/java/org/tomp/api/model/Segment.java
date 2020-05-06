@@ -1,7 +1,8 @@
-package org.tomp.api.mp;
+package org.tomp.api.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import io.swagger.model.PlanningCheck;
@@ -19,6 +20,14 @@ public class Segment extends PlanningCheck {
 
 	public PlanningOptions getResult(TransportOperator operator) {
 		return offeredResults.get(operator);
+	}
+
+	public PlanningOptions getResult(String operatorId) {
+		for (Entry<TransportOperator, PlanningOptions> entry : offeredResults.entrySet()) {
+			if (entry.getKey().getId().equals(operatorId))
+				return offeredResults.get(entry.getKey());
+		}
+		return null;
 	}
 
 	public TypeOfAsset getAssetType() {

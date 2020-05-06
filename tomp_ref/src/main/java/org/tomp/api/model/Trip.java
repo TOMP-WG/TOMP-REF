@@ -1,4 +1,4 @@
-package org.tomp.api.mp;
+package org.tomp.api.model;
 
 import java.util.ArrayList;
 import java.util.List;

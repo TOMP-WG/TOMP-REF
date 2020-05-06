@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import org.springframework.stereotype.Component;
 
 import io.swagger.model.Coordinates;
-import io.swagger.model.MaasLocation;
 import io.swagger.model.MaasOperator;
 import io.swagger.model.Polygon;
 
@@ -36,8 +35,8 @@ public class Registry {
 		return GeometryUtil.isInPolygon(polygon.getPoints(), location);
 	}
 
-	public List<MaasLocation> getLocations(List<Coordinates> points) {
-		List<MaasLocation> locations = new ArrayList<>();
+	public List<MaasOperator> getOperators(List<Coordinates> points) {
+		List<MaasOperator> locations = new ArrayList<>();
 
 		for (Entry<String, Polygon> entry : areaMap.entrySet()) {
 			if (GeometryUtil.overlaps(points, entry.getValue().getPoints())) {

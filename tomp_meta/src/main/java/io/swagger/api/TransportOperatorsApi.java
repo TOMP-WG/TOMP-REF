@@ -6,8 +6,8 @@
 package io.swagger.api;
 
 import io.swagger.model.Error;
-import io.swagger.model.ValidationRequest;
-import io.swagger.model.ValidationResponse;
+import io.swagger.model.MaasOperator;
+import io.swagger.model.SearchCondition;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,21 +25,21 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-24T07:16:19.146Z[GMT]")
-@Api(value = "validation", description = "the validation API")
-public interface ValidationApi {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-06T06:58:30.612Z[GMT]")
+@Api(value = "transport-operators", description = "the transport-operators API")
+public interface TransportOperatorsApi {
 
-    @ApiOperation(value = "", nickname = "validationPost", notes = "validates if the MaaS Operator is valid", response = ValidationResponse.class, tags={  })
+    @ApiOperation(value = "", nickname = "transportOperatorsPost", notes = "returns TOs based on the search conditions", response = MaasOperator.class, responseContainer = "List", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The MaaS Operator is found, result contains details", response = ValidationResponse.class),
+        @ApiResponse(code = 200, message = "A new booking was succesfully created, status pending", response = MaasOperator.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
         @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class),
         @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists.") })
-    @RequestMapping(value = "/validation",
+    @RequestMapping(value = "/transport-operators",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<ValidationResponse> validationPost(@ApiParam(value = "" ,required=true )  @Valid @RequestBody ValidationRequest body
+    ResponseEntity<List<MaasOperator>> transportOperatorsPost(@ApiParam(value = "" ,required=true )  @Valid @RequestBody SearchCondition body
 ,@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion

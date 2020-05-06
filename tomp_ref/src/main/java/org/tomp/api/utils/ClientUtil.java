@@ -1,7 +1,6 @@
-package org.tomp.api.mp;
+package org.tomp.api.utils;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
+import org.tomp.api.model.MaasOperator;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,15 +36,15 @@ public class ClientUtil {
 		ClientUtil.mapper = mapper;
 	}
 
-	public static <T> T get(TransportOperator to, String localVarPath, Class<T> class1) throws ApiException {
+	public <T> T get(MaasOperator to, String localVarPath, Class<T> class1) throws ApiException {
 		return get(to, configuration.getAcceptLanguage(), configuration.getApiVersion(), localVarPath,
 				configuration.getMaasId(), class1);
 	}
 
-	private static <T> T get(TransportOperator to, String acceptLanguage, String apiVersion, String localVarPath,
-			String maasId, Class<T> class1) throws ApiException {
+	private <T> T get(MaasOperator to, String acceptLanguage, String apiVersion, String localVarPath, String maasId,
+			Class<T> class1) throws ApiException {
 		ApiClient apiClient = new ApiClient();
-		String url = to.getTompApiUrl();
+		String url = to.getUrl();
 		if (url.endsWith("/") && localVarPath.startsWith("/")) {
 			url = url.substring(0, url.length() - 1);
 		}
@@ -83,16 +83,16 @@ public class ClientUtil {
 		return handleResult(to, class1, apiClient, call, localVarPath, localVarPostBody, "GET");
 	}
 
-	public static <T> T post(TransportOperator to, String localVarPath, Object localVarPostBody, Class<T> class1)
+	public <T> T post(MaasOperator to, String localVarPath, Object localVarPostBody, Class<T> class1)
 			throws ApiException {
 		return post(to, configuration.getAcceptLanguage(), configuration.getApiVersion(), localVarPath,
 				configuration.getMaasId(), localVarPostBody, class1);
 	}
 
-	private static <T> T post(TransportOperator to, String acceptLanguage, String apiVersion, String localVarPath,
-			String maasId, Object localVarPostBody, Class<T> class1) throws ApiException {
+	private <T> T post(MaasOperator to, String acceptLanguage, String apiVersion, String localVarPath, String maasId,
+			Object localVarPostBody, Class<T> class1) throws ApiException {
 		ApiClient apiClient = new ApiClient();
-		String url = to.getTompApiUrl();
+		String url = to.getUrl();
 		if (url.endsWith("/") && localVarPath.startsWith("/")) {
 			url = url.substring(0, url.length() - 1);
 		}
@@ -139,8 +139,8 @@ public class ClientUtil {
 		return handleResult(to, class1, apiClient, call, localVarPath, localVarPostBody, "POST");
 	}
 
-	private static <T> T handleResult(TransportOperator to, Class<T> class1, ApiClient apiClient, Call call,
-			String localVarPath, Object body, String getOrPost) {
+	private <T> T handleResult(MaasOperator to, Class<T> class1, ApiClient apiClient, Call call, String localVarPath,
+			Object body, String getOrPost) {
 
 		if (class1 == String.class) {
 			try {
@@ -154,8 +154,8 @@ public class ClientUtil {
 			}
 		}
 		try {
-			String dest = getOrPost.equals("POST") ? ClientUtil.post(to, localVarPath, body, String.class)
-					: ClientUtil.get(to, localVarPath, String.class);
+			String dest = getOrPost.equals("POST") ? post(to, localVarPath, body, String.class)
+					: get(to, localVarPath, String.class);
 			try {
 				return mapper.readValue(dest, class1);
 			} catch (IOException e2) {

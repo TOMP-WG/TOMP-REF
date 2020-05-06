@@ -3,11 +3,11 @@ package org.tomp.api.tripexecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.tomp.api.mp.ClientUtil;
-import org.tomp.api.mp.Segment;
-import org.tomp.api.mp.TransportOperator;
-import org.tomp.api.mp.Trip;
-import org.tomp.api.repository.MaaSRepository;
+import org.tomp.api.model.Segment;
+import org.tomp.api.model.TransportOperator;
+import org.tomp.api.model.Trip;
+import org.tomp.api.repository.MPRepository;
+import org.tomp.api.utils.ClientUtil;
 
 import io.swagger.client.ApiException;
 import io.swagger.model.Leg;
@@ -20,7 +20,10 @@ import io.swagger.model.SimpleLeg;
 public class MaasSTripExecutionProvider implements TripExecutionProvider {
 
 	@Autowired
-	MaaSRepository repository;
+	MPRepository repository;
+
+	@Autowired
+	ClientUtil clientUtil;
 
 	@Override
 	public void addNewTripEvent(LegEvent body, String acceptLanguage, String id) {
@@ -30,7 +33,7 @@ public class MaasSTripExecutionProvider implements TripExecutionProvider {
 		PlanningResult result = segment.getResult(operator).getResults().get(0);
 		SimpleLeg leg = (SimpleLeg) result;
 		try {
-			ClientUtil.post(operator, String.format("/legs/%s/events", leg.getId()), body, Leg[].class);
+			clientUtil.post(operator, String.format("/legs/%s/events", leg.getId()), body, Leg[].class);
 		} catch (ApiException e) {
 			e.printStackTrace();
 		}

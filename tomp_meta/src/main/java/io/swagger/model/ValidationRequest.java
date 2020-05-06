@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * ValidationRequest
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-24T07:16:19.146Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-06T06:58:30.612Z[GMT]")
 public class ValidationRequest   {
   @JsonProperty("id")
   private String id = null;
@@ -21,8 +21,8 @@ public class ValidationRequest   {
   @JsonProperty("validationToken")
   private String validationToken = null;
 
-  @JsonProperty("registrationResult")
-  private String registrationResult = null;
+  @JsonProperty("registrationResultUrl")
+  private String registrationResultUrl = null;
 
   public ValidationRequest id(String id) {
     this.id = id;
@@ -62,23 +62,23 @@ public class ValidationRequest   {
     this.validationToken = validationToken;
   }
 
-  public ValidationRequest registrationResult(String registrationResult) {
-    this.registrationResult = registrationResult;
+  public ValidationRequest registrationResultUrl(String registrationResultUrl) {
+    this.registrationResultUrl = registrationResultUrl;
     return this;
   }
 
   /**
    * webhook url to post results to
-   * @return registrationResult
+   * @return registrationResultUrl
   **/
   @ApiModelProperty(value = "webhook url to post results to")
   
-    public String getRegistrationResult() {
-    return registrationResult;
+    public String getRegistrationResultUrl() {
+    return registrationResultUrl;
   }
 
-  public void setRegistrationResult(String registrationResult) {
-    this.registrationResult = registrationResult;
+  public void setRegistrationResultUrl(String registrationResultUrl) {
+    this.registrationResultUrl = registrationResultUrl;
   }
 
 
@@ -93,12 +93,12 @@ public class ValidationRequest   {
     ValidationRequest validationRequest = (ValidationRequest) o;
     return Objects.equals(this.id, validationRequest.id) &&
         Objects.equals(this.validationToken, validationRequest.validationToken) &&
-        Objects.equals(this.registrationResult, validationRequest.registrationResult);
+        Objects.equals(this.registrationResultUrl, validationRequest.registrationResultUrl);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, validationToken, registrationResult);
+    return Objects.hash(id, validationToken, registrationResultUrl);
   }
 
   @Override
@@ -108,7 +108,7 @@ public class ValidationRequest   {
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    validationToken: ").append(toIndentedString(validationToken)).append("\n");
-    sb.append("    registrationResult: ").append(toIndentedString(registrationResult)).append("\n");
+    sb.append("    registrationResultUrl: ").append(toIndentedString(registrationResultUrl)).append("\n");
     sb.append("}");
     return sb.toString();
   }

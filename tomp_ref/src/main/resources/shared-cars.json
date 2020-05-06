@@ -1,0 +1,38 @@
+[
+	{
+		"typeId": "f025ec8c-0d12-4878-aa53-d92dac0c4535",
+		"name": "flex cars",
+		"assetClass": "CAR",
+		"assetSubClass": "Family car",
+		"amountAvailable": 1,
+		"assets": [
+			{
+				"assetId": "916c6f6e-ce9b-4d0b-b26e-fd6ae4a9fd54",
+				"place": {
+					"name": "Downing street station",
+					"stationId": "87192466-7256-4389-a775-9d120a61537c",
+					"coordinates": {
+						"lng": 6.169639,
+						"lat": 52.253279
+					}
+				},
+				"isReserved": false
+			}
+		],
+		"fuel": "GASOLINE",
+		"energyLabel": "C",
+		"co2PerKm": 38,
+		"brand": "Peugeot",
+		"model": "308",
+		"buildingYear": 2019,
+		"cabrio": false,
+		"gears": 5,
+		"gearbox": "MANUAL",
+		"infantSeat": true,
+		"persons": 4,
+		"pets": true,
+		"propulsion": "GASOLINE",
+		"smoking": false,
+		"stateOfCharge": 100
+	}
+]

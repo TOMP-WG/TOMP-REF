@@ -1,6 +1,6 @@
 /*
- * MaaS Lookup Directory
- * A lookup directory for TOs and MPs (TOMP API)
+ * CBM interface
+ * Dit document beschrijft de interface van CBM die ten behoeve van Melvin beschikbaar wordt gesteld. . </br></br> De API moet worden uitgevraagd met een token. De token kan met een gebruikersnaam en wachtwoord verkregen worden. De token is tijdelijk geldig, daarna kan een nieuwe token opgevraagd worden. </br></br> De Geo-inputparameters moeten matchen op de door CBM gebruikte OSM-versie.
  *
  * OpenAPI spec version: 0.1.0
  * 
@@ -10,9 +10,11 @@
  * Do not edit the class manually.
  */
 
+
 package io.swagger.client;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2020-04-24T07:23:18.970Z[GMT]")public class Configuration {
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-02-08T10:23:11.877Z")
+public class Configuration {
     private static ApiClient defaultApiClient = new ApiClient();
 
     /**

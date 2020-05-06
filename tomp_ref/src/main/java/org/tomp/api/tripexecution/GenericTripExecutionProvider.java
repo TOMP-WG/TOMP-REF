@@ -6,11 +6,12 @@ import org.springframework.stereotype.Component;
 import org.tomp.api.repository.DummyRepository;
 
 import io.swagger.model.LegEvent;
+import io.swagger.model.PlanningResult;
 import io.swagger.model.SimpleLeg;
 
 @Component
-@Profile(value = { "dummy", "bike", "bus", "train", "car" })
-public class DummyTripExecutionProvider implements TripExecutionProvider {
+@Profile(value = { "dummy", "bike", "bus", "train", "car", "shared-car" })
+public class GenericTripExecutionProvider implements TripExecutionProvider {
 
 	@Autowired
 	DummyRepository repository;
@@ -41,7 +42,7 @@ public class DummyTripExecutionProvider implements TripExecutionProvider {
 	}
 
 	private void startTrip(String id, LegEvent body) {
-		SimpleLeg savedOption = repository.getSavedOption(id);
+		PlanningResult savedOption = repository.getSavedOption(id);
 		System.out.println("Starting trip " + id);
 	}
 

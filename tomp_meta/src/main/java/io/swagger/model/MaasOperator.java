@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.MaasLocation;
+import io.swagger.model.MaasEnvironmentType;
 import io.swagger.model.Polygon;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -15,13 +15,124 @@ import javax.validation.constraints.*;
  * MaasOperator
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-29T06:21:59.965Z[GMT]")
-public class MaasOperator extends MaasLocation  {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-06T06:58:30.612Z[GMT]")
+public class MaasOperator   {
+  @JsonProperty("id")
+  private String id = null;
+
+  @JsonProperty("type")
+  private MaasEnvironmentType type = null;
+
+  @JsonProperty("name")
+  private String name = null;
+
+  @JsonProperty("url")
+  private String url = null;
+
+  @JsonProperty("version")
+  private String version = null;
+
   @JsonProperty("validationToken")
   private String validationToken = null;
 
   @JsonProperty("servicedArea")
   private Polygon servicedArea = null;
+
+  public MaasOperator id(String id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(value = "")
+  
+    public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public MaasOperator type(MaasEnvironmentType type) {
+    this.type = type;
+    return this;
+  }
+
+  /**
+   * Get type
+   * @return type
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public MaasEnvironmentType getType() {
+    return type;
+  }
+
+  public void setType(MaasEnvironmentType type) {
+    this.type = type;
+  }
+
+  public MaasOperator name(String name) {
+    this.name = name;
+    return this;
+  }
+
+  /**
+   * Get name
+   * @return name
+  **/
+  @ApiModelProperty(value = "")
+  
+    public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public MaasOperator url(String url) {
+    this.url = url;
+    return this;
+  }
+
+  /**
+   * Get url
+   * @return url
+  **/
+  @ApiModelProperty(value = "")
+  
+    public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
+
+  public MaasOperator version(String version) {
+    this.version = version;
+    return this;
+  }
+
+  /**
+   * Get version
+   * @return version
+  **/
+  @ApiModelProperty(value = "")
+  
+    public String getVersion() {
+    return version;
+  }
+
+  public void setVersion(String version) {
+    this.version = version;
+  }
 
   public MaasOperator validationToken(String validationToken) {
     this.validationToken = validationToken;
@@ -72,21 +183,30 @@ public class MaasOperator extends MaasLocation  {
       return false;
     }
     MaasOperator maasOperator = (MaasOperator) o;
-    return Objects.equals(this.validationToken, maasOperator.validationToken) &&
-        Objects.equals(this.servicedArea, maasOperator.servicedArea) &&
-        super.equals(o);
+    return Objects.equals(this.id, maasOperator.id) &&
+        Objects.equals(this.type, maasOperator.type) &&
+        Objects.equals(this.name, maasOperator.name) &&
+        Objects.equals(this.url, maasOperator.url) &&
+        Objects.equals(this.version, maasOperator.version) &&
+        Objects.equals(this.validationToken, maasOperator.validationToken) &&
+        Objects.equals(this.servicedArea, maasOperator.servicedArea);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(validationToken, servicedArea, super.hashCode());
+    return Objects.hash(id, type, name, url, version, validationToken, servicedArea);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class MaasOperator {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    url: ").append(toIndentedString(url)).append("\n");
+    sb.append("    version: ").append(toIndentedString(version)).append("\n");
     sb.append("    validationToken: ").append(toIndentedString(validationToken)).append("\n");
     sb.append("    servicedArea: ").append(toIndentedString(servicedArea)).append("\n");
     sb.append("}");

@@ -3,9 +3,7 @@ package org.tomp.api.mp;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -15,18 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
-import org.tomp.api.model.ref.MaasLocation;
+import org.tomp.api.model.LookupService;
+import org.tomp.api.model.MaasOperator;
+import org.tomp.api.model.Segment;
+import org.tomp.api.model.TransportOperator;
+import org.tomp.api.utils.ClientUtil;
+import org.tomp.api.utils.ObjectFromFileProvider;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.squareup.okhttp.Call;
 
-import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
-import io.swagger.client.ApiResponse;
-import io.swagger.client.Pair;
-import io.swagger.client.ProgressRequestBody.ProgressRequestListener;
-import io.swagger.configuration.SwaggerDocumentationConfig;
 import io.swagger.model.Coordinates;
 import io.swagger.model.Polygon;
 import io.swagger.model.SystemInformation;
@@ -34,16 +31,25 @@ import io.swagger.model.SystemRegion;
 import io.swagger.model.TypeOfAsset;
 
 @Component
-@Profile("maasprovider")
+@Profile({ "maasprovider" })
 public class TOProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(TOProvider.class);
 
-	@Autowired
 	private ExternalConfiguration configuration;
+	private ObjectMapper mapper;
+	private ClientUtil clientUtil;
+	private LookupService lookupService;
+	List<TransportOperator> cache = new ArrayList<>();
 
 	@Autowired
-	private ObjectMapper mapper;
+	public TOProvider(ExternalConfiguration configuration, ObjectMapper mapper, ClientUtil clientUtil,
+			LookupService lookupService) {
+		this.configuration = configuration;
+		this.mapper = mapper;
+		this.clientUtil = clientUtil;
+		this.lookupService = lookupService;
+	}
 
 	@PostConstruct
 	public void registrateWithMeta() {
@@ -54,7 +60,7 @@ public class TOProvider {
 
 	private void populateTOs() {
 		ObjectFromFileProvider<Polygon> areaProvider = new ObjectFromFileProvider<>();
-		Polygon area = areaProvider.getObject("", Polygon.class, "src/main/resources/area.json");
+		Polygon area = areaProvider.getObject("", Polygon.class, configuration.getAreaFile());
 		try {
 			addTOsFromAreaToCache(area);
 		} catch (JsonProcessingException e) {
@@ -63,48 +69,14 @@ public class TOProvider {
 	}
 
 	private void addTOsFromAreaToCache(Polygon area) throws JsonProcessingException {
-		String lookupService = configuration.getLookupService();
-		ApiClient client = new ApiClient();
-		if (lookupService.endsWith("/")) {
-			lookupService = lookupService.substring(0, lookupService.length() - 1);
-		}
-		client.setBasePath(lookupService);
-		List<Pair> queryParams = new ArrayList<>();
-		List<Pair> collectionQueryParams = new ArrayList<>();
 		Object body = "{\"area\": " + mapper.writeValueAsString(area) + "}";
-		Map<String, String> headerParams = new HashMap<>();
-		Map<String, Object> formParams = new HashMap<>();
-		String[] authNames = new String[] {};
-		ProgressRequestListener progressRequestListener = null;
-
-		headerParams.put("Accept-Language", client.parameterToString("nl"));
-		headerParams.put("Api", client.parameterToString("TOMP"));
-
-		headerParams.put("Api-Version", client.parameterToString(configuration.getApiVersion()));
-		headerParams.put("maas-id", configuration.getMaasId());
-
-		final String[] localVarAccepts = { "application/json" };
-		final String localVarAccept = client.selectHeaderAccept(localVarAccepts);
-		if (localVarAccept != null)
-			headerParams.put("Accept", localVarAccept);
-		headerParams.put("Content-Type", "application/json");
-
-		try {
-			Call call = client.buildCall("/locations", "POST", queryParams, collectionQueryParams, body, headerParams,
-					formParams, authNames, progressRequestListener);
-			ApiResponse<MaasLocation[]> result = client.execute(call, MaasLocation[].class);
-			MaasLocation[] data = result.getData();
-			for (int i = 0; i < data.length; i++) {
-				TransportOperator operator = new TransportOperator();
-				operator.setTompApiUrl(data[i].getUrl());
-				populateTransportOperatorInfo(operator);
-			}
-		} catch (ApiException e) {
-			log.error(e.getMessage());
+		MaasOperator[] data = lookupService.callEndpoint("POST", "/transport-operators", body, MaasOperator[].class);
+		for (int i = 0; i < data.length; i++) {
+			TransportOperator operator = new TransportOperator();
+			operator.setUrl(data[i].getUrl());
+			populateTransportOperatorInfo(operator);
 		}
 	}
-
-	List<TransportOperator> cache = new ArrayList<>();
 
 	public void clearCache() {
 		cache.clear();
@@ -122,6 +94,14 @@ public class TOProvider {
 			}
 		}
 		return cache;
+	}
+
+	public TransportOperator getTransportOperator(String id) {
+		for (TransportOperator o : cache) {
+			if (o.getId().equals(id))
+				return o;
+		}
+		return null;
 	}
 
 	private void addTOsForSegment(Segment segment) throws JsonProcessingException {
@@ -227,24 +207,22 @@ public class TOProvider {
 	}
 
 	private void getRegionInformation(TransportOperator operator) throws ApiException {
-		SystemRegion[] regions = ClientUtil.get(operator, "/operator/regions", SystemRegion[].class);
+		SystemRegion[] regions = clientUtil.get(operator, "/operator/regions", SystemRegion[].class);
 		List<SystemRegion> list = new ArrayList<>();
 		Collections.addAll(list, regions);
 		operator.setRegions(list);
 	}
 
 	private void getAssetInformation(TransportOperator to) throws ApiException {
-		TypeOfAsset[] assets = ClientUtil.get(to, "/operator/available-assets", TypeOfAsset[].class);
+		TypeOfAsset[] assets = clientUtil.get(to, "/operator/available-assets", TypeOfAsset[].class);
 		for (TypeOfAsset assetType : assets) {
 			to.getAssetClasses().add(assetType.getAssetClass());
 		}
 	}
 
 	private void getSystemInformation(TransportOperator to) throws ApiException {
-		SystemInformation info = ClientUtil.get(to, "/operator/information", SystemInformation.class);
+		SystemInformation info = clientUtil.get(to, "/operator/information", SystemInformation.class);
 		to.setName(info.getName());
-		to.setMaaSId(info.getSystemId());
-		to.setDescription(info.getPurchaseUrl());
-		to.setContact(info.getPhoneNumber());
+		to.setId(info.getSystemId());
 	}
 }

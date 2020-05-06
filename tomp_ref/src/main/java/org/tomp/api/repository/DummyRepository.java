@@ -3,9 +3,12 @@ package org.tomp.api.repository;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import io.swagger.model.Booking;
+import io.swagger.model.CompositeLeg;
 import io.swagger.model.LegEvent;
 import io.swagger.model.PlanningOptions;
 import io.swagger.model.PlanningResult;
@@ -14,28 +17,39 @@ import io.swagger.model.SimpleLeg;
 @Component
 public class DummyRepository {
 
-    static final Map<String, PlanningOptions> options = new HashMap<>();
-	static final Map<String, Booking> bookings = new HashMap<>();
+	private static final Logger log = LoggerFactory.getLogger(DummyRepository.class);
+
+	private Map<String, PlanningOptions> options = new HashMap<>();
+	private Map<String, Booking> bookings = new HashMap<>();
 
 	public void saveOptions(PlanningOptions optionsToSave) {
 		for (PlanningResult result : optionsToSave.getResults()) {
 			if (result instanceof SimpleLeg) {
 				SimpleLeg leg = (SimpleLeg) result;
 				options.put(leg.getId(), optionsToSave);
-				System.out.println("I've got to remember this leg: " + leg.getId());
+				log.info("I've got to remember this leg: {}", leg.getId());
+			} else if (result instanceof CompositeLeg) {
+				CompositeLeg leg = (CompositeLeg) result;
+				options.put(leg.getId(), optionsToSave);
+				log.info("I've got to remember this leg: {}", leg.getId());
 			}
 		}
 	}
 
-	public SimpleLeg getSavedOption(String id) {
+	public PlanningResult getSavedOption(String id) {
 		PlanningOptions planningOptions = options.get(id);
 		if (planningOptions == null) {
-			System.out.println("missing leg: " + id);
+			log.info("missing leg: {}", id);
 			return null;
 		}
 		for (PlanningResult result : planningOptions.getResults()) {
 			if (result instanceof SimpleLeg) {
 				SimpleLeg leg = (SimpleLeg) result;
+				if (leg.getId().equals(id)) {
+					return leg;
+				}
+			} else if (result instanceof CompositeLeg) {
+				CompositeLeg leg = (CompositeLeg) result;
 				if (leg.getId().equals(id)) {
 					return leg;
 				}

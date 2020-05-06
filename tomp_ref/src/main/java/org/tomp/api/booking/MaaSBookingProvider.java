@@ -2,14 +2,17 @@ package org.tomp.api.booking;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.tomp.api.mp.ClientUtil;
-import org.tomp.api.mp.Segment;
-import org.tomp.api.mp.TransportOperator;
-import org.tomp.api.mp.Trip;
-import org.tomp.api.repository.MaaSRepository;
+import org.tomp.api.model.Segment;
+import org.tomp.api.model.TransportOperator;
+import org.tomp.api.model.Trip;
+import org.tomp.api.repository.DummyRepository;
+import org.tomp.api.repository.MPRepository;
+import org.tomp.api.utils.ClientUtil;
 
 import io.swagger.client.ApiException;
 import io.swagger.model.Booking;
@@ -23,51 +26,93 @@ import io.swagger.model.SimpleLeg;
 @Profile("maasprovider")
 public class MaaSBookingProvider extends GenericBookingProvider {
 
+	private static final Logger log = LoggerFactory.getLogger(MaaSBookingProvider.class);
+
 	@Autowired
-	MaaSRepository repository;
+	MPRepository maasRepository;
+
+	@Autowired
+	ClientUtil clientUtil;
+
+	@Autowired
+	public MaaSBookingProvider(DummyRepository repository) {
+		super(repository);
+	}
 
 	@Override
 	public Booking addNewBooking(@Valid BookingOption body, String acceptLanguage) {
-		System.out.println("Book option " + body.getId());
+		log.info("Book option {}", body.getId());
 
-		Trip savedOption = repository.getTrip(body.getId());
+		Trip savedOption = maasRepository.getTrip(body.getId());
 		if (savedOption != null) {
-			System.out.println("Found option " + body.getId());
+			log.info("Found option {}", body.getId());
 			Booking booking = new Booking();
 			booking.setId(body.getId());
-			System.out.println("Book legs");
+			log.info("Book legs");
 			boolean blockingTransportOperator = bookAllLegs(body, savedOption);
+
+			repository.saveBooking(booking);
 			// all bookings in pending
 			if (!blockingTransportOperator) {
-				System.out.println("Commit legs");
+				log.info("Commit legs");
 				commitAllLegs(body, savedOption, booking);
-				System.out.println("Ready!");
+				log.info("Ready!");
 				return booking;
 			}
 		}
-		System.out.println("Illegal request. I didn't provide this id");
+		log.error("Illegal request. I didn't provide this id");
 		throw new RuntimeException();
 	}
 
+	@Override
+	public Booking addNewBookingEvent(BookingOperation body, String acceptLanguage, String id) {
+		log.info("{} {}", body.getOperation(), id);
+
+		switch (body.getOperation()) {
+		case COMMIT:
+			Booking booking = maasRepository.getClientBooking(id);
+			booking.setState(BookingState.CONFIRMED);
+			repository.saveBooking(booking);
+			return booking;
+		case CANCEL:
+			break;
+		case DENY:
+			break;
+		case EXPIRE:
+			break;
+		default:
+			break;
+		}
+		return null;
+	}
+
 	private void commitAllLegs(BookingOption body, Trip savedOption, Booking booking) {
+		boolean allPending = true;
 		for (Segment segment : savedOption.getSegments()) {
 			TransportOperator operator = segment.getOperators().iterator().next();
 			BookingOperation operation = new BookingOperation();
 			SimpleLeg planningResult = (SimpleLeg) segment.getResult(operator).getResults().get(0);
 			operation.setOperation(OperationEnum.COMMIT);
 			try {
-				Booking clientBooking = ClientUtil.post(operator, "/bookings/" + planningResult.getId() + "/events/",
+				Booking clientBooking = clientUtil.post(operator, "/bookings/" + planningResult.getId() + "/events/",
 						operation, Booking.class);
-				if (clientBooking == null || !clientBooking.getState().equals(BookingState.CONFIRMED)) {
+				if (clientBooking == null) {
 					throw new RuntimeException();
 				}
+				if (!clientBooking.getState().equals(BookingState.CONFIRMED)) {
+					allPending = false;
+				}
+				maasRepository.addTOBooking(booking, clientBooking);
 			} catch (ApiException e) {
-				System.out.println("Error during committing " + operator.getName());
+				log.error("Error during committing {}", operator.getName());
 				e.printStackTrace();
 			}
 		}
 		booking.setCustomer(body.getCustomer());
-		booking.setState(BookingState.CONFIRMED);
+		if (allPending)
+			booking.setState(BookingState.CONFIRMED);
+		else
+			booking.setState(BookingState.CONDITIONAL_CONFIRMED);
 	}
 
 	private boolean bookAllLegs(BookingOption body, Trip savedOption) {
@@ -79,12 +124,12 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 			option.setId(id);
 			option.setCustomer(body.getCustomer());
 			try {
-				Booking clientBooking = ClientUtil.post(operator, "/bookings/", option, Booking.class);
+				Booking clientBooking = clientUtil.post(operator, "/bookings/", option, Booking.class);
 				if (clientBooking == null || !clientBooking.getState().equals(BookingState.PENDING)) {
 					blockingTransportOperator = true;
 				}
 			} catch (ApiException e) {
-				System.out.println("Error during booking " + operator.getName());
+				log.error("Error during booking {}", operator.getName());
 				e.printStackTrace();
 			}
 		}

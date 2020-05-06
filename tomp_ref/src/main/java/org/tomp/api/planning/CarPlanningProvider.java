@@ -1,13 +1,14 @@
 package org.tomp.api.planning;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.tomp.api.configuration.ExternalConfiguration;
+import org.tomp.api.repository.DummyRepository;
 
 import io.swagger.model.AssetClass;
-import io.swagger.model.Condition;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
@@ -18,6 +19,11 @@ import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
 @Component
 @Profile("car")
 public class CarPlanningProvider extends BasePlanningProvider {
+
+	@Autowired
+	public CarPlanningProvider(DummyRepository repository, ExternalConfiguration configuration) {
+		super(repository, configuration);
+	}
 
 	@Override
 	protected Fare getFare() {

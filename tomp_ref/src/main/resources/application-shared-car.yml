@@ -1,0 +1,28 @@
+spring:
+   profiles: shared-car
+   application:
+      name: shared-car
+   mail:
+      host: smtp.office365.com
+      port: 25
+      username: <username>
+      password: <password>
+      properties:
+         mail:
+            smtp:
+               auth: true      
+               starttls:
+                  enable=true
+server:
+   port: 8086
+tomp:
+   maas-id: e54f5550-f577-4718-99e0-fce0cd973ba4
+   type-of-asset-file: src/main/resources/shared-cars.json
+   system-information-file: src/main/resources/system-info-generic.json
+   condition-file: src/main/resources/conditions.json
+   regions-file: src/main/resources/regions.json
+   stations-file: src/main/resources/stations.json
+   area-file: src/main/resources/area.json
+   external-url: http://localhost:8086/
+   booking-mail-box: evdbelt@dat.nl
+   

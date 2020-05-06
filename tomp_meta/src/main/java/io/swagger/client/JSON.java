@@ -1,6 +1,6 @@
 /*
- * MaaS Lookup Directory
- * A lookup directory for TOs and MPs (TOMP API)
+ * CBM interface
+ * Dit document beschrijft de interface van CBM die ten behoeve van Melvin beschikbaar wordt gesteld. . </br></br> De API moet worden uitgevraagd met een token. De token kan met een gebruikersnaam en wachtwoord verkregen worden. De token is tijdelijk geldig, daarna kan een nieuwe token opgevraagd worden. </br></br> De Geo-inputparameters moeten matchen op de door CBM gebruikte OSM-versie.
  *
  * OpenAPI spec version: 0.1.0
  * 
@@ -10,411 +10,216 @@
  * Do not edit the class manually.
  */
 
+
 package io.swagger.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import io.gsonfire.GsonFireBuilder;
-import io.gsonfire.PostProcessor;
-import io.gsonfire.TypeSelector;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.TypeAdapter;
-import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
-
-import io.swagger.model.*;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Type;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.ParsePosition;
 import java.util.Date;
-import java.util.Map;
-import java.util.HashMap;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 public class JSON {
-	private Gson gson;
-	private boolean isLenientOnJson = false;
-	private DateTypeAdapter dateTypeAdapter = new DateTypeAdapter();
-	private SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
-	private OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
-	private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
+    private ApiClient apiClient;
+    private Gson gson;
 
-	public static GsonBuilder createGson() {
-		GsonFireBuilder fireBuilder = new GsonFireBuilder()
-				.registerTypeSelector(MaasOperator.class, new TypeSelector<MaasOperator>() {
-					@Override
-					public Class<? extends MaasOperator> getClassForElement(JsonElement readElement) {
-						Map<String, Class<? extends MaasOperator>> classByDiscriminatorValue = new HashMap<>();
-						classByDiscriminatorValue.put("body".toUpperCase(), Body.class);
-						classByDiscriminatorValue.put("MaasOperator".toUpperCase(), MaasOperator.class);
-						return getClassByDiscriminator(classByDiscriminatorValue,
-								getDiscriminatorValue(readElement, ""));
-					}
-				}).registerPostProcessor(MaasOperator.class, new PostProcessor<MaasOperator>() {
-					@Override
-					public void postDeserialize(MaasOperator result, JsonElement src, Gson gson) {
+    /**
+     * JSON constructor.
+     *
+     * @param apiClient An instance of ApiClient
+     */
+    public JSON(ApiClient apiClient) {
+        this.apiClient = apiClient;
+        gson = new GsonBuilder()
+            .registerTypeAdapter(Date.class, new DateAdapter(apiClient))
+            .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+            .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+            .create();
+    }
 
-					}
+    /**
+     * Get Gson.
+     *
+     * @return Gson
+     */
+    public Gson getGson() {
+        return gson;
+    }
 
-					@Override
-					public void postSerialize(JsonElement result, MaasOperator src, Gson gson) {
-						Map<Class<? extends MaasOperator>, String> discriminatorValueByClass = new HashMap<>();
-						discriminatorValueByClass.put(Body.class, "body");
-						discriminatorValueByClass.put(MaasOperator.class, "MaasOperator");
-						if (result instanceof JsonObject) {
-							if (!((JsonObject) result).has("")) {
-								((JsonObject) result).addProperty("", discriminatorValueByClass.get(src.getClass()));
-							}
-						}
-					}
-				}).registerTypeSelector(MaasLocation.class, new TypeSelector<MaasLocation>() {
-					@Override
-					public Class<? extends MaasLocation> getClassForElement(JsonElement readElement) {
-						Map<String, Class<? extends MaasLocation>> classByDiscriminatorValue = new HashMap<>();
-						classByDiscriminatorValue.put("maasOperator".toUpperCase(), MaasOperator.class);
-						classByDiscriminatorValue.put("MaasLocation".toUpperCase(), MaasLocation.class);
-						return getClassByDiscriminator(classByDiscriminatorValue,
-								getDiscriminatorValue(readElement, ""));
-					}
-				}).registerPostProcessor(MaasLocation.class, new PostProcessor<MaasLocation>() {
-					@Override
-					public void postDeserialize(MaasLocation result, JsonElement src, Gson gson) {
+    /**
+     * Set Gson.
+     *
+     * @param gson Gson
+     */
+    public void setGson(Gson gson) {
+        this.gson = gson;
+    }
 
-					}
+    /**
+     * Serialize the given Java object into JSON string.
+     *
+     * @param obj Object
+     * @return String representation of the JSON
+     */
+    public String serialize(Object obj) {
+        return gson.toJson(obj);
+    }
 
-					@Override
-					public void postSerialize(JsonElement result, MaasLocation src, Gson gson) {
-						Map<Class<? extends MaasLocation>, String> discriminatorValueByClass = new HashMap<>();
-						discriminatorValueByClass.put(MaasOperator.class, "maasOperator");
-						discriminatorValueByClass.put(MaasLocation.class, "MaasLocation");
-						if (result instanceof JsonObject) {
-							if (!((JsonObject) result).has("")) {
-								((JsonObject) result).addProperty("", discriminatorValueByClass.get(src.getClass()));
-							}
-						}
-					}
-				});
-		return fireBuilder.createGsonBuilder();
-	}
+    /**
+     * Deserialize the given JSON string to Java object.
+     *
+     * @param <T> Type
+     * @param body The JSON string
+     * @param returnType The type to deserialize into
+     * @return The deserialized Java object
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T deserialize(String body, Type returnType) {
+        try {
+            if (apiClient.isLenientOnJson()) {
+                JsonReader jsonReader = new JsonReader(new StringReader(body));
+                // see https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/stream/JsonReader.html#setLenient(boolean)
+                jsonReader.setLenient(true);
+                return gson.fromJson(jsonReader, returnType);
+            } else {
+                return gson.fromJson(body, returnType);
+            }
+        } catch (JsonParseException e) {
+            // Fallback processing when failed to parse JSON form response body:
+            //   return the response body string directly for the String return type;
+            //   parse response body into date or datetime for the Date return type.
+            if (returnType.equals(String.class))
+                return (T) body;
+            else if (returnType.equals(Date.class))
+                return (T) apiClient.parseDateOrDatetime(body);
+            else throw(e);
+        }
+    }
+}
 
-	private static String getDiscriminatorValue(JsonElement readElement, String discriminatorField) {
-		JsonElement element = readElement.getAsJsonObject().get(discriminatorField);
-		if (null == element) {
-			throw new IllegalArgumentException("missing discriminator field: <" + discriminatorField + ">");
-		}
-		return element.getAsString();
-	}
+class DateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
+    private final ApiClient apiClient;
 
-	private static <T> Class<? extends T> getClassByDiscriminator(
-			Map<String, Class<? extends T>> classByDiscriminatorValue, String discriminatorValue) {
-		Class<? extends T> clazz = classByDiscriminatorValue.get(discriminatorValue.toUpperCase());
-		if (null == clazz) {
-			throw new IllegalArgumentException("cannot determine model class of name: <" + discriminatorValue + ">");
-		}
-		return clazz;
-	}
+    /**
+     * Constructor for DateAdapter
+     *
+     * @param apiClient Api client
+     */
+    public DateAdapter(ApiClient apiClient) {
+        super();
+        this.apiClient = apiClient;
+    }
 
-	public JSON() {
-		gson = createGson().registerTypeAdapter(Date.class, dateTypeAdapter)
-				.registerTypeAdapter(java.sql.Date.class, sqlDateTypeAdapter)
-				.registerTypeAdapter(OffsetDateTime.class, offsetDateTimeTypeAdapter)
-				.registerTypeAdapter(LocalDate.class, localDateTypeAdapter).create();
-	}
+    /**
+     * Serialize
+     *
+     * @param src Date
+     * @param typeOfSrc Type
+     * @param context Json Serialization Context
+     * @return Json Element
+     */
+    @Override
+    public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
+        if (src == null) {
+            return JsonNull.INSTANCE;
+        } else {
+            return new JsonPrimitive(apiClient.formatDatetime(src));
+        }
+    }
 
-	/**
-	 * Get Gson.
-	 *
-	 * @return Gson
-	 */
-	public Gson getGson() {
-		return gson;
-	}
+    /**
+     * Deserialize
+     *
+     * @param json Json element
+     * @param date Type
+     * @param context Json Serialization Context
+     * @return Date
+     * @throws JsonParseException if fail to parse
+     */
+    @Override
+    public Date deserialize(JsonElement json, Type date, JsonDeserializationContext context) throws JsonParseException {
+        String str = json.getAsJsonPrimitive().getAsString();
+        try {
+            return apiClient.parseDateOrDatetime(str);
+        } catch (RuntimeException e) {
+            throw new JsonParseException(e);
+        }
+    }
+}
 
-	/**
-	 * Set Gson.
-	 *
-	 * @param gson
-	 *            Gson
-	 * @return JSON
-	 */
-	public JSON setGson(Gson gson) {
-		this.gson = gson;
-		return this;
-	}
+/**
+ * Gson TypeAdapter for Joda DateTime type
+ */
+class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
 
-	public JSON setLenientOnJson(boolean lenientOnJson) {
-		isLenientOnJson = lenientOnJson;
-		return this;
-	}
+    private final DateTimeFormatter parseFormatter = ISODateTimeFormat.dateOptionalTimeParser();
+    private final DateTimeFormatter printFormatter = ISODateTimeFormat.dateTime();
 
-	/**
-	 * Serialize the given Java object into JSON string.
-	 *
-	 * @param obj
-	 *            Object
-	 * @return String representation of the JSON
-	 */
-	public String serialize(Object obj) {
-		return gson.toJson(obj);
-	}
+    @Override
+    public void write(JsonWriter out, DateTime date) throws IOException {
+        if (date == null) {
+            out.nullValue();
+        } else {
+            out.value(printFormatter.print(date));
+        }
+    }
 
-	/**
-	 * Deserialize the given JSON string to Java object.
-	 *
-	 * @param <T>
-	 *            Type
-	 * @param body
-	 *            The JSON string
-	 * @param returnType
-	 *            The type to deserialize into
-	 * @return The deserialized Java object
-	 */
-	@SuppressWarnings("unchecked")
-	public <T> T deserialize(String body, Type returnType) {
-		try {
-			if (isLenientOnJson) {
-				JsonReader jsonReader = new JsonReader(new StringReader(body));
-				// see
-				// https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/stream/JsonReader.html#setLenient(boolean)
-				jsonReader.setLenient(true);
-				return gson.fromJson(jsonReader, returnType);
-			} else {
-				return gson.fromJson(body, returnType);
-			}
-		} catch (JsonParseException e) {
-			// Fallback processing when failed to parse JSON form response body:
-			// return the response body string directly for the String return type;
-			if (returnType.equals(String.class))
-				return (T) body;
-			else
-				throw (e);
-		}
-	}
+    @Override
+    public DateTime read(JsonReader in) throws IOException {
+        switch (in.peek()) {
+            case NULL:
+                in.nextNull();
+                return null;
+            default:
+                String date = in.nextString();
+                return parseFormatter.parseDateTime(date);
+        }
+    }
+}
 
-	/**
-	 * Gson TypeAdapter for JSR310 OffsetDateTime type
-	 */
-	public static class OffsetDateTimeTypeAdapter extends TypeAdapter<OffsetDateTime> {
+/**
+ * Gson TypeAdapter for Joda LocalDate type
+ */
+class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
 
-		private DateTimeFormatter formatter;
+    private final DateTimeFormatter formatter = ISODateTimeFormat.date();
 
-		public OffsetDateTimeTypeAdapter() {
-			this(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-		}
+    @Override
+    public void write(JsonWriter out, LocalDate date) throws IOException {
+        if (date == null) {
+            out.nullValue();
+        } else {
+            out.value(formatter.print(date));
+        }
+    }
 
-		public OffsetDateTimeTypeAdapter(DateTimeFormatter formatter) {
-			this.formatter = formatter;
-		}
-
-		public void setFormat(DateTimeFormatter dateFormat) {
-			this.formatter = dateFormat;
-		}
-
-		@Override
-		public void write(JsonWriter out, OffsetDateTime date) throws IOException {
-			if (date == null) {
-				out.nullValue();
-			} else {
-				out.value(formatter.format(date));
-			}
-		}
-
-		@Override
-		public OffsetDateTime read(JsonReader in) throws IOException {
-			switch (in.peek()) {
-			case NULL:
-				in.nextNull();
-				return null;
-			default:
-				String date = in.nextString();
-				if (date.endsWith("+0000")) {
-					date = date.substring(0, date.length() - 5) + "Z";
-				}
-				return OffsetDateTime.parse(date, formatter);
-			}
-		}
-	}
-
-	/**
-	 * Gson TypeAdapter for JSR310 LocalDate type
-	 */
-	public class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
-
-		private DateTimeFormatter formatter;
-
-		public LocalDateTypeAdapter() {
-			this(DateTimeFormatter.ISO_LOCAL_DATE);
-		}
-
-		public LocalDateTypeAdapter(DateTimeFormatter formatter) {
-			this.formatter = formatter;
-		}
-
-		public void setFormat(DateTimeFormatter dateFormat) {
-			this.formatter = dateFormat;
-		}
-
-		@Override
-		public void write(JsonWriter out, LocalDate date) throws IOException {
-			if (date == null) {
-				out.nullValue();
-			} else {
-				out.value(formatter.format(date));
-			}
-		}
-
-		@Override
-		public LocalDate read(JsonReader in) throws IOException {
-			switch (in.peek()) {
-			case NULL:
-				in.nextNull();
-				return null;
-			default:
-				String date = in.nextString();
-				return LocalDate.parse(date, formatter);
-			}
-		}
-	}
-
-	public JSON setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
-		offsetDateTimeTypeAdapter.setFormat(dateFormat);
-		return this;
-	}
-
-	public JSON setLocalDateFormat(DateTimeFormatter dateFormat) {
-		localDateTypeAdapter.setFormat(dateFormat);
-		return this;
-	}
-
-	/**
-	 * Gson TypeAdapter for java.sql.Date type If the dateFormat is null, a simple
-	 * "yyyy-MM-dd" format will be used (more efficient than SimpleDateFormat).
-	 */
-	public static class SqlDateTypeAdapter extends TypeAdapter<java.sql.Date> {
-
-		private DateFormat dateFormat;
-
-		public SqlDateTypeAdapter() {
-		}
-
-		public SqlDateTypeAdapter(DateFormat dateFormat) {
-			this.dateFormat = dateFormat;
-		}
-
-		public void setFormat(DateFormat dateFormat) {
-			this.dateFormat = dateFormat;
-		}
-
-		@Override
-		public void write(JsonWriter out, java.sql.Date date) throws IOException {
-			if (date == null) {
-				out.nullValue();
-			} else {
-				String value;
-				if (dateFormat != null) {
-					value = dateFormat.format(date);
-				} else {
-					value = date.toString();
-				}
-				out.value(value);
-			}
-		}
-
-		@Override
-		public java.sql.Date read(JsonReader in) throws IOException {
-			switch (in.peek()) {
-			case NULL:
-				in.nextNull();
-				return null;
-			default:
-				String date = in.nextString();
-				try {
-					if (dateFormat != null) {
-						return new java.sql.Date(dateFormat.parse(date).getTime());
-					}
-					return new java.sql.Date(ISO8601Utils.parse(date, new ParsePosition(0)).getTime());
-				} catch (ParseException e) {
-					throw new JsonParseException(e);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Gson TypeAdapter for java.util.Date type If the dateFormat is null,
-	 * ISO8601Utils will be used.
-	 */
-	public static class DateTypeAdapter extends TypeAdapter<Date> {
-
-		private DateFormat dateFormat;
-
-		public DateTypeAdapter() {
-		}
-
-		public DateTypeAdapter(DateFormat dateFormat) {
-			this.dateFormat = dateFormat;
-		}
-
-		public void setFormat(DateFormat dateFormat) {
-			this.dateFormat = dateFormat;
-		}
-
-		@Override
-		public void write(JsonWriter out, Date date) throws IOException {
-			if (date == null) {
-				out.nullValue();
-			} else {
-				String value;
-				if (dateFormat != null) {
-					value = dateFormat.format(date);
-				} else {
-					value = ISO8601Utils.format(date, true);
-				}
-				out.value(value);
-			}
-		}
-
-		@Override
-		public Date read(JsonReader in) throws IOException {
-			try {
-				switch (in.peek()) {
-				case NULL:
-					in.nextNull();
-					return null;
-				default:
-					String date = in.nextString();
-					try {
-						if (dateFormat != null) {
-							return dateFormat.parse(date);
-						}
-						return ISO8601Utils.parse(date, new ParsePosition(0));
-					} catch (ParseException e) {
-						throw new JsonParseException(e);
-					}
-				}
-			} catch (IllegalArgumentException e) {
-				throw new JsonParseException(e);
-			}
-		}
-	}
-
-	public JSON setDateFormat(DateFormat dateFormat) {
-		dateTypeAdapter.setFormat(dateFormat);
-		return this;
-	}
-
-	public JSON setSqlDateFormat(DateFormat dateFormat) {
-		sqlDateTypeAdapter.setFormat(dateFormat);
-		return this;
-	}
-
+    @Override
+    public LocalDate read(JsonReader in) throws IOException {
+        switch (in.peek()) {
+            case NULL:
+                in.nextNull();
+                return null;
+            default:
+                String date = in.nextString();
+                return formatter.parseLocalDate(date);
+        }
+    }
 }

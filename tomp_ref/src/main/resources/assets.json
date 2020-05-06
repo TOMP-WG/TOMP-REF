@@ -10,41 +10,6 @@
 		"model": "Batavus"
 	},
 	{
-		"assetId": "string",
-		"place": {
-			"name": "string",
-			"stopReference": [
-				{
-					"type": "GTFS_STOP_ID",
-					"id": "string",
-					"country": "NL"
-				}
-			],
-			"stationId": "string",
-			"coordinate": {
-				"lng": 6.169639,
-				"lat": 52.253279
-			},
-			"extraInfo": [
-				{
-					"key": "value"
-				}
-			],
-			"physicalAddress": {
-				"streetAddress": "example street 18, 2nd floor, 18B-33",
-				"areaReference": "Smallcity, Pinetree county",
-				"postalCode": "string",
-				"country": "NL"
-			}
-		},
-		"isReserved": true,
-		"isReservedFrom": 1546336800,
-		"isReservedTo": 1546336800,
-		"isDisabled": true,
-		"image": "https://files.fietsersbond.nl/app/uploads/2014/10/30151126/ST2_Men_Side_CityKit-Stromer.jpg",
-		"rentalUrl": "https://www.rentmyfreebike.com/rental"
-	},
-	{
 		"typeId": "string",
 		"name": "string",
 		"assetClass": "AIR",
@@ -63,7 +28,7 @@
 						}
 					],
 					"stationId": "string",
-					"coordinate": {
+					"coordinates": {
 						"lng": 6.169639,
 						"lat": 52.253279
 					},
@@ -72,7 +37,7 @@
 							"key": "value"
 						}
 					],
-					"physicalAdress": {
+					"physicalAddress": {
 						"streetAddress": "example street 18, 2nd floor, 18B-33",
 						"areaReference": "Smallcity, Pinetree county",
 						"postalCode": "string",
@@ -100,7 +65,7 @@
 		"gears": 0,
 		"gearbox": "MANUAL",
 		"image": "string",
-		"infant-seat": true,
+		"infantSeat": true,
 		"persons": 0,
 		"pets": true,
 		"propulsion": "MUSCLE",

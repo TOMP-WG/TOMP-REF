@@ -2,6 +2,8 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,6 +16,15 @@ import javax.validation.constraints.*;
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T15:19:29.217Z[GMT]")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "conditionType", visible = true )
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ConditionDeposit.class, name = "conditionDeposit"),
+        @JsonSubTypes.Type(value = ConditionPayWhenFinished.class, name = "conditionPayWhenFinished"),
+        @JsonSubTypes.Type(value = ConditionPostponedCommit.class, name = "conditionPostponedCommit"),
+        @JsonSubTypes.Type(value = ConditionRequireBookingData.class, name = "conditionRequireBookingData"),
+        @JsonSubTypes.Type(value = ConditionReturnArea.class, name = "conditionReturnArea"),
+        @JsonSubTypes.Type(value = ConditionUpfrontPayment.class, name = "conditionUpfrontPayment"),
+})
 public class Condition  implements OneOfcondition {
   @JsonProperty("conditionType")
   private String conditionType = null;

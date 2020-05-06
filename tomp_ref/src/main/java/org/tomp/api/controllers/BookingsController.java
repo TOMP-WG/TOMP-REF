@@ -6,11 +6,17 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.tomp.api.booking.BookingProvider;
+import org.tomp.api.booking.SharedCarBookingProvider;
+import org.tomp.api.model.PostPonedResult;
 import org.tomp.api.utils.HeaderValidator;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -60,9 +66,29 @@ public class BookingsController extends BookingsApiController {
 			@ApiParam(value = "") @Valid @RequestBody BookingOperation body) {
 
 		HeaderValidator.validateHeader(request);
-
+		provider.setRequest(request);
 		Booking booking = provider.addNewBookingEvent(body, acceptLanguage, id);
 
 		return new ResponseEntity<>(booking, HttpStatus.OK);
+	}
+
+	@GetMapping("/postponed/{id}")
+	@ResponseBody
+	public String respondToPostponedBooking(@PathVariable("id") String id) {
+
+		if (provider instanceof SharedCarBookingProvider) {
+			return ((SharedCarBookingProvider) provider).getPostponedBookingHtml(id);
+		}
+		return "";
+	}
+
+	@PostMapping("/postponed/")
+	public String postPostponedBooking(@ModelAttribute PostPonedResult result) {
+
+		if (provider instanceof SharedCarBookingProvider) {
+			((SharedCarBookingProvider) provider).saveResult(result.getId(), result.getChoice() == 1,
+					result.getRemark());
+		}
+		return "ok";
 	}
 }

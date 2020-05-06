@@ -1,4 +1,4 @@
-package org.tomp.api.mp;
+package org.tomp.api.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,6 +19,10 @@ public class ObjectFromFileProvider<T> implements ObjectProvider<T> {
 
 	@Override
 	public T getObject(String acceptLanguage, Class<T> c, String fromFile) {
+		if (fromFile == null) {
+			throw new RuntimeException();
+		}
+
 		File file = new File(fromFile);
 		InputStream resourceAsStream = null;
 		if (!file.exists()) {

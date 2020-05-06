@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
-import org.tomp.api.mp.ObjectFromFileProvider;
 import org.tomp.api.repository.DummyRepository;
+import org.tomp.api.utils.ObjectFromFileProvider;
 
 import io.swagger.model.Condition;
 import io.swagger.model.Coordinates;
@@ -26,23 +26,22 @@ import io.swagger.model.PlanningResult;
 import io.swagger.model.SimpleLeg;
 import io.swagger.model.TypeOfAsset;
 
-@Component
 public abstract class BasePlanningProvider implements PlanningProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(BasePlanningProvider.class);
 
-	@NotNull
-	@Valid
 	protected Coordinates from;
-	protected @Valid Coordinates to;
-	protected @Valid BigDecimal start;
-	protected @Valid BigDecimal end;
+	protected Coordinates to;
+	protected BigDecimal start;
+	protected BigDecimal end;
 
-	@Autowired
-	private DummyRepository repository;
+	protected DummyRepository repository;
+	protected ExternalConfiguration configuration;
 
-	@Autowired
-	ExternalConfiguration configuration;
+	public BasePlanningProvider(DummyRepository repository, ExternalConfiguration configuration) {
+		this.repository = repository;
+		this.configuration = configuration;
+	}
 
 	public PlanningOptions getOptions(@Valid PlanningCheck body, String acceptLanguage) {
 		log.info("Request for options");
