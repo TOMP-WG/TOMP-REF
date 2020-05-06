@@ -1,5 +1,8 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, Input } from '@angular/core';
+import * as L from 'leaflet';
 import { latLng, Map, tileLayer, LeafletMouseEvent } from 'leaflet';
+import { PlanningOptions } from '../../../domain/planning-options.model';
+import 'leaflet/dist/images/marker-shadow.png';
 
 @Component({
   selector: 'app-map',
@@ -8,6 +11,9 @@ import { latLng, Map, tileLayer, LeafletMouseEvent } from 'leaflet';
 })
 export class MapComponent implements AfterViewInit {
 
+  @Input() planning: PlanningOptions;
+  locationsLayer: L.GeoJSON;
+  locations: GeoJSON.Point[] = [];
   private map: Map;
 
   constructor() { }
@@ -29,11 +35,24 @@ export class MapComponent implements AfterViewInit {
 
     tiles.addTo(this.map);
 
-    this.map.on('click', this.onMapClick);
+    this.locationsLayer = L.geoJSON().addTo(this.map);
+    this.map.on('click', this.onMapClick, this);
   }
 
   private onMapClick(e: LeafletMouseEvent) {
-    console.log('You clicked the map at ' + e.latlng.toString());
+    const location = L.GeoJSON.latLngToCoords(e.latlng);
+    const point = {
+      type: 'Point',
+      coordinates: location
+    } as GeoJSON.Point;
+    if (this.locations.length === 2) {
+      this.locations.shift();
+    }
+    this.locations.push(point);
+    this.locationsLayer.clearLayers();
+    this.locations.forEach(loc => this.locationsLayer.addData(loc));
+    this.planning.from = this.locations[0].coordinates;
+    this.planning.to = this.locations.length > 1 ? this.locations[1].coordinates : null;
   }
 
 }

@@ -17,7 +17,7 @@ export class PlanComponent implements OnInit {
   }
 
   onSubmit() {
-
+    console.log(this.planning);
   }
 
 }
