@@ -15,6 +15,7 @@ import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/materia
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { PeriodComponent } from './components/period/period.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MainComponent } from './components/main/main.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { MatButtonModule } from '@angular/material/button';
     ResponseComponent,
     MapComponent,
     PlanComponent,
-    PeriodComponent
+    PeriodComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,

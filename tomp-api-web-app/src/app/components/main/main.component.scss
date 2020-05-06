@@ -1,0 +1,16 @@
+.main {
+  display: flex;
+  height: 100%;
+
+  app-plan {
+    flex: 2 0 0;
+  }
+
+  app-request {
+    flex: 1 0 0;
+  }
+
+  app-response {
+    flex: 1 0 0;
+  }
+}

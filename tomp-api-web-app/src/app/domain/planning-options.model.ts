@@ -1,9 +1,7 @@
-import moment, { Moment } from 'moment';
-
 export class PlanningOptions {
 
-  startTime: Moment = moment();
-  endTime: Moment = moment();
+  startTime: number;
+  endTime: number;
   from: GeoJSON.Position;
   to: GeoJSON.Position;
   radius = 1000;
