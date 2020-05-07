@@ -22,14 +22,14 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <mat-form-field *ngFor="let item of header | keyvalue">
-      <mat-label>{{item.key}}</mat-label>
-      <input matInput [value]="item.value">
+    <mat-form-field *ngFor="let key of headers.keys()">
+      <mat-label>{{key}}</mat-label>
+      <input matInput [value]="headers.get(key)">
     </mat-form-field>
   </mat-expansion-panel>
   <mat-form-field class="request-text-area">
     <mat-label>Request in editable form</mat-label>
-    <textarea matInput cdkTextareaAutosize>{{planning | json}}</textarea>
+    <textarea matInput cdkTextareaAutosize>{{body | json}}</textarea>
   </mat-form-field>
   <button mat-raised-button color="primary" class="submit-button" (click)="onSubmit()">Submit</button>
 </div>

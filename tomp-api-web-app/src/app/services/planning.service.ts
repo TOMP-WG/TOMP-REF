@@ -8,6 +8,7 @@ import { Subject, Observable } from 'rxjs';
 export class PlanningService {
 
   private planningSubject: Subject<PlanningOptions> = new Subject();
+  private responseSubject: Subject<string> = new Subject();
 
   public updatePlanning(planning: PlanningOptions) {
     this.planningSubject.next(planning);
@@ -15,5 +16,13 @@ export class PlanningService {
 
   public onUpdatePlanning(): Observable<PlanningOptions> {
     return this.planningSubject;
+  }
+
+  public addResponse(response: string) {
+    this.responseSubject.next(response);
+  }
+
+  public onAddResponse(): Observable<string> {
+    return this.responseSubject;
   }
 }
