@@ -1,15 +1,17 @@
+import { Coordinate } from './coordinate.model';
+
 export class PlanningOptions {
 
   startTime: number;
   endTime: number;
-  from: GeoJSON.Position;
-  to: GeoJSON.Position;
+  from: Coordinate = new Coordinate();
+  to: Coordinate = new Coordinate();
   radius = 1000;
   travellers = 1;
   provideIds = false;
-  users: [
+  users = [
     {
-    age: 44;
+    age: 44
     }
   ];
 }

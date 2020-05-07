@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 import { latLng, Map, tileLayer, LeafletMouseEvent } from 'leaflet';
 import { PlanningOptions } from '../../../domain/planning-options.model';
 import 'leaflet/dist/images/marker-shadow.png';
+import { Coordinate } from '../../../domain/coordinate.model';
 
 @Component({
   selector: 'app-map',
@@ -51,8 +52,19 @@ export class MapComponent implements AfterViewInit {
     this.locations.push(point);
     this.locationsLayer.clearLayers();
     this.locations.forEach(loc => this.locationsLayer.addData(loc));
-    this.planning.from = this.locations[0].coordinates;
-    this.planning.to = this.locations.length > 1 ? this.locations[1].coordinates : null;
+    this.saveCoordinates();
+  }
+
+  private saveCoordinates() {
+    this.setLngLat(this.planning.from, this.locations[0].coordinates);
+    if (this.locations.length > 1) {
+      this.setLngLat(this.planning.to, this.locations[1].coordinates);
+    }
+  }
+
+  private setLngLat(coord: Coordinate, pos: GeoJSON.Position) {
+    coord.lng = pos[0];
+    coord.lat = pos[1];
   }
 
 }
