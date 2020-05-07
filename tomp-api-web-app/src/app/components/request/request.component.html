@@ -1,4 +1,35 @@
 <h3>Request</h3>
-<ng-container *ngIf="planning">
-  <div>{{planning | json}}</div>
-</ng-container>
+<div class="request-info">
+  <mat-form-field class="request-url">
+    <mat-label>API url</mat-label>
+    <input matInput [value]="url">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Endpoint</mat-label>
+    <mat-select [(value)]="endpoint">
+      <mat-option *ngFor="let endp of endpoints;" [value]="endp">
+        {{endp.type}} {{endp.value}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Request Header
+      </mat-panel-title>
+      <mat-panel-description>
+        Edit default values as required
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field *ngFor="let item of header | keyvalue">
+      <mat-label>{{item.key}}</mat-label>
+      <input matInput [value]="item.value">
+    </mat-form-field>
+  </mat-expansion-panel>
+  <mat-form-field class="request-text-area">
+    <mat-label>Request in editable form</mat-label>
+    <textarea matInput cdkTextareaAutosize>{{planning | json}}</textarea>
+  </mat-form-field>
+  <button mat-raised-button color="primary" class="submit-button" (click)="onSubmit()">Submit</button>
+</div>

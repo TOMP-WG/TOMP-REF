@@ -1,0 +1,21 @@
+.request-info {
+  width: 100%;
+  height: calc(100% - 60px);
+  padding: 10px;
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+
+  .request-text-area {
+    width: 100%;
+    max-height: calc(100% - 100px);
+    overflow-y: auto;
+  }
+  
+  .submit-button {
+    top: calc(100% - 60px);
+    left: calc(100% - 80px);
+    width: 80px;
+    position: sticky;
+  }
+}

@@ -16,6 +16,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { PeriodComponent } from './components/period/period.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MainComponent } from './components/main/main.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { MainComponent } from './components/main/main.component';
     MatMomentDateModule,
     MatInputModule,
     NgxMaterialTimepickerModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule,
+    MatExpansionModule
   ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
