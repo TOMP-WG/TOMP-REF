@@ -5,7 +5,7 @@ import { Subject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class PlanningService {
+export class InternalService {
 
   private planningSubject: Subject<PlanningOptions> = new Subject();
   private responseSubject: Subject<string> = new Subject();

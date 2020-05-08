@@ -1,11 +1,11 @@
-import { Coordinate } from './coordinate.model';
+import { Coordinates } from './coordinates.model';
 
 export class PlanningOptions {
 
   startTime: number;
   endTime: number;
-  from: Coordinate = new Coordinate();
-  to: Coordinate = new Coordinate();
+  from: Coordinates = new Coordinates();
+  to: Coordinates = new Coordinates();
   radius = 1000;
   travellers = 1;
   provideIds = false;

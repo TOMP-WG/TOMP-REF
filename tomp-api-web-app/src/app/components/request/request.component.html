@@ -8,7 +8,7 @@
   
   <mat-form-field>
     <mat-label>Endpoint</mat-label>
-    <mat-select [(value)]="endpoint">
+    <mat-select [(value)]="endpoint" (selectionChange)="onEndpointChanged()">
       <mat-option *ngFor="let endp of endpoints;" [value]="endp">
         {{endp.type}} {{endp.value}}
       </mat-option>
@@ -32,7 +32,7 @@
 
   <mat-form-field class="request-text-area">
     <mat-label>Request in editable form</mat-label>
-    <textarea matInput cdkTextareaAutosize>{{body | json}}</textarea>
+    <textarea #bodyInput matInput cdkTextareaAutosize>{{body | json}}</textarea>
   </mat-form-field>
   
   <button mat-raised-button color="primary" class="submit-button" (click)="onSubmit()">Submit</button>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PlanningOptions } from '../../domain/planning-options.model';
-import { PlanningService } from '../../services/planning.service';
+import { InternalService } from '../../services/internal.service';
 import moment from 'moment';
 
 @Component({
@@ -12,7 +12,7 @@ export class PlanComponent implements OnInit {
 
   planning: PlanningOptions;
 
-  constructor(public planningService: PlanningService) { }
+  constructor(public internalService: InternalService) { }
 
   ngOnInit(): void {
     this.planning = new PlanningOptions();
@@ -22,7 +22,7 @@ export class PlanComponent implements OnInit {
 
   onSubmit() {
     console.log(this.planning);
-    this.planningService.updatePlanning(this.planning);
+    this.internalService.updatePlanning(this.planning);
   }
 
 }

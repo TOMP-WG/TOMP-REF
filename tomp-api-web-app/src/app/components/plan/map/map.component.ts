@@ -3,7 +3,7 @@ import * as L from 'leaflet';
 import { latLng, Map, tileLayer, LeafletMouseEvent } from 'leaflet';
 import { PlanningOptions } from '../../../domain/planning-options.model';
 import 'leaflet/dist/images/marker-shadow.png';
-import { Coordinate } from '../../../domain/coordinate.model';
+import { Coordinates } from '../../../domain/coordinates.model';
 
 @Component({
   selector: 'app-map',
@@ -62,7 +62,7 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
-  private setLngLat(coord: Coordinate, pos: GeoJSON.Position) {
+  private setLngLat(coord: Coordinates, pos: GeoJSON.Position) {
     coord.lng = pos[0];
     coord.lat = pos[1];
   }

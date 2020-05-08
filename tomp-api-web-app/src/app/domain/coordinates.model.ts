@@ -1,5 +1,4 @@
-export class Coordinate {
-
+export class Coordinates {
   lng: number;
   lat: number;
 }
