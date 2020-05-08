@@ -9,6 +9,7 @@ export class PlanningService {
 
   private planningSubject: Subject<PlanningOptions> = new Subject();
   private responseSubject: Subject<string> = new Subject();
+  private requestSubject: Subject<void> = new Subject();
 
   public updatePlanning(planning: PlanningOptions) {
     this.planningSubject.next(planning);
@@ -24,5 +25,13 @@ export class PlanningService {
 
   public onAddResponse(): Observable<string> {
     return this.responseSubject;
+  }
+
+  public requestMade() {
+    this.requestSubject.next();
+  }
+
+  public onrequestMade(): Observable<void> {
+    return this.requestSubject;
   }
 }

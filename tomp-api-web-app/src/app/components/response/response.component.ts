@@ -12,10 +12,15 @@ export class ResponseComponent {
 
   constructor(public planningService: PlanningService) {
     this.planningService.onAddResponse().subscribe(response => this.updateResponse(response));
+    this.planningService.onrequestMade().subscribe(response => this.requestMade());
   }
 
   private updateResponse(response: string) {
     this.response = response;
+  }
+
+  private requestMade() {
+    this.response = null;
   }
 
 }

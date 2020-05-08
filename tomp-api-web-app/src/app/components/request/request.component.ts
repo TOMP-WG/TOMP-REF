@@ -49,6 +49,7 @@ export class RequestComponent {
           console.log('Error in request: ', error);
         });
     }
+    this.planningService.requestMade();
   }
 
   public headerChanged(key: string, value: string) {
