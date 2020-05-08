@@ -10,7 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile(value = { "shared-car" })
+@Profile("shared-car")
 public class MailUtil {
 
 	private static final Logger log = LoggerFactory.getLogger(MailUtil.class);

@@ -35,7 +35,8 @@ public class GenericBookingProvider implements BookingProvider {
 
 		String id = body.getId();
 		validateId(id);
-		Booking booking = repository.getBooking(id);
+		Booking booking = new Booking();
+		booking.setId(id);
 		booking.setState(BookingState.PENDING);
 		repository.saveBooking(booking);
 		return booking;

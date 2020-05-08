@@ -31,7 +31,7 @@ import io.swagger.model.SystemRegion;
 import io.swagger.model.TypeOfAsset;
 
 @Component
-@Profile({ "maasprovider" })
+@Profile("maasprovider")
 public class TOProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(TOProvider.class);

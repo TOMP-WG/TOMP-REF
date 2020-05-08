@@ -1,0 +1,21 @@
+spring:
+   profiles: car
+   application:
+      name: car-to
+server:
+   port: 8083
+tomp:
+   maas-id: aac7f6ae-1d0d-44cd-9da5-ca62d48eb48d
+   asset-file: src/main/resources/cars.json
+   lookup-service: http://localhost:7999/
+   accept-language: nl
+   api-version: 0.5.0
+   system-information-file: src/main/resources/system-info-generic.json
+   condition-file: src/main/resources/conditions.json
+   regions-file: src/main/resources/regions.json
+   stations-file: src/main/resources/stations.json
+   area-file: src/main/resources/area.json
+   external-url: http://localhost:8080/
+logging:
+   level:
+      org.springframework: ERROR

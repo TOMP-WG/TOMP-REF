@@ -1,6 +1,5 @@
 package io.swagger.api;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,7 +85,6 @@ public class OperatorsApiController implements OperatorsApi {
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
 			@ApiParam(value = "") @Valid @RequestBody Body body) {
-		String accept = request.getHeader("Accept");
 
 		log.info("Registration request of " + body.getName() + " (" + body.getId() + ")");
 		log.info("Address " + body.getUrl() + "/" + body.getRegistrationresult());
@@ -131,7 +129,6 @@ public class OperatorsApiController implements OperatorsApi {
 				url = url.substring(0, url.length() - 1);
 			}
 			client.setBasePath(url);
-			List<Pair> queryParams = new ArrayList<>();
 			List<Pair> collectionQueryParams = new ArrayList<>();
 			Map<String, String> headerParams = new HashMap<>();
 			Map<String, Object> formParams = new HashMap<>();
@@ -214,7 +211,6 @@ public class OperatorsApiController implements OperatorsApi {
 		int port = request.getRemotePort();
 		ApiClient client = new ApiClient();
 		String url = host + ":" + port + "/" + registrationresult;
-		List<Pair> queryParams = new ArrayList<>();
 		List<Pair> collectionQueryParams = new ArrayList<>();
 		Map<String, String> headerParams = new HashMap<>();
 		Map<String, Object> formParams = new HashMap<>();

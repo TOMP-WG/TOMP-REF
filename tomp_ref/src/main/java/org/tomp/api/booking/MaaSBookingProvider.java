@@ -70,7 +70,7 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 
 		switch (body.getOperation()) {
 		case COMMIT:
-			Booking booking = maasRepository.getClientBooking(id);
+			Booking booking = repository.getBooking(id);
 			booking.setState(BookingState.CONFIRMED);
 			repository.saveBooking(booking);
 			return booking;

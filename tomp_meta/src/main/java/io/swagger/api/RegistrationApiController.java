@@ -16,6 +16,7 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Polygon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,7 @@ import io.swagger.client.ApiException;
 import io.swagger.client.ApiResponse;
 import io.swagger.client.Pair;
 import io.swagger.client.ProgressRequestBody.ProgressRequestListener;
+import io.swagger.configuration.MetaLookUpConfiguration;
 import io.swagger.configuration.ObjectFromFileProvider;
 import io.swagger.configuration.Registry;
 import io.swagger.model.Body;
@@ -50,6 +52,9 @@ public class RegistrationApiController implements RegistrationApi {
 	private Registry repository;
 
 	private GeometryFactory factory = new GeometryFactory();
+
+	@Autowired
+	MetaLookUpConfiguration configuration;
 
 	@org.springframework.beans.factory.annotation.Autowired
 	public RegistrationApiController(HttpServletRequest request, Registry repository) {
@@ -192,15 +197,17 @@ public class RegistrationApiController implements RegistrationApi {
 	@PostConstruct
 	public void populateFromFile() {
 		ObjectFromFileProvider<MaasOperator[]> operatorProvider = new ObjectFromFileProvider<>();
-		for (MaasOperator operator : operatorProvider.getObject(MaasOperator[].class, "operators2.json")) {
-			repository.register(operator);
+		String file = configuration.getOperatorFile();
+		if (file != null) {
+			for (MaasOperator operator : operatorProvider.getObject(MaasOperator[].class, file)) {
+				repository.register(operator);
 
-			try {
-				fetchArea(operator);
-			} catch (Exception e) {
-				log.error(e.getMessage());
+				try {
+					fetchArea(operator);
+				} catch (Exception e) {
+					log.error(e.getMessage());
+				}
 			}
 		}
 	}
-
 }

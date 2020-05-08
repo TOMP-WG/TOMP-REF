@@ -1,0 +1,20 @@
+spring:
+   profiles: maasprovider
+   application:
+      name: maasprovider
+server:
+   port: 8090
+tomp:
+   lookup-service: http://localhost:7999/
+   accept-language: nl
+   api-version: 0.5.0
+   maas-id: 196aa22d-d05f-4ec9-9d65-a325516196bb
+   area-file: src/main/resources/area.json
+   system-information-file: src/main/resources/system-info-generic.json
+   condition-file: src/main/resources/conditions.json
+   regions-file: src/main/resources/regions.json
+   stations-file: src/main/resources/stations.json
+   external-url: http://localhost:8080/
+logging:
+   level:
+      org.springframework: ERROR
