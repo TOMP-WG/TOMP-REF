@@ -1,9 +1,11 @@
 <h3>Request</h3>
 <div class="request-info">
+  
   <mat-form-field class="request-url">
     <mat-label>API url</mat-label>
     <input matInput [value]="url">
   </mat-form-field>
+  
   <mat-form-field>
     <mat-label>Endpoint</mat-label>
     <mat-select [(value)]="endpoint">
@@ -12,6 +14,7 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -21,15 +24,16 @@
         Edit default values as required
       </mat-panel-description>
     </mat-expansion-panel-header>
-
-    <mat-form-field *ngFor="let key of headers.keys()">
+    <mat-form-field *ngFor="let key of getHeaderProperties()">
       <mat-label>{{key}}</mat-label>
-      <input matInput [value]="headers.get(key)">
+      <input #header matInput [value]="headers[key]" (keyup.enter)="headerChanged(key, header.value)" (blur)="headerChanged(key, header.value)">
     </mat-form-field>
   </mat-expansion-panel>
+
   <mat-form-field class="request-text-area">
     <mat-label>Request in editable form</mat-label>
     <textarea matInput cdkTextareaAutosize>{{body | json}}</textarea>
   </mat-form-field>
+  
   <button mat-raised-button color="primary" class="submit-button" (click)="onSubmit()">Submit</button>
 </div>

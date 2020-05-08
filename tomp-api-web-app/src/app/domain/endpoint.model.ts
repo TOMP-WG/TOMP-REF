@@ -1,4 +1,6 @@
+import { EndpointType } from './endpoint.enum';
+
 export class Endpoint {
-  type: string;
+  type: EndpointType;
   value: string;
 }
