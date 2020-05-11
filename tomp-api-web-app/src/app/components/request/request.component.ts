@@ -5,8 +5,7 @@ import { Endpoint } from '../../domain/endpoint.model';
 import { ApiService } from '../../services/api.service';
 import { EndpointType } from '../../domain/endpoint.enum';
 import { CustomHeaders } from '../../domain/custom-headers.model';
-import { BookingOperation } from '../../domain/booking-operation.model';
-import { BookingOption } from '../../domain/booking-option.model';
+import * as endpointData from '../../../assets/endpoints.json';
 
 @Component({
   selector: 'app-request',
@@ -19,18 +18,17 @@ export class RequestComponent {
 
   public body: any = null;
   public url = 'http://localhost:8090';
-  public endpoints: Endpoint[] = [
-    { type: EndpointType.POST, value: '/planning-options/', body: PlanningOptions },
-    { type: EndpointType.GET, value: '/operator/information', body: null },
-    { type: EndpointType.POST, value: '/bookings/', body: BookingOption },
-    { type: EndpointType.POST, value: '/bookings/{id}/events', body: BookingOperation },
-    { type: EndpointType.GET, value: '/bookings/{id}', body: null }
-  ];
-  public endpoint: Endpoint = this.endpoints[0];
+  public endpoints: any[];
+  public endpoint: Endpoint;
   public headers: CustomHeaders = new CustomHeaders();
 
   constructor(public internalService: InternalService, public apiService: ApiService) {
     this.internalService.onUpdatePlanning().subscribe(planning => this.updatePlanning(planning));
+    this.endpoints = (endpointData  as  any).default;
+    if (this.endpoints.length > 0) {
+      this.endpoint = this.endpoints[0];
+      this.body = this.endpoint.body;
+    }
   }
 
   public onSubmit() {
@@ -59,7 +57,7 @@ export class RequestComponent {
 
   public onEndpointChanged() {
     if (this.endpoint.body) {
-      this.body = new this.endpoint.body();
+      this.body = this.endpoint.body;
     } else {
       this.body = null;
     }
@@ -74,7 +72,11 @@ export class RequestComponent {
   }
 
   private updatePlanning(planning: PlanningOptions) {
-    this.body = planning;
+    const body = this.body as PlanningOptions;
+    body.endTime = planning.endTime;
+    body.startTime = planning.startTime;
+    body.from = planning.from;
+    body.to = planning.to;
   }
 
 }
