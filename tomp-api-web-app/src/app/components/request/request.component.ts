@@ -5,6 +5,8 @@ import { Endpoint } from '../../domain/endpoint.model';
 import { ApiService } from '../../services/api.service';
 import { EndpointType } from '../../domain/endpoint.enum';
 import { CustomHeaders } from '../../domain/custom-headers.model';
+import { BookingOperation } from '../../domain/booking-operation.model';
+import { BookingOption } from '../../domain/booking-option.model';
 
 @Component({
   selector: 'app-request',
@@ -13,15 +15,16 @@ import { CustomHeaders } from '../../domain/custom-headers.model';
 })
 export class RequestComponent {
 
-  public body: PlanningOptions;
   @ViewChild('bodyInput', { static: true }) textArea: ElementRef<HTMLInputElement>;
+
+  public body: any = null;
   public url = 'http://localhost:8090';
   public endpoints: Endpoint[] = [
-    { type: EndpointType.POST, value: '/planning-options/' },
-    { type: EndpointType.GET, value: '/operator/information' },
-    { type: EndpointType.POST, value: '/bookings/' },
-    { type: EndpointType.POST, value: '/bookings/{id}/events' },
-    { type: EndpointType.GET, value: '/bookings/{id}' }
+    { type: EndpointType.POST, value: '/planning-options/', body: PlanningOptions },
+    { type: EndpointType.GET, value: '/operator/information', body: null },
+    { type: EndpointType.POST, value: '/bookings/', body: BookingOption },
+    { type: EndpointType.POST, value: '/bookings/{id}/events', body: BookingOperation },
+    { type: EndpointType.GET, value: '/bookings/{id}', body: null }
   ];
   public endpoint: Endpoint = this.endpoints[0];
   public headers: CustomHeaders = new CustomHeaders();
@@ -31,7 +34,6 @@ export class RequestComponent {
   }
 
   public onSubmit() {
-    const updatedBody = this.textArea.nativeElement.value.replace(/\n/ig, '');
     if (this.endpoint.type === EndpointType.GET) {
       this.apiService.doRequest(this.endpoint.type, this.url, this.endpoint.value, this.headers).subscribe(
         (result) => {
@@ -41,7 +43,8 @@ export class RequestComponent {
           this.internalService.addResponse(error);
           console.log('Error in request: ', error);
         });
-    } else {
+      } else {
+      const updatedBody = this.textArea.nativeElement.value.replace(/\n/ig, '');
       this.apiService.doRequest(this.endpoint.type, this.url, this.endpoint.value, this.headers, updatedBody).subscribe(
         (result) => {
           console.log(result);
@@ -52,6 +55,14 @@ export class RequestComponent {
         });
     }
     this.internalService.requestMade();
+  }
+
+  public onEndpointChanged() {
+    if (this.endpoint.body) {
+      this.body = new this.endpoint.body();
+    } else {
+      this.body = null;
+    }
   }
 
   public headerChanged(key: string, value: string) {

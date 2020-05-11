@@ -1,11 +1,11 @@
 <h3>Request</h3>
 <div class="request-info">
-  
+
   <mat-form-field class="request-url">
     <mat-label>API url</mat-label>
-    <input matInput [value]="url">
+    <input matInput [(ngModel)]="url">
   </mat-form-field>
-  
+
   <mat-form-field>
     <mat-label>Endpoint</mat-label>
     <mat-select [(value)]="endpoint" (selectionChange)="onEndpointChanged()">
@@ -26,14 +26,17 @@
     </mat-expansion-panel-header>
     <mat-form-field *ngFor="let key of getHeaderProperties()">
       <mat-label>{{key}}</mat-label>
-      <input #header matInput [value]="headers[key]" (keyup.enter)="headerChanged(key, header.value)" (blur)="headerChanged(key, header.value)">
+      <input #header matInput [value]="headers[key]" (keyup.enter)="headerChanged(key, header.value)"
+        (blur)="headerChanged(key, header.value)">
     </mat-form-field>
   </mat-expansion-panel>
 
-  <mat-form-field class="request-text-area">
-    <mat-label>Request in editable form</mat-label>
-    <textarea #bodyInput matInput cdkTextareaAutosize>{{body | json}}</textarea>
-  </mat-form-field>
+  <div [hidden]="body === null">
+    <mat-form-field class="request-text-area">
+      <mat-label>Request in editable form</mat-label>
+      <textarea #bodyInput matInput cdkTextareaAutosize>{{body | json}}</textarea>
+    </mat-form-field>
+  </div>
   
   <button mat-raised-button color="primary" class="submit-button" (click)="onSubmit()">Submit</button>
 </div>

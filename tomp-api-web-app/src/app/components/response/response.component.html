@@ -1,6 +1,6 @@
 <h3>Response</h3>
 <div class="response-info">
-  <mat-form-field class="response-text-area">
+  <mat-form-field class="response-text-area" *ngIf="response !== null">
     <textarea matInput cdkTextareaAutosize>{{response | json}}</textarea>
   </mat-form-field>
 </div>
