@@ -21,6 +21,7 @@ export class RequestComponent {
   public endpoints: any[];
   public endpoint: Endpoint;
   public headers: CustomHeaders = new CustomHeaders();
+  public id: string;
 
   constructor(public internalService: InternalService, public apiService: ApiService) {
     this.internalService.onUpdatePlanning().subscribe(planning => this.updatePlanning(planning));
@@ -32,6 +33,10 @@ export class RequestComponent {
   }
 
   public onSubmit() {
+    let endpoint = this.endpoint.value;
+    if (this.hasIdVariable) {
+      endpoint = endpoint.replace('{id}', this.id);
+    }
     if (this.endpoint.type === EndpointType.GET) {
       this.apiService.doRequest(this.endpoint.type, this.url, this.endpoint.value, this.headers).subscribe(
         (result) => {
@@ -56,11 +61,16 @@ export class RequestComponent {
   }
 
   public onEndpointChanged() {
+    this.id = null;
     if (this.endpoint.body) {
       this.body = this.endpoint.body;
     } else {
       this.body = null;
     }
+  }
+
+  public hasIdVariable() {
+    return this.endpoint.value.includes('{id}');
   }
 
   public headerChanged(key: string, value: string) {

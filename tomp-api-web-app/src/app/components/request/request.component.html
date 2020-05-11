@@ -15,6 +15,11 @@
     </mat-select>
   </mat-form-field>
 
+  <mat-form-field class="endpoint-id" *ngIf="hasIdVariable()">
+    <mat-label>ID value</mat-label>
+    <input matInput [(ngModel)]="id">
+  </mat-form-field>
+
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -37,6 +42,6 @@
       <textarea #bodyInput matInput cdkTextareaAutosize>{{body | json}}</textarea>
     </mat-form-field>
   </div>
-  
+
   <button mat-raised-button color="primary" class="submit-button" (click)="onSubmit()">Submit</button>
 </div>
