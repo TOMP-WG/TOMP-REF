@@ -21,8 +21,16 @@ export class PlanComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.planning);
-    this.internalService.updatePlanning(this.planning);
+    const object = JSON.parse(JSON.stringify(this.planning));
+    this.internalService.updatePlanning(object as PlanningOptions);
+  }
+
+  onUpdatedStartPeriod(period: number) {
+    this.planning.startTime = period;
+  }
+
+  onUpdatedEndPeriod(period: number) {
+    this.planning.endTime = period;
   }
 
 }

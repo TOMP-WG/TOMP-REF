@@ -1,7 +1,7 @@
 <h3>Planning</h3>
 <div class="period">
-  <app-period [(period)]="planning.startTime"></app-period>
-  <app-period [(period)]="planning.endTime"></app-period>
+  <app-period [period]="planning.startTime" (updatedPeriod)="onUpdatedStartPeriod($event)"></app-period>
+  <app-period [period]="planning.endTime" (updatedPeriod)="onUpdatedEndPeriod($event)"></app-period>
 </div>
 <div class="map-wrapper">
   <app-map [planning]="planning"></app-map>
