@@ -17,7 +17,7 @@ export class RequestComponent {
   @ViewChild('bodyInput', { static: true }) textArea: ElementRef<HTMLInputElement>;
 
   public body: any = null;
-  public url = 'http://localhost:8090';
+  public url = 'https://tomp.dat.nl/bike';
   public endpoints: any[];
   public endpoint: Endpoint;
   public headers: CustomHeaders = new CustomHeaders();
@@ -33,12 +33,12 @@ export class RequestComponent {
   }
 
   public onSubmit() {
-    let endpoint = this.endpoint.value;
+    let endpointPath = this.endpoint.value;
     if (this.hasIdVariable) {
-      endpoint = endpoint.replace('{id}', this.id);
+      endpointPath = endpointPath.replace('{id}', this.id);
     }
     if (this.endpoint.type === EndpointType.GET) {
-      this.apiService.doRequest(this.endpoint.type, this.url, this.endpoint.value, this.headers).subscribe(
+      this.apiService.doRequest(this.endpoint.type, this.url, endpointPath, this.headers).subscribe(
         (result) => {
           console.log(result);
           this.internalService.addResponse(result);
@@ -48,7 +48,7 @@ export class RequestComponent {
         });
       } else {
       const updatedBody = this.textArea.nativeElement.value.replace(/\n/ig, '');
-      this.apiService.doRequest(this.endpoint.type, this.url, this.endpoint.value, this.headers, updatedBody).subscribe(
+      this.apiService.doRequest(this.endpoint.type, this.url, endpointPath, this.headers, updatedBody).subscribe(
         (result) => {
           console.log(result);
           this.internalService.addResponse(result);
@@ -63,7 +63,7 @@ export class RequestComponent {
   public onEndpointChanged() {
     this.id = null;
     if (this.endpoint.body) {
-      this.body = this.endpoint.body;
+      this.body = JSON.parse(JSON.stringify(this.endpoint.body));
     } else {
       this.body = null;
     }

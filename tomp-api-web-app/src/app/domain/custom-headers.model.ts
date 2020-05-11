@@ -3,7 +3,7 @@ export class CustomHeaders {
   'Accept-Language' = 'NL';
   'Accept' = 'application/json';
   'Api' = 'TOMP';
-  'Api-Version' = '0.4.0';
+  'Api-Version' = '0.5.0';
   'maas-id' = '1';
 
   [propName: string]: string;
