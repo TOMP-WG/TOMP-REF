@@ -1,8 +1,9 @@
 import { Component, AfterViewInit, Input } from '@angular/core';
 import * as L from 'leaflet';
+import 'leaflet-defaulticon-compatibility';
 import { latLng, Map, tileLayer, LeafletMouseEvent } from 'leaflet';
 import { PlanningOptions } from '../../../domain/planning-options.model';
-import 'leaflet/dist/images/marker-shadow.png';
+// import 'leaflet/dist/images/marker-shadow.png';
 import { Coordinates } from '../../../domain/coordinates.model';
 
 @Component({
