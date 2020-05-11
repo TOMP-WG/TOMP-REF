@@ -1,6 +1,6 @@
 .request-info {
   width: 100%;
-  height: calc(100% - 60px);
+  height: 100vh;
   padding: 10px;
   display: flex;
   box-sizing: border-box;
@@ -8,8 +8,10 @@
 
   .request-text-area {
     width: 100%;
-    max-height: calc(100% - 100px);
     overflow-y: auto;
+    .text-area {
+      height: calc(100vh - 370px);
+    }
   }
   
   .submit-button {

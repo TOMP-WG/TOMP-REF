@@ -1,5 +1,5 @@
-<h3>Request</h3>
 <div class="request-info">
+  <h3>Request</h3>
 
   <mat-form-field class="request-url">
     <mat-label>API url</mat-label>
@@ -39,7 +39,7 @@
   <div [hidden]="body === null">
     <mat-form-field class="request-text-area">
       <mat-label>Request in editable form</mat-label>
-      <textarea #bodyInput matInput cdkTextareaAutosize>{{body | json}}</textarea>
+      <textarea class="text-area" #bodyInput matInput>{{body | json}}</textarea>
     </mat-form-field>
   </div>
 
