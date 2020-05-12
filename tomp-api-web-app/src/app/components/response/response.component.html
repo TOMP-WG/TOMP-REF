@@ -1,0 +1,6 @@
+<div class="response-info">
+  <h3>Response</h3>
+  <mat-form-field class="response-text-area" *ngIf="response !== null">
+    <textarea class="text-area" matInput>{{response | json}}</textarea>
+  </mat-form-field>
+</div>

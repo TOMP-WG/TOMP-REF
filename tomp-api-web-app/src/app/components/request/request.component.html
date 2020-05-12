@@ -1,0 +1,48 @@
+<div class="request-info">
+  <h3>Request</h3>
+
+  <mat-form-field class="request-url">
+    <mat-label>API url</mat-label>
+    <input matInput [(ngModel)]="url">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Endpoint</mat-label>
+    <mat-select [(value)]="endpoint" (selectionChange)="onEndpointChanged()">
+      <mat-option *ngFor="let endp of endpoints;" [value]="endp">
+        {{endp.type}} {{endp.value}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="endpoint-id">
+    <mat-label>ID value</mat-label>
+    <input matInput [(ngModel)]="id" (change)="updateBody()">
+  </mat-form-field>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Request Header
+      </mat-panel-title>
+      <mat-panel-description>
+        Edit default values as required
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-form-field *ngFor="let key of getHeaderProperties()">
+      <mat-label>{{key}}</mat-label>
+      <input #header matInput [value]="headers[key]" (keyup.enter)="headerChanged(key, header.value)"
+        (blur)="headerChanged(key, header.value)">
+    </mat-form-field>
+  </mat-expansion-panel>
+
+  <div [hidden]="body === null">
+    <mat-form-field class="request-text-area">
+      <mat-label>Request in editable form</mat-label>
+      <textarea class="text-area" #bodyInput matInput (keyup.enter)="jsonChanged()"
+      (blur)="jsonChanged()" [ngModel]="body | json"></textarea>
+    </mat-form-field>
+  </div>
+
+  <button mat-raised-button color="primary" class="submit-button" (click)="onSubmit()">Submit</button>
+</div>

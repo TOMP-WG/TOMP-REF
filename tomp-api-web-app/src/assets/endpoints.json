@@ -1,0 +1,111 @@
+[
+  {
+    "type": "POST",
+    "value": "/planning-options/",
+    "body": {
+      "startTime": null,
+      "endTime": null,
+      "from": null,
+      "to": null,
+      "radius": 1000,
+      "travellers": 1,
+      "provideIds": false,
+      "users": [
+        {
+          "age": 44
+        }
+      ]
+    }
+  },
+  {
+    "type": "GET",
+    "value": "/operator/information"
+  },
+  {
+    "type": "POST",
+    "value": "/bookings/",
+    "body": {
+      "id": "{id}",
+      "customer": {
+        "validated": true,
+        "age": 0,
+        "licenses": [
+          {
+            "number": 1287948792,
+            "assetClass": "AIR",
+            "licenseCode": "D4",
+            "country": "NL",
+            "validUntil": "2020-05-11"
+          }
+        ],
+        "cards": [
+          {
+            "cardType": "ID",
+            "cardSubType": "string",
+            "cardDescription": "string",
+            "cardAcceptors": [
+              "string"
+            ],
+            "cardNumber": "string",
+            "cardAdditionalNumber": "string",
+            "validUntil": "2020-05-11",
+            "country": "NL",
+            "assetClass": "AIR"
+          }
+        ],
+        "requirements": [
+          {
+            "wheelchair": true
+          }
+        ],
+        "id": "A0-123456",
+        "initials": "string",
+        "firstName": "John",
+        "lastName": "Doe",
+        "middleName": "von",
+        "prefix": "string",
+        "postfix": "string",
+        "phones": [
+          {
+            "preferred": true,
+            "number": "0031-48934758",
+            "kind": "LANDLINE",
+            "type": "PRIVATE"
+          }
+        ],
+        "email": "string",
+        "birthDate": "2020-05-11",
+        "address": {
+          "streetAddress": "example street 18, 2nd floor, 18-B33",
+          "areaReference": "Smallcity, Pinetree county",
+          "postalCode": "string",
+          "country": "NL"
+        },
+        "photo": null
+      },
+      "fromAddress": {
+        "streetAddress": "example street 18, 2nd floor, 18-B33",
+        "areaReference": "Smallcity, Pinetree county",
+        "postalCode": "string",
+        "country": "NL"
+      },
+      "toAddress": {
+        "streetAddress": "example street 18, 2nd floor, 18-B33",
+        "areaReference": "Smallcity, Pinetree county",
+        "postalCode": "string",
+        "country": "NL"
+      }
+    }
+  },
+  {
+    "type": "POST",
+    "value": "/bookings/{id}/events",
+    "body": {
+      "operation": "CANCEL"
+    }
+  },
+  {
+    "type": "GET",
+    "value": "/bookings/{id}"
+  }
+]

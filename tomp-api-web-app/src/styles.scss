@@ -1,0 +1,16 @@
+@import "~leaflet/dist/leaflet.css";
+@import "~leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+h3 {
+  text-align: center;
+}

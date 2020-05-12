@@ -1,0 +1,17 @@
+.response-info {
+  width: 100%;
+  height: 100vh;
+  padding: 10px;
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+
+  .response-text-area {
+    width: 100%;
+    overflow-y: auto;
+
+    .text-area {
+      height: calc(100vh - 130px);
+    }
+  }
+}

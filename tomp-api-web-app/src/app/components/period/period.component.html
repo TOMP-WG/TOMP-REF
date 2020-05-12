@@ -1,0 +1,11 @@
+<mat-form-field class="date-picker">
+  <mat-label>Choose a date</mat-label>
+  <input matInput [matDatepicker]="picker" (dateChange)="dateChanged($event.value)" [value]="date">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+<mat-form-field class="time-picker">
+  <input matInput [ngxTimepicker]="timePicker" [format]="24" placeholder="Choose a time"
+  [value]="date.format('HH:mm')" />
+</mat-form-field>
+<ngx-material-timepicker #timePicker (timeSet)="timeChanged($event)"></ngx-material-timepicker>
