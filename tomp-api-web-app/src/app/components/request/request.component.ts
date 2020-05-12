@@ -16,16 +16,16 @@ export class RequestComponent {
 
   @ViewChild('bodyInput', { static: true }) textArea: ElementRef<HTMLInputElement>;
 
-  public body: any = null;
+  public body: any;
   public url = 'https://tomp.dat.nl/bike';
-  public endpoints: any[];
+  public endpoints: Endpoint[];
   public endpoint: Endpoint;
   public headers: CustomHeaders = new CustomHeaders();
   public id: string;
 
   constructor(public internalService: InternalService, public apiService: ApiService) {
     this.internalService.onUpdatePlanning().subscribe(planning => this.updatePlanning(planning));
-    this.endpoints = (endpointData  as  any).default;
+    this.endpoints = (endpointData as any).default;
     if (this.endpoints.length > 0) {
       this.endpoint = this.endpoints[0];
       this.body = this.endpoint.body;
@@ -46,9 +46,8 @@ export class RequestComponent {
           this.internalService.addResponse(error);
           console.log('Error in request: ', error);
         });
-      } else {
-      const updatedBody = this.textArea.nativeElement.value.replace(/\n/ig, '');
-      this.apiService.doRequest(this.endpoint.type, this.url, endpointPath, this.headers, updatedBody).subscribe(
+    } else {
+      this.apiService.doRequest(this.endpoint.type, this.url, endpointPath, this.headers, this.body).subscribe(
         (result) => {
           console.log(result);
           this.internalService.addResponse(result);
@@ -81,8 +80,12 @@ export class RequestComponent {
     return Object.getOwnPropertyNames(this.headers);
   }
 
+  public jsonChanged() {
+    this.body = JSON.parse(this.textArea.nativeElement.value);
+  }
+
   private updatePlanning(planning: PlanningOptions) {
-    const body = this.body as PlanningOptions;
+    const body = (this.body as any) as PlanningOptions;
     body.endTime = planning.endTime;
     body.startTime = planning.startTime;
     body.from = planning.from;
