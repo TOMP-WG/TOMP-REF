@@ -20,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MainComponent } from './components/main/main.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatButtonModule,
     MatSelectModule,
     MatExpansionModule,
+    MatDividerModule,
     HttpClientModule,
   ],
   providers: [
