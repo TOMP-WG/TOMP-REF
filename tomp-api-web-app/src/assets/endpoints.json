@@ -25,7 +25,7 @@
     "type": "POST",
     "value": "/bookings/",
     "body": {
-      "id": "string",
+      "id": "{id}",
       "customer": {
         "validated": true,
         "age": 0,
@@ -68,7 +68,7 @@
         "phones": [
           {
             "preferred": true,
-            "number": "+31-48934758 or +(0075)-834923384 or 020 1234 1234",
+            "number": "0031-48934758",
             "kind": "LANDLINE",
             "type": "PRIVATE"
           }
@@ -81,7 +81,7 @@
           "postalCode": "string",
           "country": "NL"
         },
-        "photo": "string"
+        "photo": null
       },
       "fromAddress": {
         "streetAddress": "example street 18, 2nd floor, 18-B33",

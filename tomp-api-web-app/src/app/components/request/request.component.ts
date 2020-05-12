@@ -34,7 +34,7 @@ export class RequestComponent {
 
   public onSubmit() {
     let endpointPath = this.endpoint.value;
-    if (this.hasIdVariable) {
+    if (this.hasIdVariable(endpointPath)) {
       endpointPath = endpointPath.replace('{id}', this.id);
     }
     if (this.endpoint.type === EndpointType.GET) {
@@ -60,16 +60,15 @@ export class RequestComponent {
   }
 
   public onEndpointChanged() {
-    this.id = null;
     if (this.endpoint.body) {
-      this.body = JSON.parse(JSON.stringify(this.endpoint.body));
+      this.updateBody();
     } else {
       this.body = null;
     }
   }
 
-  public hasIdVariable() {
-    return this.endpoint.value.includes('{id}');
+  public hasIdVariable(value: string) {
+    return value.includes('{id}');
   }
 
   public headerChanged(key: string, value: string) {
@@ -82,6 +81,16 @@ export class RequestComponent {
 
   public jsonChanged() {
     this.body = JSON.parse(this.textArea.nativeElement.value);
+  }
+
+  public updateBody() {
+    if (this.endpoint.body) {
+      if (this.hasIdVariable(JSON.stringify(this.endpoint.body))) {
+        this.body = JSON.parse(JSON.stringify(this.endpoint.body).replace('{id}', this.id));
+      } else {
+        this.body = this.endpoint.body;
+      }
+    }
   }
 
   private updatePlanning(planning: PlanningOptions) {
