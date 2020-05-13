@@ -1,18 +1,17 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { InternalService } from '../../services/internal.service';
 import { PlanningOptions } from '../../domain/planning-options.model';
 import { Endpoint } from '../../domain/endpoint.model';
 import { ApiService } from '../../services/api.service';
 import { EndpointType } from '../../domain/endpoint.enum';
 import { CustomHeaders } from '../../domain/custom-headers.model';
-import * as endpointData from '../../../assets/endpoints.json';
 
 @Component({
   selector: 'app-request',
   templateUrl: './request.component.html',
   styleUrls: ['./request.component.scss']
 })
-export class RequestComponent {
+export class RequestComponent implements OnInit {
 
   @ViewChild('bodyInput', { static: true }) textArea: ElementRef<HTMLInputElement>;
 
@@ -25,11 +24,16 @@ export class RequestComponent {
 
   constructor(public internalService: InternalService, public apiService: ApiService) {
     this.internalService.onUpdatePlanning().subscribe(planning => this.updatePlanning(planning));
-    this.endpoints = (endpointData as any).default;
-    if (this.endpoints.length > 0) {
-      this.endpoint = this.endpoints[0];
-      this.body = this.endpoint.body;
-    }
+  }
+
+  ngOnInit() {
+    this.apiService.loadEndpointConfig().subscribe(data => {
+      this.endpoints = data;
+      if (this.endpoints.length > 0) {
+        this.endpoint = this.endpoints[0];
+        this.body = this.endpoint.body;
+      }
+    });
   }
 
   public onSubmit() {
