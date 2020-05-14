@@ -16,6 +16,9 @@ tomp:
    stations-file: src/main/resources/stations.json
    area-file: src/main/resources/area.json
    external-url: http://localhost:8080/
+   expiration-days: 14
+   currency-code: NL
+   vat-rate: 21
 logging:
    level:
       org.springframework: ERROR

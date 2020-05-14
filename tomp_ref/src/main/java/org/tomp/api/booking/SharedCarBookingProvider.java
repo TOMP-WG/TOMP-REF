@@ -112,8 +112,12 @@ public class SharedCarBookingProvider implements BookingProvider {
 
 	private void sendMail(String mpUrl, Booking booking) {
 		StringBuilder builder = getBookingRequestText(booking);
-		mailService.sendSimpleMessage("booking@tomp.nl", configuration.getBookingMailBox(),
-				"Booking request: " + booking.getId(), builder.toString());
+		String email = booking.getCustomer().getEmail();
+		if (email == null || email.equals("")) {
+			email = configuration.getBookingMailBox();
+		}
+		mailService.sendSimpleMessage(configuration.getBookingMailBox(), email, "Booking request: " + booking.getId(),
+				builder.toString());
 
 	}
 
@@ -185,7 +189,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 		Booking booking = repository.getBooking(id);
 		StringBuilder builder = getBookingRequestText(booking);
 		String firstPart = builder.toString().replace("\r\n", "<br>");
-		return firstPart + "<form action=\"/postponed/\" method=\"post\"> <div class=\"control\">"
+		return firstPart + "<form method=\"post\"> <div class=\"control\">"
 				+ "<input type=\"hidden\" name=\"id\" value=\"" + id + "\">" + "  <label class=\"radio\">"
 				+ "    <input type=\"radio\" name=\"choice\" value=0>DENY" + "  </label><br>"
 				+ "  <label class=\"radio\">"

@@ -6,4 +6,5 @@ package io.swagger.model;
 */
 public interface OneOfplanningResult {
 
+	public String getId();
 }

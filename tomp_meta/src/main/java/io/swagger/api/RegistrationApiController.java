@@ -199,7 +199,7 @@ public class RegistrationApiController implements RegistrationApi {
 		ObjectFromFileProvider<MaasOperator[]> operatorProvider = new ObjectFromFileProvider<>();
 		String file = configuration.getOperatorFile();
 		if (file != null) {
-			for (MaasOperator operator : operatorProvider.getObject(MaasOperator[].class, file)) {
+			for (MaasOperator operator : operatorProvider.getObject("", MaasOperator[].class, file)) {
 				repository.register(operator);
 
 				try {

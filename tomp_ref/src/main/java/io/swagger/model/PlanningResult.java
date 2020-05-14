@@ -20,7 +20,7 @@ import javax.validation.constraints.*;
         @JsonSubTypes.Type(value = CompositeLeg.class, name = "compositeLeg"),
         @JsonSubTypes.Type(value = OperatorLeg.class, name = "operatorLeg"),
 })
-public class PlanningResult  implements OneOfplanningResult {
+public abstract class PlanningResult  implements OneOfplanningResult {
 
   @Override
   public boolean equals(java.lang.Object o) {

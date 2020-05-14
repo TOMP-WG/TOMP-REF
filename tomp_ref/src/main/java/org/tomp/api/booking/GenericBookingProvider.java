@@ -53,19 +53,25 @@ public class GenericBookingProvider implements BookingProvider {
 	public Booking addNewBookingEvent(BookingOperation body, String acceptLanguage, String id) {
 		validateId(id);
 		log.info("{} {}", body.getOperation(), id);
+		Booking booking = repository.getBooking(id);
 
 		switch (body.getOperation()) {
 		case COMMIT:
-			Booking booking = repository.getBooking(id);
 			booking.setState(BookingState.CONFIRMED);
 			repository.saveBooking(booking);
 			return booking;
 		case CANCEL:
-			break;
+			booking.setState(BookingState.CANCELLED);
+			repository.saveBooking(booking);
+			return booking;
 		case DENY:
-			break;
+			booking.setState(BookingState.RELEASED);
+			repository.saveBooking(booking);
+			return booking;
 		case EXPIRE:
-			break;
+			booking.setState(BookingState.EXPIRED);
+			repository.saveBooking(booking);
+			return booking;
 		default:
 			break;
 		}

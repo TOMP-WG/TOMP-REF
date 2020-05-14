@@ -10,12 +10,14 @@ import org.tomp.api.model.Trip;
 
 import io.swagger.model.Booking;
 import io.swagger.model.CompositeLeg;
+import io.swagger.model.Leg;
 
 @Component
 public class MPRepository {
 
 	private static final Map<String, Trip> options = new HashMap<>();
 	private static final Map<Booking, ArrayList<Booking>> bookings = new HashMap<>();
+	private static final Map<String, Leg> legs = new HashMap<>();
 
 	public void saveTrip(CompositeLeg leg, Trip trip) {
 		options.put(leg.getId(), trip);
@@ -43,5 +45,13 @@ public class MPRepository {
 			}
 		}
 		return null;
+	}
+
+	public void saveLeg(String id, Leg leg) {
+		legs.put(id, leg);
+	}
+
+	public Leg getLeg(String id) {
+		return legs.get(id);
 	}
 }

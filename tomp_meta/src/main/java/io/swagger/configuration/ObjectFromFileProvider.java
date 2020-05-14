@@ -8,18 +8,20 @@ import java.io.InputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@Component
 public class ObjectFromFileProvider<T> {
 
 	private static final Logger log = LoggerFactory.getLogger(ObjectFromFileProvider.class);
 
-	private final ObjectMapper mapper = new ObjectMapper();
+	ObjectMapper mapper = new ObjectMapper();
 
-	public T getObject(Class<T> c, String fromFile) {
+	public T getObject(String acceptLanguage, Class<T> c, String fromFile) {
+		if (fromFile == null) {
+			throw new RuntimeException();
+		}
+
 		File file = new File(fromFile);
 		InputStream resourceAsStream = null;
 		if (!file.exists()) {
@@ -35,9 +37,7 @@ public class ObjectFromFileProvider<T> {
 		}
 
 		try {
-			if (resourceAsStream == null) {
-				resourceAsStream = new FileInputStream(file);
-			}
+			resourceAsStream = new FileInputStream(file);
 		} catch (FileNotFoundException e1) {
 			log.error(e1.getMessage());
 		}

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.api.LegsApiController;
+import io.swagger.model.Leg;
 import io.swagger.model.LegEvent;
 
 @RestController
@@ -37,7 +38,7 @@ public class TripExecutionController extends LegsApiController {
 		this.request = request;
 	}
 
-	public ResponseEntity<Void> legsIdEventsPost(
+	public ResponseEntity<Leg> legsIdEventsPost(
 			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
@@ -45,9 +46,35 @@ public class TripExecutionController extends LegsApiController {
 			@ApiParam(value = "") @Valid @RequestBody LegEvent body) {
 
 		HeaderValidator.validateHeader(request);
+		Leg leg = null;
 
-		provider.addNewTripEvent(body, acceptLanguage, id);
+		String maasId = request.getHeader("maas-id");
+		switch (body.getEvent()) {
+		case ASSIGN_ASSET:
+			leg = provider.assignAsset(body, acceptLanguage, id, maasId);
+			break;
+		case FINISH:
+			leg = provider.finish(body, acceptLanguage, id, maasId);
+			break;
+		case ISSUE:
+			break;
+		case PAUSE:
+			leg = provider.pause(body, acceptLanguage, id, maasId);
+			break;
+		case PREPARE:
+			leg = provider.prepare(body, acceptLanguage, id, maasId);
+			break;
+		case SET_IN_USE:
+			leg = provider.setInUse(body, acceptLanguage, id, maasId);
+			break;
+		case START_FINISHING:
+			leg = provider.startFinishing(body, acceptLanguage, id, maasId);
+			break;
+		default:
+			break;
 
-		return new ResponseEntity<>(null, HttpStatus.CREATED);
+		}
+
+		return new ResponseEntity<>(leg, HttpStatus.CREATED);
 	}
 }

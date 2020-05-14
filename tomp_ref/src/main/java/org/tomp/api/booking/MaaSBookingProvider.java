@@ -1,5 +1,7 @@
 package org.tomp.api.booking;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -67,19 +69,25 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 	@Override
 	public Booking addNewBookingEvent(BookingOperation body, String acceptLanguage, String id) {
 		log.info("{} {}", body.getOperation(), id);
+		Booking booking = repository.getBooking(id);
 
 		switch (body.getOperation()) {
 		case COMMIT:
-			Booking booking = repository.getBooking(id);
 			booking.setState(BookingState.CONFIRMED);
 			repository.saveBooking(booking);
 			return booking;
 		case CANCEL:
-			break;
+			booking.setState(BookingState.CANCELLED);
+			repository.saveBooking(booking);
+			return booking;
 		case DENY:
-			break;
+			booking.setState(BookingState.RELEASED);
+			repository.saveBooking(booking);
+			return booking;
 		case EXPIRE:
-			break;
+			booking.setState(BookingState.EXPIRED);
+			repository.saveBooking(booking);
+			return booking;
 		default:
 			break;
 		}
@@ -88,6 +96,7 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 
 	private void commitAllLegs(BookingOption body, Trip savedOption, Booking booking) {
 		boolean allPending = true;
+		boolean cancelled = false;
 		for (Segment segment : savedOption.getSegments()) {
 			TransportOperator operator = segment.getOperators().iterator().next();
 			BookingOperation operation = new BookingOperation();
@@ -102,17 +111,41 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 				if (!clientBooking.getState().equals(BookingState.CONFIRMED)) {
 					allPending = false;
 				}
+
+				if (clientBooking.getState().equals(BookingState.CANCELLED)) {
+					cancelAll(savedOption.getSegments());
+					cancelled = true;
+					break;
+				}
+
 				maasRepository.addTOBooking(booking, clientBooking);
 			} catch (ApiException e) {
 				log.error("Error during committing {}", operator.getName());
-				e.printStackTrace();
+				log.error(e.getMessage());
 			}
 		}
 		booking.setCustomer(body.getCustomer());
-		if (allPending)
+		if (cancelled) {
+			booking.setState(BookingState.CANCELLED);
+		} else if (allPending) {
 			booking.setState(BookingState.CONFIRMED);
-		else
+		} else {
 			booking.setState(BookingState.CONDITIONAL_CONFIRMED);
+		}
+	}
+
+	private void cancelAll(List<Segment> segments) {
+		BookingOperation operation = new BookingOperation();
+		operation.setOperation(OperationEnum.CANCEL);
+		for (Segment segment : segments) {
+			TransportOperator operator = segment.getOperators().iterator().next();
+			SimpleLeg planningResult = (SimpleLeg) segment.getResult(operator).getResults().get(0);
+			try {
+				clientUtil.post(operator, "/bookings/" + planningResult.getId() + "/events/", operation, Booking.class);
+			} catch (ApiException e) {
+				log.error("Operator {} possibly didn't receive CANCEL {}", operator.getName(), planningResult.getId());
+			}
+		}
 	}
 
 	private boolean bookAllLegs(BookingOption body, Trip savedOption) {

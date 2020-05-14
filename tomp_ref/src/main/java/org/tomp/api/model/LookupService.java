@@ -37,6 +37,9 @@ public class LookupService {
 		if (lookupService.endsWith("/")) {
 			lookupService = lookupService.substring(0, lookupService.length() - 1);
 		}
+		log.info("Calling {}{}", lookupService, endpoint);
+		log.info("body: {}", body);
+
 		client.setBasePath(lookupService);
 		List<Pair> queryParams = new ArrayList<>();
 		List<Pair> collectionQueryParams = new ArrayList<>();

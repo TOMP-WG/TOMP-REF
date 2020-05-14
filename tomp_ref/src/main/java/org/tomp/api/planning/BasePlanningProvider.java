@@ -6,12 +6,9 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.repository.DummyRepository;
 import org.tomp.api.utils.ObjectFromFileProvider;
@@ -82,6 +79,7 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		result.setTypeOfAsset(getAssetType());
 		result.setLeg(getLeg());
 		result.setPricing(getFare());
+		result.setConditions(getConditionsForLeg(result));
 		if (provideIds) {
 			log.info("We have to take a closer look. Can we more or less guarantee that we can fulfill this request?");
 			result.setId(UUID.randomUUID().toString());
@@ -89,6 +87,10 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		arrayList.add(result);
 
 		return arrayList;
+	}
+
+	protected List<String> getConditionsForLeg(SimpleLeg result) {
+		return new ArrayList<>();
 	}
 
 	protected abstract Fare getFare();

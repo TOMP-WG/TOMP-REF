@@ -97,6 +97,8 @@ public class ClientUtil {
 			url = url.substring(0, url.length() - 1);
 		}
 		apiClient.setBasePath(url);
+		log.info("Connecting to {}{}", url, localVarPath);
+		log.info("Body {}", localVarPostBody);
 
 		List<Pair> localVarQueryParams = new ArrayList<>();
 		List<Pair> localVarCollectionQueryParams = new ArrayList<>();
@@ -129,7 +131,7 @@ public class ClientUtil {
 			try {
 				localVarPostBody = mapper.writeValueAsString(localVarPostBody);
 			} catch (JsonProcessingException e) {
-				e.printStackTrace();
+				log.error(e.getMessage());
 			}
 		}
 
@@ -147,8 +149,8 @@ public class ClientUtil {
 				ApiResponse<T> result = apiClient.execute(call, String.class);
 				return result.getData();
 			} catch (Exception e) {
-				String message = String.format("Cannot connect to %s", to.getName());
-				log.error(message);
+				log.error("Cannot connect to {}", to.getName());
+				log.error("Url {}", to.getUrl());
 				log.error(e.getMessage());
 				return null;
 			}
@@ -156,18 +158,15 @@ public class ClientUtil {
 		try {
 			String dest = getOrPost.equals("POST") ? post(to, localVarPath, body, String.class)
 					: get(to, localVarPath, String.class);
-			try {
-				return mapper.readValue(dest, class1);
-			} catch (IOException e2) {
-				e2.printStackTrace();
-			}
+			return mapper.readValue(dest, class1);
+		} catch (IOException e2) {
+			log.error("Deserialisation error");
+			log.error(e2.getMessage());
 		} catch (Exception e) {
-			String message = String.format("Cannot connect to %s", to.getName());
-			log.error(message);
+			log.error("Exception connecting to {}", to.getName());
+			log.error("Url {}", to.getUrl());
 			log.error(e.getMessage());
-			// throw e;
 		}
 		return null;
 	}
-	// }
 }

@@ -14,6 +14,9 @@ tomp:
    stations-file: src/main/resources/stations.json
    area-file: src/main/resources/area.json
    external-url: http://localhost:8080/
+   expiration-days: 14
+   currency-code: NL
+   vat-rate: 21
 logging:
    level:
       org.springframework: ERROR
@@ -28,6 +31,9 @@ tomp:
    maas-id: da612986-3408-4c91-adf9-8dbbc16ff4f9
    asset-file: src/main/resources/bikes.json
    regions-file: src/main/resources/regions.json
+   expiration-days: 14
+   currency-code: NL
+   vat-rate: 21
 ---
 spring:
    profiles: bus
@@ -37,6 +43,9 @@ server:
    port: 8086
 tomp:
    maas-id: d0d326a2-007c-4967-ba05-18f4c6bf294b
+   expiration-days: 14
+   currency-code: NL
+   vat-rate: 21
 ---
 spring:
    profiles: car
@@ -47,6 +56,9 @@ server:
 tomp:
    maas-id: aac7f6ae-1d0d-44cd-9da5-ca62d48eb48d
    asset-file: src/main/resources/cars.json
+   expiration-days: 14
+   currency-code: NL
+   vat-rate: 21
 ---
 spring:
    profiles: train
@@ -56,6 +68,9 @@ server:
    port: 8084
 tomp:
    maas-id: 1b5f697f-47a2-41dc-95c1-d3443f70039c
+   expiration-days: 14
+   currency-code: NL
+   vat-rate: 21
 ---
 spring:
    profiles: scooter
@@ -75,6 +90,9 @@ server:
 tomp:
    maas-id: 196aa22d-d05f-4ec9-9d65-a325516196bb
    area-file: src/main/resources/area.json
+   expiration-days: 14
+   currency-code: NL
+   vat-rate: 21
 ---
 spring:
    profiles: shared-car
@@ -102,5 +120,8 @@ tomp:
    stations-file: src/main/resources/stations.json
    area-file: src/main/resources/area.json
    external-url: http://localhost:8086/
-   booking-mailbox: evdbelt@dat.nl
+   booking-mailbox: <your mailbox>
+   expiration-days: 14
+   currency-code: NL
+   vat-rate: 21
    

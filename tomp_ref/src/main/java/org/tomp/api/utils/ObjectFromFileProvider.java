@@ -26,6 +26,8 @@ public class ObjectFromFileProvider<T> implements ObjectProvider<T> {
 		File file = new File(fromFile);
 		InputStream resourceAsStream = null;
 		if (!file.exists()) {
+			log.info("file: {} does not exist", fromFile);
+			log.info("file: {} does not exist", file.getAbsolutePath());
 			resourceAsStream = ClassLoader.getSystemResourceAsStream(fromFile);
 			if (resourceAsStream == null) {
 				ClassLoader classLoader = ClassLoader.getSystemClassLoader();

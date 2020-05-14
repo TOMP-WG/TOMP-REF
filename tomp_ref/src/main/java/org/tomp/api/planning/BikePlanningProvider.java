@@ -14,11 +14,13 @@ import io.swagger.model.AssetClass;
 import io.swagger.model.Condition;
 import io.swagger.model.ConditionReturnArea;
 import io.swagger.model.Coordinates;
+import io.swagger.model.Day;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
 import io.swagger.model.OptionsLeg;
 import io.swagger.model.Polygon;
+import io.swagger.model.SimpleLeg;
 import io.swagger.model.SystemHours;
 import io.swagger.model.Time;
 import io.swagger.model.TypeOfAsset;
@@ -82,8 +84,14 @@ public class BikePlanningProvider extends BasePlanningProvider {
 		Time endTime = new Time();
 		endTime.setTime("13:02");
 		period.setEndTime(endTime);
+		period.setDays(Arrays.asList(Day.MON));
 		condition.setReturnHours(Arrays.asList(period));
 		return Arrays.asList((Condition) condition);
+	}
+
+	@Override
+	protected List<String> getConditionsForLeg(SimpleLeg result) {
+		return Arrays.asList("Haarlem");
 	}
 
 	private Coordinates toPoint(double d, double e) {

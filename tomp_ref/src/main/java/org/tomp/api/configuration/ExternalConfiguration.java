@@ -40,8 +40,11 @@ public class ExternalConfiguration {
 	private String stationsFile;
 	private String areaFile;
 	private String bookingMailBox;
+	private int expirationDays;
 
 	private String externalUrl;
+	private String currencyCode;
+	private long vatRate;
 
 	public String getLookupService() {
 		return lookupService;
@@ -173,5 +176,29 @@ public class ExternalConfiguration {
 
 	public void setBookingMailBox(String bookingMailBox) {
 		this.bookingMailBox = bookingMailBox;
+	}
+
+	public int getExpirationDays() {
+		return expirationDays;
+	}
+
+	public void setExpirationDays(int expirationDays) {
+		this.expirationDays = expirationDays;
+	}
+
+	public String getCurrencyCode() {
+		return currencyCode;
+	}
+
+	public long getVatRate() {
+		return vatRate;
+	}
+
+	public void setCurrencyCode(String currencyCode) {
+		this.currencyCode = currencyCode;
+	}
+
+	public void setVatRate(long vatRate) {
+		this.vatRate = vatRate;
 	}
 }
