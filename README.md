@@ -100,3 +100,7 @@ To facilitate the adoption, we've added a demo:
 - Now you can call demo.bat (Windows, 64bit machine) that will set up a MaaS provider, a bike TO and a car TO. <br>
 - When running the script 'plan-and-book.bat' in the scripts directory (open first a cmd box), you'll see the interaction between the three boxes. The planning is fired from the cmd box to the MP box, it will interact with the TO boxes and will send the result to the cmd box. 
 - After that, you can select a trip to book. <br> The booking will be done in 2 steps: adding bookings to the TO and after that a commit.
+
+#  Living environment
+We've facilitated in a 'living environment', where you dan have a look how the TOMP API works. There are a few sample TOs available (car, bike, shared-car) and a very simple version of a MP. You can have a look at https://tomp.dat.nl/.<br>
+Available URLS: https://tomp.dat.nl/bike, https://tomp.dat.nl/car and https://tomp.dat.nl/shared-car. At this moment it's for demo purposes only. When using the shared-car TO, please put in the email adres of the user your email address and you'll get the email for committing or denying the shared car.
