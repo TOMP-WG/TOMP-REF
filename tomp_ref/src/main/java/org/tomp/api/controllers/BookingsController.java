@@ -1,5 +1,8 @@
 package org.tomp.api.controllers;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -75,9 +78,17 @@ public class BookingsController extends BookingsApiController {
 	@GetMapping("/postponed/{id}")
 	@ResponseBody
 	public String respondToPostponedBooking(@PathVariable("id") String id) {
-
 		if (provider instanceof SharedCarBookingProvider) {
-			return ((SharedCarBookingProvider) provider).getPostponedBookingHtml(id);
+
+			String reconstructedURL;
+			try {
+				reconstructedURL = new URL(request.getScheme(), request.getServerName(), request.getServerPort(),
+						"/postponed/").toString();
+			} catch (MalformedURLException e) {
+				reconstructedURL = "/postponed/";
+			}
+
+			return ((SharedCarBookingProvider) provider).getPostponedBookingHtml(id, reconstructedURL);
 		}
 		return "";
 	}

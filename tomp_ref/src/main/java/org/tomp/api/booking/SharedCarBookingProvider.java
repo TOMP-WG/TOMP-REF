@@ -185,11 +185,11 @@ public class SharedCarBookingProvider implements BookingProvider {
 		this.request = request;
 	}
 
-	public String getPostponedBookingHtml(String id) {
+	public String getPostponedBookingHtml(String id, String url) {
 		Booking booking = repository.getBooking(id);
 		StringBuilder builder = getBookingRequestText(booking);
 		String firstPart = builder.toString().replace("\r\n", "<br>");
-		return firstPart + "<form method=\"post\"> <div class=\"control\">"
+		return firstPart + "<form action=\"" + url + "\" method=\"post\"> <div class=\"control\">"
 				+ "<input type=\"hidden\" name=\"id\" value=\"" + id + "\">" + "  <label class=\"radio\">"
 				+ "    <input type=\"radio\" name=\"choice\" value=0>DENY" + "  </label><br>"
 				+ "  <label class=\"radio\">"
@@ -213,10 +213,15 @@ public class SharedCarBookingProvider implements BookingProvider {
 			if (kv.get(MAAS_ID) != null) {
 				MaasOperator mp = lookupService.callEndpoint("GET", "/operators/" + kv.get(MAAS_ID).toString(), null,
 						MaasOperator.class);
-				try {
-					clientUtil.post(mp, "/bookings/" + id + "/events", operation, Void.class);
-				} catch (ApiException e) {
-					log.error(e.getMessage());
+				if (mp != null) {
+					try {
+						clientUtil.post(mp, "/bookings/" + id + "/events", operation, Void.class);
+					} catch (ApiException e) {
+						log.error("MP {} cannot be reached", kv.get(MAAS_ID));
+						log.error(e.getMessage());
+					}
+				} else {
+					log.error("MP not in meta directory: {} or Meta directory not available", kv.get(MAAS_ID));
 				}
 				return;
 			}
