@@ -48,6 +48,7 @@ public class BookingsController extends BookingsApiController {
 		this.request = request;
 	}
 
+	@Override
 	public ResponseEntity<Booking> bookingsPost(
 			@ApiParam(value = "One of available options, returned by /planning-options, with an ID.", required = true) @Valid @RequestBody BookingOption body,
 			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
@@ -61,6 +62,7 @@ public class BookingsController extends BookingsApiController {
 		return new ResponseEntity<>(booking, HttpStatus.OK);
 	}
 
+	@Override
 	public ResponseEntity<Booking> bookingsIdEventsPost(
 			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
@@ -73,6 +75,26 @@ public class BookingsController extends BookingsApiController {
 		Booking booking = provider.addNewBookingEvent(body, acceptLanguage, id);
 
 		return new ResponseEntity<>(booking, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<Booking> bookingsIdGet(String acceptLanguage, String api, String apiVersion, String id) {
+		HeaderValidator.validateHeader(request);
+		return new ResponseEntity<>(provider.getBooking(id), HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<Void> bookingsIdSubscriptionPost(String acceptLanguage, String api, String apiVersion,
+			String id, @Valid Booking body) {
+		provider.subscribeToBookings(acceptLanguage, api, apiVersion, id, body);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@Override
+	public ResponseEntity<Void> bookingsIdSubscriptionDelete(String acceptLanguage, String api, String apiVersion,
+			String id) {
+		provider.unsubscribeToBookings(acceptLanguage, api, apiVersion, id);
+		return  new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@GetMapping("/postponed/{id}")

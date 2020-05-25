@@ -43,12 +43,12 @@ public class DummyRepository {
 		for (PlanningResult result : optionsToSave.getResults()) {
 			if (result instanceof SimpleLeg) {
 				SimpleLeg leg = (SimpleLeg) result;
+				log.info("Saved leg: {}", leg.getId());
 				options.put(leg.getId(), optionsToSave);
-				log.info("I've got to remember this leg: {}", leg.getId());
 			} else if (result instanceof CompositeLeg) {
 				CompositeLeg leg = (CompositeLeg) result;
+				log.info("Saved leg: {}", leg.getId());
 				options.put(leg.getId(), optionsToSave);
-				log.info("I've got to remember this leg: {}", leg.getId());
 			}
 		}
 	}
@@ -123,6 +123,7 @@ public class DummyRepository {
 		if (!startEvents.containsKey(id)) {
 			startEvents.put(id, new ArrayList<>());
 		}
+
 		startEvents.get(id).add(body);
 	}
 

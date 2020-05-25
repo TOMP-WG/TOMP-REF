@@ -66,7 +66,7 @@ public class OperatorInformationController extends OperatorApiController {
 		try {
 			return new ResponseEntity<>(provider.getOperatorInformation(acceptLanguage), HttpStatus.OK);
 		} catch (Exception e) {
-			log.error("operatorAvailableAssetsGet", e);
+			log.error("operatorInformationGet", e);
 
 			throw e;
 		}
@@ -82,7 +82,7 @@ public class OperatorInformationController extends OperatorApiController {
 		try {
 			return new ResponseEntity<>(provider.getStations(acceptLanguage), HttpStatus.OK);
 		} catch (Exception e) {
-			log.error("operatorAvailableAssetsGet", e);
+			log.error("operatorStationsGet", e);
 			throw e;
 		}
 	}
@@ -97,7 +97,7 @@ public class OperatorInformationController extends OperatorApiController {
 		try {
 			return new ResponseEntity<>(provider.getRegions(acceptLanguage), HttpStatus.OK);
 		} catch (Exception e) {
-			log.error("operatorAvailableAssetsGet", e);
+			log.error("operatorRegionsGet", e);
 			throw e;
 		}
 	}

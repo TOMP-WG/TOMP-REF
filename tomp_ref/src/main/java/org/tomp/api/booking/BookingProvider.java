@@ -14,4 +14,11 @@ public interface BookingProvider {
 	Booking addNewBooking(@Valid BookingOption body, String acceptLanguage);
 
 	Booking addNewBookingEvent(BookingOperation body, String acceptLanguage, String id);
+
+	Booking getBooking(String id);
+
+	void subscribeToBookings(String acceptLanguage, String api, String apiVersion, String id, @Valid Booking body);
+
+	void unsubscribeToBookings(String acceptLanguage, String api, String apiVersion, String id);
+	
 }

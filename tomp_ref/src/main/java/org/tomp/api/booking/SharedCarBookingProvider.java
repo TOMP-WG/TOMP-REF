@@ -287,4 +287,20 @@ public class SharedCarBookingProvider implements BookingProvider {
 		}
 	}
 
+	@Override
+	public Booking getBooking(String id) {
+		return repository.getBooking(id);
+	}
+
+	@Override
+	public void subscribeToBookings(String acceptLanguage, String api, String apiVersion, String id,
+			@Valid Booking body) {
+		throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
+	}
+
+	@Override
+	public void unsubscribeToBookings(String acceptLanguage, String api, String apiVersion, String id) {
+		throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
+	}
+
 }
