@@ -1,6 +1,5 @@
 package org.tomp.ref.api;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.Call;
 
@@ -39,26 +37,24 @@ import io.swagger.configuration.Registry;
 import io.swagger.model.Body;
 import io.swagger.model.Coordinates;
 import io.swagger.model.MaasOperator;
-import io.swagger.model.RegistrationResult;
-import io.swagger.model.RegistrationResult.StatusEnum;
 import io.swagger.model.SearchCondition;
 import io.swagger.model.SystemRegion;
 
 @Controller
 public class ApiController extends OperatorsApiController {
 
+	private static final String APPLICATION_JSON_TOKEN = "application/json";
+	private static final String ACCEPT_TOKEN = "Accept";
 	private static final Logger log = LoggerFactory.getLogger(ApiController.class);
 	private HttpServletRequest request;
 
 	private Registry repository;
 
 	private GeometryFactory factory = new GeometryFactory();
-	private ObjectMapper objectMapper;
 
 	@org.springframework.beans.factory.annotation.Autowired
 	public ApiController(ObjectMapper objectMapper, HttpServletRequest request, Registry repository) {
 		super(objectMapper, request);
-		this.objectMapper = objectMapper;
 		this.request = request;
 		this.repository = repository;
 	}
@@ -70,21 +66,25 @@ public class ApiController extends OperatorsApiController {
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
 			@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "id", required = true) String id,
 			@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "token", required = true) String token) {
-		String accept = request.getHeader("Accept");
-		if (accept != null && accept.contains("application/json")) {
-			MaasOperator maasOperator = repository.get(id);
-			if (maasOperator == null) {
-				return new ResponseEntity<MaasOperator>(HttpStatus.NOT_FOUND);
+		String accept = request.getHeader(ACCEPT_TOKEN);
+		if (accept != null && accept.contains(APPLICATION_JSON_TOKEN)) {
+			log.info("GET operators/authenticate/{}", id);
+			String storedToken = repository.getToken(id);
+			if (storedToken == null) {
+				log.info("NOT_FOUND {}", id);
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
 
-			if (!maasOperator.getValidationToken().equals(token)) {
-				return new ResponseEntity<MaasOperator>(HttpStatus.NOT_FOUND);
+			if (!storedToken.equals(token)) {
+				log.info("INCORRECT_TOKEN {}", id);
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
 
-			return new ResponseEntity<MaasOperator>(maasOperator, HttpStatus.OK);
+			log.info("OK {}", id);
+			return new ResponseEntity<>(repository.get(id), HttpStatus.OK);
 		}
 
-		return new ResponseEntity<MaasOperator>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 	@Override
@@ -94,18 +94,18 @@ public class ApiController extends OperatorsApiController {
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
 			@ApiParam(value = "maasId", required = true) @PathVariable("id") String id,
 			@ApiParam(value = "the old token") @Valid @RequestParam(value = "token", required = false) String token) {
-		String accept = request.getHeader("Accept");
-		log.info("Someone looked for maas operator {}", id);
-		if (accept != null && accept.contains("application/json")) {
+		String accept = request.getHeader(ACCEPT_TOKEN);
+		log.info("GET operators/{}", id);
+		if (accept != null && accept.contains(APPLICATION_JSON_TOKEN)) {
 			MaasOperator maasOperator = repository.get(id);
 			if (maasOperator != null) {
-				log.info("Found maas operator {}", id);
-				return new ResponseEntity<MaasOperator>(maasOperator, HttpStatus.OK);
+				log.info("OK {}", id);
+				return new ResponseEntity<>(maasOperator, HttpStatus.OK);
 			}
 		}
 
-		log.info("Did not find maas operator {}", id);
-		return new ResponseEntity<MaasOperator>(HttpStatus.NOT_FOUND);
+		log.info("NOT_FOUND {}", id);
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@Override
@@ -116,24 +116,20 @@ public class ApiController extends OperatorsApiController {
 			@ApiParam(value = "maasId", required = true) @PathVariable("id") String id,
 			@ApiParam(value = "") @Valid @RequestBody MaasOperator body,
 			@ApiParam(value = "the old token") @Valid @RequestParam(value = "token", required = false) String token) {
-		String accept = request.getHeader("Accept");
-		if (accept != null && accept.contains("application/json")) {
+		String accept = request.getHeader(ACCEPT_TOKEN);
+		if (accept != null && accept.contains(APPLICATION_JSON_TOKEN)) {
+			log.info("PUT operators/{}", id);
 			MaasOperator old = repository.get(id);
 			if (old == null) {
 				// return new ResponseEntity<MaasOperator>(HttpStatus.BAD_REQUEST);
 				// for now, autoregistrate
 				repository.register(body);
-				Body registrationBody = null;
-				try {
-					String serialized = objectMapper.writeValueAsString(body);
-					registrationBody = objectMapper.readValue(serialized, Body.class);
-				} catch (IOException e) {
-					log.error(e.getMessage());
-				}
-				return operatorsRegistratePost(acceptLanguage, api, apiVersion, registrationBody);
+				log.info("REGISTERED {}", id);
+				return new ResponseEntity<>(body, HttpStatus.OK);
 			}
 			if (old.getValidationToken().equals(token)) {
 				repository.register(body);
+				log.info("REFRESHED {}", id);
 				return new ResponseEntity<>(body, HttpStatus.OK);
 			}
 		}
@@ -147,16 +143,16 @@ public class ApiController extends OperatorsApiController {
 			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion) {
-		String accept = request.getHeader("Accept");
-		if (accept != null && accept.contains("application/json")) {
-
+		String accept = request.getHeader(ACCEPT_TOKEN);
+		if (accept != null && accept.contains(APPLICATION_JSON_TOKEN)) {
+			log.info("POST operators/{area}");
 			List<Coordinates> points = body.getArea().getPoints();
-
 			List<MaasOperator> locations = repository.getOperators(points);
-			return new ResponseEntity<List<MaasOperator>>(locations, HttpStatus.OK);
+			log.info("OK #found: {}", locations.size());
+			return new ResponseEntity<>(locations, HttpStatus.OK);
 		}
 
-		return new ResponseEntity<List<MaasOperator>>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 	@Override
@@ -165,16 +161,19 @@ public class ApiController extends OperatorsApiController {
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
 			@ApiParam(value = "") @Valid @RequestBody Body body) {
-		log.info("Registration request of " + body.getName() + " (" + body.getId() + ")");
-		log.info("Address " + body.getUrl() + "/" + body.getRegistrationresult());
+		String accept = request.getHeader(ACCEPT_TOKEN);
+		if (accept != null && accept.contains(APPLICATION_JSON_TOKEN)) {
+			log.info("POST operators/registrate {}", body.getName());
 
-		body.setId(UUID.randomUUID().toString());
-		repository.register(body);
+			body.setId(UUID.randomUUID().toString());
+			repository.register(body);
 
-		// sendResult(body);
-		fetchArea(body);
+			// sendResult(body);
+			fetchArea(body);
 
-		return new ResponseEntity<MaasOperator>(body, HttpStatus.OK);
+			log.info("response {}", body);
+		}
+		return new ResponseEntity<>(body, HttpStatus.OK);
 	}
 
 	private void fetchArea(MaasOperator operator) {
@@ -199,11 +198,11 @@ public class ApiController extends OperatorsApiController {
 					client.parameterToString(operator.getSupportedVersions().get(0).getVersion()));
 			headerParams.put("maas-id", "1");
 
-			final String[] localVarAccepts = { "application/json" };
+			final String[] localVarAccepts = { APPLICATION_JSON_TOKEN };
 			final String localVarAccept = client.selectHeaderAccept(localVarAccepts);
 			if (localVarAccept != null)
-				headerParams.put("Accept", localVarAccept);
-			headerParams.put("Content-Type", "application/json");
+				headerParams.put(ACCEPT_TOKEN, localVarAccept);
+			headerParams.put("Content-Type", APPLICATION_JSON_TOKEN);
 
 			try {
 				Object responsebody = null;
@@ -264,28 +263,29 @@ public class ApiController extends OperatorsApiController {
 		return coordinate;
 	}
 
-	private void sendResult(Body body) {
-		String registrationresult = body.getRegistrationresult();
-		String host = request.getRemoteHost();
-		int port = request.getRemotePort();
-		ApiClient client = new ApiClient();
-		String url = host + ":" + port + "/" + registrationresult;
-		List<Pair> collectionQueryParams = new ArrayList<>();
-		Map<String, String> headerParams = new HashMap<>();
-		Map<String, Object> formParams = new HashMap<>();
-		String[] authNames = new String[] {};
-
-		RegistrationResult responsebody = new RegistrationResult();
-		responsebody.setStatus(StatusEnum.ACCEPTED);
-
-		ProgressRequestListener progressRequestListener = null;
-		try {
-			Call call = client.buildCall(url, "POST", collectionQueryParams, responsebody, headerParams, formParams,
-					authNames, progressRequestListener);
-			client.execute(call);
-		} catch (ApiException e) {
-			e.printStackTrace();
-		}
-	}
+	// private void sendResult(Body body) {
+	// String registrationresult = body.getRegistrationresult();
+	// String host = request.getRemoteHost();
+	// int port = request.getRemotePort();
+	// ApiClient client = new ApiClient();
+	// String url = host + ":" + port + "/" + registrationresult;
+	// List<Pair> collectionQueryParams = new ArrayList<>();
+	// Map<String, String> headerParams = new HashMap<>();
+	// Map<String, Object> formParams = new HashMap<>();
+	// String[] authNames = new String[] {};
+	//
+	// RegistrationResult responsebody = new RegistrationResult();
+	// responsebody.setStatus(StatusEnum.ACCEPTED);
+	//
+	// ProgressRequestListener progressRequestListener = null;
+	// try {
+	// Call call = client.buildCall(url, "POST", collectionQueryParams,
+	// responsebody, headerParams, formParams,
+	// authNames, progressRequestListener);
+	// client.execute(call);
+	// } catch (ApiException e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 }

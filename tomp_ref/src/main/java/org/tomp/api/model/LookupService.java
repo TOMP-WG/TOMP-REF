@@ -78,7 +78,7 @@ public class LookupService {
 	private void refreshMetaInformation() throws IOException {
 		String body = body(configuration.getMaasId());
 		MaasOperator registered = callEndpoint("PUT",
-				"/operators/" + configuration.getMaasId() + "&token=" + configuration.getMaasId(), body,
+				"/operators/" + configuration.getMaasId() + "?token=" + configuration.getMaasId(), body,
 				MaasOperator.class);
 		if (registered != null) {
 			configuration.setMaasId(registered.getId());
@@ -113,7 +113,9 @@ public class LookupService {
 			lookupService = lookupService.substring(0, lookupService.length() - 1);
 		}
 		log.info("Calling {}{}", lookupService, endpoint);
-		log.info("body: {}", body);
+		if (body != null && !body.equals("")) {
+			log.info("body: {}", body);
+		}
 
 		client.setBasePath(lookupService);
 		List<Pair> queryParams = new ArrayList<>();

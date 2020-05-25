@@ -16,15 +16,22 @@ import io.swagger.model.Polygon;
 public class Registry {
 
 	private Map<String, MaasOperator> map = new HashMap<>();
+	private Map<String, String> tokens = new HashMap<>();
 	private Map<String, Polygon> areaMap = new HashMap<>();
 
 	public void register(MaasOperator operator) {
 		map.put(operator.getId(), operator);
+		tokens.put(operator.getId(), operator.getValidationToken());
+		operator.setValidationToken("");
 		registerArea(operator.getId(), operator.getServicedArea());
 	}
 
 	public MaasOperator get(String id) {
 		return map.get(id);
+	}
+
+	public String getToken(String id) {
+		return tokens.get(id);
 	}
 
 	public void registerArea(String id, Polygon serviceArea) {
