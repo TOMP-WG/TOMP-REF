@@ -12,16 +12,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.model.LookupService;
+import org.tomp.api.model.MaasEnvironmentType;
 import org.tomp.api.model.MaasOperator;
 import org.tomp.api.model.Segment;
 import org.tomp.api.model.TransportOperator;
 import org.tomp.api.utils.ClientUtil;
-import org.tomp.api.utils.ObjectFromFileProvider;
+import org.tomp.api.utils.ExternalFileService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.client.ApiException;
 import io.swagger.model.Coordinates;
@@ -36,45 +35,38 @@ public class TOProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(TOProvider.class);
 
-	private ExternalConfiguration configuration;
-	private ObjectMapper mapper;
+	private ExternalFileService fileService;
 	private ClientUtil clientUtil;
 	private LookupService lookupService;
 	List<TransportOperator> cache = new ArrayList<>();
 
 	@Autowired
-	public TOProvider(ExternalConfiguration configuration, ObjectMapper mapper, ClientUtil clientUtil,
-			LookupService lookupService) {
-		this.configuration = configuration;
-		this.mapper = mapper;
+	public TOProvider(ClientUtil clientUtil, LookupService lookupService, ExternalFileService fileService) {
 		this.clientUtil = clientUtil;
 		this.lookupService = lookupService;
+		this.fileService = fileService;
 	}
 
 	@PostConstruct
-	public void registrateWithMeta() {
-		if (configuration.getExternalUrl() != null) {
-			populateTOs();
-		}
+	private void populateTOs() {
+		getOperatorsInArea(fileService.getArea());
 	}
 
-	private void populateTOs() {
-		ObjectFromFileProvider<Polygon> areaProvider = new ObjectFromFileProvider<>();
-		Polygon area = areaProvider.getObject("", Polygon.class, configuration.getAreaFile());
+	private void getOperatorsInArea(Polygon area) {
+		MaasOperator[] data;
 		try {
-			addTOsFromAreaToCache(area);
+			data = lookupService.findOperators(area);
+			for (int i = 0; i < data.length; i++) {
+				if (data[i].getType() == MaasEnvironmentType.TO) {
+					TransportOperator operator = new TransportOperator();
+					operator.setName(data[i].getName());
+					operator.setId(data[i].getId());
+					operator.setUrl(data[i].getUrl());
+					populateTransportOperatorInfo(operator);
+				}
+			}
 		} catch (JsonProcessingException e) {
 			log.error(e.getMessage());
-		}
-	}
-
-	private void addTOsFromAreaToCache(Polygon area) throws JsonProcessingException {
-		Object body = "{\"area\": " + mapper.writeValueAsString(area) + "}";
-		MaasOperator[] data = lookupService.callEndpoint("POST", "/transport-operators", body, MaasOperator[].class);
-		for (int i = 0; i < data.length; i++) {
-			TransportOperator operator = new TransportOperator();
-			operator.setUrl(data[i].getUrl());
-			populateTransportOperatorInfo(operator);
 		}
 	}
 
@@ -87,11 +79,7 @@ public class TOProvider {
 			populateTOs();
 		}
 		if (!segmentInCache(segment)) {
-			try {
-				addTOsForSegment(segment);
-			} catch (JsonProcessingException e) {
-				log.error(e.getMessage());
-			}
+			getOperatorsInArea(getBoundingBox(segment));
 		}
 		return cache;
 	}
@@ -102,11 +90,6 @@ public class TOProvider {
 				return o;
 		}
 		return null;
-	}
-
-	private void addTOsForSegment(Segment segment) throws JsonProcessingException {
-		Polygon polygon = getBoundingBox(segment);
-		addTOsFromAreaToCache(polygon);
 	}
 
 	private Polygon getBoundingBox(Segment segment) {
@@ -204,6 +187,7 @@ public class TOProvider {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
+		log.info("Fetch info of {}", operator.getName());
 	}
 
 	private void getRegionInformation(TransportOperator operator) throws ApiException {

@@ -14,7 +14,9 @@ tomp:
    condition-file: src/main/resources/conditions.json
    regions-file: src/main/resources/regions.json
    stations-file: src/main/resources/stations.json
+   version-file: src/main/resources/versions.json
    external-url: http://localhost:8080/
+   environment-type: MP
    expiration-days: 14
    currency-code: NL
    vat-rate: 21   

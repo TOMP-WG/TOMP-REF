@@ -11,9 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tomp.api.authentication.AuthenticationException;
 import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.exceptions.MissingArgumentException;
+import org.tomp.api.model.LookupService;
 
 @Component
 public class HeaderValidator {
@@ -21,9 +21,12 @@ public class HeaderValidator {
 	private static HeaderValidator singleton;
 
 	private static final Logger log = LoggerFactory.getLogger(HeaderValidator.class);
+	private LookupService lookupService;
 
 	@Autowired
-	private HeaderValidator(ExternalConfiguration configuration) {
+	private HeaderValidator(ExternalConfiguration configuration, LookupService lookupService) {
+		this.lookupService = lookupService;
+
 		requiredHeaderValues.put("api-version", configuration.getApiVersion());
 		requiredHeaderValues.put("api", "TOMP");
 		requiredHeaderValues.put("accept-language", "*");
@@ -56,15 +59,14 @@ public class HeaderValidator {
 		}
 	}
 
-	private static void checkValidCombination(String thumbprint, String maasId) {
-		if (validateCertificate(maasId)) {
-			String msg = String.format("Invalid combination maas-id/certificate %s %s", maasId, thumbprint);
+	private void checkValidCombination(String token, String maasId) {
+		if (validateCertificate(maasId, token)) {
+			String msg = String.format("Invalid combination maas-id/certificate %s %s", maasId, token);
 			log.error(msg);
-			throw new AuthenticationException(msg);
 		}
 	}
 
-	private static boolean validateCertificate(String maasId) {
-		return !maasId.equals("1");
+	private boolean validateCertificate(String maasId, String token) {
+		return lookupService.validate(maasId, token);
 	}
 }

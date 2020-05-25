@@ -3,10 +3,8 @@ spring:
    application:
       name: shared-car
    mail:
-      host: smtp.office365.com
-      port: 25
-      username: <username>
-      password: <password>
+      username: bte@dat.nl
+      password: Dat4Bt.e17!
       properties:
          mail:
             smtp:
@@ -24,8 +22,9 @@ tomp:
    stations-file: src/main/resources/stations.json
    area-file: src/main/resources/area.json
    external-url: http://localhost:8086/
-   booking-mail-box: <mailbox>
+   booking-mail-box: bte@dat.nl
    expiration-days: 14
+   version-file: src/main/resources/versions.json
    currency-code: NL
    vat-rate: 21
    

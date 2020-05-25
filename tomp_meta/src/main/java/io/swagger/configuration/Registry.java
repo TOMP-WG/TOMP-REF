@@ -20,6 +20,7 @@ public class Registry {
 
 	public void register(MaasOperator operator) {
 		map.put(operator.getId(), operator);
+		registerArea(operator.getId(), operator.getServicedArea());
 	}
 
 	public MaasOperator get(String id) {

@@ -1,0 +1,28 @@
+[
+	{
+		"version": "0.5.0",
+		"endpoints": [
+			{
+				"method": "POST",
+				"path": "/planning-options/",
+				"status": "IMPLEMENTED"
+			},
+			{
+				"method": "POST",
+				"path": "/bookings/",
+				"status": "IMPLEMENTED"
+			},
+			{
+				"method": "POST",
+				"path": "/bookings/{id}/events",
+				"status": "IMPLEMENTED"
+			},
+			{
+				"method": "POST",
+				"path": "/legs/{id}/events",
+				"status": "IMPLEMENTED"
+			}
+		],
+		"scenarios": []
+	}
+]

@@ -5,8 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.model.Endpoint;
+import io.swagger.model.EndpointImplementation;
 import io.swagger.model.MaasEnvironmentType;
 import io.swagger.model.Polygon;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -15,10 +19,13 @@ import javax.validation.constraints.*;
  * MaasOperator
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-06T06:58:30.612Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-18T13:09:36.434Z[GMT]")
 public class MaasOperator   {
   @JsonProperty("id")
   private String id = null;
+
+  @JsonProperty("nation")
+  private Endpoint nation = null;
 
   @JsonProperty("type")
   private MaasEnvironmentType type = null;
@@ -29,11 +36,15 @@ public class MaasOperator   {
   @JsonProperty("url")
   private String url = null;
 
-  @JsonProperty("version")
-  private String version = null;
+  @JsonProperty("supportedVersions")
+  @Valid
+  private List<EndpointImplementation> supportedVersions = null;
 
   @JsonProperty("validationToken")
   private String validationToken = null;
+
+  @JsonProperty("transactionProvider")
+  private String transactionProvider = null;
 
   @JsonProperty("servicedArea")
   private Polygon servicedArea = null;
@@ -55,6 +66,26 @@ public class MaasOperator   {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public MaasOperator nation(Endpoint nation) {
+    this.nation = nation;
+    return this;
+  }
+
+  /**
+   * Get nation
+   * @return nation
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public Endpoint getNation() {
+    return nation;
+  }
+
+  public void setNation(Endpoint nation) {
+    this.nation = nation;
   }
 
   public MaasOperator type(MaasEnvironmentType type) {
@@ -115,23 +146,31 @@ public class MaasOperator   {
     this.url = url;
   }
 
-  public MaasOperator version(String version) {
-    this.version = version;
+  public MaasOperator supportedVersions(List<EndpointImplementation> supportedVersions) {
+    this.supportedVersions = supportedVersions;
+    return this;
+  }
+
+  public MaasOperator addSupportedVersionsItem(EndpointImplementation supportedVersionsItem) {
+    if (this.supportedVersions == null) {
+      this.supportedVersions = new ArrayList<EndpointImplementation>();
+    }
+    this.supportedVersions.add(supportedVersionsItem);
     return this;
   }
 
   /**
-   * Get version
-   * @return version
+   * Get supportedVersions
+   * @return supportedVersions
   **/
   @ApiModelProperty(value = "")
-  
-    public String getVersion() {
-    return version;
+      @Valid
+    public List<EndpointImplementation> getSupportedVersions() {
+    return supportedVersions;
   }
 
-  public void setVersion(String version) {
-    this.version = version;
+  public void setSupportedVersions(List<EndpointImplementation> supportedVersions) {
+    this.supportedVersions = supportedVersions;
   }
 
   public MaasOperator validationToken(String validationToken) {
@@ -140,10 +179,10 @@ public class MaasOperator   {
   }
 
   /**
-   * can be a thumbprint of a certificate
+   * can be a thumbprint of a certificate.
    * @return validationToken
   **/
-  @ApiModelProperty(value = "can be a thumbprint of a certificate")
+  @ApiModelProperty(value = "can be a thumbprint of a certificate.")
   
     public String getValidationToken() {
     return validationToken;
@@ -151,6 +190,25 @@ public class MaasOperator   {
 
   public void setValidationToken(String validationToken) {
     this.validationToken = validationToken;
+  }
+
+  public MaasOperator transactionProvider(String transactionProvider) {
+    this.transactionProvider = transactionProvider;
+    return this;
+  }
+
+  /**
+   * the transactionprocessor of this operator
+   * @return transactionProvider
+  **/
+  @ApiModelProperty(value = "the transactionprocessor of this operator")
+  
+    public String getTransactionProvider() {
+    return transactionProvider;
+  }
+
+  public void setTransactionProvider(String transactionProvider) {
+    this.transactionProvider = transactionProvider;
   }
 
   public MaasOperator servicedArea(Polygon servicedArea) {
@@ -184,17 +242,19 @@ public class MaasOperator   {
     }
     MaasOperator maasOperator = (MaasOperator) o;
     return Objects.equals(this.id, maasOperator.id) &&
+        Objects.equals(this.nation, maasOperator.nation) &&
         Objects.equals(this.type, maasOperator.type) &&
         Objects.equals(this.name, maasOperator.name) &&
         Objects.equals(this.url, maasOperator.url) &&
-        Objects.equals(this.version, maasOperator.version) &&
+        Objects.equals(this.supportedVersions, maasOperator.supportedVersions) &&
         Objects.equals(this.validationToken, maasOperator.validationToken) &&
+        Objects.equals(this.transactionProvider, maasOperator.transactionProvider) &&
         Objects.equals(this.servicedArea, maasOperator.servicedArea);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, type, name, url, version, validationToken, servicedArea);
+    return Objects.hash(id, nation, type, name, url, supportedVersions, validationToken, transactionProvider, servicedArea);
   }
 
   @Override
@@ -203,11 +263,13 @@ public class MaasOperator   {
     sb.append("class MaasOperator {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    nation: ").append(toIndentedString(nation)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    url: ").append(toIndentedString(url)).append("\n");
-    sb.append("    version: ").append(toIndentedString(version)).append("\n");
+    sb.append("    supportedVersions: ").append(toIndentedString(supportedVersions)).append("\n");
     sb.append("    validationToken: ").append(toIndentedString(validationToken)).append("\n");
+    sb.append("    transactionProvider: ").append(toIndentedString(transactionProvider)).append("\n");
     sb.append("    servicedArea: ").append(toIndentedString(servicedArea)).append("\n");
     sb.append("}");
     return sb.toString();

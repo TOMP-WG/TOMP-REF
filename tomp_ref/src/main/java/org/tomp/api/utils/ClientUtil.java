@@ -97,6 +97,7 @@ public class ClientUtil {
 			url = url.substring(0, url.length() - 1);
 		}
 		apiClient.setBasePath(url);
+		apiClient.setReadTimeout(10000);
 		log.info("Connecting to {}{}", url, localVarPath);
 		log.info("Body {}", localVarPostBody);
 

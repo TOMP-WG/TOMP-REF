@@ -5,7 +5,7 @@ spring:
 server:
    port: 8082
 tomp:
-   maas-id: da612986-3408-4c91-adf9-8dbbc16ff4f9
+   maas-id: d52bfad0-ee4b-4f72-9f38-efce115ffb49
    asset-file: src/main/resources/bikes.json
    lookup-service: http://localhost:7999/
    accept-language: nl
@@ -15,7 +15,8 @@ tomp:
    regions-file: src/main/resources/regions.json
    stations-file: src/main/resources/stations.json
    area-file: src/main/resources/area.json
-   external-url: http://localhost:8080/
+   external-url: http://localhost:8082/
+   version-file: src/main/resources/versions.json
    expiration-days: 14
    currency-code: NL
    vat-rate: 21

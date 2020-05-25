@@ -1,5 +1,7 @@
 package org.tomp.api.booking;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -8,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 import org.tomp.api.model.Segment;
 import org.tomp.api.model.TransportOperator;
 import org.tomp.api.model.Trip;
@@ -22,6 +26,12 @@ import io.swagger.model.BookingOperation;
 import io.swagger.model.BookingOperation.OperationEnum;
 import io.swagger.model.BookingOption;
 import io.swagger.model.BookingState;
+import io.swagger.model.Card;
+import io.swagger.model.Card.CardTypeEnum;
+import io.swagger.model.Condition;
+import io.swagger.model.ConditionRequireBookingData;
+import io.swagger.model.ConditionRequireBookingData.RequiredFieldsEnum;
+import io.swagger.model.PlanningOptions;
 import io.swagger.model.SimpleLeg;
 
 @Component
@@ -49,49 +59,112 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 		if (savedOption != null) {
 			log.info("Found option {}", body.getId());
 			Booking booking = new Booking();
+			booking.setState(BookingState.PENDING);
 			booking.setId(body.getId());
 			log.info("Book legs");
-			boolean blockingTransportOperator = bookAllLegs(body, savedOption);
+			BookingState state = bookAllLegs(body, savedOption);
 
 			repository.saveBooking(booking);
 			// all bookings in pending
-			if (!blockingTransportOperator) {
-				log.info("Commit legs");
+			if (state == BookingState.PENDING) {
 				commitAllLegs(body, savedOption, booking);
-				log.info("Ready!");
+				return booking;
+			} else {
+				log.info("Booking switched to state {}", state);
+				booking.setState(state);
 				return booking;
 			}
 		}
 		log.error("Illegal request. I didn't provide this id");
-		throw new RuntimeException();
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
 
 	@Override
 	public Booking addNewBookingEvent(BookingOperation body, String acceptLanguage, String id) {
 		log.info("{} {}", body.getOperation(), id);
 		Booking booking = repository.getBooking(id);
+		if (booking != null) {
+			handleMaaSBooking(body, booking);
+			return booking;
+		}
+		return handleClientBooking(body, id, booking);
+	}
+
+	private Booking handleClientBooking(BookingOperation body, String id, Booking booking) {
+		Booking clientBooking = maasRepository.getClientBooking(id);
 
 		switch (body.getOperation()) {
 		case COMMIT:
-			booking.setState(BookingState.CONFIRMED);
-			repository.saveBooking(booking);
-			return booking;
+			return commitConditionalConfirmedBooking(booking, clientBooking);
 		case CANCEL:
-			booking.setState(BookingState.CANCELLED);
-			repository.saveBooking(booking);
-			return booking;
+			return bookingIsCancelled(clientBooking);
 		case DENY:
-			booking.setState(BookingState.RELEASED);
-			repository.saveBooking(booking);
-			return booking;
+			return denyConditionalConfirmedBooking(booking, clientBooking);
 		case EXPIRE:
-			booking.setState(BookingState.EXPIRED);
-			repository.saveBooking(booking);
-			return booking;
+			return conditionalConfirmedBookingIsExpired(booking);
 		default:
 			break;
 		}
 		return null;
+	}
+
+	private Booking bookingIsCancelled(Booking booking) {
+		booking.setState(BookingState.CANCELLED);
+		repository.saveBooking(booking);
+		return booking;
+	}
+
+	private Booking conditionalConfirmedBookingIsExpired(Booking booking) {
+		booking.setState(BookingState.EXPIRED);
+		repository.saveBooking(booking);
+		return booking;
+	}
+
+	private Booking denyConditionalConfirmedBooking(Booking maasBooking, Booking deniedBooing) {
+		if (deniedBooing.getState() == BookingState.CONDITIONAL_CONFIRMED) {
+			deniedBooing.setState(BookingState.RELEASED);
+		} else {
+			throw new UnsupportedOperationException();
+		}
+
+		maasBooking.setState(BookingState.RELEASED);
+		repository.saveBooking(maasBooking);
+		return maasBooking;
+	}
+
+	private Booking commitConditionalConfirmedBooking(Booking booking, Booking clientBooking) {
+		if (clientBooking.getState() == BookingState.CONDITIONAL_CONFIRMED) {
+			clientBooking.setState(BookingState.CONFIRMED);
+		} else {
+			throw new UnsupportedOperationException();
+		}
+
+		booking.setState(BookingState.CONFIRMED);
+		repository.saveBooking(booking);
+		return booking;
+	}
+
+	private void handleMaaSBooking(BookingOperation body, Booking booking) {
+		if (body.getOperation() == OperationEnum.CANCEL) {
+			cancelAllClientBookings(booking);
+			return;
+		}
+		throw new UnsupportedOperationException();
+	}
+
+	private void cancelAllClientBookings(Booking booking) {
+		List<SimpleEntry<Booking, TransportOperator>> clientBookings = maasRepository.getClientBookings(booking);
+		for (SimpleEntry<Booking, TransportOperator> clientBooking : clientBookings) {
+			BookingOperation operation = new BookingOperation();
+			operation.setOperation(OperationEnum.CANCEL);
+			try {
+				clientUtil.post(clientBooking.getValue(), "/bookings/" + clientBooking.getKey().getId() + "/events/",
+						operation, Booking.class);
+			} catch (ApiException e) {
+				log.error(e.getMessage());
+			}
+		}
+		booking.setState(BookingState.CANCELLED);
 	}
 
 	private void commitAllLegs(BookingOption body, Trip savedOption, Booking booking) {
@@ -118,7 +191,7 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 					break;
 				}
 
-				maasRepository.addTOBooking(booking, clientBooking);
+				maasRepository.addClientBooking(booking, operator, clientBooking);
 			} catch (ApiException e) {
 				log.error("Error during committing {}", operator.getName());
 				log.error(e.getMessage());
@@ -148,24 +221,90 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 		}
 	}
 
-	private boolean bookAllLegs(BookingOption body, Trip savedOption) {
-		boolean blockingTransportOperator = false;
+	private BookingState bookAllLegs(BookingOption body, Trip savedOption) {
+		BookingState generalState = BookingState.PENDING;
 		for (Segment segment : savedOption.getSegments()) {
 			TransportOperator operator = segment.getOperators().iterator().next();
 			BookingOption option = new BookingOption();
-			String id = ((SimpleLeg) segment.getResult(operator).getResults().get(0)).getId();
+			PlanningOptions result = segment.getResult(operator);
+			SimpleLeg simpleLeg = (SimpleLeg) result.getResults().get(0);
+			String id = simpleLeg.getId();
 			option.setId(id);
 			option.setCustomer(body.getCustomer());
+
+			addRequiredFields(option, result, simpleLeg);
+
 			try {
 				Booking clientBooking = clientUtil.post(operator, "/bookings/", option, Booking.class);
-				if (clientBooking == null || !clientBooking.getState().equals(BookingState.PENDING)) {
-					blockingTransportOperator = true;
+				if (clientBooking == null) {
+					return BookingState.CANCELLED;
+				}
+				if (!clientBooking.getState().equals(BookingState.PENDING)) {
+					generalState = clientBooking.getState();
 				}
 			} catch (ApiException e) {
 				log.error("Error during booking {}", operator.getName());
-				e.printStackTrace();
 			}
 		}
-		return blockingTransportOperator;
+		return generalState;
+	}
+
+	private void addRequiredFields(BookingOption option, PlanningOptions result, SimpleLeg simpleLeg) {
+		for (String conditionName : simpleLeg.getConditions()) {
+			ConditionRequireBookingData condition = getRequireBookingDataCondition(result.getConditions(),
+					conditionName);
+			if (condition != null) {
+				for (RequiredFieldsEnum field : condition.getRequiredFields()) {
+					addRequiredField(option, field);
+				}
+			}
+		}
+	}
+
+	private void addRequiredField(BookingOption option, RequiredFieldsEnum field) {
+		switch (field) {
+		case BANK_CARDS:
+			Card card = new Card();
+			card.setCardType(CardTypeEnum.BANK);
+			card.setCardNumber("NL21RABO43892222");
+			card.setCountry("NL");
+			option.getCustomer().setCards(Arrays.asList(card));
+			break;
+		case BIRTHDATE:
+			break;
+		case CREDIT_CARDS:
+			break;
+		case DISCOUNT_CARDS:
+			break;
+		case EMAIL:
+			break;
+		case FROM_ADDRESS:
+			break;
+		case ID_CARDS:
+			break;
+		case LICENSES:
+			break;
+		case PERSONAL_ADDRESS:
+			break;
+		case PHONE_NUMBERS:
+			break;
+		case TO_ADDRESS:
+			break;
+		case TRAVEL_CARDS:
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	private ConditionRequireBookingData getRequireBookingDataCondition(List<Condition> conditions,
+			String conditionName) {
+		for (Condition c : conditions) {
+			if (c instanceof ConditionRequireBookingData) {
+				return (ConditionRequireBookingData) c;
+			}
+		}
+		return null;
 	}
 }

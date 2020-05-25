@@ -2,10 +2,14 @@ openapi: 3.0.0
 info:
   title: MaaS Lookup Directory
   description: A lookup directory for TOs and MPs (TOMP API)
-  version: "0.1.0"
+  version: "0.2.0"
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+tags:
+  - name: lookup
+    description: endpoints for the lookup service.
 
 paths:
   /operators/registrate:
@@ -15,6 +19,8 @@ paths:
       - $ref: '#/components/parameters/apiVersion'
     post:
       description: registrate a TO
+      tags:
+        - lookup
       requestBody:
         content:
           application/json:
@@ -27,6 +33,12 @@ paths:
                       type: string
                       format: url
       responses:
+        '200':
+          description: this operator has been registrated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/maasOperator'
         '202':
           $ref: '#/components/responses/202Accepted'
         '400':
@@ -48,13 +60,15 @@ paths:
                 '204':
                   $ref: '#/components/responses/204NoContent'
 
-  /transport-operators:
+  /operators:
     parameters:
       - $ref: '#/components/parameters/acceptLanguage'
       - $ref: '#/components/parameters/api'
       - $ref: '#/components/parameters/apiVersion'
     post:
       description: returns TOs based on the search conditions
+      tags:
+        - lookup
       requestBody:
         required: true
         content:
@@ -63,11 +77,13 @@ paths:
               $ref: '#/components/schemas/searchCondition'
       responses:
         '200':
-          description: A new booking was succesfully created, status pending
+          description: returns corresponding operators
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/maasOperator'
+                type: array
+                items:
+                  $ref: '#/components/schemas/maasOperator'
         '400':
           $ref: '#/components/responses/400BadRequest'
         '401':
@@ -75,19 +91,26 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
 
-  /operators/validate:
+  /operators/authenticate:
     parameters:
       - $ref: '#/components/parameters/acceptLanguage'
       - $ref: '#/components/parameters/api'
       - $ref: '#/components/parameters/apiVersion'
     post:
-      description: validates if the MaaS Operator is valid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/validationRequest'
+      description: validates if the MaaS Operator is valid. If the maasId and token don't match (or the maasId doesnt exist), a 400 should be returned. 
+      tags:
+        - lookup
+      parameters: 
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: The MaaS Operator is found, result contains details
@@ -113,17 +136,23 @@ paths:
         required: true
         schema:
           type: string
+      - name: token
+        in: query
+        description: the old token
+        required: false
+        schema:
+          type: string
     get:
       description: get information about the TO or MP with provided maasId
+      tags:
+        - lookup
       responses:
         '200':
-          description: A new booking was succesfully created, status pending
+          description: maasOperator with requested id
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/maasOperator'
+                $ref: '#/components/schemas/maasOperator'
         '400':
           $ref: '#/components/responses/400BadRequest'
         '401':
@@ -131,6 +160,26 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
 
+    put:
+      description: refresh data from TO/MP. The TO/MP should provide this to the lookup service as soon there are changes.
+      tags:
+        - lookup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/maasOperator'
+      responses:
+        '200':
+          description: The MaaS Operator information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/maasOperator'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
 
 components:
   schemas:
@@ -149,12 +198,47 @@ components:
         lat:
           type: number
           example: 52.253279
+          
+    country:
+      type: string
+      description: country codes according ISO 3166-2
+      maxLength: 2
+      minLength: 2
+      example: NL
+    
+    endpoint:
+      type: object
+      properties:
+        method: 
+          type: string
+          enum: [POST, PUT, GET, DELETE, PATCH]
+        path:
+          type: string
+        status:
+          type: string
+          enum: [NOT_IMPLEMENTED, DIALECT, IMPLEMENTED, PARTLY_IMPLEMENTED]
+      
+    endpointImplementation:
+      type: object
+      properties:
+        version:
+          type: string
+        endpoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/endpoint'
+        scenarios:
+          type: array
+          items:
+            $ref: '#/components/schemas/scenario'
 
     maasOperator:
       type: object
       properties:
         id:
           type: string
+        country:
+          $ref: '#/components/schemas/country'
         type:
           $ref: '#/components/schemas/maasEnvironmentType'
         name:
@@ -162,11 +246,16 @@ components:
         url:
           type: string
           format: uri
-        version:
-          type: string
+        supportedVersions:
+          type: array
+          items: 
+            $ref: '#/components/schemas/endpointImplementation'
         validationToken:
           type: string
-          description: can be a thumbprint of a certificate
+          description: can be a thumbprint of a certificate.
+        transactionProvider:
+          description: the transactionprocessor of this operator
+          type: string
         servicedArea:
           $ref: '#/components/schemas/polygon'
     
@@ -182,6 +271,10 @@ components:
           items:
             $ref: '#/components/schemas/coordinates'
           minLength: 3
+          
+    scenario:
+      type: string
+      enum: [POSTPONED_COMMIT, BOOKING_WITH_OBJECT]
 
     searchCondition:
       type: object
@@ -210,6 +303,11 @@ components:
         status:
           type: string
           enum: [ACCEPTED, REJECTED]
+        maasId:
+          description: the maas ID for the operator
+          type: string
+        country:
+          $ref: '#/components/schemas/endpoint'
         reason:
           type: string
       

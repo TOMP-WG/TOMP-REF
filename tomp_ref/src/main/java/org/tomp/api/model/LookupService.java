@@ -1,16 +1,22 @@
 package org.tomp.api.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
+import org.tomp.api.utils.ExternalFileService;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.Call;
 
 import io.swagger.client.ApiClient;
@@ -18,6 +24,7 @@ import io.swagger.client.ApiException;
 import io.swagger.client.ApiResponse;
 import io.swagger.client.Pair;
 import io.swagger.client.ProgressRequestBody.ProgressRequestListener;
+import io.swagger.model.Polygon;
 
 @Component
 public class LookupService {
@@ -25,13 +32,81 @@ public class LookupService {
 	private static final Logger log = LoggerFactory.getLogger(LookupService.class);
 
 	private ExternalConfiguration configuration;
+	private ObjectMapper mapper;
+
+	private HashMap<String, MaasOperator> cache = new HashMap<>();
 
 	@Autowired
-	public LookupService(ExternalConfiguration configuration) {
+	ExternalFileService fileService;
+
+	@Autowired
+	public LookupService(ExternalConfiguration configuration, ObjectMapper mapper) {
 		this.configuration = configuration;
+		this.mapper = mapper;
 	}
 
-	public <T> T callEndpoint(String method, String endpoint, Object body, Class<T> c) {
+	public MaasOperator getMaasOperator(String id) {
+		MaasOperator operator = cache.get(id);
+		if (operator == null) {
+			operator = callEndpoint("GET", "/operators/" + id, null, MaasOperator.class);
+			cache.put(id, operator);
+		}
+		return operator;
+	}
+
+	public boolean validate(String maasId, String token) {
+		MaasOperator operator = callEndpoint("POST", "/operators/authenticate?id=" + maasId + "&token=" + token, "",
+				MaasOperator.class);
+		return operator != null;
+
+	}
+
+	public MaasOperator[] findOperators(Polygon area) throws JsonProcessingException {
+		Object body = "{\"area\": " + mapper.writeValueAsString(area) + "}";
+		return callEndpoint("POST", "/operators", body, MaasOperator[].class);
+	}
+
+	@PostConstruct
+	public void configureLookUp() throws IOException {
+		if (configuration.getMaasId().equals("none")) {
+			registrateOperator();
+		} else {
+			refreshMetaInformation();
+		}
+	}
+
+	private void refreshMetaInformation() throws IOException {
+		String body = body(configuration.getMaasId());
+		MaasOperator registered = callEndpoint("PUT",
+				"/operators/" + configuration.getMaasId() + "&token=" + configuration.getMaasId(), body,
+				MaasOperator.class);
+		if (registered != null) {
+			configuration.setMaasId(registered.getId());
+		}
+	}
+
+	private void registrateOperator() throws IOException {
+		String body = body("");
+		MaasOperator registered = callEndpoint("POST", "/operators/registrate", body, MaasOperator.class);
+		if (registered != null) {
+			log.info("Assigned id: {}", registered.getId());
+			configuration.setMaasId(registered.getId());
+		}
+	}
+
+	private String body(String id) throws IOException {
+		Polygon area = fileService.getArea();
+		MaasEnvironmentType type = configuration.getEnvironmentType();
+		return "{" + "  \"id\": \"" + id + "\"," + "  \"type\": " + mapper.writeValueAsString(type) + ","
+				+ "  \"name\": \"" + configuration.getAppName() + "\"," + "  \"url\": \""
+				+ configuration.getExternalUrl() + "\"," + "  \"supportedVersions\": " + fileService.getVersions()
+				+ ",  \"validationToken\": \"" + configuration.getMaasId() + "\","
+				+ "  \"transactionProvider\": \"none\"," + "  \"servicedArea\": " + "    "
+				+ mapper.writeValueAsString(area) + "," + "  \"registrationresult\": \""
+				+ configuration.getExternalUrl() + "/registrated/\"" + "}";
+	}
+
+	private <T> T callEndpoint(String method, String endpoint, Object body, Class<T> c) {
 		String lookupService = configuration.getLookupService();
 		ApiClient client = new ApiClient();
 		if (lookupService.endsWith("/")) {

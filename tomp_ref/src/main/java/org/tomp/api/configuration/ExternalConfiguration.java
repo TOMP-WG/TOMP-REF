@@ -2,17 +2,18 @@ package org.tomp.api.configuration;
 
 import java.util.List;
 
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
+import org.tomp.api.model.MaasEnvironmentType;
 import org.tomp.api.model.TransportOperator;
 
 @Component
 @ConfigurationProperties(prefix = "tomp")
-@Validated
 public class ExternalConfiguration {
 
 	private static final Logger log = LoggerFactory.getLogger(ExternalConfiguration.class);
@@ -21,12 +22,15 @@ public class ExternalConfiguration {
 		log.info("Configuration file");
 	}
 
+	@Value("${spring.application.name}")
+	private String appName;
+
 	private String lookupService;
-	@NotBlank
+	@NotEmpty
 	private String maasId;
-	@NotBlank
+	@NotEmpty
 	private String acceptLanguage;
-	@NotBlank
+	@NotEmpty
 	private String apiVersion;
 	private String assetFile;
 	private String systemInformationFile;
@@ -45,6 +49,10 @@ public class ExternalConfiguration {
 	private String externalUrl;
 	private String currencyCode;
 	private long vatRate;
+
+	private String versionFile;
+
+	private MaasEnvironmentType environmentType = MaasEnvironmentType.TO;
 
 	public String getLookupService() {
 		return lookupService;
@@ -200,5 +208,29 @@ public class ExternalConfiguration {
 
 	public void setVatRate(long vatRate) {
 		this.vatRate = vatRate;
+	}
+
+	public String getAppName() {
+		return appName;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+	public String getVersionFile() {
+		return versionFile;
+	}
+
+	public void setVersionFile(String versionFile) {
+		this.versionFile = versionFile;
+	}
+
+	public MaasEnvironmentType getEnvironmentType() {
+		return environmentType;
+	}
+
+	public void setEnvironmentType(MaasEnvironmentType environmentType) {
+		this.environmentType = environmentType;
 	}
 }

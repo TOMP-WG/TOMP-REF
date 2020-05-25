@@ -1,5 +1,6 @@
 package org.tomp.api.booking;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,13 +10,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.model.LookupService;
 import org.tomp.api.model.MaasOperator;
-import org.tomp.api.model.MaasProvider;
 import org.tomp.api.repository.DummyRepository;
 import org.tomp.api.utils.ClientUtil;
+import org.tomp.api.utils.FareUtil;
+import org.tomp.api.utils.LegUtil;
 import org.tomp.api.utils.MailUtil;
 
 import io.swagger.client.ApiException;
@@ -26,6 +30,9 @@ import io.swagger.model.BookingOption;
 import io.swagger.model.BookingState;
 import io.swagger.model.Coordinates;
 import io.swagger.model.Customer;
+import io.swagger.model.ExtraCosts;
+import io.swagger.model.JournalCategory;
+import io.swagger.model.JournalEntry;
 import io.swagger.model.KeyValue;
 import io.swagger.model.OptionsLeg;
 import io.swagger.model.PlanningResult;
@@ -45,6 +52,12 @@ public class SharedCarBookingProvider implements BookingProvider {
 	private ExternalConfiguration configuration;
 	private HttpServletRequest request;
 	private ClientUtil clientUtil;
+
+	@Autowired
+	FareUtil fareUtil;
+
+	@Autowired
+	LegUtil legUtil;
 
 	@Autowired
 	public SharedCarBookingProvider(DummyRepository repository, MailUtil mailService,
@@ -71,7 +84,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 	protected void validateId(String id) {
 		if (repository.getSavedOption(id) == null) {
 			log.error("Did not provide this leg {}", id);
-			throw new RuntimeException();
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -82,43 +95,90 @@ public class SharedCarBookingProvider implements BookingProvider {
 
 		switch (body.getOperation()) {
 		case COMMIT:
-			Booking booking = repository.getBooking(id);
-			booking.setState(BookingState.CONDITIONAL_CONFIRMED);
-			String maasId = request.getHeader(MAAS_ID);
-			KeyValue e = new KeyValue();
-			e.put(MAAS_ID, maasId);
-			ArrayList<KeyValue> meta = new ArrayList<>();
-			meta.add(e);
-			booking.setMeta(meta);
-			String mpUrl = getMPUrl(maasId);
-			if (mpUrl.endsWith("/")) {
-				mpUrl = mpUrl.substring(0, mpUrl.length() - 1);
-			}
-			booking.setWebhook(mpUrl + "/bookings/" + id + "/events");
-			repository.saveBooking(booking);
-			sendMail(mpUrl, booking);
-			return booking;
+			return commitBooking(id);
 		case CANCEL:
-			break;
+			return cancelBooking(id);
 		case DENY:
-			break;
+			throw new UnsupportedOperationException();
 		case EXPIRE:
-			break;
+			throw new UnsupportedOperationException();
 		default:
-			break;
+			throw new UnsupportedOperationException();
 		}
-		return null;
 	}
 
-	private void sendMail(String mpUrl, Booking booking) {
-		StringBuilder builder = getBookingRequestText(booking);
-		String email = booking.getCustomer().getEmail();
-		if (email == null || email.equals("")) {
-			email = configuration.getBookingMailBox();
-		}
-		mailService.sendSimpleMessage(configuration.getBookingMailBox(), email, "Booking request: " + booking.getId(),
-				builder.toString());
+	private Booking cancelBooking(String id) {
+		Booking booking = repository.getBooking(id);
 
+		if (booking.getState() == BookingState.CONFIRMED) {
+			// TODO test if it's not yet started!
+
+			booking.setState(BookingState.CANCELLED);
+			JournalEntry entry = new JournalEntry();
+			PlanningResult savedOption = repository.getSavedOption(id);
+
+			double calculated = fareUtil.calculateFare(savedOption);
+			if (calculated > 0) {
+				entry.setAmount(BigDecimal.valueOf(calculated * 0.05)); // 5% fine in case of cancelling a booked leg
+				ExtraCosts costs = new ExtraCosts();
+				costs.setAmount(BigDecimal.valueOf(calculated * 0.05));
+				costs.setCategory(JournalCategory.FINE);
+				entry.setDetails(costs);
+				repository.saveJournalEntry(entry, request.getHeader("maas-id"));
+			}
+		} else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only CONFIRMED bookings can be cancelled");
+		}
+		return booking;
+	}
+
+	private Booking commitBooking(String id) {
+		Booking booking = repository.getBooking(id);
+		booking.setState(BookingState.CONDITIONAL_CONFIRMED);
+		String maasId = request.getHeader(MAAS_ID);
+		KeyValue e = new KeyValue();
+		e.put(MAAS_ID, maasId);
+		ArrayList<KeyValue> meta = new ArrayList<>();
+		meta.add(e);
+		booking.setMeta(meta);
+		String mpUrl = getMPUrl(maasId);
+		if (mpUrl.endsWith("/")) {
+			mpUrl = mpUrl.substring(0, mpUrl.length() - 1);
+		}
+		booking.setWebhook(mpUrl + "/bookings/" + id + "/events");
+		repository.saveBooking(booking);
+		sendMail(booking);
+		return booking;
+	}
+
+	private void sendMail(Booking booking) {
+		StringBuilder builder = getBookingRequestText(booking);
+		String to = booking.getCustomer().getEmail();
+		if (to == null || to.equals("")) {
+			to = configuration.getBookingMailBox();
+		}
+
+		SendMailThread t = new SendMailThread(configuration.getBookingMailBox(), to, booking.getId(),
+				builder.toString());
+		new Thread(t).start();
+	}
+
+	private class SendMailThread implements Runnable {
+		private String to;
+		private String bookingId;
+		private String body;
+		private String from;
+
+		public SendMailThread(String from, String to, String bookingId, String body) {
+			this.from = from;
+			this.to = to;
+			this.bookingId = bookingId;
+			this.body = body;
+		}
+
+		public void run() {
+			mailService.sendSimpleMessage(from, to, "Booking request: " + bookingId, body);
+		}
 	}
 
 	private StringBuilder getBookingRequestText(Booking booking) {
@@ -166,7 +226,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 	}
 
 	private String getMPUrl(String maasId) {
-		MaasProvider maasProvider = lookupService.callEndpoint("GET", "/operators/" + maasId, null, MaasProvider.class);
+		MaasOperator maasProvider = lookupService.getMaasOperator(maasId);
 
 		if (maasProvider != null) {
 			return maasProvider.getUrl();
@@ -211,8 +271,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 		operation.setOperation(committed ? OperationEnum.COMMIT : OperationEnum.DENY);
 		for (KeyValue kv : booking.getMeta()) {
 			if (kv.get(MAAS_ID) != null) {
-				MaasOperator mp = lookupService.callEndpoint("GET", "/operators/" + kv.get(MAAS_ID).toString(), null,
-						MaasOperator.class);
+				MaasOperator mp = lookupService.getMaasOperator(kv.get(MAAS_ID).toString());
 				if (mp != null) {
 					try {
 						clientUtil.post(mp, "/bookings/" + id + "/events", operation, Void.class);

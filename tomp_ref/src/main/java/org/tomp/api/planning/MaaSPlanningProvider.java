@@ -27,10 +27,12 @@ import io.swagger.model.AssetClass;
 import io.swagger.model.CompositeLeg;
 import io.swagger.model.Condition;
 import io.swagger.model.Coordinates;
+import io.swagger.model.KeyValue;
 import io.swagger.model.OperatorLeg;
 import io.swagger.model.PlanningCheck;
 import io.swagger.model.PlanningOptions;
 import io.swagger.model.PlanningResult;
+import io.swagger.model.Requirements;
 import io.swagger.model.SimpleLeg;
 import io.swagger.model.TypeOfAsset;
 import io.swagger.model.User;
@@ -145,10 +147,19 @@ public class MaaSPlanningProvider implements PlanningProvider {
 	}
 
 	private void applyPersonalStuff(PlanningCheck body) {
+		boolean first = true;
 		for (User user : body.getUsers()) {
 			// you can apply your knowledge of the end user in the body. It will be passed
 			// to the TOs
-
+			user.setValidated(true);
+			if (first) {
+				Requirements requirements = new Requirements();
+				KeyValue e = new KeyValue();
+				e.put("CROW-RK", "HR-02");
+				requirements.add(e);
+				user.setRequirements(requirements);
+				first = false;
+			}
 		}
 	}
 

@@ -6,24 +6,69 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Endpoint;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * RegistrationResult
+ * Endpoint
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-18T13:09:36.434Z[GMT]")
-public class RegistrationResult   {
+public class Endpoint   {
+  /**
+   * Gets or Sets method
+   */
+  public enum MethodEnum {
+    POST("POST"),
+    
+    PUT("PUT"),
+    
+    GET("GET"),
+    
+    DELETE("DELETE"),
+    
+    PATCH("PATCH");
+
+    private String value;
+
+    MethodEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static MethodEnum fromValue(String text) {
+      for (MethodEnum b : MethodEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+  @JsonProperty("method")
+  private MethodEnum method = null;
+
+  @JsonProperty("path")
+  private String path = null;
+
   /**
    * Gets or Sets status
    */
   public enum StatusEnum {
-    ACCEPTED("ACCEPTED"),
+    NOT_IMPLEMENTED("NOT_IMPLEMENTED"),
     
-    REJECTED("REJECTED");
+    DIALECT("DIALECT"),
+    
+    IMPLEMENTED("IMPLEMENTED"),
+    
+    PARTLY_IMPLEMENTED("PARTLY_IMPLEMENTED");
 
     private String value;
 
@@ -50,16 +95,45 @@ public class RegistrationResult   {
   @JsonProperty("status")
   private StatusEnum status = null;
 
-  @JsonProperty("maasId")
-  private String maasId = null;
+  public Endpoint method(MethodEnum method) {
+    this.method = method;
+    return this;
+  }
 
-  @JsonProperty("country")
-  private Endpoint country = null;
+  /**
+   * Get method
+   * @return method
+  **/
+  @ApiModelProperty(value = "")
+  
+    public MethodEnum getMethod() {
+    return method;
+  }
 
-  @JsonProperty("reason")
-  private String reason = null;
+  public void setMethod(MethodEnum method) {
+    this.method = method;
+  }
 
-  public RegistrationResult status(StatusEnum status) {
+  public Endpoint path(String path) {
+    this.path = path;
+    return this;
+  }
+
+  /**
+   * Get path
+   * @return path
+  **/
+  @ApiModelProperty(value = "")
+  
+    public String getPath() {
+    return path;
+  }
+
+  public void setPath(String path) {
+    this.path = path;
+  }
+
+  public Endpoint status(StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -78,64 +152,6 @@ public class RegistrationResult   {
     this.status = status;
   }
 
-  public RegistrationResult maasId(String maasId) {
-    this.maasId = maasId;
-    return this;
-  }
-
-  /**
-   * the maas ID for the operator
-   * @return maasId
-  **/
-  @ApiModelProperty(value = "the maas ID for the operator")
-  
-    public String getMaasId() {
-    return maasId;
-  }
-
-  public void setMaasId(String maasId) {
-    this.maasId = maasId;
-  }
-
-  public RegistrationResult country(Endpoint country) {
-    this.country = country;
-    return this;
-  }
-
-  /**
-   * Get country
-   * @return country
-  **/
-  @ApiModelProperty(value = "")
-  
-    @Valid
-    public Endpoint getCountry() {
-    return country;
-  }
-
-  public void setCountry(Endpoint country) {
-    this.country = country;
-  }
-
-  public RegistrationResult reason(String reason) {
-    this.reason = reason;
-    return this;
-  }
-
-  /**
-   * Get reason
-   * @return reason
-  **/
-  @ApiModelProperty(value = "")
-  
-    public String getReason() {
-    return reason;
-  }
-
-  public void setReason(String reason) {
-    this.reason = reason;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -145,27 +161,25 @@ public class RegistrationResult   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    RegistrationResult registrationResult = (RegistrationResult) o;
-    return Objects.equals(this.status, registrationResult.status) &&
-        Objects.equals(this.maasId, registrationResult.maasId) &&
-        Objects.equals(this.country, registrationResult.country) &&
-        Objects.equals(this.reason, registrationResult.reason);
+    Endpoint endpoint = (Endpoint) o;
+    return Objects.equals(this.method, endpoint.method) &&
+        Objects.equals(this.path, endpoint.path) &&
+        Objects.equals(this.status, endpoint.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(status, maasId, country, reason);
+    return Objects.hash(method, path, status);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class RegistrationResult {\n");
+    sb.append("class Endpoint {\n");
     
+    sb.append("    method: ").append(toIndentedString(method)).append("\n");
+    sb.append("    path: ").append(toIndentedString(path)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    maasId: ").append(toIndentedString(maasId)).append("\n");
-    sb.append("    country: ").append(toIndentedString(country)).append("\n");
-    sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
     sb.append("}");
     return sb.toString();
   }

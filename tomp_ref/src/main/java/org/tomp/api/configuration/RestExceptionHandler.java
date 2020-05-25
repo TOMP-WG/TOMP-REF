@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import org.tomp.api.authentication.AuthenticationException;
 import org.tomp.api.exceptions.MissingArgumentException;
 
 import io.swagger.model.Error;
@@ -34,7 +33,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		log.info("ExceptionHandler active");
 	}
 
-	@ExceptionHandler({ IllegalArgumentException.class, MissingArgumentException.class, AuthenticationException.class })
+	@ExceptionHandler({ IllegalArgumentException.class, MissingArgumentException.class }) // ,
+																							// AuthenticationException.class
+																							// })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	protected Error handleHttpMessageNotReadable(RuntimeException exception) {
