@@ -47,7 +47,7 @@ public class Registry {
 		List<MaasOperator> locations = new ArrayList<>();
 
 		for (Entry<String, Polygon> entry : areaMap.entrySet()) {
-			if (GeometryUtil.overlaps(points, entry.getValue().getPoints())) {
+			if (points == null || points.isEmpty() || GeometryUtil.overlaps(points, entry.getValue().getPoints())) {
 				MaasOperator maasOperator = map.get(entry.getKey());
 				locations.add(maasOperator);
 			}

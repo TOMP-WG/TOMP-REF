@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * RegistrationResult
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-18T13:09:36.434Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-26T11:47:26.599Z[GMT]")
 public class RegistrationResult   {
   /**
    * Gets or Sets status

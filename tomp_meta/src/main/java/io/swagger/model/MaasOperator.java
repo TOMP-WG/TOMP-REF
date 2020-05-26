@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Endpoint;
 import io.swagger.model.EndpointImplementation;
 import io.swagger.model.MaasEnvironmentType;
 import io.swagger.model.Polygon;
@@ -19,13 +18,13 @@ import javax.validation.constraints.*;
  * MaasOperator
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-18T13:09:36.434Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-26T11:47:26.599Z[GMT]")
 public class MaasOperator   {
   @JsonProperty("id")
   private String id = null;
 
-  @JsonProperty("nation")
-  private Endpoint nation = null;
+  @JsonProperty("country")
+  private String country = null;
 
   @JsonProperty("type")
   private MaasEnvironmentType type = null;
@@ -68,24 +67,23 @@ public class MaasOperator   {
     this.id = id;
   }
 
-  public MaasOperator nation(Endpoint nation) {
-    this.nation = nation;
+  public MaasOperator country(String country) {
+    this.country = country;
     return this;
   }
 
   /**
-   * Get nation
-   * @return nation
+   * Get country
+   * @return country
   **/
   @ApiModelProperty(value = "")
   
-    @Valid
-    public Endpoint getNation() {
-    return nation;
+  @Size(min=2,max=2)   public String getCountry() {
+    return country;
   }
 
-  public void setNation(Endpoint nation) {
-    this.nation = nation;
+  public void setCountry(String country) {
+    this.country = country;
   }
 
   public MaasOperator type(MaasEnvironmentType type) {
@@ -242,7 +240,7 @@ public class MaasOperator   {
     }
     MaasOperator maasOperator = (MaasOperator) o;
     return Objects.equals(this.id, maasOperator.id) &&
-        Objects.equals(this.nation, maasOperator.nation) &&
+        Objects.equals(this.country, maasOperator.country) &&
         Objects.equals(this.type, maasOperator.type) &&
         Objects.equals(this.name, maasOperator.name) &&
         Objects.equals(this.url, maasOperator.url) &&
@@ -254,7 +252,7 @@ public class MaasOperator   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, nation, type, name, url, supportedVersions, validationToken, transactionProvider, servicedArea);
+    return Objects.hash(id, country, type, name, url, supportedVersions, validationToken, transactionProvider, servicedArea);
   }
 
   @Override
@@ -263,7 +261,7 @@ public class MaasOperator   {
     sb.append("class MaasOperator {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    nation: ").append(toIndentedString(nation)).append("\n");
+    sb.append("    country: ").append(toIndentedString(country)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    url: ").append(toIndentedString(url)).append("\n");

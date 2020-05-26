@@ -1,5 +1,6 @@
 package org.tomp.ref.api;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,10 +20,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.Call;
@@ -38,11 +43,13 @@ import io.swagger.model.Body;
 import io.swagger.model.Coordinates;
 import io.swagger.model.MaasOperator;
 import io.swagger.model.SearchCondition;
+import io.swagger.model.StringContainer;
 import io.swagger.model.SystemRegion;
 
 @Controller
 public class ApiController extends OperatorsApiController {
 
+	private static final String CELL_SPLIT = "</td><td>";
 	private static final String APPLICATION_JSON_TOKEN = "application/json";
 	private static final String ACCEPT_TOKEN = "Accept";
 	private static final Logger log = LoggerFactory.getLogger(ApiController.class);
@@ -288,4 +295,81 @@ public class ApiController extends OperatorsApiController {
 	// }
 	// }
 
+	@GetMapping("/maas-operators/")
+	@ResponseBody
+	public String listMaasOperatorsPage() {
+		StringBuilder builder = new StringBuilder("<html><head><title>Registrated MaaS Operators</title></head><body>");
+		builder.append("<h1>registrated operators</h1>");
+		builder.append("<table><tr><th>name</th><th>url</th><th>id</th><th>type</th></tr>");
+		for (MaasOperator operator : repository.getOperators(null)) {
+			builder.append("<tr><td>");
+			builder.append(operator.getName());
+			builder.append(CELL_SPLIT);
+			builder.append(operator.getUrl());
+			builder.append(CELL_SPLIT);
+			builder.append(operator.getId());
+			builder.append(CELL_SPLIT);
+			builder.append(operator.getType());
+			builder.append("</td></tr>");
+		}
+		builder.append("</table>");
+		builder.append("<a href=\"/maas-operators/add\">Registrate new operator</a>");
+		return builder.toString();
+	}
+
+	@GetMapping("/maas-operators/add")
+	@ResponseBody
+	public String addMaasOperatorPage() {
+		StringBuilder builder = new StringBuilder(
+				"<html><head><title>Registrate new MaaS Operator</title></head><body>");
+		builder.append("<form action=\"/maas-operators/registrate\" method=\"post\">");
+		builder.append("<textarea id=\"json\" name=\"json\" rows=\"50\" cols=\"100\">");
+		builder.append(template());
+		builder.append("</textarea><input type=\"submit\" value=\"Submit\"></form>");
+
+		return builder.toString();
+	}
+
+	private String template() {
+		//@formatter:off
+		return "{ \"country\": \"NL\",\r\n"
+				+ "  \"type\": \"TO\",\r\n"
+				+ "  \"name\": \"{{name}}\",\r\n"
+				+ "  \"url\": \"{{public url}}\",\r\n"
+				+ "  \"supportedVersions\": [\r\n"
+				+ "  { \"version\": \"0.5.0\",\r\n"
+				+ "    \"endpoints\": [\r\n"
+				+ "       { \"method\": \"POST\",\r\n"
+				+ "          \"path\": \"string\",\r\n"
+				+ "          \"status\": \"NOT_IMPLEMENTED\"\r\n"
+				+ "       }\r\n"
+				+ "    ],\r\n"
+				+ "   \"scenarios\": [\r\n"
+				+ "       \"POSTPONED_COMMIT\"\r\n"
+				+ "      ]\r\n"
+				+ "  }\r\n"
+				+ "  ],\r\n"
+				+ "  \"validationToken\": \"{{optional validationToken}}\",\r\n"
+				+ "  \"servicedArea\": {\r\n"
+				+ "    \"points\": [\r\n"
+				+ "      { \"lng\": 6.169639,\r\n"
+				+ "        \"lat\": 52.253279\r\n"
+				+ "      }\r\n"
+				+ "    ]"
+				+ "  }}";
+		//@formatter:on
+	}
+
+	@PostMapping("/maas-operators/registrate")
+	@ResponseBody
+	public String registrateMaasOperator(@ModelAttribute StringContainer operatorContainer) throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		MaasOperator operator = mapper.readValue(operatorContainer.getJson(), MaasOperator.class);
+		if (operator != null) {
+			operator.setId(UUID.randomUUID().toString());
+			repository.register(operator);
+		}
+		return "<html><body>ID: " + operator.getId() + "<br>body:" + mapper.writeValueAsString(operator)
+				+ "<br><a href=\"/maas-operators/\">Back</a></body></html>";
+	}
 }
