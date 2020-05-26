@@ -45,7 +45,7 @@ e.g. calling POST http://localhost:8090/planning-options/ with body
 will result in a few planning options. There is a very simple implementation, dividing the route in a few legs and for each leg it will look for TOs that can fulfill the request. 
 
 ## Meta lookup
-There is a seperate project with a meta lookup webservice. It contains the available TOs and MPs. It's modifiable in 'operators.json'.
+There is a seperate project with a meta lookup webservice. It contains the available TOs and MPs. The TOs and MPs that are currently implemented registrate themselves on the meta lookup.
 
 ## Operators
 These operators are available:<br>
