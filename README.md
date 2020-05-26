@@ -57,7 +57,16 @@ There are also other possibilities to start up other operators, look at the appl
 If you want to add extra functionality to a (new) operator, please make another provider class for that TO in each module.
 
 ## Front end
-There is no front end yet. The front end to develop can use the endpoints from the TOMP API to access the information. This way you can also test TO component.
+The front end contains a map and 2 seperate boxes on the right side. One is containing the request body (and a submit button), the most right one contains the response.
+
+You should use the front end this way (example for https://tomp.dat.nl/bike as TO):
+- first of all, replace the id in the header with a MP id (can be found on https://tomp.dat.nl/
+- select POST /planning-options/ and click on 2 locations on the map; the request body will be filled in correctly
+- optionally change the body before sending it. The response will be in the right box.
+- change the provideIds: false to true, click on send. You've pre-reserved assets
+- copy the ID that is provided into the 'id' box
+- select POST /bookings and submit the request. A pending booking is returned.
+- select POST /bookings/{id}/events and put in the 'COMMIT' command. Submit to commit the booking.
 
 ## Example calls
 The {id} is produced by the example planning call. All the components don't persist data, so restarting them requires new calls.
