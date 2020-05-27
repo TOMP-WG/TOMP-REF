@@ -21,6 +21,7 @@ import { MainComponent } from './components/main/main.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MainComponent
   ],
   imports: [
+    RouterModule.forRoot([]),
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,

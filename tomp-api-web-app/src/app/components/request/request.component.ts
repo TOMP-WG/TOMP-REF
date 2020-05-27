@@ -5,6 +5,7 @@ import { Endpoint } from '../../domain/endpoint.model';
 import { ApiService } from '../../services/api.service';
 import { EndpointType } from '../../domain/endpoint.enum';
 import { CustomHeaders } from '../../domain/custom-headers.model';
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-request',
@@ -22,7 +23,7 @@ export class RequestComponent implements OnInit {
   public headers: CustomHeaders = new CustomHeaders();
   public id: string;
 
-  constructor(public internalService: InternalService, public apiService: ApiService) {
+  constructor(public internalService: InternalService, public apiService: ApiService, private route: ActivatedRoute) {
     this.internalService.onUpdatePlanning().subscribe(planning => this.updatePlanning(planning));
   }
 
@@ -34,6 +35,23 @@ export class RequestComponent implements OnInit {
         this.body = this.endpoint.body;
       }
     });
+
+    this.route.queryParamMap.subscribe( param => {
+      let externalUrl = param.get("url");
+      if( externalUrl != null ){
+        this.url = externalUrl;
+      }
+      let externalId = param.get("maas-id");
+      if( externalId != null ) {
+        this.headers["maas-id"] = externalId;
+      }
+      let apiVersion = param.get("api-version");
+      if ( apiVersion != null)  {
+        this.headers["Api-Version"] = apiVersion;
+      }
+    });
+
+    
   }
 
   public onSubmit() {
