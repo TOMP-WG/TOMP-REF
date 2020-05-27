@@ -28,14 +28,6 @@ export class RequestComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.apiService.loadEndpointConfig().subscribe(data => {
-      this.endpoints = data;
-      if (this.endpoints.length > 0) {
-        this.endpoint = this.endpoints[0];
-        this.body = this.endpoint.body;
-      }
-    });
-
     this.route.queryParamMap.subscribe( param => {
       let externalUrl = param.get("url");
       if( externalUrl != null ){
@@ -49,9 +41,14 @@ export class RequestComponent implements OnInit {
       if ( apiVersion != null)  {
         this.headers["Api-Version"] = apiVersion;
       }
+      this.apiService.loadEndpointConfig(this.headers["Api-Version"]).subscribe(data => {
+        this.endpoints = data;
+        if (this.endpoints.length > 0) {
+          this.endpoint = this.endpoints[0];
+          this.body = this.endpoint.body;
+        }
+      });
     });
-
-    
   }
 
   public onSubmit() {
@@ -95,6 +92,14 @@ export class RequestComponent implements OnInit {
 
   public headerChanged(key: string, value: string) {
     this.headers[key] = value;
+    if (key == 'Api-Version'){
+      this.apiService.loadEndpointConfig(this.headers["Api-Version"]).subscribe(data => {
+        const index = this.endpoints.indexOf(this.endpoint);
+        this.endpoints = data;
+        this.endpoint = this.endpoints[index];        
+        this.onEndpointChanged();
+      });
+    }
   }
 
   public getHeaderProperties() {

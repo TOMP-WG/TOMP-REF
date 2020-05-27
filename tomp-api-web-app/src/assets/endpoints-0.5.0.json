@@ -1,5 +1,33 @@
 [
   {
+    "type": "GET",
+    "value": "/operator/information"
+  },
+  {
+    "type": "GET",
+    "value": "​/operator​/available-assets"
+  },
+  {
+    "type": "GET",
+    "value": "/operator/regions"
+  },
+  {
+    "type": "GET",
+    "value": "/operator/alerts"
+  },
+  {
+    "type": "GET",
+    "value": "/operator/operating-calendar"
+  },
+  {
+    "type": "GET",
+    "value": "/operator/operating-hours"
+  },
+  {
+    "type": "GET",
+    "value": "/operator/pricing-plans"
+  },
+  {
     "type": "POST",
     "value": "/planning-options/",
     "body": {
@@ -16,10 +44,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "GET",
-    "value": "/operator/information"
   },
   {
     "type": "POST",
@@ -101,7 +125,7 @@
     "type": "POST",
     "value": "/bookings/{id}/events",
     "body": {
-      "operation": "CANCEL"
+      "operation": "COMMIT"
     }
   },
   {

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +42,8 @@ import io.swagger.client.ProgressRequestBody.ProgressRequestListener;
 import io.swagger.configuration.Registry;
 import io.swagger.model.Body;
 import io.swagger.model.Coordinates;
+import io.swagger.model.EndpointImplementation;
+import io.swagger.model.MaasEnvironmentType;
 import io.swagger.model.MaasOperator;
 import io.swagger.model.SearchCondition;
 import io.swagger.model.StringContainer;
@@ -52,6 +55,8 @@ public class ApiController extends OperatorsApiController {
 	private static final String CELL_SPLIT = "</td><td>";
 	private static final String APPLICATION_JSON_TOKEN = "application/json";
 	private static final String ACCEPT_TOKEN = "Accept";
+	private static final String BODY_TAG = "<body style='background-color: #808080; color: #ffff; font-family: Roboto,Helvetica Neue,sans-serif;'>";
+
 	private static final Logger log = LoggerFactory.getLogger(ApiController.class);
 	private HttpServletRequest request;
 
@@ -298,22 +303,46 @@ public class ApiController extends OperatorsApiController {
 	@GetMapping("/maas-operators/")
 	@ResponseBody
 	public String listMaasOperatorsPage() {
-		StringBuilder builder = new StringBuilder("<html><head><title>Registrated MaaS Operators</title></head><body>");
+		StringBuilder builder = new StringBuilder(
+				"<html><head><title>Registrated MaaS Operators</title></head>" + BODY_TAG);
 		builder.append("<h1>registrated operators</h1>");
-		builder.append("<table><tr><th>name</th><th>url</th><th>id</th><th>type</th></tr>");
-		for (MaasOperator operator : repository.getOperators(null)) {
-			builder.append("<tr><td>");
-			builder.append(operator.getName());
-			builder.append(CELL_SPLIT);
-			builder.append(operator.getUrl());
-			builder.append(CELL_SPLIT);
-			builder.append(operator.getId());
-			builder.append(CELL_SPLIT);
-			builder.append(operator.getType());
-			builder.append("</td></tr>");
+		builder.append("<table><tr><th>name</th><th>version</th><th>url</th><th>id</th><th>type</th></tr>");
+
+		String mpId = "";
+		List<MaasOperator> operators = repository.getOperators(null);
+		Optional<MaasOperator> findFirst = operators.stream().filter(x -> x.getType().equals(MaasEnvironmentType.MP))
+				.findFirst();
+		if (findFirst.isPresent()) {
+			mpId = findFirst.get().getId();
+		}
+
+		for (MaasOperator operator : operators) {
+			for (EndpointImplementation version : operator.getSupportedVersions()) {
+				builder.append("<tr><td>");
+				builder.append(operator.getName());
+				builder.append(CELL_SPLIT);
+				builder.append("<a href='https://tomp.dat.nl/?url=");
+				builder.append(operator.getUrl());
+				if (!mpId.equals("")) {
+					builder.append("&maas-id=");
+					builder.append(mpId);
+				}
+				builder.append("&api-version=");
+				builder.append(version.getVersion());
+				builder.append("'>");
+				builder.append(version.getVersion());
+				builder.append("</a>");
+				builder.append(CELL_SPLIT);
+				builder.append(operator.getUrl());
+				builder.append(CELL_SPLIT);
+				builder.append(operator.getId());
+				builder.append(CELL_SPLIT);
+				builder.append(operator.getType());
+				builder.append("</td></tr>");
+			}
 		}
 		builder.append("</table>");
-		builder.append("<a href=\"/maas-operators/add\">Registrate new operator</a>");
+		builder.append("<a style='color:white' href=\"/maas-operators/add\">Registrate new operator</a>");
 		return builder.toString();
 	}
 
@@ -321,7 +350,7 @@ public class ApiController extends OperatorsApiController {
 	@ResponseBody
 	public String addMaasOperatorPage() {
 		StringBuilder builder = new StringBuilder(
-				"<html><head><title>Registrate new MaaS Operator</title></head><body>");
+				"<html><head><title>Registrate new MaaS Operator</title></head>" + BODY_TAG);
 		builder.append("<form action=\"/maas-operators/registrate\" method=\"post\">");
 		builder.append("<textarea id=\"json\" name=\"json\" rows=\"50\" cols=\"100\">");
 		builder.append(template());
@@ -339,10 +368,35 @@ public class ApiController extends OperatorsApiController {
 				+ "  \"supportedVersions\": [\r\n"
 				+ "  { \"version\": \"0.5.0\",\r\n"
 				+ "    \"endpoints\": [\r\n"
-				+ "       { \"method\": \"POST\",\r\n"
-				+ "          \"path\": \"string\",\r\n"
-				+ "          \"status\": \"NOT_IMPLEMENTED\"\r\n"
-				+ "       }\r\n"
+				+ "      {\"method\": \"POST\",\"path\": \"/planning-options/\",\"status\": \"IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"POST\",\"path\": \"/bookings/\",\"status\": \"IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"POST\",\"path\": \"/bookings/{id}/events\",\"status\": \"IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/bookings/{id}\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"PUT\",\"path\": \"/bookings/{id}\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/bookings/?state=\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"POST\",\"path\": \"/bookings/{id}/subscription\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"DELETE\",\"path\": \"/bookings/{id}/subscription\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"POST\",\"path\": \"/legs/{id}/event/\",\"status\": \"IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/legs/{id}/available-assets/\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/legs/{id}\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"PUT\",\"path\": \"/legs/{id}/\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/legs/{id}/progress\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"POST\",\"path\": \"/legs/{id}/progress\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/legs/{id}/asset\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/bookings/{id}/notifications\",\"status\": \"IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"POST\",\"path\": \"/bookings/{id}/notifications\",\"status\": \"IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/operator/stations\",\"status\": \"IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/operator/available-assets\",\"status\": \"IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/operator/alerts\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/operator/operating-calander\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/operator/operating-hours\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/operator/information\",\"status\": \"IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/operator/pricing-plans\",\"status\": \"NOT_IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/operator/regions\",\"status\": \"IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/payment/journal-entry\",\"status\": \"IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"PATCH\",\"path\": \"/payment/claim-extra-costs\",\"status\": \"IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"POST\",\"path\": \"/support/\",\"status\": \"IMPLEMENTED\"},\r\n"
+				+ "      {\"method\": \"GET\",\"path\": \"/support/{id}/status\",\"status\": \"IMPLEMENTED\"}\r\n"
 				+ "    ],\r\n"
 				+ "   \"scenarios\": [\r\n"
 				+ "       \"POSTPONED_COMMIT\"\r\n"
@@ -351,12 +405,29 @@ public class ApiController extends OperatorsApiController {
 				+ "  ],\r\n"
 				+ "  \"validationToken\": \"{{optional validationToken}}\",\r\n"
 				+ "  \"servicedArea\": {\r\n"
-				+ "    \"points\": [\r\n"
-				+ "      { \"lng\": 6.169639,\r\n"
-				+ "        \"lat\": 52.253279\r\n"
-				+ "      }\r\n"
-				+ "    ]"
-				+ "  }}";
+				+ "    \"points\": [\r\n" + 
+				"		{\r\n" + 
+				"			\"lng\": 10.4920501709,\r\n" + 
+				"			\"lat\": 45.8179931641\r\n" + 
+				"		},\r\n" + 
+				"		{\r\n" + 
+				"			\"lng\": 10.4920501709,\r\n" + 
+				"			\"lat\": 47.808380127\r\n" + 
+				"		},\r\n" + 
+				"		{\r\n" + 
+				"			\"lng\": 5.9559111595,\r\n" + 
+				"			\"lat\": 47.808380127\r\n" + 
+				"		},\r\n" + 
+				"		{\r\n" + 
+				"			\"lng\": 5.9559111595,\r\n" + 
+				"			\"lat\": 45.8179931641\r\n" + 
+				"		},\r\n" + 
+				"		{\r\n" + 
+				"			\"lng\": 10.4920501709,\r\n" + 
+				"			\"lat\": 45.8179931641\r\n" + 
+				"		}\r\n" + 
+				"	]\r\n"
+				+ "}}";
 		//@formatter:on
 	}
 
@@ -369,7 +440,7 @@ public class ApiController extends OperatorsApiController {
 			operator.setId(UUID.randomUUID().toString());
 			repository.register(operator);
 		}
-		return "<html><body>ID: " + operator.getId() + "<br>body:" + mapper.writeValueAsString(operator)
-				+ "<br><a href=\"/maas-operators/\">Back</a></body></html>";
+		return "<html>" + BODY_TAG + "ID: " + operator.getId() + "<br>body:" + mapper.writeValueAsString(operator)
+				+ "<br><a style='color: white' href=\"/maas-operators/\">Back</a></body></html>";
 	}
 }

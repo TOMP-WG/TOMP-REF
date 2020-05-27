@@ -25,6 +25,10 @@ export class PlanComponent implements OnInit {
     this.internalService.updatePlanning(object as PlanningOptions);
   }
 
+  toMetaLookup() {
+    window.open('https://tomp.dat.nl/maas-operators/', '_blank');
+  }
+
   onUpdatedStartPeriod(period: number) {
     this.planning.startTime = period;
   }

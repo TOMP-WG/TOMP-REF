@@ -15,8 +15,9 @@ export class ApiService {
     return this.httpClient.request(type, `${url + endpoint}`, options);
   }
 
-  public loadEndpointConfig(): Observable<any> {
-    return this.httpClient.get('assets/endpoints.json?_=' + Date.now());
+  public loadEndpointConfig(version: string): Observable<any> {
+    const url = 'assets/endpoints-' + version + '.json?_=' + Date.now();
+    return this.httpClient.get(url);
   }
 
   private generateOptions(headers: CustomHeaders, body: string) {

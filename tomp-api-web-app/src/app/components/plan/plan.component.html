@@ -1,5 +1,8 @@
 <div class="planning">
   <h3>Planning</h3>
+  <div class="metalookup">
+    <button mat-raised-button color="primary" class="submit-button" (click)="toMetaLookup()">MetaLookup</button>
+  </div>
   <div class="period">
     <app-period [period]="planning.startTime" (updatedPeriod)="onUpdatedStartPeriod($event)"></app-period>
     <app-period [period]="planning.endTime" (updatedPeriod)="onUpdatedEndPeriod($event)"></app-period>

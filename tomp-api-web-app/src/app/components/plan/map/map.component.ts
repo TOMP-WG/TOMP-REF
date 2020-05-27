@@ -16,6 +16,9 @@ export class MapComponent implements AfterViewInit {
   @Input() planning: PlanningOptions;
   locationsLayer: L.GeoJSON;
   locations: GeoJSON.Point[] = [];
+
+  regionLayer: L.GeoJSON;
+
   private map: Map;
 
   constructor() { }
@@ -39,6 +42,29 @@ export class MapComponent implements AfterViewInit {
 
     this.locationsLayer = L.geoJSON().addTo(this.map);
     this.map.on('click', this.onMapClick, this);
+
+    const container = document.getElementById('map');
+    container.ondragover = (event) => {
+      event.preventDefault();
+    };
+    container.ondrop = (event) => {
+      const content = event.dataTransfer.getData('Text');
+      this.addRegion(content);
+    };
+  }
+
+  public addRegion(e: string) {
+    if ( this.regionLayer != null ) {
+      this.regionLayer.clearLayers();
+    }
+    const e1 = e.replace(/[\n\r]/g, '');
+    const e2 = e1.replace(/[' ']/g, '');
+    const e3 = e2.replace(/["lng":]/g, '');
+    const e4 = e3.replace(/["lat":]/g, '');
+    const e5 = e4.replace(/[{]/g, '[');
+    const e6 = e5.replace(/[}/]/g, ']');
+    const geojson = JSON.parse( '[{"type":"Polygon", "coordinates":[' + e6 + ']}]');
+    this.regionLayer = L.geoJSON(geojson).addTo(this.map);
   }
 
   private onMapClick(e: LeafletMouseEvent) {
