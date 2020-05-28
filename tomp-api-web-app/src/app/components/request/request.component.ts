@@ -25,6 +25,7 @@ export class RequestComponent implements OnInit {
 
   constructor(public internalService: InternalService, public apiService: ApiService, private route: ActivatedRoute) {
     this.internalService.onUpdatePlanning().subscribe(planning => this.updatePlanning(planning));
+    this.internalService.onAddResponse().subscribe(response => this.fetchId(response));
   }
 
   ngOnInit() {
@@ -44,7 +45,16 @@ export class RequestComponent implements OnInit {
       this.apiService.loadEndpointConfig(this.headers["Api-Version"]).subscribe(data => {
         this.endpoints = data;
         if (this.endpoints.length > 0) {
-          this.endpoint = this.endpoints[0];
+
+          let i = 0;
+          for (i = 0; i < this.endpoints.length; i++) {
+            if ( this.endpoints[i].value === '/planning-options/' ) {
+              break;
+            }
+          }
+
+          this.endpoint = this.endpoints[i];
+          this.onEndpointChanged();
           this.body = this.endpoint.body;
         }
       });
@@ -52,6 +62,10 @@ export class RequestComponent implements OnInit {
   }
 
   public onSubmit() {
+    if ( this.url.endsWith( '/')) {
+      this.url = this.url.substring(0, this.url.length - 1);
+    }
+
     let endpointPath = this.endpoint.value;
     if (this.hasIdVariable(endpointPath)) {
       endpointPath = endpointPath.replace('{id}', this.id);
@@ -79,6 +93,9 @@ export class RequestComponent implements OnInit {
   }
 
   public onEndpointChanged() {
+    if( this.internalService != null ) {
+      this.internalService.endPointChanged(this.endpoint);
+    }
     if (this.endpoint.body) {
       this.updateBody();
     } else {
@@ -126,6 +143,16 @@ export class RequestComponent implements OnInit {
     body.startTime = planning.startTime;
     body.from = planning.from;
     body.to = planning.to;
+  }
+
+  private fetchId(json: any) {
+    if( this.endpoint.type == EndpointType.POST && this.endpoint.value == '/planning-options/') {
+      if( json.results.length > 0 ) {
+        if( json.results[0].id ) {
+          this.id = json.results[0].id;
+        }
+      }
+    }
   }
 
 }

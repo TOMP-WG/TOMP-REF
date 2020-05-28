@@ -3,8 +3,12 @@ import * as L from 'leaflet';
 import 'leaflet-defaulticon-compatibility';
 import { latLng, Map, tileLayer, LeafletMouseEvent } from 'leaflet';
 import { PlanningOptions } from '../../../domain/planning-options.model';
+import { InternalService } from '../../../services/internal.service';
 // import 'leaflet/dist/images/marker-shadow.png';
 import { Coordinates } from '../../../domain/coordinates.model';
+import { ThrowStmt } from '@angular/compiler';
+import { Endpoint } from 'src/app/domain/endpoint.model';
+import { EndpointType } from 'src/app/domain/endpoint.enum';
 
 @Component({
   selector: 'app-map',
@@ -17,11 +21,17 @@ export class MapComponent implements AfterViewInit {
   locationsLayer: L.GeoJSON;
   locations: GeoJSON.Point[] = [];
 
-  regionLayer: L.GeoJSON;
+  regions: Array<L.GeoJSON> = [];
+  segments: Array<L.GeoJSON> = [];
+  modalityMarkers: Array<L.Marker> = [];
 
+  endpoint: Endpoint;
   private map: Map;
 
-  constructor() { }
+  constructor(public internalService: InternalService) {
+    this.internalService.onAddResponse().subscribe(response => this.fetchAreas(response));
+    this.internalService.onEndPointChanged().subscribe(e => this.endpoint = e);
+  }
 
   ngAfterViewInit(): void {
     this.initMap();
@@ -49,13 +59,16 @@ export class MapComponent implements AfterViewInit {
     };
     container.ondrop = (event) => {
       const content = event.dataTransfer.getData('Text');
-      this.addRegion(content);
+      this.addRegion(content, true);
     };
   }
 
-  public addRegion(e: string) {
-    if ( this.regionLayer != null ) {
-      this.regionLayer.clearLayers();
+  public addRegion(e: string, clear: boolean) {
+    if ( clear ) {
+      for ( const region of this.regions ) {
+        region.removeFrom(this.map);
+      }
+      this.regions = [];
     }
     const e1 = e.replace(/[\n\r]/g, '');
     const e2 = e1.replace(/[' ']/g, '');
@@ -64,7 +77,9 @@ export class MapComponent implements AfterViewInit {
     const e5 = e4.replace(/[{]/g, '[');
     const e6 = e5.replace(/[}/]/g, ']');
     const geojson = JSON.parse( '[{"type":"Polygon", "coordinates":[' + e6 + ']}]');
-    this.regionLayer = L.geoJSON(geojson).addTo(this.map);
+    const regionOnMap = L.geoJSON(geojson);
+    regionOnMap.addTo(this.map);
+    this.regions.push(regionOnMap);
   }
 
   private onMapClick(e: LeafletMouseEvent) {
@@ -94,4 +109,94 @@ export class MapComponent implements AfterViewInit {
     coord.lat = pos[1];
   }
 
+  private fetchAreas(json: any) {
+    if ( this.endpoint == null ){
+      return;
+    }
+    if ( this.endpoint.type === EndpointType.POST && this.endpoint.value === '/planning-options/') {
+      this.showRegions(json);
+      this.showSegments(json);
+    }
+    else if (this.endpoint.type === EndpointType.GET && this.endpoint.value === '/operator/regions') {
+      let first = true;
+      for (const area of json ) {
+        this.addRegion(JSON.stringify(area.serviceArea.points), first);
+        first = false;
+      }
+    }
+  }
+
+  private showSegments(json: any) {
+    if (json.results.length > 0) {
+      let first = true;
+      for (const marker of this.modalityMarkers) {
+        marker.removeFrom(this.map);
+      }
+
+      for (const result of json.results) {
+        if (result.resultType === 'simpleLeg') {
+          const start = this.toCoord(result.leg.from);
+          const end = this.toCoord(result.leg.to);
+          this.addLine(start, end, first);
+          const lng = (result.leg.from.lng + result.leg.to.lng) / 2;
+          const lat = (result.leg.from.lat + result.leg.to.lat) / 2;
+          this.addIcon(result.typeOfAsset, '[' + lat + ',' + lng + ']');
+          first = false;
+        }
+      }
+    }
+  }
+
+  private showRegions(json: any) {
+    if (json.conditions.length > 0) {
+      let first = true;
+      for (const condition of json.conditions) {
+        if (condition.conditionType === 'conditionReturnArea') {
+          this.addRegion(JSON.stringify(condition.returnArea.points), first);
+          first = false;
+        }
+      }
+    }
+  }
+
+  private toCoord(point: any) {
+    return '[' + point.lng + ',' + point.lat + ']';
+  }
+
+  private addLine(start: string, end: string, clear: boolean) {
+    if ( clear ) {
+      for ( const segment of this.segments ) {
+        segment.removeFrom(this.map);
+      }
+      this.segments = [];
+    }
+    const geojson = JSON.parse( '[{"type":"LineString", "coordinates":[' + start + ',' + end + ']}]');
+    const segmentOnMap = L.geoJSON(geojson);
+    segmentOnMap.addTo(this.map);
+    this.segments.push(segmentOnMap);
+  }
+
+  private addIcon(result: any, coord: any) {
+    let img = '';
+    switch (result.assetClass){
+      case 'BICYCLE':
+        img = '/assets/bike.png';
+        break;
+      case 'CAR':
+        img = '/assets/car.png';
+        break;
+      case 'BUS':
+        img = '/assets/bus.png';
+        break;
+      case 'TRAIN':
+        img = '/assets/train.png';
+        break;
+    }
+    if ( img !== '' ) {
+      const marker = L.icon( { iconUrl : img, iconSize: [40, 40] });
+      const icon = L.marker(JSON.parse(coord), { icon: marker } );
+      this.modalityMarkers.push(icon);
+      icon.addTo(this.map);
+    }
+}
 }
