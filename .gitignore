@@ -108,3 +108,6 @@ tomp_meta/target/classes/META-INF/MANIFEST.MF
 tomp_ref/target/
 tomp_ref/.settings/
 tomp_ref/scripts/*.json
+
+# IDE ignores
+.vscode/settings.json
