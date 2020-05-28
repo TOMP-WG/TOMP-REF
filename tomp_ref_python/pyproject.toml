@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "tomp_ref_python"
+version = "0.1.0"
+description = "A Python reference implementation for the Transport Operator Mobility-as-a-Service Provider API."
+authors = ["Brylie Christopher Oxley <brylie.oxley@maas.global>"]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+connexion = "^2.7.0"
+
+[tool.poetry.dev-dependencies]
+black = "^19.10b0"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
