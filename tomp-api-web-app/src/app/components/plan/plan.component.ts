@@ -22,6 +22,8 @@ export class PlanComponent implements OnInit {
 
   onSubmit() {
     const object = JSON.parse(JSON.stringify(this.planning));
+    object.startTime = object.startTime * 1000;
+    object.endTime = object.endTime * 1000;
     this.internalService.updatePlanning(object as PlanningOptions);
   }
 

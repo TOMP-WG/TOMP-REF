@@ -126,34 +126,49 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
+  private showSimpleLeg(result: any) {
+    const start = this.toCoord(result.leg.from);
+    const end = this.toCoord(result.leg.to);
+    this.addLine(start, end);
+    const lng = (result.leg.from.lng + result.leg.to.lng) / 2;
+    const lat = (result.leg.from.lat + result.leg.to.lat) / 2;
+    this.addIcon(result.typeOfAsset, '[' + lat + ',' + lng + ']', result.operatorDescription);
+  }
+
   private showSegments(json: any) {
     if (json.results.length > 0) {
-      let first = true;
       for (const marker of this.modalityMarkers) {
         marker.removeFrom(this.map);
       }
 
+      for ( const segment of this.segments ) {
+        segment.removeFrom(this.map);
+      }
+      this.segments = [];
+
       for (const result of json.results) {
         if (result.resultType === 'simpleLeg') {
-          const start = this.toCoord(result.leg.from);
-          const end = this.toCoord(result.leg.to);
-          this.addLine(start, end, first);
-          const lng = (result.leg.from.lng + result.leg.to.lng) / 2;
-          const lat = (result.leg.from.lat + result.leg.to.lat) / 2;
-          this.addIcon(result.typeOfAsset, '[' + lat + ',' + lng + ']');
-          first = false;
+          this.showSimpleLeg(result);
+        }
+        else if (result.resultType === 'compositeLeg') {
+          for ( const operatorLeg of result.legs ) {
+            this.showSimpleLeg(operatorLeg);
+          }
+          return;
         }
       }
     }
   }
 
   private showRegions(json: any) {
-    if (json.conditions.length > 0) {
-      let first = true;
-      for (const condition of json.conditions) {
-        if (condition.conditionType === 'conditionReturnArea') {
-          this.addRegion(JSON.stringify(condition.returnArea.points), first);
-          first = false;
+    if (json.conditions !== null ) {
+      if (json.conditions.length > 0) {
+        let first = true;
+        for (const condition of json.conditions) {
+          if (condition.conditionType === 'conditionReturnArea') {
+            this.addRegion(JSON.stringify(condition.returnArea.points), first);
+            first = false;
+          }
         }
       }
     }
@@ -163,20 +178,14 @@ export class MapComponent implements AfterViewInit {
     return '[' + point.lng + ',' + point.lat + ']';
   }
 
-  private addLine(start: string, end: string, clear: boolean) {
-    if ( clear ) {
-      for ( const segment of this.segments ) {
-        segment.removeFrom(this.map);
-      }
-      this.segments = [];
-    }
+  private addLine(start: string, end: string) {
     const geojson = JSON.parse( '[{"type":"LineString", "coordinates":[' + start + ',' + end + ']}]');
     const segmentOnMap = L.geoJSON(geojson);
     segmentOnMap.addTo(this.map);
     this.segments.push(segmentOnMap);
   }
 
-  private addIcon(result: any, coord: any) {
+  private addIcon(result: any, coord: any, tt: string) {
     let img = '';
     switch (result.assetClass){
       case 'BICYCLE':
@@ -188,15 +197,25 @@ export class MapComponent implements AfterViewInit {
       case 'BUS':
         img = '/assets/bus.png';
         break;
-      case 'TRAIN':
+      case 'RAIL':
         img = '/assets/train.png';
+        break;
+      case 'TRAM':
+        img = '/assets/tram.png';
+        break;
+      case 'METRO':
+        img = '/assets/metro.png';
+        break;
+      default:
+        img = '/assets/foot.png';
         break;
     }
     if ( img !== '' ) {
       const marker = L.icon( { iconUrl : img, iconSize: [40, 40] });
       const icon = L.marker(JSON.parse(coord), { icon: marker } );
+      icon.bindTooltip(tt);
       this.modalityMarkers.push(icon);
       icon.addTo(this.map);
     }
-}
+  }
 }

@@ -44,6 +44,7 @@ public class ClientUtil {
 	private <T> T get(MaasOperator to, String acceptLanguage, String apiVersion, String localVarPath, String maasId,
 			Class<T> class1) throws ApiException {
 		ApiClient apiClient = new ApiClient();
+		apiClient.setVerifyingSsl(false);
 		String url = to.getUrl();
 		if (url.endsWith("/") && localVarPath.startsWith("/")) {
 			url = url.substring(0, url.length() - 1);
@@ -91,7 +92,10 @@ public class ClientUtil {
 
 	private <T> T post(MaasOperator to, String acceptLanguage, String apiVersion, String localVarPath, String maasId,
 			Object localVarPostBody, Class<T> class1) throws ApiException {
+
 		ApiClient apiClient = new ApiClient();
+		apiClient.setConnectTimeout(20000);
+		apiClient.setReadTimeout(20000);
 		String url = to.getUrl();
 		if (url.endsWith("/") && localVarPath.startsWith("/")) {
 			url = url.substring(0, url.length() - 1);
@@ -149,23 +153,30 @@ public class ClientUtil {
 			try {
 				ApiResponse<T> result = apiClient.execute(call, String.class);
 				return result.getData();
-			} catch (Exception e) {
-				log.error("Cannot connect to {}", to.getName());
-				log.error("Url {}", to.getUrl());
+			} catch (ApiException e) {
+				log.error("Cannot connect to {} ({})", to.getName(), to.getUrl());
 				log.error(e.getMessage());
+				log.error(e.getResponseBody());
 				return null;
 			}
 		}
 		try {
 			String dest = getOrPost.equals("POST") ? post(to, localVarPath, body, String.class)
 					: get(to, localVarPath, String.class);
-			return mapper.readValue(dest, class1);
+			if (dest != null) {
+				return mapper.readValue(dest, class1);
+			} else {
+				return null;
+			}
 		} catch (IOException e2) {
 			log.error("Deserialisation error");
 			log.error(e2.getMessage());
+		} catch (ApiException e) {
+			log.error("Exception connecting to {} ({})", to.getName(), to.getUrl());
+			log.error(e.getMessage());
+			log.error(e.getResponseBody());
 		} catch (Exception e) {
-			log.error("Exception connecting to {}", to.getName());
-			log.error("Url {}", to.getUrl());
+			log.error("Exception connecting to {} ({})", to.getName(), to.getUrl());
 			log.error(e.getMessage());
 		}
 		return null;

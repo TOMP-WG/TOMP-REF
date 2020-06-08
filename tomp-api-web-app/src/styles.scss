@@ -11,6 +11,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+body.busy-cursor {
+  cursor: progress;
+}
+
 h3 {
   text-align: center;
 }

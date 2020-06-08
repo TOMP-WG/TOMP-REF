@@ -5,7 +5,7 @@ import { Endpoint } from '../../domain/endpoint.model';
 import { ApiService } from '../../services/api.service';
 import { EndpointType } from '../../domain/endpoint.enum';
 import { CustomHeaders } from '../../domain/custom-headers.model';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-request',
@@ -30,19 +30,19 @@ export class RequestComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParamMap.subscribe( param => {
-      let externalUrl = param.get("url");
-      if( externalUrl != null ){
+      const externalUrl = param.get('url');
+      if ( externalUrl != null ){
         this.url = externalUrl;
       }
-      let externalId = param.get("maas-id");
-      if( externalId != null ) {
-        this.headers["maas-id"] = externalId;
+      const externalId = param.get('maas-id');
+      if ( externalId != null ) {
+        this.headers['maas-id'] = externalId;
       }
-      let apiVersion = param.get("api-version");
+      const apiVersion = param.get('api-version');
       if ( apiVersion != null)  {
-        this.headers["Api-Version"] = apiVersion;
+        this.headers['Api-Version'] = apiVersion;
       }
-      this.apiService.loadEndpointConfig(this.headers["Api-Version"]).subscribe(data => {
+      this.apiService.loadEndpointConfig(this.headers['Api-Version']).subscribe(data => {
         this.endpoints = data;
         if (this.endpoints.length > 0) {
 
@@ -70,21 +70,26 @@ export class RequestComponent implements OnInit {
     if (this.hasIdVariable(endpointPath)) {
       endpointPath = endpointPath.replace('{id}', this.id);
     }
+    document.body.classList.add('busy-cursor');
     if (this.endpoint.type === EndpointType.GET) {
       this.apiService.doRequest(this.endpoint.type, this.url, endpointPath, this.headers).subscribe(
         (result) => {
+          document.body.classList.remove('busy-cursor');
           console.log(result);
           this.internalService.addResponse(result);
         }, (error) => {
+          document.body.classList.remove('busy-cursor');
           this.internalService.addResponse(error);
           console.log('Error in request: ', error);
         });
     } else {
       this.apiService.doRequest(this.endpoint.type, this.url, endpointPath, this.headers, this.body).subscribe(
         (result) => {
+          document.body.classList.remove('busy-cursor');
           console.log(result);
           this.internalService.addResponse(result);
         }, (error) => {
+          document.body.classList.remove('busy-cursor');
           this.internalService.addResponse(error);
           console.log('Error in request: ', error);
         });
@@ -93,7 +98,7 @@ export class RequestComponent implements OnInit {
   }
 
   public onEndpointChanged() {
-    if( this.internalService != null ) {
+    if ( this.internalService != null ) {
       this.internalService.endPointChanged(this.endpoint);
     }
     if (this.endpoint.body) {
@@ -109,11 +114,11 @@ export class RequestComponent implements OnInit {
 
   public headerChanged(key: string, value: string) {
     this.headers[key] = value;
-    if (key == 'Api-Version'){
-      this.apiService.loadEndpointConfig(this.headers["Api-Version"]).subscribe(data => {
+    if (key === 'Api-Version'){
+      this.apiService.loadEndpointConfig(this.headers['Api-Version']).subscribe(data => {
         const index = this.endpoints.indexOf(this.endpoint);
         this.endpoints = data;
-        this.endpoint = this.endpoints[index];        
+        this.endpoint = this.endpoints[index];
         this.onEndpointChanged();
       });
     }
@@ -146,9 +151,9 @@ export class RequestComponent implements OnInit {
   }
 
   private fetchId(json: any) {
-    if( this.endpoint.type == EndpointType.POST && this.endpoint.value == '/planning-options/') {
-      if( json.results.length > 0 ) {
-        if( json.results[0].id ) {
+    if ( this.endpoint.type === EndpointType.POST && this.endpoint.value === '/planning-options/') {
+      if ( json.results.length > 0 ) {
+        if ( json.results[0].id ) {
           this.id = json.results[0].id;
         }
       }

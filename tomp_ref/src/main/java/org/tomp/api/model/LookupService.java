@@ -141,9 +141,13 @@ public class LookupService {
 			Call call = client.buildCall(endpoint, method, queryParams, collectionQueryParams, body, headerParams,
 					formParams, authNames, progressRequestListener);
 			ApiResponse<T> response = client.execute(call, c);
+			if (response.getStatusCode() != 200) {
+				log.info("Error code: {}", response.getStatusCode());
+			}
 			return response.getData();
 		} catch (ApiException e) {
 			log.error(e.getMessage());
+			log.error(e.getResponseBody());
 		}
 		return null;
 	}
