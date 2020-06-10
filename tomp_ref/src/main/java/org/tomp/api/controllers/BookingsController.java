@@ -101,16 +101,7 @@ public class BookingsController extends BookingsApiController {
 	@ResponseBody
 	public String respondToPostponedBooking(@PathVariable("id") String id) {
 		if (provider instanceof SharedCarBookingProvider) {
-
-			String reconstructedURL;
-			try {
-				reconstructedURL = new URL(request.getScheme(), request.getServerName(), request.getServerPort(),
-						"/postponed/").toString();
-			} catch (MalformedURLException e) {
-				reconstructedURL = "/postponed/";
-			}
-
-			return ((SharedCarBookingProvider) provider).getPostponedBookingHtml(id, reconstructedURL);
+			return ((SharedCarBookingProvider) provider).getPostponedBookingHtml(id, "/postponed/");
 		}
 		return "";
 	}

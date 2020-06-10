@@ -40,6 +40,9 @@ public class DummyRepository {
 	private Map<String, List<LegEvent>> startEvents = new HashMap<>();
 
 	public void saveOptions(PlanningOptions optionsToSave) {
+		if (optionsToSave == null) {
+			return;
+		}
 		for (PlanningResult result : optionsToSave.getResults()) {
 			if (result instanceof SimpleLeg) {
 				SimpleLeg leg = (SimpleLeg) result;

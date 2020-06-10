@@ -139,7 +139,7 @@ public class ApiController extends OperatorsApiController {
 				log.info("REGISTERED {}", id);
 				return new ResponseEntity<>(body, HttpStatus.OK);
 			}
-			if (old.getValidationToken().equals(token)) {
+			if (repository.getToken(id).equals(token)) {
 				repository.register(body);
 				log.info("REFRESHED {}", id);
 				return new ResponseEntity<>(body, HttpStatus.OK);

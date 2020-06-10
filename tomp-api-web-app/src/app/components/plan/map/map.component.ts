@@ -206,6 +206,9 @@ export class MapComponent implements AfterViewInit {
       case 'METRO':
         img = '/assets/metro.png';
         break;
+      case 'TAXI':
+        img = '/assets/taxi.png';
+        break;
       default:
         img = '/assets/foot.png';
         break;

@@ -47,7 +47,7 @@ public class LookupService {
 
 	public MaasOperator getMaasOperator(String id) {
 		MaasOperator operator = cache.get(id);
-		if (operator == null) {
+		if (operator == null && !cache.containsKey(id)) {
 			operator = callEndpoint("GET", "/operators/" + id, null, MaasOperator.class);
 			cache.put(id, operator);
 		}
