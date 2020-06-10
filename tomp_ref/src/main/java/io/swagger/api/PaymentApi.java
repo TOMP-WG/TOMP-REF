@@ -71,10 +71,10 @@ public interface PaymentApi {
     ResponseEntity<List<JournalEntry>> paymentJournalEntryGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
-,@ApiParam(value = "start of the selection",required=true) @PathVariable("from") BigDecimal from
-,@ApiParam(value = "end of the selection",required=true) @PathVariable("to") BigDecimal to
-,@ApiParam(value = "",required=true) @PathVariable("state") JournalState state
-,@ApiParam(value = "type of booking line (e.g. fare, addition costs, fines, ...)",required=true, allowableValues="ALL, DAMAGE, LOSS, STOLEN, EXTRA_USAGE, REFUND, FINE, OTHER_ASSET_USED, CREDIT, VOUCHER, DEPOSIT, OTHER") @PathVariable("category") String category
+,@ApiParam(value = "start of the selection",required=true) @RequestParam("from") BigDecimal from
+,@ApiParam(value = "end of the selection",required=true) @RequestParam("to") BigDecimal to
+,@ApiParam(value = "",required=true) @RequestParam("state") JournalState state
+,@ApiParam(value = "type of booking line (e.g. fare, addition costs, fines, ...)",required=true, allowableValues="ALL, DAMAGE, LOSS, STOLEN, EXTRA_USAGE, REFUND, FINE, OTHER_ASSET_USED, CREDIT, VOUCHER, DEPOSIT, OTHER") @RequestParam("category") String category
 );
 
 }
