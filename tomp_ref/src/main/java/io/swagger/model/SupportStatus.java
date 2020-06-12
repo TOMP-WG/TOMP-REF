@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.model.Place;
+import io.swagger.model.SupportRequest;
+import java.math.BigDecimal;
+import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -15,8 +19,8 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "the current status of support")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
-public class SupportStatus   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
+public class SupportStatus extends SupportRequest  {
   /**
    * Gets or Sets status
    */
@@ -57,6 +61,12 @@ public class SupportStatus   {
   @JsonProperty("timeToResolution")
   private Integer timeToResolution = null;
 
+  @JsonProperty("order")
+  private Integer order = null;
+
+  @JsonProperty("comment")
+  private String comment = null;
+
   public SupportStatus status(StatusEnum status) {
     this.status = status;
     return this;
@@ -95,6 +105,44 @@ public class SupportStatus   {
     this.timeToResolution = timeToResolution;
   }
 
+  public SupportStatus order(Integer order) {
+    this.order = order;
+    return this;
+  }
+
+  /**
+   * the sequence number of status of the support issue
+   * @return order
+  **/
+  @ApiModelProperty(value = "the sequence number of status of the support issue")
+  
+    public Integer getOrder() {
+    return order;
+  }
+
+  public void setOrder(Integer order) {
+    this.order = order;
+  }
+
+  public SupportStatus comment(String comment) {
+    this.comment = comment;
+    return this;
+  }
+
+  /**
+   * free text to send to the end user.
+   * @return comment
+  **/
+  @ApiModelProperty(value = "free text to send to the end user.")
+  
+    public String getComment() {
+    return comment;
+  }
+
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -106,21 +154,26 @@ public class SupportStatus   {
     }
     SupportStatus supportStatus = (SupportStatus) o;
     return Objects.equals(this.status, supportStatus.status) &&
-        Objects.equals(this.timeToResolution, supportStatus.timeToResolution);
+        Objects.equals(this.timeToResolution, supportStatus.timeToResolution) &&
+        Objects.equals(this.order, supportStatus.order) &&
+        Objects.equals(this.comment, supportStatus.comment) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(status, timeToResolution);
+    return Objects.hash(status, timeToResolution, order, comment, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SupportStatus {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    timeToResolution: ").append(toIndentedString(timeToResolution)).append("\n");
+    sb.append("    order: ").append(toIndentedString(order)).append("\n");
+    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -22,7 +22,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Costs that the TO is charging the MP; credits are negative")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class ExtraCosts extends AmountOfMoney  {
   @JsonProperty("category")
   private JournalCategory category = null;
@@ -103,10 +103,10 @@ public class ExtraCosts extends AmountOfMoney  {
   }
 
   /**
-   * free text to describe the extra costs. Mandatory in case of 'OTHER'
+   * free text to describe the extra costs. Mandatory in case of 'OTHER', should match Content-Language
    * @return description
   **/
-  @ApiModelProperty(required = true, value = "free text to describe the extra costs. Mandatory in case of 'OTHER'")
+  @ApiModelProperty(required = true, value = "free text to describe the extra costs. Mandatory in case of 'OTHER', should match Content-Language")
       @NotNull
 
     public String getDescription() {

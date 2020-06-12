@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "card object. Only provide the cards that are requested. The asset type property is only allowed for the DISCOUNT card in combination with certain card-acceptors.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class Card   {
   /**
    * Gets or Sets cardType
@@ -161,10 +161,10 @@ public class Card   {
   }
 
   /**
-   * references to maas-ids of accepting parties. Only if applicable (DISCOUNT).
+   * references to maasIds of accepting parties. Only if applicable (DISCOUNT).
    * @return cardAcceptors
   **/
-  @ApiModelProperty(value = "references to maas-ids of accepting parties. Only if applicable (DISCOUNT).")
+  @ApiModelProperty(value = "references to maasIds of accepting parties. Only if applicable (DISCOUNT).")
   
     public List<String> getCardAcceptors() {
     return cardAcceptors;

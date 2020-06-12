@@ -9,8 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
-import io.swagger.model.PlanningResult;
-import io.swagger.model.SimpleLeg;
+import io.swagger.model.Leg;
 
 @Component
 public class FareUtil {
@@ -18,17 +17,14 @@ public class FareUtil {
 	@Autowired
 	LegUtil legUtil;
 
-	public double calculateFare(PlanningResult savedOption) {
+	public double calculateFare(Leg leg) {
 		Fare fare = null;
 		double minutes = 60;
 		double distanceInMeters = 1000;
 
-		if (savedOption instanceof SimpleLeg) {
-			SimpleLeg leg = ((SimpleLeg) savedOption);
-			fare = leg.getPricing();
-			minutes = legUtil.getDuration(leg.getLeg());
-			distanceInMeters = legUtil.getDistance(leg.getLeg());
-		}
+		fare = leg.getPricing();
+		minutes = legUtil.getDuration(leg);
+		distanceInMeters = legUtil.getDistance(leg);
 
 		return calculateFare(fare, minutes, distanceInMeters);
 	}

@@ -4,11 +4,14 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.threeten.bp.OffsetDateTime;
 import org.tomp.api.payment.PaymentProvider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,8 +41,10 @@ public class PaymentController extends PaymentApiController {
 
 	@Override
 	public ResponseEntity<List<JournalEntry>> paymentJournalEntryGet(String acceptLanguage, String api,
-			String apiVersion, BigDecimal from, BigDecimal to, JournalState state, String category) {
+			String apiVersion, @NotNull @Valid OffsetDateTime from, @NotNull @Valid OffsetDateTime to,
+			@NotNull @Valid JournalState state, @NotNull @Valid String category) {
 		String maasId = request.getHeader("maas-id");
+
 		return new ResponseEntity<>(
 				provider.getJournalEntries(acceptLanguage, api, apiVersion, from, to, state, category, maasId),
 				HttpStatus.OK);

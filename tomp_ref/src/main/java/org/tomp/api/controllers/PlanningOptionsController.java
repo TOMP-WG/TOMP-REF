@@ -6,8 +6,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.tomp.api.planning.PlanningProvider;
 import org.tomp.api.utils.HeaderValidator;
@@ -16,13 +14,12 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.swagger.annotations.ApiParam;
-import io.swagger.api.PlanningOptionsApiController;
-import io.swagger.model.PlanningCheck;
-import io.swagger.model.PlanningOptions;
+import io.swagger.api.PlanningsApiController;
+import io.swagger.model.Planning;
+import io.swagger.model.PlanningRequest;
 
 @RestController
-public class PlanningOptionsController extends PlanningOptionsApiController {
+public class PlanningOptionsController extends PlanningsApiController {
 
 	private final ObjectMapper objectMapper;
 	private final HttpServletRequest request;
@@ -38,15 +35,13 @@ public class PlanningOptionsController extends PlanningOptionsApiController {
 	}
 
 	@Override
-	public ResponseEntity<PlanningOptions> planningOptionsPost(
-			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
-			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
-			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
-			@ApiParam(value = "") @Valid @RequestBody PlanningCheck body) {
+	public ResponseEntity<Planning> planningsPost(String acceptLanguage, String api, String apiVersion,
+			@Valid PlanningRequest body, @Valid Boolean bookingIntent) {
 
 		HeaderValidator.validateHeader(request);
 
-		PlanningOptions options = planningProvider.getOptions(body, acceptLanguage);
+		Planning options = planningProvider.getOptions(body, acceptLanguage, bookingIntent.booleanValue());
 		return new ResponseEntity<>(options, HttpStatus.CREATED);
 	}
+
 }

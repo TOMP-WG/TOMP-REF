@@ -5,11 +5,11 @@
  */
 package io.swagger.api;
 
-import java.math.BigDecimal;
 import io.swagger.model.Error;
 import io.swagger.model.ExtraCosts;
 import io.swagger.model.JournalEntry;
 import io.swagger.model.JournalState;
+import org.threeten.bp.OffsetDateTime;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -46,7 +46,7 @@ public interface PaymentApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    ResponseEntity<JournalEntry> paymentIdClaimExtraCostsPatch(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<JournalEntry> paymentIdClaimExtraCostsPatch(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 ,@ApiParam(value = "Booking identifier",required=true) @PathVariable("id") String id
@@ -54,7 +54,7 @@ public interface PaymentApi {
 );
 
 
-    @ApiOperation(value = "", nickname = "paymentJournalEntryGet", notes = "Returns all the journal entries that should be payed per leg", response = JournalEntry.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "", nickname = "paymentJournalEntryGet", notes = "Returns all the journal entries that should be paid per leg", response = JournalEntry.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth"),
 @Authorization(value = "BasicAuth"),
 @Authorization(value = "BearerAuth"),
@@ -68,13 +68,13 @@ public interface PaymentApi {
     @RequestMapping(value = "/payment/journal-entry",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<JournalEntry>> paymentJournalEntryGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<List<JournalEntry>> paymentJournalEntryGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
-,@ApiParam(value = "start of the selection",required=true) @RequestParam("from") BigDecimal from
-,@ApiParam(value = "end of the selection",required=true) @RequestParam("to") BigDecimal to
-,@ApiParam(value = "",required=true) @RequestParam("state") JournalState state
-,@ApiParam(value = "type of booking line (e.g. fare, addition costs, fines, ...)",required=true, allowableValues="ALL, DAMAGE, LOSS, STOLEN, EXTRA_USAGE, REFUND, FINE, OTHER_ASSET_USED, CREDIT, VOUCHER, DEPOSIT, OTHER") @RequestParam("category") String category
+,@NotNull @ApiParam(value = "start of the selection", required = true) @Valid @RequestParam(value = "from", required = true) OffsetDateTime from
+,@NotNull @ApiParam(value = "end of the selection", required = true) @Valid @RequestParam(value = "to", required = true) OffsetDateTime to
+,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "state", required = true) JournalState state
+,@NotNull @ApiParam(value = "type of booking line (e.g. fare, addition costs, fines, ...)", required = true, allowableValues = "ALL, DAMAGE, LOSS, STOLEN, EXTRA_USAGE, REFUND, FINE, OTHER_ASSET_USED, CREDIT, VOUCHER, DEPOSIT, OTHER") @Valid @RequestParam(value = "category", required = true) String category
 );
 
 }

@@ -7,9 +7,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Period;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  * SystemAlert
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class SystemAlert   {
   @JsonProperty("alertId")
   private String alertId = null;
@@ -82,7 +82,7 @@ public class SystemAlert   {
   private String description = null;
 
   @JsonProperty("lastUpdated")
-  private BigDecimal lastUpdated = null;
+  private OffsetDateTime lastUpdated = null;
 
   public SystemAlert alertId(String alertId) {
     this.alertId = alertId;
@@ -230,10 +230,10 @@ public class SystemAlert   {
   }
 
   /**
-   * A short summary of this alert to be displayed to the customer
+   * A short summary of this alert to be displayed to the customer, should match Content-Language
    * @return summary
   **/
-  @ApiModelProperty(example = "station closed", required = true, value = "A short summary of this alert to be displayed to the customer")
+  @ApiModelProperty(example = "station closed", required = true, value = "A short summary of this alert to be displayed to the customer, should match Content-Language")
       @NotNull
 
     public String getSummary() {
@@ -250,10 +250,10 @@ public class SystemAlert   {
   }
 
   /**
-   * Detailed text description of the alert
+   * Detailed text description of the alert, should match Content-Language
    * @return description
   **/
-  @ApiModelProperty(example = "station closed indefinitely due to vandalism", value = "Detailed text description of the alert")
+  @ApiModelProperty(example = "station closed indefinitely due to vandalism", value = "Detailed text description of the alert, should match Content-Language")
   
     public String getDescription() {
     return description;
@@ -263,7 +263,7 @@ public class SystemAlert   {
     this.description = description;
   }
 
-  public SystemAlert lastUpdated(BigDecimal lastUpdated) {
+  public SystemAlert lastUpdated(OffsetDateTime lastUpdated) {
     this.lastUpdated = lastUpdated;
     return this;
   }
@@ -275,11 +275,11 @@ public class SystemAlert   {
   @ApiModelProperty(value = "")
   
     @Valid
-    public BigDecimal getLastUpdated() {
+    public OffsetDateTime getLastUpdated() {
     return lastUpdated;
   }
 
-  public void setLastUpdated(BigDecimal lastUpdated) {
+  public void setLastUpdated(OffsetDateTime lastUpdated) {
     this.lastUpdated = lastUpdated;
   }
 

@@ -31,8 +31,8 @@ import io.swagger.model.Card.CardTypeEnum;
 import io.swagger.model.Condition;
 import io.swagger.model.ConditionRequireBookingData;
 import io.swagger.model.ConditionRequireBookingData.RequiredFieldsEnum;
-import io.swagger.model.PlanningOptions;
-import io.swagger.model.SimpleLeg;
+import io.swagger.model.Leg;
+import io.swagger.model.Planning;
 
 @Component
 @Profile("maasprovider")
@@ -173,7 +173,7 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 		for (Segment segment : savedOption.getSegments()) {
 			TransportOperator operator = segment.getOperators().iterator().next();
 			BookingOperation operation = new BookingOperation();
-			SimpleLeg planningResult = (SimpleLeg) segment.getResult(operator).getResults().get(0);
+			Leg planningResult = segment.getResult(operator).getLegOptions().get(0);
 			operation.setOperation(OperationEnum.COMMIT);
 			try {
 				Booking clientBooking = clientUtil.post(operator, "/bookings/" + planningResult.getId() + "/events/",
@@ -212,7 +212,7 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 		operation.setOperation(OperationEnum.CANCEL);
 		for (Segment segment : segments) {
 			TransportOperator operator = segment.getOperators().iterator().next();
-			SimpleLeg planningResult = (SimpleLeg) segment.getResult(operator).getResults().get(0);
+			Leg planningResult = segment.getResult(operator).getLegOptions().get(0);
 			try {
 				clientUtil.post(operator, "/bookings/" + planningResult.getId() + "/events/", operation, Booking.class);
 			} catch (ApiException e) {
@@ -226,8 +226,8 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 		for (Segment segment : savedOption.getSegments()) {
 			TransportOperator operator = segment.getOperators().iterator().next();
 			BookingOption option = new BookingOption();
-			PlanningOptions result = segment.getResult(operator);
-			SimpleLeg simpleLeg = (SimpleLeg) result.getResults().get(0);
+			Planning result = segment.getResult(operator);
+			Leg simpleLeg = result.getLegOptions().get(0);
 			String id = simpleLeg.getId();
 			option.setId(id);
 			option.setCustomer(body.getCustomer());
@@ -249,7 +249,7 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 		return generalState;
 	}
 
-	private void addRequiredFields(BookingOption option, PlanningOptions result, SimpleLeg simpleLeg) {
+	private void addRequiredFields(BookingOption option, Planning result, Leg simpleLeg) {
 		for (String conditionName : simpleLeg.getConditions()) {
 			ConditionRequireBookingData condition = getRequireBookingDataCondition(result.getConditions(),
 					conditionName);

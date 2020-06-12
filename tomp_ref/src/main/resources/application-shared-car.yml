@@ -15,6 +15,7 @@ server:
    port: 8086
 tomp:
    maas-id: e54f5550-f577-4718-99e0-fce0cd973ba4
+   api-version: 0.6.0
    type-of-asset-file: src/main/resources/shared-cars.json
    system-information-file: src/main/resources/system-info-generic.json
    condition-file: src/main/resources/conditions.json

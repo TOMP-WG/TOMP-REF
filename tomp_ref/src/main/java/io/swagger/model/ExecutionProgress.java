@@ -11,12 +11,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * provides current asset location &amp; duration and distance of the current leg
+ * provides current asset location &amp; duration and distance of the current leg execution
  */
-@ApiModel(description = "provides current asset location & duration and distance of the current leg")
+@ApiModel(description = "provides current asset location & duration and distance of the current leg execution")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
-public class LegProgress   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T13:55:00.069Z[GMT]")
+public class ExecutionProgress   {
   @JsonProperty("coordinates")
   private Coordinates coordinates = null;
 
@@ -26,7 +26,7 @@ public class LegProgress   {
   @JsonProperty("distance")
   private Integer distance = null;
 
-  public LegProgress coordinates(Coordinates coordinates) {
+  public ExecutionProgress coordinates(Coordinates coordinates) {
     this.coordinates = coordinates;
     return this;
   }
@@ -47,7 +47,7 @@ public class LegProgress   {
     this.coordinates = coordinates;
   }
 
-  public LegProgress duration(Integer duration) {
+  public ExecutionProgress duration(Integer duration) {
     this.duration = duration;
     return this;
   }
@@ -66,7 +66,7 @@ public class LegProgress   {
     this.duration = duration;
   }
 
-  public LegProgress distance(Integer distance) {
+  public ExecutionProgress distance(Integer distance) {
     this.distance = distance;
     return this;
   }
@@ -94,10 +94,10 @@ public class LegProgress   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    LegProgress legProgress = (LegProgress) o;
-    return Objects.equals(this.coordinates, legProgress.coordinates) &&
-        Objects.equals(this.duration, legProgress.duration) &&
-        Objects.equals(this.distance, legProgress.distance);
+    ExecutionProgress executionProgress = (ExecutionProgress) o;
+    return Objects.equals(this.coordinates, executionProgress.coordinates) &&
+        Objects.equals(this.duration, executionProgress.duration) &&
+        Objects.equals(this.distance, executionProgress.distance);
   }
 
   @Override
@@ -108,7 +108,7 @@ public class LegProgress   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class LegProgress {\n");
+    sb.append("class ExecutionProgress {\n");
     
     sb.append("    coordinates: ").append(toIndentedString(coordinates)).append("\n");
     sb.append("    duration: ").append(toIndentedString(duration)).append("\n");

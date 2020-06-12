@@ -12,7 +12,6 @@ import io.swagger.model.AssetClass;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
-import io.swagger.model.OptionsLeg;
 import io.swagger.model.TypeOfAsset;
 import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
 
@@ -35,16 +34,6 @@ public class CarPlanningProvider extends BasePlanningProvider {
 		part.setVatRate(BigDecimal.valueOf(21.0));
 		fare.addPartsItem(part);
 		return fare;
-	}
-
-	@Override
-	protected OptionsLeg getLeg() {
-		OptionsLeg leg = new OptionsLeg();
-		leg.setFrom(from);
-		leg.setTo(to);
-		leg.setStartTime(start);
-		leg.setEndTime(end);
-		return leg;
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package org.tomp.api.planning;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -15,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.temporal.ChronoUnit;
 import org.tomp.api.model.Segment;
 import org.tomp.api.model.TransportOperator;
 import org.tomp.api.model.Trip;
@@ -24,16 +25,15 @@ import org.tomp.api.utils.ClientUtil;
 
 import io.swagger.client.ApiException;
 import io.swagger.model.AssetClass;
-import io.swagger.model.CompositeLeg;
 import io.swagger.model.Condition;
 import io.swagger.model.Coordinates;
 import io.swagger.model.KeyValue;
-import io.swagger.model.OperatorLeg;
-import io.swagger.model.PlanningCheck;
-import io.swagger.model.PlanningOptions;
-import io.swagger.model.PlanningResult;
+import io.swagger.model.Leg;
+import io.swagger.model.Place;
+import io.swagger.model.Planning;
+import io.swagger.model.PlanningRequest;
 import io.swagger.model.Requirements;
-import io.swagger.model.SimpleLeg;
+import io.swagger.model.Suboperator;
 import io.swagger.model.TypeOfAsset;
 import io.swagger.model.User;
 
@@ -52,7 +52,7 @@ public class MaaSPlanningProvider implements PlanningProvider {
 	@Autowired
 	ClientUtil clientUtil;
 
-	public PlanningOptions getOptions(@Valid PlanningCheck body, String acceptLanguage) {
+	public Planning getOptions(@Valid PlanningRequest body, String acceptLanguage, boolean bookingIntent) {
 		log.info("Request for planning options");
 		applyPersonalStuff(body);
 
@@ -77,19 +77,19 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		return createPlanningOption(trips);
 	}
 
-	private PlanningOptions createPlanningOption(List<Trip> trips) {
-		PlanningOptions option = new PlanningOptions();
+	private Planning createPlanningOption(List<Trip> trips) {
+		Planning option = new Planning();
 		option.setConditions(gatherConditions(trips));
 		option.setValidUntil(getMinimalValidUntil(trips));
-		option.setResults(gatherResults(trips));
+		option.setLegOptions(gatherResults(trips));
 		return option;
 	}
 
-	private List<PlanningResult> gatherResults(List<Trip> trips) {
-		List<PlanningResult> results = new ArrayList<>();
+	private List<Leg> gatherResults(List<Trip> trips) {
+		List<Leg> results = new ArrayList<>();
 		for (Trip trip : trips) {
-			CompositeLeg leg = new CompositeLeg();
-			leg.setLegs(constructOperatorLegs(trip));
+			Leg leg = new Leg();
+			leg.setParts(constructOperatorLegs(trip));
 			leg.setId(UUID.randomUUID().toString());
 			repository.saveTrip(leg, trip);
 			results.add(leg);
@@ -97,32 +97,27 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		return results;
 	}
 
-	private List<OperatorLeg> constructOperatorLegs(Trip trip) {
-		List<OperatorLeg> legs = new ArrayList<>();
+	private List<Leg> constructOperatorLegs(Trip trip) {
+		List<Leg> legs = new ArrayList<>();
 		for (Segment segment : trip.getSegments()) {
 			// take first operator
 			TransportOperator operator = segment.getOperators().iterator().next();
-			PlanningOptions options = segment.getResult(operator);
-			PlanningResult planningResult = options.getResults().get(0);
-			if (planningResult instanceof SimpleLeg) {
-				SimpleLeg simpleLeg = (SimpleLeg) planningResult;
-				legs.add(toOperatorLeg(simpleLeg, operator));
-			}
+			Planning options = segment.getResult(operator);
+			Leg leg = options.getLegOptions().get(0);
+			legs.add(toOperatorLeg(leg, operator));
 		}
 		return legs;
 	}
 
-	private OperatorLeg toOperatorLeg(SimpleLeg simpleLeg, TransportOperator operator) {
-		OperatorLeg leg = new OperatorLeg();
-		leg.setTypeOfAsset(simpleLeg.getTypeOfAsset());
-		leg.setLeg(simpleLeg.getLeg());
-		leg.setId(simpleLeg.getId());
-
-		leg.setOperatorName(operator.getName());
+	private Leg toOperatorLeg(Leg leg, TransportOperator operator) {
+		Suboperator suboperator = new Suboperator();
+		suboperator.setMaasId(operator.getId());
+		suboperator.setName(operator.getName());
+		leg.setSuboperator(suboperator);
 		return leg;
 	}
 
-	private BigDecimal getMinimalValidUntil(List<Trip> trips) {
+	private OffsetDateTime getMinimalValidUntil(List<Trip> trips) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -132,21 +127,21 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		return null;
 	}
 
-	private void provideIds(List<Trip> trips, PlanningCheck body) throws ApiException {
+	private void provideIds(List<Trip> trips, PlanningRequest body) throws ApiException {
 		for (Trip trip : trips) {
 			for (Segment segment : trip.getSegments()) {
 				for (TransportOperator operator : segment.getOperators()) {
-					PlanningCheck planningCheck = createPlanningCheck(segment, body);
-					planningCheck.provideIds(true);
-					PlanningOptions options = clientUtil.post(operator, "/planning-options/", planningCheck,
-							PlanningOptions.class);
+					PlanningRequest planningCheck = createPlanningCheck(segment, body);
+					// planningCheck.provideIds(true);
+					Planning options = clientUtil.post(operator, "/plannings/&bookingIntent=true", planningCheck,
+							Planning.class);
 					segment.addResult(operator, options);
 				}
 			}
 		}
 	}
 
-	private void applyPersonalStuff(PlanningCheck body) {
+	private void applyPersonalStuff(PlanningRequest body) {
 		boolean first = true;
 		for (User user : body.getUsers()) {
 			// you can apply your knowledge of the end user in the body. It will be passed
@@ -163,7 +158,7 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		}
 	}
 
-	private List<Trip> constructPossibleTrips(PlanningCheck body) {
+	private List<Trip> constructPossibleTrips(PlanningRequest body) {
 		int numberOfTrips = new Random().nextInt(3) + 1;
 		List<Trip> trips = new ArrayList<>();
 		for (int i = 0; i < numberOfTrips; i++) {
@@ -172,26 +167,27 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		return trips;
 	}
 
-	private Trip generateTrip(PlanningCheck body) {
+	private Trip generateTrip(PlanningRequest body) {
 		int numberOfLegs = new Random().nextInt(3) + 1;
 		List<Segment> segments = new ArrayList<>();
 
 		Coordinates from = new Coordinates();
-		from.setLat(body.getFrom().getLat());
-		from.setLng(body.getFrom().getLng());
+		from.setLat(body.getFrom().getCoordinates().getLat());
+		from.setLng(body.getFrom().getCoordinates().getLng());
 
-		Coordinates to = body.getTo();
+		Coordinates to = body.getTo().getCoordinates();
 
 		BigDecimal deltaX = to.getLat().subtract(from.getLat());
 		deltaX = deltaX.divide(BigDecimal.valueOf(numberOfLegs), RoundingMode.DOWN);
 		BigDecimal deltaY = to.getLng().subtract(from.getLng());
 		deltaY = deltaY.divide(BigDecimal.valueOf(numberOfLegs), RoundingMode.DOWN);
-		int deltaT = (body.getEndTime().subtract(body.getStartTime())).intValue();
+		// int deltaT = (body.getEndTime().subtract(body.getStartTime())).intValue();
+		long deltaT = ChronoUnit.SECONDS.between(body.getEndTime(), body.getStartTime());
 		deltaT = deltaT / numberOfLegs;
 
 		to = new Coordinates();
-		to.setLat(body.getFrom().getLat());
-		to.setLng(body.getFrom().getLng());
+		to.setLat(body.getFrom().getCoordinates().getLat());
+		to.setLng(body.getFrom().getCoordinates().getLng());
 		to = applyDelta(to, 1, deltaX, deltaY);
 
 		for (int i = 0; i < numberOfLegs; i++) {
@@ -208,7 +204,7 @@ public class MaaSPlanningProvider implements PlanningProvider {
 			int index = new Random().nextInt(transportOperators.size());
 			AssetClass assetClass = transportOperators.get(index).getAssetClasses().get(0);
 			typeOfAsset.setAssetClass(assetClass);
-			segment.setAssetType(typeOfAsset);
+			segment.setAsset(typeOfAsset);
 
 			segment.setStartTime(applyDelta(body.getStartTime(), i, deltaT));
 			segment.setEndTime(applyDelta(body.getStartTime(), i + 1, deltaT));
@@ -225,7 +221,7 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		for (Trip trip : trips) {
 			for (Segment segment : trip.getSegments()) {
 				for (TransportOperator to : toProvider.getTransportOperators(segment)) {
-					if (to.providesAssetClass(segment.getAssetType().getAssetClass())) {
+					if (to.providesAssetClass(segment.getAsset().getAssetClass())) {
 						segment.addResult(to, null);
 					}
 				}
@@ -233,27 +229,31 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		}
 	}
 
-	private void getTransportOperatorInformation(List<Trip> trips, PlanningCheck body) throws ApiException {
+	private void getTransportOperatorInformation(List<Trip> trips, PlanningRequest body) throws ApiException {
 		for (Trip trip : trips) {
 			for (Segment segment : trip.getSegments()) {
 				for (TransportOperator operator : segment.getOperators()) {
-					PlanningOptions options = clientUtil.post(operator, "/planning-options/",
-							createPlanningCheck(segment, body), PlanningOptions.class);
+					Planning options = clientUtil.post(operator, "/plannings/", createPlanningCheck(segment, body),
+							Planning.class);
 					segment.addResult(operator, options);
 				}
 			}
 		}
 	}
 
-	private PlanningCheck createPlanningCheck(Segment segment, PlanningCheck body) {
-		PlanningCheck check = new PlanningCheck();
-		check.from(segment.getFrom());
-		check.to(segment.getTo());
+	private PlanningRequest createPlanningCheck(Segment segment, PlanningRequest body) {
+		PlanningRequest check = new PlanningRequest();
+		Place from = new Place();
+		from.setCoordinates(segment.getFrom());
+		check.from(from);
+		Place to = new Place();
+		to.setCoordinates(segment.getTo());
+		check.to(to);
 		check.setRadius(body.getRadius());
 		check.startTime(segment.getStartTime());
 		check.endTime(segment.getEndTime());
 		check.setUsers(body.getUsers());
-		check.setTravellers(body.getTravellers());
+		check.setTravelers(body.getTravelers());
 		return check;
 	}
 
@@ -261,11 +261,8 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		return allTrips;
 	}
 
-	private BigDecimal applyDelta(BigDecimal time, int i, int deltaT) {
-		Calendar instance = Calendar.getInstance();
-		instance.setTimeInMillis(time.longValue() * 1000);
-		instance.add(Calendar.SECOND, i * deltaT);
-		return BigDecimal.valueOf(instance.getTimeInMillis() / 1000);
+	private OffsetDateTime applyDelta(@Valid OffsetDateTime offsetDateTime, int i, long deltaT) {
+		return ChronoUnit.SECONDS.addTo(offsetDateTime, i * deltaT);
 	}
 
 	private Coordinates applyDelta(Coordinates coord, int i, BigDecimal deltaX, BigDecimal deltaY) {

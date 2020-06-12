@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Condition;
-import java.math.BigDecimal;
+import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -15,12 +15,12 @@ import javax.validation.constraints.*;
  * ConditionPostponedCommit
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T15:19:29.217Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class ConditionPostponedCommit extends Condition implements OneOfcondition {
   @JsonProperty("ultimateResponseTime")
-  private BigDecimal ultimateResponseTime = null;
+  private OffsetDateTime ultimateResponseTime = null;
 
-  public ConditionPostponedCommit ultimateResponseTime(BigDecimal ultimateResponseTime) {
+  public ConditionPostponedCommit ultimateResponseTime(OffsetDateTime ultimateResponseTime) {
     this.ultimateResponseTime = ultimateResponseTime;
     return this;
   }
@@ -33,11 +33,11 @@ public class ConditionPostponedCommit extends Condition implements OneOfconditio
       @NotNull
 
     @Valid
-    public BigDecimal getUltimateResponseTime() {
+    public OffsetDateTime getUltimateResponseTime() {
     return ultimateResponseTime;
   }
 
-  public void setUltimateResponseTime(BigDecimal ultimateResponseTime) {
+  public void setUltimateResponseTime(OffsetDateTime ultimateResponseTime) {
     this.ultimateResponseTime = ultimateResponseTime;
   }
 

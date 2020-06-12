@@ -20,7 +20,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "a origin or destination of a leg, non 3D. lon/lat in WGS84.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class Place   {
   @JsonProperty("name")
   private String name = null;
@@ -48,10 +48,10 @@ public class Place   {
   }
 
   /**
-   * Human readable name of the place
+   * Human readable name of the place, could match Content-Language
    * @return name
   **/
-  @ApiModelProperty(value = "Human readable name of the place")
+  @ApiModelProperty(value = "Human readable name of the place, could match Content-Language")
   
     public String getName() {
     return name;
@@ -116,8 +116,9 @@ public class Place   {
    * Get coordinates
    * @return coordinates
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     @Valid
     public Coordinates getCoordinates() {
     return coordinates;

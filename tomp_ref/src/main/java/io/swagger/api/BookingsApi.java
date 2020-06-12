@@ -46,7 +46,7 @@ public interface BookingsApi {
     @RequestMapping(value = "/bookings/",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Booking>> bookingsGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<List<Booking>> bookingsGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 ,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "state", required = true) BookingState state
@@ -72,7 +72,7 @@ public interface BookingsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Booking> bookingsIdEventsPost(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<Booking> bookingsIdEventsPost(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 ,@ApiParam(value = "Leg identifier",required=true) @PathVariable("id") String id
@@ -95,7 +95,7 @@ public interface BookingsApi {
     @RequestMapping(value = "/bookings/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Booking> bookingsIdGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<Booking> bookingsIdGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 ,@ApiParam(value = "Booking identifier",required=true) @PathVariable("id") String id
@@ -118,7 +118,7 @@ public interface BookingsApi {
     @RequestMapping(value = "/bookings/{id}/notifications",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Notification>> bookingsIdNotificationsGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<List<Notification>> bookingsIdNotificationsGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 ,@ApiParam(value = "Booking identifier",required=true) @PathVariable("id") String id
@@ -142,7 +142,7 @@ public interface BookingsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> bookingsIdNotificationsPost(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<Void> bookingsIdNotificationsPost(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 ,@ApiParam(value = "Booking identifier",required=true) @PathVariable("id") String id
@@ -170,7 +170,7 @@ public interface BookingsApi {
         consumes = { "application/json" },
         method = RequestMethod.PUT)
     ResponseEntity<Booking> bookingsIdPut(@ApiParam(value = "changed booking" ,required=true )  @Valid @RequestBody Booking body
-,@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+,@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 ,@ApiParam(value = "Booking identifier",required=true) @PathVariable("id") String id
@@ -194,7 +194,7 @@ public interface BookingsApi {
     @RequestMapping(value = "/bookings/{id}/subscription",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> bookingsIdSubscriptionDelete(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<Void> bookingsIdSubscriptionDelete(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 ,@ApiParam(value = "Booking identifier",required=true) @PathVariable("id") String id
@@ -218,7 +218,7 @@ public interface BookingsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> bookingsIdSubscriptionPost(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<Void> bookingsIdSubscriptionPost(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 ,@ApiParam(value = "Booking identifier",required=true) @PathVariable("id") String id
@@ -226,7 +226,7 @@ public interface BookingsApi {
 );
 
 
-    @ApiOperation(value = "", nickname = "bookingsPost", notes = "Creates a new `Booking` for the TO in **Pending** state. The ID of the posted booking should be the ID provided in the previous step (planningOptions). <p>The Booking may be modified in the response, e.g. location being adjusted for a more suitable pick-up location. In addition, the service may contain a **meta** attribute for arbitrary TO metadata that the TO needs later, and **token** attribute depicting how long the current state is valid. <p>The optional webhook can be used to post updates from TO to MP. If it isn't used, the subscription possibility in this API can be used or the events can be posted directly. <p> see (3.2) in the process flow - booking", response = Booking.class, authorizations = {
+    @ApiOperation(value = "", nickname = "bookingsPost", notes = "Creates a new `Booking` for the TO in **Pending** state. The ID of the posted booking should be the ID provided in the previous step (planning). <p>The Booking may be modified in the response, e.g. location being adjusted for a more suitable pick-up location. In addition, the service may contain a **meta** attribute for arbitrary TO metadata that the TO needs later, and **token** attribute depicting how long the current state is valid. <p>The optional webhook can be used to post updates from TO to MP. If it isn't used, the subscription possibility in this API can be used or the events can be posted directly. <p> see (3.2) in the process flow - booking", response = Booking.class, authorizations = {
         @Authorization(value = "ApiKeyAuth"),
 @Authorization(value = "BasicAuth"),
 @Authorization(value = "BearerAuth"),
@@ -244,8 +244,8 @@ public interface BookingsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Booking> bookingsPost(@ApiParam(value = "One of available options, returned by /planning-options, with an ID." ,required=true )  @Valid @RequestBody BookingOption body
-,@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<Booking> bookingsPost(@ApiParam(value = "One of available legs, returned by /planning, with an ID." ,required=true )  @Valid @RequestBody BookingOption body
+,@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 );

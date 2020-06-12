@@ -7,20 +7,20 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Asset;
-import java.math.BigDecimal;
+import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * event for the leg
+ * event for the execution
  */
-@ApiModel(description = "event for the leg")
+@ApiModel(description = "event for the execution")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
-public class LegEvent   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T13:55:00.069Z[GMT]")
+public class ExecutionEvent   {
   @JsonProperty("time")
-  private BigDecimal time = null;
+  private OffsetDateTime time = null;
 
   /**
    * Gets or Sets event
@@ -71,7 +71,7 @@ public class LegEvent   {
   @JsonProperty("asset")
   private Asset asset = null;
 
-  public LegEvent time(BigDecimal time) {
+  public ExecutionEvent time(OffsetDateTime time) {
     this.time = time;
     return this;
   }
@@ -84,15 +84,15 @@ public class LegEvent   {
       @NotNull
 
     @Valid
-    public BigDecimal getTime() {
+    public OffsetDateTime getTime() {
     return time;
   }
 
-  public void setTime(BigDecimal time) {
+  public void setTime(OffsetDateTime time) {
     this.time = time;
   }
 
-  public LegEvent event(EventEnum event) {
+  public ExecutionEvent event(EventEnum event) {
     this.event = event;
     return this;
   }
@@ -112,16 +112,16 @@ public class LegEvent   {
     this.event = event;
   }
 
-  public LegEvent comment(String comment) {
+  public ExecutionEvent comment(String comment) {
     this.comment = comment;
     return this;
   }
 
   /**
-   * free text
+   * free text, should match Content-Language
    * @return comment
   **/
-  @ApiModelProperty(value = "free text")
+  @ApiModelProperty(value = "free text, should match Content-Language")
   
     public String getComment() {
     return comment;
@@ -131,7 +131,7 @@ public class LegEvent   {
     this.comment = comment;
   }
 
-  public LegEvent asset(Asset asset) {
+  public ExecutionEvent asset(Asset asset) {
     this.asset = asset;
     return this;
   }
@@ -160,11 +160,11 @@ public class LegEvent   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    LegEvent legEvent = (LegEvent) o;
-    return Objects.equals(this.time, legEvent.time) &&
-        Objects.equals(this.event, legEvent.event) &&
-        Objects.equals(this.comment, legEvent.comment) &&
-        Objects.equals(this.asset, legEvent.asset);
+    ExecutionEvent executionEvent = (ExecutionEvent) o;
+    return Objects.equals(this.time, executionEvent.time) &&
+        Objects.equals(this.event, executionEvent.event) &&
+        Objects.equals(this.comment, executionEvent.comment) &&
+        Objects.equals(this.asset, executionEvent.asset);
   }
 
   @Override
@@ -175,7 +175,7 @@ public class LegEvent   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class LegEvent {\n");
+    sb.append("class ExecutionEvent {\n");
     
     sb.append("    time: ").append(toIndentedString(time)).append("\n");
     sb.append("    event: ").append(toIndentedString(event)).append("\n");

@@ -11,7 +11,6 @@ import org.tomp.api.model.TransportOperator;
 import org.tomp.api.model.Trip;
 
 import io.swagger.model.Booking;
-import io.swagger.model.CompositeLeg;
 import io.swagger.model.Leg;
 
 @Component
@@ -21,7 +20,7 @@ public class MPRepository {
 	private static final Map<Booking, ArrayList<SimpleEntry<Booking, TransportOperator>>> bookings = new HashMap<>();
 	private static final Map<String, Leg> legs = new HashMap<>();
 
-	public void saveTrip(CompositeLeg leg, Trip trip) {
+	public void saveTrip(Leg leg, Trip trip) {
 		options.put(leg.getId(), trip);
 	}
 

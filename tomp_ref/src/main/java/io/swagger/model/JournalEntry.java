@@ -10,6 +10,7 @@ import io.swagger.model.AmountOfMoney;
 import io.swagger.model.BankAccount;
 import io.swagger.model.JournalState;
 import java.math.BigDecimal;
+import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -18,7 +19,7 @@ import javax.validation.constraints.*;
  * JournalEntry
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class JournalEntry extends AmountOfMoney  {
   @JsonProperty("journalId")
   private String journalId = null;
@@ -30,13 +31,13 @@ public class JournalEntry extends AmountOfMoney  {
   private Object invoiceId = null;
 
   @JsonProperty("invoiceDate")
-  private BigDecimal invoiceDate = null;
+  private OffsetDateTime invoiceDate = null;
 
   @JsonProperty("state")
   private JournalState state = null;
 
   @JsonProperty("expirationDate")
-  private BigDecimal expirationDate = null;
+  private OffsetDateTime expirationDate = null;
 
   @JsonProperty("comment")
   private String comment = null;
@@ -143,7 +144,7 @@ public class JournalEntry extends AmountOfMoney  {
     this.invoiceId = invoiceId;
   }
 
-  public JournalEntry invoiceDate(BigDecimal invoiceDate) {
+  public JournalEntry invoiceDate(OffsetDateTime invoiceDate) {
     this.invoiceDate = invoiceDate;
     return this;
   }
@@ -155,11 +156,11 @@ public class JournalEntry extends AmountOfMoney  {
   @ApiModelProperty(value = "")
   
     @Valid
-    public BigDecimal getInvoiceDate() {
+    public OffsetDateTime getInvoiceDate() {
     return invoiceDate;
   }
 
-  public void setInvoiceDate(BigDecimal invoiceDate) {
+  public void setInvoiceDate(OffsetDateTime invoiceDate) {
     this.invoiceDate = invoiceDate;
   }
 
@@ -183,7 +184,7 @@ public class JournalEntry extends AmountOfMoney  {
     this.state = state;
   }
 
-  public JournalEntry expirationDate(BigDecimal expirationDate) {
+  public JournalEntry expirationDate(OffsetDateTime expirationDate) {
     this.expirationDate = expirationDate;
     return this;
   }
@@ -195,11 +196,11 @@ public class JournalEntry extends AmountOfMoney  {
   @ApiModelProperty(value = "")
   
     @Valid
-    public BigDecimal getExpirationDate() {
+    public OffsetDateTime getExpirationDate() {
     return expirationDate;
   }
 
-  public void setExpirationDate(BigDecimal expirationDate) {
+  public void setExpirationDate(OffsetDateTime expirationDate) {
     this.expirationDate = expirationDate;
   }
 

@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * SystemRegion
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class SystemRegion   {
   @JsonProperty("regionId")
   private String regionId = null;
@@ -51,10 +51,10 @@ public class SystemRegion   {
   }
 
   /**
-   * Public name for this region
+   * Public name for this region, could match Content-Language
    * @return name
   **/
-  @ApiModelProperty(example = "BikeTown", required = true, value = "Public name for this region")
+  @ApiModelProperty(example = "BikeTown", required = true, value = "Public name for this region, could match Content-Language")
       @NotNull
 
     public String getName() {

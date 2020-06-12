@@ -1,6 +1,7 @@
 package org.tomp.api.operatorinformation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class SimpleBikeOperatorInformationProvider implements OperatorInformatio
 	public SimpleBikeOperatorInformationProvider(ExternalConfiguration configuration) {
 		this.configuration = configuration;
 	}
-	
+
 	@Override
 	public List<TypeOfAsset> getAvailableAssetTypes(String acceptLanguage) {
 		ObjectFromFileProvider<TypeOfAsset[]> provider = new ObjectFromFileProvider<>();
@@ -39,7 +40,7 @@ public class SimpleBikeOperatorInformationProvider implements OperatorInformatio
 		SystemInformation info = new SystemInformation();
 		info.setSystemId("maas-3234434");
 		info.setEmail("email@bike-operator.org");
-		info.setLanguage(acceptLanguage);
+		info.setLanguage(Arrays.asList(acceptLanguage));
 		info.setName("Bike Operator");
 		return info;
 	}

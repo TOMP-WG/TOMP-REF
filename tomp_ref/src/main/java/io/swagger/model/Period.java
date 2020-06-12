@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
+import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -14,15 +14,15 @@ import javax.validation.constraints.*;
  * Period
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class Period   {
   @JsonProperty("startTime")
-  private BigDecimal startTime = null;
+  private OffsetDateTime startTime = null;
 
   @JsonProperty("endTime")
-  private BigDecimal endTime = null;
+  private OffsetDateTime endTime = null;
 
-  public Period startTime(BigDecimal startTime) {
+  public Period startTime(OffsetDateTime startTime) {
     this.startTime = startTime;
     return this;
   }
@@ -34,15 +34,15 @@ public class Period   {
   @ApiModelProperty(value = "")
   
     @Valid
-    public BigDecimal getStartTime() {
+    public OffsetDateTime getStartTime() {
     return startTime;
   }
 
-  public void setStartTime(BigDecimal startTime) {
+  public void setStartTime(OffsetDateTime startTime) {
     this.startTime = startTime;
   }
 
-  public Period endTime(BigDecimal endTime) {
+  public Period endTime(OffsetDateTime endTime) {
     this.endTime = endTime;
     return this;
   }
@@ -54,11 +54,11 @@ public class Period   {
   @ApiModelProperty(value = "")
   
     @Valid
-    public BigDecimal getEndTime() {
+    public OffsetDateTime getEndTime() {
     return endTime;
   }
 
-  public void setEndTime(BigDecimal endTime) {
+  public void setEndTime(OffsetDateTime endTime) {
     this.endTime = endTime;
   }
 

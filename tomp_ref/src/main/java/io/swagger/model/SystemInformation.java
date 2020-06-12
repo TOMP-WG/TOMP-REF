@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -15,13 +17,14 @@ import javax.validation.constraints.*;
  * SystemInformation
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class SystemInformation   {
   @JsonProperty("systemId")
   private String systemId = null;
 
   @JsonProperty("language")
-  private String language = null;
+  @Valid
+  private List<String> language = new ArrayList<String>();
 
   @JsonProperty("name")
   private String name = null;
@@ -111,23 +114,28 @@ public class SystemInformation   {
     this.systemId = systemId;
   }
 
-  public SystemInformation language(String language) {
+  public SystemInformation language(List<String> language) {
     this.language = language;
     return this;
   }
 
+  public SystemInformation addLanguageItem(String languageItem) {
+    this.language.add(languageItem);
+    return this;
+  }
+
   /**
-   * An IETF language tag indicating the language that will be used throughout the rest of the files. This is a string that defines a single language tag only.
+   * The languages supported by this operator for user-facing text. These can be requested using the Accept-Language header and should then be returned in Content-Language
    * @return language
   **/
-  @ApiModelProperty(example = "eng", required = true, value = "An IETF language tag indicating the language that will be used throughout the rest of the files. This is a string that defines a single language tag only.")
+  @ApiModelProperty(required = true, value = "The languages supported by this operator for user-facing text. These can be requested using the Accept-Language header and should then be returned in Content-Language")
       @NotNull
 
-    public String getLanguage() {
+    public List<String> getLanguage() {
     return language;
   }
 
-  public void setLanguage(String language) {
+  public void setLanguage(List<String> language) {
     this.language = language;
   }
 
@@ -137,10 +145,10 @@ public class SystemInformation   {
   }
 
   /**
-   * Full name of the system to be displayed to customers
+   * Full name of the system to be displayed to customers, could match Content-Language
    * @return name
   **/
-  @ApiModelProperty(example = "FreeBike", required = true, value = "Full name of the system to be displayed to customers")
+  @ApiModelProperty(example = "FreeBike", required = true, value = "Full name of the system to be displayed to customers, could match Content-Language")
       @NotNull
 
     public String getName() {
@@ -176,10 +184,10 @@ public class SystemInformation   {
   }
 
   /**
-   * Name of the operator of the system
+   * Name of the operator of the system, could match Content-Language
    * @return operator
   **/
-  @ApiModelProperty(example = "FreeBike", value = "Name of the operator of the system")
+  @ApiModelProperty(example = "FreeBike", value = "Name of the operator of the system, could match Content-Language")
   
     public String getOperator() {
     return operator;

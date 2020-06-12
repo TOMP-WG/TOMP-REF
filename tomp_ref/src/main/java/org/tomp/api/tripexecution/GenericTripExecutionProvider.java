@@ -1,7 +1,6 @@
 package org.tomp.api.tripexecution;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -9,21 +8,22 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.temporal.ChronoUnit;
 import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.repository.DummyRepository;
 
 import io.swagger.model.Coordinates;
+import io.swagger.model.Execution;
+import io.swagger.model.ExecutionEvent;
+import io.swagger.model.ExecutionState;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.JournalEntry;
 import io.swagger.model.JournalState;
 import io.swagger.model.KeyValue;
 import io.swagger.model.Leg;
-import io.swagger.model.LegEvent;
-import io.swagger.model.LegState;
-import io.swagger.model.OptionsLeg;
-import io.swagger.model.PlanningResult;
-import io.swagger.model.SimpleLeg;
+import io.swagger.model.Place;
 import io.swagger.model.Token;
 
 @Component
@@ -37,23 +37,20 @@ public class GenericTripExecutionProvider implements TripExecutionProvider {
 	ExternalConfiguration configuration;
 
 	@Override
-	public Leg prepare(LegEvent body, String acceptLanguage, String id, String maasId) {
-		Leg leg = repository.getLeg(id);
-		PlanningResult planning = repository.getSavedOption(id);
-		leg.setAssetAccessData(constructTokenToOpenAsset(body, planning));
-		leg.setState(LegState.PREPARING);
+	public Execution prepare(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+		Leg planning = repository.getSavedOption(id);
+		Execution execution = new Execution();
+		execution.setAssetAccessData(constructTokenToOpenAsset(body, planning));
+		execution.setState(ExecutionState.PREPARING);
 		repository.saveLegEvent(id, body);
-		return leg;
+		return execution;
 	}
 
-	private Token constructTokenToOpenAsset(LegEvent body, PlanningResult planning) {
+	private Token constructTokenToOpenAsset(ExecutionEvent body, Leg planning) {
 		Token token = new Token();
 		token.setStartTime(body.getTime());
-		if (planning instanceof SimpleLeg) {
-			OptionsLeg plannedLeg = ((SimpleLeg) planning).getLeg();
-			token.setEndTime(plannedLeg.getEndTime().subtract(BigDecimal.valueOf(60000)));
-			token.setMeta(Arrays.asList(toKV("code", UUID.randomUUID())));
-		}
+		token.setEndTime(ChronoUnit.SECONDS.addTo(planning.getEndTime(), -3600));
+		token.setMeta(Arrays.asList(toKV("code", UUID.randomUUID())));
 		return token;
 	}
 
@@ -64,68 +61,90 @@ public class GenericTripExecutionProvider implements TripExecutionProvider {
 	}
 
 	@Override
-	public Leg assignAsset(LegEvent body, String acceptLanguage, String id, String maasId) {
+	public Execution assignAsset(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
 		Leg leg = repository.getLeg(id);
 		repository.saveLegEvent(id, body);
-		return leg;
+		return toExecution(leg);
 	}
 
 	@Override
-	public Leg reserve(LegEvent body, String acceptLanguage, String id, String maasId) {
+	public Execution reserve(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
 		Leg leg = repository.getLeg(id);
 		repository.saveLegEvent(id, body);
-		return leg;
+		return toExecution(leg);
+	}
+
+	private Execution toExecution(Leg leg) {
+		Execution execution = new Execution();
+		execution.setAgencyId(configuration.getMaasId());
+		execution.setStartTime(leg.getStartTime());
+		execution.setEndTime(leg.getEndTime());
+		execution.setFrom(toPlace(leg.getFrom()));
+		execution.setTo(toPlace(leg.getTo()));
+		return execution;
+	}
+
+	private Place toPlace(Coordinates coordinate) {
+		Place place = new Place();
+		place.setCoordinates(coordinate);
+		return place;
 	}
 
 	@Override
-	public Leg setInUse(LegEvent body, String acceptLanguage, String id, String maasId) {
+	public Execution setInUse(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
 		Leg leg = repository.getLeg(id);
-		leg.setAgencyId(maasId);
-		leg.setFrom(body.getAsset().getPlace());
+		Execution execution = toExecution(leg);
+		execution.setAgencyId(maasId);
+		execution.setFrom(body.getAsset().getPlace());
 		leg.setStartTime(body.getTime());
 		repository.saveLegEvent(id, body);
-		leg.setState(LegState.IN_USE);
-		createJournalItem(id, leg, body, maasId);
-		return leg;
+		execution.setState(ExecutionState.IN_USE);
+		createJournalItem(id, execution, body, maasId);
+		return execution;
 	}
 
 	@Override
-	public Leg pause(LegEvent body, String acceptLanguage, String id, String maasId) {
+	public Execution pause(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
 		Leg leg = repository.getLeg(id);
-		leg.setState(LegState.PAUSED);
+		Execution execution = toExecution(leg);
+		execution.setState(ExecutionState.PAUSED);
 		repository.saveLegEvent(id, body);
-		return leg;
+		return execution;
 	}
 
 	@Override
-	public Leg startFinishing(LegEvent body, String acceptLanguage, String id, String maasId) {
+	public Execution startFinishing(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
 		Leg leg = repository.getLeg(id);
-		leg.setState(LegState.FINISHING);
+		Execution execution = toExecution(leg);
+		execution.setState(ExecutionState.FINISHING);
 		repository.saveLegEvent(id, body);
-		return leg;
+		return execution;
 	}
 
 	@Override
-	public Leg finish(LegEvent body, String acceptLanguage, String id, String maasId) {
+	public Execution finish(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
 		Leg leg = repository.getLeg(id);
-		leg.setState(LegState.FINISHED);
-		leg.setTo(body.getAsset().getPlace());
-		leg.setEndTime(body.getTime());
-		finaliseJournalItem(id, leg, body, maasId);
+		Execution execution = toExecution(leg);
+		execution.setState(ExecutionState.FINISHED);
+		execution.setTo(body.getAsset().getPlace());
+		execution.setEndTime(body.getTime());
+		execution.setFare(leg.getPricing());
+		execution.getFare().setEstimated(false);
+		finaliseJournalItem(id, execution, body, maasId);
 		repository.saveLegEvent(id, body);
-		return leg;
+		return execution;
 	}
 
-	private void createJournalItem(String id, Leg leg, LegEvent body, String maasId) {
+	private void createJournalItem(String id, Execution execution, ExecutionEvent body, String maasId) {
 		JournalEntry entry = new JournalEntry();
 		entry.setJournalId(id);
 		entry.setState(null);
 		repository.saveJournalEntry(entry, maasId);
 	}
 
-	private BigDecimal calculateFare(Leg leg) {
+	private BigDecimal calculateFare(Execution execution) {
 		double amount = 0;
-		Fare fare = leg.getFare();
+		Fare fare = execution.getFare();
 
 		for (FarePart part : fare.getParts()) {
 			switch (part.getType()) {
@@ -133,7 +152,7 @@ public class GenericTripExecutionProvider implements TripExecutionProvider {
 				amount += part.getAmount().doubleValue();
 				break;
 			case FLEX:
-				amount += calculateFlexPart(part, leg);
+				amount += calculateFlexPart(part, execution);
 				break;
 			case MAX:
 				if (amount > part.getAmount().doubleValue()) {
@@ -149,51 +168,45 @@ public class GenericTripExecutionProvider implements TripExecutionProvider {
 		return BigDecimal.valueOf(amount);
 	}
 
-	private double calculateFlexPart(FarePart part, Leg leg) {
+	private double calculateFlexPart(FarePart part, Execution execution) {
 		double amount = part.getAmount().doubleValue();
 		switch (part.getUnitType()) {
 		case HOUR:
-			double usedTime = leg.getEndTime().subtract(leg.getStartTime()).doubleValue();
-			// 3600 sec/hour
-			double hours = usedTime / 3600;
-			return amount * hours;
+			return ChronoUnit.HOURS.between(execution.getStartTime(), execution.getEndTime());
 		case KM:
-			return amount * (leg.getDistance().doubleValue() / 1000);
+			return amount * (execution.getDistance().doubleValue() / 1000);
 		case MILE:
-			return amount * (leg.getDistance().doubleValue() / 1609);
+			return amount * (execution.getDistance().doubleValue() / 1609);
 		case MINUTE:
-			double minutes = leg.getEndTime().subtract(leg.getStartTime()).doubleValue() / 60;
-			return amount * minutes;
+			return ChronoUnit.MINUTES.between(execution.getStartTime(), execution.getEndTime());
 		case PERCENTAGE:
 			break;
 		case SECOND:
-			double seconds = leg.getEndTime().subtract(leg.getStartTime()).doubleValue();
-			return amount * seconds;
+			return ChronoUnit.SECONDS.between(execution.getStartTime(), execution.getEndTime());
 		default:
 			break;
 		}
 		return 0;
 	}
 
-	private void finaliseJournalItem(String id, Leg leg, LegEvent legEvent, String maasId) {
+	private void finaliseJournalItem(String id, Execution execution, ExecutionEvent legEvent, String maasId) {
 		JournalEntry entry = repository.getLastStartJournalEntry(maasId, id);
-		entry.setUsedTime(leg.getEndTime().subtract(leg.getStartTime()));
+		entry.setUsedTime(
+				BigDecimal.valueOf(ChronoUnit.SECONDS.between(execution.getStartTime(), execution.getEndTime())));
 		entry.setDistance(calculateDistance(entry, legEvent));
-		BigDecimal amount = calculateFare(leg);
+		BigDecimal amount = calculateFare(execution);
 		entry.setAmount(amount);
 		entry.setCurrencyCode(configuration.getCurrencyCode());
 		long vatRate = configuration.getVatRate();
 		entry.setVatRate(BigDecimal.valueOf(vatRate));
 		entry.setAmountExVat(BigDecimal.valueOf(amount.doubleValue() * ((100.0 - vatRate) / 100.0)));
 		entry.setVatCountryCode(configuration.getCurrencyCode());
-		long expirationDate = Instant.now().getEpochSecond();
-		expirationDate += configuration.getExpirationDays() * 24 * 60 * 60;
-		entry.setExpirationDate(BigDecimal.valueOf(expirationDate));
+		entry.setExpirationDate(ChronoUnit.DAYS.addTo(OffsetDateTime.now(), configuration.getExpirationDays()));
 		entry.setState(JournalState.TO_INVOICE);
 	}
 
-	private BigDecimal calculateDistance(JournalEntry entry, LegEvent legEvent) {
-		List<LegEvent> legEvents = repository.getLegEvents(entry.getJournalId());
+	private BigDecimal calculateDistance(JournalEntry entry, ExecutionEvent legEvent) {
+		List<ExecutionEvent> legEvents = repository.getLegEvents(entry.getJournalId());
 		Coordinates coordinates = legEvents.get(0).getAsset().getPlace().getCoordinates();
 		Coordinates coordinates2 = legEvent.getAsset().getPlace().getCoordinates();
 

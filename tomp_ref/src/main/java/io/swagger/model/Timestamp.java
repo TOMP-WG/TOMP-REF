@@ -7,11 +7,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * A UTC timestamp (number of milliseconds in a Date object since January 1, 1970, 00:00:00)
+ * timestamp according to ISO 8601 (RFC3339)
  */
-@ApiModel(description = "A UTC timestamp (number of milliseconds in a Date object since January 1, 1970, 00:00:00)")
+@ApiModel(description = "timestamp according to ISO 8601 (RFC3339)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class Timestamp   {
 
   @Override

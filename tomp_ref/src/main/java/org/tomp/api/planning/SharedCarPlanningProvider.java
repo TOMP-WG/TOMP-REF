@@ -8,6 +8,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.temporal.ChronoUnit;
 import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.repository.DummyRepository;
 
@@ -19,9 +21,8 @@ import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
 import io.swagger.model.FarePart.UnitTypeEnum;
-import io.swagger.model.OptionsLeg;
-import io.swagger.model.PlanningCheck;
-import io.swagger.model.PlanningOptions;
+import io.swagger.model.Planning;
+import io.swagger.model.PlanningRequest;
 
 @Component
 @Profile("shared-car")
@@ -32,14 +33,9 @@ public class SharedCarPlanningProvider extends GenericPlanningProvider {
 		super(repository, configuration);
 	}
 
-	private BigDecimal startTime;
-	private PlanningCheck planningCheck;
-
 	@Override
-	public PlanningOptions getOptions(@Valid PlanningCheck body, String acceptLanguage) {
-		startTime = body.getStartTime();
-		this.planningCheck = body;
-		return super.getOptions(body, acceptLanguage);
+	public Planning getOptions(@Valid PlanningRequest body, String acceptLanguage, boolean bookingIntent) {
+		return super.getOptions(body, acceptLanguage, bookingIntent);
 	}
 
 	@Override
@@ -64,20 +60,11 @@ public class SharedCarPlanningProvider extends GenericPlanningProvider {
 	}
 
 	@Override
-	protected OptionsLeg getLeg() {
-		OptionsLeg leg = new OptionsLeg();
-		leg.setStartTime(planningCheck.getStartTime());
-		leg.setEndTime(planningCheck.getEndTime());
-		leg.setFrom(planningCheck.getFrom());
-		leg.setTo(planningCheck.getTo());
-		return leg;
-	}
-
-	@Override
 	protected List<Condition> getConditions(String acceptLanguage) {
 		List<Condition> conditions = super.getConditions(acceptLanguage);
 		ConditionPostponedCommit condition = new ConditionPostponedCommit();
-		condition.setUltimateResponseTime(startTime.subtract(BigDecimal.valueOf(3600)));
+
+		condition.setUltimateResponseTime(ChronoUnit.SECONDS.addTo(this.getStartTime(), -3600));
 		conditions.add(condition);
 
 		ConditionRequireBookingData bookingDataCondition = new ConditionRequireBookingData();

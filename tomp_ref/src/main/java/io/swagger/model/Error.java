@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "An error that the service may send, e.g. in case of invalid input, missing authorization or internal service error. see https://tools.ietf.org/html/rfc7807")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class Error   {
   @JsonProperty("type")
   private String type = null;
@@ -57,10 +57,10 @@ public class Error   {
   }
 
   /**
-   * A short, human-readable summary of the problem type.  It SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization (e.g., using proactive content negotiation; see [RFC7231], Section 3.4).
+   * A short, human-readable summary of the problem type.  It SHOULD NOT change from occurrence to occurrence of the problem, except to match Content-Language
    * @return title
   **/
-  @ApiModelProperty(value = "A short, human-readable summary of the problem type.  It SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization (e.g., using proactive content negotiation; see [RFC7231], Section 3.4).")
+  @ApiModelProperty(value = "A short, human-readable summary of the problem type.  It SHOULD NOT change from occurrence to occurrence of the problem, except to match Content-Language")
   
     public String getTitle() {
     return title;
@@ -96,10 +96,10 @@ public class Error   {
   }
 
   /**
-   * A human-readable explanation specific to this occurrence of the problem.
+   * A human-readable explanation specific to this occurrence of the problem, could match Content-Language
    * @return detail
   **/
-  @ApiModelProperty(value = "A human-readable explanation specific to this occurrence of the problem.")
+  @ApiModelProperty(value = "A human-readable explanation specific to this occurrence of the problem, could match Content-Language")
   
     public String getDetail() {
     return detail;

@@ -10,9 +10,9 @@ import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * status of a leg
+ * status of a leg execution
  */
-public enum LegState {
+public enum ExecutionState {
   NOT_STARTED("NOT_STARTED"),
     PREPARING("PREPARING"),
     IN_USE("IN_USE"),
@@ -23,7 +23,7 @@ public enum LegState {
 
   private String value;
 
-  LegState(String value) {
+  ExecutionState(String value) {
     this.value = value;
   }
 
@@ -34,8 +34,8 @@ public enum LegState {
   }
 
   @JsonCreator
-  public static LegState fromValue(String text) {
-    for (LegState b : LegState.values()) {
+  public static ExecutionState fromValue(String text) {
+    for (ExecutionState b : ExecutionState.values()) {
       if (String.valueOf(b.value).equals(text)) {
         return b;
       }

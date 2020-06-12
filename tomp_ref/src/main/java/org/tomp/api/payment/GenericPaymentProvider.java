@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.threeten.bp.OffsetDateTime;
 import org.tomp.api.repository.DummyRepository;
 
 import io.swagger.model.ExtraCosts;
@@ -35,8 +36,8 @@ public class GenericPaymentProvider implements PaymentProvider {
 	}
 
 	@Override
-	public List<JournalEntry> getJournalEntries(String acceptLanguage, String api, String apiVersion, BigDecimal from,
-			BigDecimal to, JournalState state, String category, String maasId) {
+	public List<JournalEntry> getJournalEntries(String acceptLanguage, String api, String apiVersion,
+			OffsetDateTime from, OffsetDateTime to, JournalState state, String category, String maasId) {
 		return repository.getJournalEntries(acceptLanguage, from, to, state, category, maasId);
 	}
 

@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "what kind of asset is this? Classify it, give the aspects. Most aspects are optional and should be used when applicable.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class TypeOfAsset   {
   @JsonProperty("typeId")
   private String typeId = null;
@@ -624,10 +624,10 @@ public class TypeOfAsset   {
   }
 
   /**
-   * colour of the asset
+   * colour of the asset, should match Content-Language
    * @return colour
   **/
-  @ApiModelProperty(value = "colour of the asset")
+  @ApiModelProperty(value = "colour of the asset, should match Content-Language")
   
     public String getColour() {
     return colour;
@@ -643,10 +643,10 @@ public class TypeOfAsset   {
   }
 
   /**
-   * describes options to carry cargo
+   * describes options to carry cargo, should match Content-Language
    * @return cargo
   **/
-  @ApiModelProperty(value = "describes options to carry cargo")
+  @ApiModelProperty(value = "describes options to carry cargo, should match Content-Language")
   
     public String getCargo() {
     return cargo;
@@ -911,10 +911,10 @@ public class TypeOfAsset   {
   }
 
   /**
-   * free text to describe asset
+   * free text to describe asset, should match Content-Language
    * @return other
   **/
-  @ApiModelProperty(value = "free text to describe asset")
+  @ApiModelProperty(value = "free text to describe asset, should match Content-Language")
   
     public String getOther() {
     return other;

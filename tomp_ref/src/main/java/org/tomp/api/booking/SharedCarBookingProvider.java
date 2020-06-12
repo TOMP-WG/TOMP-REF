@@ -34,9 +34,7 @@ import io.swagger.model.ExtraCosts;
 import io.swagger.model.JournalCategory;
 import io.swagger.model.JournalEntry;
 import io.swagger.model.KeyValue;
-import io.swagger.model.OptionsLeg;
-import io.swagger.model.PlanningResult;
-import io.swagger.model.SimpleLeg;
+import io.swagger.model.Leg;
 
 @Component
 @Profile(value = { "shared-car" })
@@ -115,7 +113,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 
 			booking.setState(BookingState.CANCELLED);
 			JournalEntry entry = new JournalEntry();
-			PlanningResult savedOption = repository.getSavedOption(id);
+			Leg savedOption = repository.getSavedOption(id);
 
 			double calculated = fareUtil.calculateFare(savedOption);
 			if (calculated > 0) {
@@ -202,26 +200,23 @@ public class SharedCarBookingProvider implements BookingProvider {
 		builder.append(customer.getBirthDate());
 		builder.append("\r\n");
 
-		PlanningResult savedOption = repository.getSavedOption(booking.getId());
-		if (savedOption instanceof SimpleLeg) {
-			OptionsLeg leg = ((SimpleLeg) savedOption).getLeg();
-			Coordinates from = leg.getFrom();
-			builder.append("Start ");
-			builder.append(leg.getStartTime());
-			builder.append(" - ");
-			builder.append(from.getLat());
-			builder.append("/");
-			builder.append(from.getLng());
-			builder.append("\r\n");
-			Coordinates to = leg.getTo();
-			builder.append("End ");
-			builder.append(leg.getEndTime());
-			builder.append(" - ");
-			builder.append(to.getLat());
-			builder.append("/");
-			builder.append(to.getLng());
-			builder.append("\r\n");
-		}
+		Leg leg = repository.getSavedOption(booking.getId());
+		Coordinates from = leg.getFrom();
+		builder.append("Start ");
+		builder.append(leg.getStartTime());
+		builder.append(" - ");
+		builder.append(from.getLat());
+		builder.append("/");
+		builder.append(from.getLng());
+		builder.append("\r\n");
+		Coordinates to = leg.getTo();
+		builder.append("End ");
+		builder.append(leg.getEndTime());
+		builder.append(" - ");
+		builder.append(to.getLat());
+		builder.append("/");
+		builder.append(to.getLng());
+		builder.append("\r\n");
 		return builder;
 	}
 

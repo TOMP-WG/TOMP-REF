@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.threeten.bp.OffsetDateTime;
 
 import io.swagger.model.AssetClass;
 import io.swagger.model.Condition;
@@ -16,11 +17,9 @@ import io.swagger.model.Coordinates;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
-import io.swagger.model.OptionsLeg;
-import io.swagger.model.PlanningCheck;
-import io.swagger.model.PlanningOptions;
-import io.swagger.model.PlanningResult;
-import io.swagger.model.SimpleLeg;
+import io.swagger.model.Leg;
+import io.swagger.model.Planning;
+import io.swagger.model.PlanningRequest;
 import io.swagger.model.TypeOfAsset;
 import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
 
@@ -30,28 +29,31 @@ public class BusPlanningProvider implements PlanningProvider {
 
 	private @NotNull @Valid Coordinates from;
 	private @Valid Coordinates to;
-	private @Valid BigDecimal start;
-	private @Valid BigDecimal end;
+	private @Valid OffsetDateTime start;
+	private @Valid OffsetDateTime end;
 
-	public PlanningOptions getOptions(@Valid PlanningCheck body, String acceptLanguage) {
-		PlanningOptions options = new PlanningOptions();
+	public Planning getOptions(@Valid PlanningRequest body, String acceptLanguage, boolean bookingIntent) {
+		Planning options = new Planning();
 		options.setConditions(new ArrayList<Condition>());
-		from = body.getFrom();
-		to = body.getTo();
+		from = body.getFrom().getCoordinates();
+		to = body.getTo().getCoordinates();
 		start = body.getStartTime();
 		end = body.getEndTime();
-		options.setResults(getResults(body));
+		options.setLegOptions(getResults(body, bookingIntent));
 		return options;
 	}
 
-	private ArrayList<PlanningResult> getResults(@Valid PlanningCheck body) {
-		ArrayList<PlanningResult> arrayList = new ArrayList<>();
-		SimpleLeg result = new SimpleLeg();
-		if (body.isProvideIds().booleanValue()) {
+	private ArrayList<Leg> getResults(@Valid PlanningRequest body, boolean bookingIntent) {
+		ArrayList<Leg> arrayList = new ArrayList<>();
+		Leg result = new Leg();
+		if (bookingIntent) {
 			result.setId(UUID.randomUUID().toString());
 		}
-		result.setTypeOfAsset(getAssetType());
-		result.setLeg(getLeg());
+		result.setAsset(getAssetType());
+		result.setFrom(from);
+		result.setTo(to);
+		result.setStartTime(start);
+		result.setEndTime(end);
 		result.setPricing(getFare());
 		arrayList.add(result);
 		return arrayList;
@@ -66,15 +68,6 @@ public class BusPlanningProvider implements PlanningProvider {
 		part.setVatRate(BigDecimal.valueOf(21.0));
 		fare.addPartsItem(part);
 		return fare;
-	}
-
-	private OptionsLeg getLeg() {
-		OptionsLeg leg = new OptionsLeg();
-		leg.setFrom(from);
-		leg.setTo(to);
-		leg.setStartTime(start);
-		leg.setEndTime(end);
-		return leg;
 	}
 
 	private TypeOfAsset getAssetType() {

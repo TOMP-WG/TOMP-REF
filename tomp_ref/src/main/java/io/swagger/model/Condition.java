@@ -2,8 +2,6 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,22 +13,13 @@ import javax.validation.constraints.*;
  * Condition
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T15:19:29.217Z[GMT]")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "conditionType", visible = true )
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = ConditionDeposit.class, name = "conditionDeposit"),
-        @JsonSubTypes.Type(value = ConditionPayWhenFinished.class, name = "conditionPayWhenFinished"),
-        @JsonSubTypes.Type(value = ConditionPostponedCommit.class, name = "conditionPostponedCommit"),
-        @JsonSubTypes.Type(value = ConditionRequireBookingData.class, name = "conditionRequireBookingData"),
-        @JsonSubTypes.Type(value = ConditionReturnArea.class, name = "conditionReturnArea"),
-        @JsonSubTypes.Type(value = ConditionUpfrontPayment.class, name = "conditionUpfrontPayment"),
-})
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T13:55:00.069Z[GMT]")
 public class Condition  implements OneOfcondition {
   @JsonProperty("conditionType")
   private String conditionType = null;
 
-  @JsonProperty("name")
-  private String name = null;
+  @JsonProperty("id")
+  private String id = null;
 
   public Condition conditionType(String conditionType) {
     this.conditionType = conditionType;
@@ -52,23 +41,23 @@ public class Condition  implements OneOfcondition {
     this.conditionType = conditionType;
   }
 
-  public Condition name(String name) {
-    this.name = name;
+  public Condition id(String id) {
+    this.id = id;
     return this;
   }
 
   /**
-   * TODO
-   * @return name
+   * An identifier for this condition that can be used to refer to this condition
+   * @return id
   **/
-  @ApiModelProperty(value = "TODO")
+  @ApiModelProperty(example = "deposit50eu", value = "An identifier for this condition that can be used to refer to this condition")
   
-    public String getName() {
-    return name;
+    public String getId() {
+    return id;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setId(String id) {
+    this.id = id;
   }
 
 
@@ -82,12 +71,12 @@ public class Condition  implements OneOfcondition {
     }
     Condition condition = (Condition) o;
     return Objects.equals(this.conditionType, condition.conditionType) &&
-        Objects.equals(this.name, condition.name);
+        Objects.equals(this.id, condition.id);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(conditionType, name);
+    return Objects.hash(conditionType, id);
   }
 
   @Override
@@ -96,7 +85,7 @@ public class Condition  implements OneOfcondition {
     sb.append("class Condition {\n");
     
     sb.append("    conditionType: ").append(toIndentedString(conditionType)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
     return sb.toString();
   }

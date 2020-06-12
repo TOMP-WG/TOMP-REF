@@ -5,72 +5,77 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.model.Coordinates;
 import io.swagger.model.Fare;
-import io.swagger.model.LegState;
-import io.swagger.model.Place;
-import io.swagger.model.Token;
+import io.swagger.model.Leg;
+import io.swagger.model.Suboperator;
 import io.swagger.model.TypeOfAsset;
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * A OpenlegPlanner compatible definition of a leg (see OpenlegPlanner docs for reference)
+ * A concrete option for a leg that matches the planning
  */
-@ApiModel(description = "A OpenlegPlanner compatible definition of a leg (see OpenlegPlanner docs for reference)")
+@ApiModel(description = "A concrete option for a leg that matches the planning")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T13:55:00.069Z[GMT]")
 public class Leg   {
+  @JsonProperty("id")
+  private String id = null;
+
   @JsonProperty("from")
-  private Place from = null;
+  private Coordinates from = null;
 
   @JsonProperty("to")
-  private Place to = null;
+  private Coordinates to = null;
 
   @JsonProperty("startTime")
-  private BigDecimal startTime = null;
+  private OffsetDateTime startTime = null;
 
   @JsonProperty("endTime")
-  private BigDecimal endTime = null;
+  private OffsetDateTime endTime = null;
 
-  @JsonProperty("mode")
-  private TypeOfAsset mode = null;
+  @JsonProperty("asset")
+  private TypeOfAsset asset = null;
 
-  @JsonProperty("state")
-  private LegState state = null;
+  @JsonProperty("pricing")
+  private Fare pricing = null;
 
-  @JsonProperty("departureDelay")
-  private Integer departureDelay = null;
+  @JsonProperty("suboperator")
+  private Suboperator suboperator = null;
 
-  @JsonProperty("arrivalDelay")
-  private Integer arrivalDelay = null;
+  @JsonProperty("parts")
+  @Valid
+  private List<Leg> parts = null;
 
-  @JsonProperty("distance")
-  private Integer distance = null;
+  @JsonProperty("conditions")
+  @Valid
+  private List<String> conditions = new ArrayList<String>();
 
-  @JsonProperty("fare")
-  private Fare fare = null;
+  public Leg id(String id) {
+    this.id = id;
+    return this;
+  }
 
-  @JsonProperty("route")
-  private String route = null;
+  /**
+   * A unique id which can be referred to when creating a booking, should not be used for sublegs
+   * @return id
+  **/
+  @ApiModelProperty(value = "A unique id which can be referred to when creating a booking, should not be used for sublegs")
+  
+    public String getId() {
+    return id;
+  }
 
-  @JsonProperty("routeShortName")
-  private String routeShortName = null;
+  public void setId(String id) {
+    this.id = id;
+  }
 
-  @JsonProperty("routeLongName")
-  private String routeLongName = null;
-
-  @JsonProperty("agencyId")
-  private String agencyId = null;
-
-  @JsonProperty("legGeometry")
-  private String legGeometry = null;
-
-  @JsonProperty("assetAccessData")
-  private Token assetAccessData = null;
-
-  public Leg from(Place from) {
+  public Leg from(Coordinates from) {
     this.from = from;
     return this;
   }
@@ -83,15 +88,15 @@ public class Leg   {
       @NotNull
 
     @Valid
-    public Place getFrom() {
+    public Coordinates getFrom() {
     return from;
   }
 
-  public void setFrom(Place from) {
+  public void setFrom(Coordinates from) {
     this.from = from;
   }
 
-  public Leg to(Place to) {
+  public Leg to(Coordinates to) {
     this.to = to;
     return this;
   }
@@ -100,19 +105,18 @@ public class Leg   {
    * Get to
    * @return to
   **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
-
+  @ApiModelProperty(value = "")
+  
     @Valid
-    public Place getTo() {
+    public Coordinates getTo() {
     return to;
   }
 
-  public void setTo(Place to) {
+  public void setTo(Coordinates to) {
     this.to = to;
   }
 
-  public Leg startTime(BigDecimal startTime) {
+  public Leg startTime(OffsetDateTime startTime) {
     this.startTime = startTime;
     return this;
   }
@@ -121,19 +125,18 @@ public class Leg   {
    * Get startTime
    * @return startTime
   **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
-
+  @ApiModelProperty(value = "")
+  
     @Valid
-    public BigDecimal getStartTime() {
+    public OffsetDateTime getStartTime() {
     return startTime;
   }
 
-  public void setStartTime(BigDecimal startTime) {
+  public void setStartTime(OffsetDateTime startTime) {
     this.startTime = startTime;
   }
 
-  public Leg endTime(BigDecimal endTime) {
+  public Leg endTime(OffsetDateTime endTime) {
     this.endTime = endTime;
     return this;
   }
@@ -142,249 +145,127 @@ public class Leg   {
    * Get endTime
    * @return endTime
   **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
-
+  @ApiModelProperty(value = "")
+  
     @Valid
-    public BigDecimal getEndTime() {
+    public OffsetDateTime getEndTime() {
     return endTime;
   }
 
-  public void setEndTime(BigDecimal endTime) {
+  public void setEndTime(OffsetDateTime endTime) {
     this.endTime = endTime;
   }
 
-  public Leg mode(TypeOfAsset mode) {
-    this.mode = mode;
+  public Leg asset(TypeOfAsset asset) {
+    this.asset = asset;
     return this;
   }
 
   /**
-   * Get mode
-   * @return mode
+   * Get asset
+   * @return asset
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public TypeOfAsset getAsset() {
+    return asset;
+  }
+
+  public void setAsset(TypeOfAsset asset) {
+    this.asset = asset;
+  }
+
+  public Leg pricing(Fare pricing) {
+    this.pricing = pricing;
+    return this;
+  }
+
+  /**
+   * Get pricing
+   * @return pricing
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public Fare getPricing() {
+    return pricing;
+  }
+
+  public void setPricing(Fare pricing) {
+    this.pricing = pricing;
+  }
+
+  public Leg suboperator(Suboperator suboperator) {
+    this.suboperator = suboperator;
+    return this;
+  }
+
+  /**
+   * Get suboperator
+   * @return suboperator
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public Suboperator getSuboperator() {
+    return suboperator;
+  }
+
+  public void setSuboperator(Suboperator suboperator) {
+    this.suboperator = suboperator;
+  }
+
+  public Leg parts(List<Leg> parts) {
+    this.parts = parts;
+    return this;
+  }
+
+  public Leg addPartsItem(Leg partsItem) {
+    if (this.parts == null) {
+      this.parts = new ArrayList<Leg>();
+    }
+    this.parts.add(partsItem);
+    return this;
+  }
+
+  /**
+   * The component legs if this leg is composed of multiple legs using different assets
+   * @return parts
+  **/
+  @ApiModelProperty(value = "The component legs if this leg is composed of multiple legs using different assets")
+      @Valid
+    public List<Leg> getParts() {
+    return parts;
+  }
+
+  public void setParts(List<Leg> parts) {
+    this.parts = parts;
+  }
+
+  public Leg conditions(List<String> conditions) {
+    this.conditions = conditions;
+    return this;
+  }
+
+  public Leg addConditionsItem(String conditionsItem) {
+    this.conditions.add(conditionsItem);
+    return this;
+  }
+
+  /**
+   * Ids of the conditions in the parent planning that apply to this leg
+   * @return conditions
+  **/
+  @ApiModelProperty(required = true, value = "Ids of the conditions in the parent planning that apply to this leg")
       @NotNull
 
-    @Valid
-    public TypeOfAsset getMode() {
-    return mode;
+    public List<String> getConditions() {
+    return conditions;
   }
 
-  public void setMode(TypeOfAsset mode) {
-    this.mode = mode;
-  }
-
-  public Leg state(LegState state) {
-    this.state = state;
-    return this;
-  }
-
-  /**
-   * Get state
-   * @return state
-  **/
-  @ApiModelProperty(value = "")
-  
-    @Valid
-    public LegState getState() {
-    return state;
-  }
-
-  public void setState(LegState state) {
-    this.state = state;
-  }
-
-  public Leg departureDelay(Integer departureDelay) {
-    this.departureDelay = departureDelay;
-    return this;
-  }
-
-  /**
-   * Get departureDelay
-   * @return departureDelay
-  **/
-  @ApiModelProperty(value = "")
-  
-    public Integer getDepartureDelay() {
-    return departureDelay;
-  }
-
-  public void setDepartureDelay(Integer departureDelay) {
-    this.departureDelay = departureDelay;
-  }
-
-  public Leg arrivalDelay(Integer arrivalDelay) {
-    this.arrivalDelay = arrivalDelay;
-    return this;
-  }
-
-  /**
-   * Get arrivalDelay
-   * @return arrivalDelay
-  **/
-  @ApiModelProperty(value = "")
-  
-    public Integer getArrivalDelay() {
-    return arrivalDelay;
-  }
-
-  public void setArrivalDelay(Integer arrivalDelay) {
-    this.arrivalDelay = arrivalDelay;
-  }
-
-  public Leg distance(Integer distance) {
-    this.distance = distance;
-    return this;
-  }
-
-  /**
-   * Get distance
-   * @return distance
-  **/
-  @ApiModelProperty(value = "")
-  
-    public Integer getDistance() {
-    return distance;
-  }
-
-  public void setDistance(Integer distance) {
-    this.distance = distance;
-  }
-
-  public Leg fare(Fare fare) {
-    this.fare = fare;
-    return this;
-  }
-
-  /**
-   * Get fare
-   * @return fare
-  **/
-  @ApiModelProperty(value = "")
-  
-    @Valid
-    public Fare getFare() {
-    return fare;
-  }
-
-  public void setFare(Fare fare) {
-    this.fare = fare;
-  }
-
-  public Leg route(String route) {
-    this.route = route;
-    return this;
-  }
-
-  /**
-   * Get route
-   * @return route
-  **/
-  @ApiModelProperty(value = "")
-  
-    public String getRoute() {
-    return route;
-  }
-
-  public void setRoute(String route) {
-    this.route = route;
-  }
-
-  public Leg routeShortName(String routeShortName) {
-    this.routeShortName = routeShortName;
-    return this;
-  }
-
-  /**
-   * Get routeShortName
-   * @return routeShortName
-  **/
-  @ApiModelProperty(value = "")
-  
-    public String getRouteShortName() {
-    return routeShortName;
-  }
-
-  public void setRouteShortName(String routeShortName) {
-    this.routeShortName = routeShortName;
-  }
-
-  public Leg routeLongName(String routeLongName) {
-    this.routeLongName = routeLongName;
-    return this;
-  }
-
-  /**
-   * Get routeLongName
-   * @return routeLongName
-  **/
-  @ApiModelProperty(value = "")
-  
-    public String getRouteLongName() {
-    return routeLongName;
-  }
-
-  public void setRouteLongName(String routeLongName) {
-    this.routeLongName = routeLongName;
-  }
-
-  public Leg agencyId(String agencyId) {
-    this.agencyId = agencyId;
-    return this;
-  }
-
-  /**
-   * Get agencyId
-   * @return agencyId
-  **/
-  @ApiModelProperty(value = "")
-  
-    public String getAgencyId() {
-    return agencyId;
-  }
-
-  public void setAgencyId(String agencyId) {
-    this.agencyId = agencyId;
-  }
-
-  public Leg legGeometry(String legGeometry) {
-    this.legGeometry = legGeometry;
-    return this;
-  }
-
-  /**
-   * format as in geojson linestring eg. [[6.169639, 52.253279], .. ] WGS84, [lng,lat]
-   * @return legGeometry
-  **/
-  @ApiModelProperty(value = "format as in geojson linestring eg. [[6.169639, 52.253279], .. ] WGS84, [lng,lat]")
-  
-    public String getLegGeometry() {
-    return legGeometry;
-  }
-
-  public void setLegGeometry(String legGeometry) {
-    this.legGeometry = legGeometry;
-  }
-
-  public Leg assetAccessData(Token assetAccessData) {
-    this.assetAccessData = assetAccessData;
-    return this;
-  }
-
-  /**
-   * Get assetAccessData
-   * @return assetAccessData
-  **/
-  @ApiModelProperty(value = "")
-  
-    @Valid
-    public Token getAssetAccessData() {
-    return assetAccessData;
-  }
-
-  public void setAssetAccessData(Token assetAccessData) {
-    this.assetAccessData = assetAccessData;
+  public void setConditions(List<String> conditions) {
+    this.conditions = conditions;
   }
 
 
@@ -397,27 +278,21 @@ public class Leg   {
       return false;
     }
     Leg leg = (Leg) o;
-    return Objects.equals(this.from, leg.from) &&
+    return Objects.equals(this.id, leg.id) &&
+        Objects.equals(this.from, leg.from) &&
         Objects.equals(this.to, leg.to) &&
         Objects.equals(this.startTime, leg.startTime) &&
         Objects.equals(this.endTime, leg.endTime) &&
-        Objects.equals(this.mode, leg.mode) &&
-        Objects.equals(this.state, leg.state) &&
-        Objects.equals(this.departureDelay, leg.departureDelay) &&
-        Objects.equals(this.arrivalDelay, leg.arrivalDelay) &&
-        Objects.equals(this.distance, leg.distance) &&
-        Objects.equals(this.fare, leg.fare) &&
-        Objects.equals(this.route, leg.route) &&
-        Objects.equals(this.routeShortName, leg.routeShortName) &&
-        Objects.equals(this.routeLongName, leg.routeLongName) &&
-        Objects.equals(this.agencyId, leg.agencyId) &&
-        Objects.equals(this.legGeometry, leg.legGeometry) &&
-        Objects.equals(this.assetAccessData, leg.assetAccessData);
+        Objects.equals(this.asset, leg.asset) &&
+        Objects.equals(this.pricing, leg.pricing) &&
+        Objects.equals(this.suboperator, leg.suboperator) &&
+        Objects.equals(this.parts, leg.parts) &&
+        Objects.equals(this.conditions, leg.conditions);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(from, to, startTime, endTime, mode, state, departureDelay, arrivalDelay, distance, fare, route, routeShortName, routeLongName, agencyId, legGeometry, assetAccessData);
+    return Objects.hash(id, from, to, startTime, endTime, asset, pricing, suboperator, parts, conditions);
   }
 
   @Override
@@ -425,22 +300,16 @@ public class Leg   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Leg {\n");
     
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    from: ").append(toIndentedString(from)).append("\n");
     sb.append("    to: ").append(toIndentedString(to)).append("\n");
     sb.append("    startTime: ").append(toIndentedString(startTime)).append("\n");
     sb.append("    endTime: ").append(toIndentedString(endTime)).append("\n");
-    sb.append("    mode: ").append(toIndentedString(mode)).append("\n");
-    sb.append("    state: ").append(toIndentedString(state)).append("\n");
-    sb.append("    departureDelay: ").append(toIndentedString(departureDelay)).append("\n");
-    sb.append("    arrivalDelay: ").append(toIndentedString(arrivalDelay)).append("\n");
-    sb.append("    distance: ").append(toIndentedString(distance)).append("\n");
-    sb.append("    fare: ").append(toIndentedString(fare)).append("\n");
-    sb.append("    route: ").append(toIndentedString(route)).append("\n");
-    sb.append("    routeShortName: ").append(toIndentedString(routeShortName)).append("\n");
-    sb.append("    routeLongName: ").append(toIndentedString(routeLongName)).append("\n");
-    sb.append("    agencyId: ").append(toIndentedString(agencyId)).append("\n");
-    sb.append("    legGeometry: ").append(toIndentedString(legGeometry)).append("\n");
-    sb.append("    assetAccessData: ").append(toIndentedString(assetAccessData)).append("\n");
+    sb.append("    asset: ").append(toIndentedString(asset)).append("\n");
+    sb.append("    pricing: ").append(toIndentedString(pricing)).append("\n");
+    sb.append("    suboperator: ").append(toIndentedString(suboperator)).append("\n");
+    sb.append("    parts: ").append(toIndentedString(parts)).append("\n");
+    sb.append("    conditions: ").append(toIndentedString(conditions)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -17,12 +17,12 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiParam;
-import io.swagger.api.LegsApiController;
-import io.swagger.model.Leg;
-import io.swagger.model.LegEvent;
+import io.swagger.api.ExecutionsApiController;
+import io.swagger.model.Execution;
+import io.swagger.model.ExecutionEvent;
 
 @RestController
-public class TripExecutionController extends LegsApiController {
+public class TripExecutionController extends ExecutionsApiController {
 
 	@Autowired
 	TripExecutionProvider provider;
@@ -38,15 +38,16 @@ public class TripExecutionController extends LegsApiController {
 		this.request = request;
 	}
 
-	public ResponseEntity<Leg> legsIdEventsPost(
+	@Override
+	public ResponseEntity<Execution> executionsIdEventsPost(
 			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
 			@ApiParam(value = "Leg identifier", required = true) @PathVariable("id") String id,
-			@ApiParam(value = "") @Valid @RequestBody LegEvent body) {
+			@ApiParam(value = "") @Valid @RequestBody ExecutionEvent body) {
 
 		HeaderValidator.validateHeader(request);
-		Leg leg = null;
+		Execution leg = null;
 
 		String maasId = request.getHeader("maas-id");
 		switch (body.getEvent()) {

@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * SystemPricingPlan
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class SystemPricingPlan   {
   @JsonProperty("planId")
   private String planId = null;
@@ -79,10 +79,10 @@ public class SystemPricingPlan   {
   }
 
   /**
-   * name of this pricing scheme
+   * name of this pricing scheme, could match Content-Language
    * @return name
   **/
-  @ApiModelProperty(example = "Free Plan", required = true, value = "name of this pricing scheme")
+  @ApiModelProperty(example = "Free Plan", required = true, value = "name of this pricing scheme, could match Content-Language")
       @NotNull
 
     public String getName() {
@@ -139,10 +139,10 @@ public class SystemPricingPlan   {
   }
 
   /**
-   * Text field describing the particular pricing plan in human readable terms. This should include the duration, price, conditions, etc. that the publisher would like users to see. This is intended to be a human-readable description and should not be used for automatic calculations
+   * Text field describing the particular pricing plan in human readable terms. This should include the duration, price, conditions, etc. that the publisher would like users to see. This is intended to be a human-readable description and should not be used for automatic calculations, should match Content-Language
    * @return description
   **/
-  @ApiModelProperty(example = "Unlimited plan for free bikes, as long as you don't break them!", required = true, value = "Text field describing the particular pricing plan in human readable terms. This should include the duration, price, conditions, etc. that the publisher would like users to see. This is intended to be a human-readable description and should not be used for automatic calculations")
+  @ApiModelProperty(example = "Unlimited plan for free bikes, as long as you don't break them!", required = true, value = "Text field describing the particular pricing plan in human readable terms. This should include the duration, price, conditions, etc. that the publisher would like users to see. This is intended to be a human-readable description and should not be used for automatic calculations, should match Content-Language")
       @NotNull
 
     public String getDescription() {

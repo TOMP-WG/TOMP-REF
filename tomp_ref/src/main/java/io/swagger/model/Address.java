@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * Address
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class Address   {
   @JsonProperty("streetAddress")
   private String streetAddress = null;
@@ -33,10 +33,10 @@ public class Address   {
   }
 
   /**
-   * street address, including number OR PO box number, eventually extended with internal referencce like room number
+   * street address, including number OR PO box number, eventually extended with internal referencce like room number, could match Content-Language
    * @return streetAddress
   **/
-  @ApiModelProperty(example = "example street 18, 2nd floor, 18-B33", value = "street address, including number OR PO box number, eventually extended with internal referencce like room number")
+  @ApiModelProperty(example = "example street 18, 2nd floor, 18-B33", value = "street address, including number OR PO box number, eventually extended with internal referencce like room number, could match Content-Language")
   
     public String getStreetAddress() {
     return streetAddress;
@@ -52,10 +52,10 @@ public class Address   {
   }
 
   /**
-   * city or town, principal subdivision such as province, state or county
+   * city or town, principal subdivision such as province, state or county, could match Content-Language
    * @return areaReference
   **/
-  @ApiModelProperty(example = "Smallcity, Pinetree county", value = "city or town, principal subdivision such as province, state or county")
+  @ApiModelProperty(example = "Smallcity, Pinetree county", value = "city or town, principal subdivision such as province, state or county, could match Content-Language")
   
     public String getAreaReference() {
     return areaReference;

@@ -49,7 +49,7 @@ public interface OperatorApi {
     @RequestMapping(value = "/operator/alerts",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<SystemAlert>> operatorAlertsGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<List<SystemAlert>> operatorAlertsGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 );
@@ -70,7 +70,7 @@ public interface OperatorApi {
     @RequestMapping(value = "/operator/available-assets",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<TypeOfAsset>> operatorAvailableAssetsGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<List<TypeOfAsset>> operatorAvailableAssetsGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 );
@@ -90,7 +90,7 @@ public interface OperatorApi {
     @RequestMapping(value = "/operator/information",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<SystemInformation> operatorInformationGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<SystemInformation> operatorInformationGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 );
@@ -110,7 +110,7 @@ public interface OperatorApi {
     @RequestMapping(value = "/operator/operating-calendar",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<SystemCalendar>> operatorOperatingCalendarGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<List<SystemCalendar>> operatorOperatingCalendarGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 );
@@ -130,7 +130,7 @@ public interface OperatorApi {
     @RequestMapping(value = "/operator/operating-hours",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<SystemHours>> operatorOperatingHoursGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<List<SystemHours>> operatorOperatingHoursGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 );
@@ -150,7 +150,7 @@ public interface OperatorApi {
     @RequestMapping(value = "/operator/pricing-plans",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<SystemPricingPlan>> operatorPricingPlansGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<List<SystemPricingPlan>> operatorPricingPlansGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 );
@@ -170,7 +170,7 @@ public interface OperatorApi {
     @RequestMapping(value = "/operator/regions",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<SystemRegion>> operatorRegionsGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<List<SystemRegion>> operatorRegionsGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 );
@@ -190,7 +190,7 @@ public interface OperatorApi {
     @RequestMapping(value = "/operator/stations",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<StationInformation>> operatorStationsGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<List<StationInformation>> operatorStationsGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 );

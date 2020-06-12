@@ -13,6 +13,7 @@ import io.swagger.model.Place;
 import io.swagger.model.TypeOfAsset;
 import java.math.BigDecimal;
 import java.util.List;
+import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -21,7 +22,7 @@ import javax.validation.constraints.*;
  * Asset
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class Asset extends TypeOfAsset  {
   @JsonProperty("assetId")
   private String assetId = null;
@@ -33,10 +34,10 @@ public class Asset extends TypeOfAsset  {
   private Boolean isReserved = null;
 
   @JsonProperty("isReservedFrom")
-  private BigDecimal isReservedFrom = null;
+  private OffsetDateTime isReservedFrom = null;
 
   @JsonProperty("isReservedTo")
-  private BigDecimal isReservedTo = null;
+  private OffsetDateTime isReservedTo = null;
 
   @JsonProperty("isDisabled")
   private Boolean isDisabled = null;
@@ -106,7 +107,7 @@ public class Asset extends TypeOfAsset  {
     this.isReserved = isReserved;
   }
 
-  public Asset isReservedFrom(BigDecimal isReservedFrom) {
+  public Asset isReservedFrom(OffsetDateTime isReservedFrom) {
     this.isReservedFrom = isReservedFrom;
     return this;
   }
@@ -118,15 +119,15 @@ public class Asset extends TypeOfAsset  {
   @ApiModelProperty(value = "")
   
     @Valid
-    public BigDecimal getIsReservedFrom() {
+    public OffsetDateTime getIsReservedFrom() {
     return isReservedFrom;
   }
 
-  public void setIsReservedFrom(BigDecimal isReservedFrom) {
+  public void setIsReservedFrom(OffsetDateTime isReservedFrom) {
     this.isReservedFrom = isReservedFrom;
   }
 
-  public Asset isReservedTo(BigDecimal isReservedTo) {
+  public Asset isReservedTo(OffsetDateTime isReservedTo) {
     this.isReservedTo = isReservedTo;
     return this;
   }
@@ -138,11 +139,11 @@ public class Asset extends TypeOfAsset  {
   @ApiModelProperty(value = "")
   
     @Valid
-    public BigDecimal getIsReservedTo() {
+    public OffsetDateTime getIsReservedTo() {
     return isReservedTo;
   }
 
-  public void setIsReservedTo(BigDecimal isReservedTo) {
+  public void setIsReservedTo(OffsetDateTime isReservedTo) {
     this.isReservedTo = isReservedTo;
   }
 

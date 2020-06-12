@@ -12,11 +12,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * driver or usage license for a specific user. Contains the number and the asset-type you&#x27;re allowed to operate (e.g. driver license for CAR)
+ * driver or usage license for a specific user. Contains the number and the assetType you&#x27;re allowed to operate (e.g. driver license for CAR)
  */
-@ApiModel(description = "driver or usage license for a specific user. Contains the number and the asset-type you're allowed to operate (e.g. driver license for CAR)")
+@ApiModel(description = "driver or usage license for a specific user. Contains the number and the assetType you're allowed to operate (e.g. driver license for CAR)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class License   {
   @JsonProperty("number")
   private String number = null;
@@ -78,10 +78,10 @@ public class License   {
   }
 
   /**
-   * in most countries a driver license has also a code. As TO you can exactly verify, based on this code if the license allows to operate it's assets, if the asset-type too generic.
+   * in most countries a driver license has also a code. As TO you can exactly verify, based on this code if the license allows to operate it's assets, if the assetType too generic.
    * @return licenseCode
   **/
-  @ApiModelProperty(example = "D4", value = "in most countries a driver license has also a code. As TO you can exactly verify, based on this code if the license allows to operate it's assets, if the asset-type too generic.")
+  @ApiModelProperty(example = "D4", value = "in most countries a driver license has also a code. As TO you can exactly verify, based on this code if the license allows to operate it's assets, if the assetType too generic.")
   
     public String getLicenseCode() {
     return licenseCode;

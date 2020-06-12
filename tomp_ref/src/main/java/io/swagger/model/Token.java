@@ -7,9 +7,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.KeyValue;
 import io.swagger.model.Period;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "The validity token (such as booking ID, travel ticket etc.) that MaaS clients will display to validate the leg when starting the leg.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class Token extends Period  {
   @JsonProperty("meta")
   @Valid

@@ -1,6 +1,7 @@
 package org.tomp.api.operatorinformation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class CarOperatorInformationProvider implements OperatorInformationProvid
 		SystemInformation info = new SystemInformation();
 		info.setSystemId("maas-car-3342");
 		info.setEmail("email@caroperator.org");
-		info.setLanguage(acceptLanguage);
+		info.setLanguage(Arrays.asList(acceptLanguage));
 		info.setName("Car Operator");
 		return info;
 	}

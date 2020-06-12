@@ -1,6 +1,7 @@
 package io.swagger.api;
 
 import io.swagger.model.Error;
+import io.swagger.model.SupportRequest;
 import io.swagger.model.SupportStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
@@ -23,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-24T08:44:01.688Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 @Controller
 public class SupportApiController implements SupportApi {
 
@@ -39,17 +40,7 @@ public class SupportApiController implements SupportApi {
         this.request = request;
     }
 
-    public ResponseEntity<Void> supportIdRequestSupportTypePut(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
-,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
-,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
-,@ApiParam(value = "Booking identifier",required=true) @PathVariable("id") String id
-,@ApiParam(value = "type of support needed",required=true) @PathVariable("support-type") String supportType
-) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
-    public ResponseEntity<SupportStatus> supportIdStatusGet(@ApiParam(value = "ISO 639-1 two letter language code" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    public ResponseEntity<List<SupportStatus>> supportIdStatusGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 ,@ApiParam(value = "Booking identifier",required=true) @PathVariable("id") String id
@@ -57,7 +48,25 @@ public class SupportApiController implements SupportApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<SupportStatus>(objectMapper.readValue("{\n  \"timeToResolution\" : 9,\n  \"status\" : \"PROCESSING\"\n}", SupportStatus.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<List<SupportStatus>>(objectMapper.readValue("[ {\n  \"timeToResolution\" : 9,\n  \"comment\" : \"comment\",\n  \"status\" : \"PROCESSING\",\n  \"order\" : 0\n}, {\n  \"timeToResolution\" : 9,\n  \"comment\" : \"comment\",\n  \"status\" : \"PROCESSING\",\n  \"order\" : 0\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+            } catch (IOException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<List<SupportStatus>>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        return new ResponseEntity<List<SupportStatus>>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    public ResponseEntity<SupportStatus> supportPost(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
+,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
+,@ApiParam(value = ""  )  @Valid @RequestBody SupportRequest body
+) {
+        String accept = request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            try {
+                return new ResponseEntity<SupportStatus>(objectMapper.readValue("{\n  \"timeToResolution\" : 9,\n  \"comment\" : \"comment\",\n  \"status\" : \"PROCESSING\",\n  \"order\" : 0\n}", SupportStatus.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<SupportStatus>(HttpStatus.INTERNAL_SERVER_ERROR);

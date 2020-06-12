@@ -1,6 +1,5 @@
 package org.tomp.api.repository;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,19 +10,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.threeten.bp.OffsetDateTime;
 import org.tomp.api.configuration.ExternalConfiguration;
 
 import io.swagger.model.Booking;
 import io.swagger.model.BookingState;
-import io.swagger.model.CompositeLeg;
+import io.swagger.model.ExecutionEvent;
 import io.swagger.model.ExtraCosts;
 import io.swagger.model.JournalEntry;
 import io.swagger.model.JournalState;
 import io.swagger.model.Leg;
-import io.swagger.model.LegEvent;
-import io.swagger.model.PlanningOptions;
-import io.swagger.model.PlanningResult;
-import io.swagger.model.SimpleLeg;
+import io.swagger.model.Planning;
+import io.swagger.model.Suboperator;
 
 @Component
 public class DummyRepository {
@@ -33,46 +31,31 @@ public class DummyRepository {
 	@Autowired
 	ExternalConfiguration configuration;
 
-	private Map<String, PlanningOptions> options = new HashMap<>();
+	private Map<String, Planning> options = new HashMap<>();
 	private Map<String, Booking> bookings = new HashMap<>();
 	private Map<String, Leg> legs = new HashMap<>();
 	private Map<String, Map<String, List<JournalEntry>>> journalEntries = new HashMap<>();
-	private Map<String, List<LegEvent>> startEvents = new HashMap<>();
+	private Map<String, List<ExecutionEvent>> startEvents = new HashMap<>();
 
-	public void saveOptions(PlanningOptions optionsToSave) {
+	public void saveOptions(Planning optionsToSave) {
 		if (optionsToSave == null) {
 			return;
 		}
-		for (PlanningResult result : optionsToSave.getResults()) {
-			if (result instanceof SimpleLeg) {
-				SimpleLeg leg = (SimpleLeg) result;
-				log.info("Saved leg: {}", leg.getId());
-				options.put(leg.getId(), optionsToSave);
-			} else if (result instanceof CompositeLeg) {
-				CompositeLeg leg = (CompositeLeg) result;
-				log.info("Saved leg: {}", leg.getId());
-				options.put(leg.getId(), optionsToSave);
-			}
+		for (Leg leg : optionsToSave.getLegOptions()) {
+			log.info("Saved leg: {}", leg.getId());
+			options.put(leg.getId(), optionsToSave);
 		}
 	}
 
-	public PlanningResult getSavedOption(String id) {
-		PlanningOptions planningOptions = options.get(id);
+	public Leg getSavedOption(String id) {
+		Planning planningOptions = options.get(id);
 		if (planningOptions == null) {
 			log.info("missing leg: {}", id);
 			return null;
 		}
-		for (PlanningResult result : planningOptions.getResults()) {
-			if (result instanceof SimpleLeg) {
-				SimpleLeg leg = (SimpleLeg) result;
-				if (leg.getId().equals(id)) {
-					return leg;
-				}
-			} else if (result instanceof CompositeLeg) {
-				CompositeLeg leg = (CompositeLeg) result;
-				if (leg.getId().equals(id)) {
-					return leg;
-				}
+		for (Leg leg : planningOptions.getLegOptions()) {
+			if (leg.getId().equals(id)) {
+				return leg;
 			}
 		}
 		return null;
@@ -88,24 +71,27 @@ public class DummyRepository {
 
 	private Leg constructLeg(Booking booking) {
 		Leg leg = new Leg();
-		SimpleLeg simpleLeg = (SimpleLeg) getPlanningResult(booking.getId());
+		Leg simpleLeg = getPlanningResult(booking.getId());
 		if (simpleLeg != null) {
 			injectOptionsLeg(simpleLeg, leg);
 		}
 		return leg;
 	}
 
-	private void injectOptionsLeg(SimpleLeg simpleLeg, Leg leg) {
-		leg.setFare(simpleLeg.getPricing());
-		leg.setAgencyId(configuration.getMaasId());
-		leg.setStartTime(simpleLeg.getLeg().getStartTime());
-		leg.setEndTime(simpleLeg.getLeg().getEndTime());
-		leg.setMode(simpleLeg.getTypeOfAsset());
+	private void injectOptionsLeg(Leg simpleLeg, Leg leg) {
+		leg.setPricing(simpleLeg.getPricing());
+		leg.setSuboperator(simpleLeg.getSuboperator() == null ? new Suboperator() : simpleLeg.getSuboperator());
+		leg.getSuboperator().setMaasId(configuration.getMaasId());
+		leg.setStartTime(simpleLeg.getStartTime());
+		leg.setEndTime(simpleLeg.getEndTime());
+		leg.setAsset(simpleLeg.getAsset());
+		leg.setFrom(simpleLeg.getFrom());
+		leg.setTo(simpleLeg.getTo());
 	}
 
-	private PlanningResult getPlanningResult(String id) {
-		for (Entry<String, PlanningOptions> o : options.entrySet()) {
-			for (PlanningResult result : o.getValue().getResults()) {
+	private Leg getPlanningResult(String id) {
+		for (Entry<String, Planning> o : options.entrySet()) {
+			for (Leg result : o.getValue().getLegOptions()) {
 				if (result.getId().equals(id)) {
 					return result;
 				}
@@ -122,7 +108,7 @@ public class DummyRepository {
 		return legs.get(id);
 	}
 
-	public void saveLegEvent(String id, LegEvent body) {
+	public void saveLegEvent(String id, ExecutionEvent body) {
 		if (!startEvents.containsKey(id)) {
 			startEvents.put(id, new ArrayList<>());
 		}
@@ -130,7 +116,7 @@ public class DummyRepository {
 		startEvents.get(id).add(body);
 	}
 
-	public List<LegEvent> getLegEvents(String id) {
+	public List<ExecutionEvent> getLegEvents(String id) {
 		return startEvents.get(id);
 	}
 
@@ -170,7 +156,7 @@ public class DummyRepository {
 		return list.get(0);
 	}
 
-	public List<JournalEntry> getJournalEntries(String acceptLanguage, BigDecimal from, BigDecimal to,
+	public List<JournalEntry> getJournalEntries(String acceptLanguage, OffsetDateTime from, OffsetDateTime to,
 			JournalState state, String category, String maasId) {
 		ArrayList<JournalEntry> entries = new ArrayList<>();
 		Map<String, List<JournalEntry>> map = journalEntries.get(maasId);
@@ -186,14 +172,14 @@ public class DummyRepository {
 		return entries;
 	}
 
-	private boolean conditionsMet(JournalEntry entry, BigDecimal from, BigDecimal to, JournalState state,
+	private boolean conditionsMet(JournalEntry entry, OffsetDateTime from, OffsetDateTime to, JournalState state,
 			String category) {
 		if (entry == null || entry.getExpirationDate() == null || entry.getState() == null)
 			return false;
 
-		if (entry.getExpirationDate().longValue() > to.longValue())
+		if (entry.getExpirationDate().isAfter(to))
 			return false;
-		if (entry.getExpirationDate().longValue() < from.longValue())
+		if (entry.getExpirationDate().isBefore(from))
 			return false;
 		if (state != null && entry.getState() != state)
 			return false;

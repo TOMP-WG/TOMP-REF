@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "notifies the MaaS operator of issues with a booking [addendum]")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class Notification   {
   /**
    * Gets or Sets type
@@ -82,10 +82,10 @@ public class Notification   {
   }
 
   /**
-   * free text
+   * free text, should match Content-Language
    * @return comment
   **/
-  @ApiModelProperty(value = "free text")
+  @ApiModelProperty(value = "free text, should match Content-Language")
   
     public String getComment() {
     return comment;

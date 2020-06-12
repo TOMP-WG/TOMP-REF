@@ -18,9 +18,8 @@ import io.swagger.model.Day;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
-import io.swagger.model.OptionsLeg;
+import io.swagger.model.Leg;
 import io.swagger.model.Polygon;
-import io.swagger.model.SimpleLeg;
 import io.swagger.model.SystemHours;
 import io.swagger.model.Time;
 import io.swagger.model.TypeOfAsset;
@@ -47,15 +46,6 @@ public class BikePlanningProvider extends BasePlanningProvider {
 		return fare;
 	}
 
-	protected OptionsLeg getLeg() {
-		OptionsLeg leg = new OptionsLeg();
-		leg.setFrom(from);
-		leg.setTo(to);
-		leg.setStartTime(start);
-		leg.setEndTime(end);
-		return leg;
-	}
-
 	@Override
 	protected TypeOfAsset getAssetType() {
 		TypeOfAsset typeOfAsset = new TypeOfAsset();
@@ -69,7 +59,7 @@ public class BikePlanningProvider extends BasePlanningProvider {
 	@Override
 	protected List<Condition> getConditions(String acceptLanguage) {
 		ConditionReturnArea condition = new ConditionReturnArea();
-		condition.setName("Haarlem");
+		condition.setId("Haarlem");
 		Polygon geometry = new Polygon();
 		geometry.addPointsItem(toPoint(4.599516, 52.42857));
 		geometry.addPointsItem(toPoint(4.686921, 52.42857));
@@ -90,7 +80,7 @@ public class BikePlanningProvider extends BasePlanningProvider {
 	}
 
 	@Override
-	protected List<String> getConditionsForLeg(SimpleLeg result) {
+	protected List<String> getConditionsForLeg(Leg result) {
 		return Arrays.asList("Haarlem");
 	}
 

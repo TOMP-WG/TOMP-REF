@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  * StationInformation
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
 public class StationInformation   {
   @JsonProperty("stationId")
   private String stationId = null;
@@ -115,10 +115,10 @@ public class StationInformation   {
   }
 
   /**
-   * public name of the station
+   * public name of the station, could match Content-Language
    * @return name
   **/
-  @ApiModelProperty(example = "Island Central", required = true, value = "public name of the station")
+  @ApiModelProperty(example = "Island Central", required = true, value = "public name of the station, could match Content-Language")
       @NotNull
 
     public String getName() {
@@ -138,8 +138,9 @@ public class StationInformation   {
    * Get coordinates
    * @return coordinates
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     @Valid
     public Coordinates getCoordinates() {
     return coordinates;
@@ -175,10 +176,10 @@ public class StationInformation   {
   }
 
   /**
-   * Cross street of where the station is located. This field is intended to be a descriptive field for human consumption. In cities, this would be a cross street, but could also be a description of a location in a park, etc.
+   * Cross street of where the station is located. This field is intended to be a descriptive field for human consumption. In cities, this would be a cross street, but could also be a description of a location in a park, etc, should match Content-Language
    * @return crossStreet
   **/
-  @ApiModelProperty(example = "on the corner with Secondary Road", value = "Cross street of where the station is located. This field is intended to be a descriptive field for human consumption. In cities, this would be a cross street, but could also be a description of a location in a park, etc.")
+  @ApiModelProperty(example = "on the corner with Secondary Road", value = "Cross street of where the station is located. This field is intended to be a descriptive field for human consumption. In cities, this would be a cross street, but could also be a description of a location in a park, etc, should match Content-Language")
   
     public String getCrossStreet() {
     return crossStreet;

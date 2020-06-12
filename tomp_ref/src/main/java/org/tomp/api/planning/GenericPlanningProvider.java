@@ -9,7 +9,6 @@ import org.tomp.api.repository.DummyRepository;
 import org.tomp.api.utils.ObjectFromFileProvider;
 
 import io.swagger.model.Fare;
-import io.swagger.model.OptionsLeg;
 import io.swagger.model.TypeOfAsset;
 
 public class GenericPlanningProvider extends BasePlanningProvider {
@@ -22,12 +21,6 @@ public class GenericPlanningProvider extends BasePlanningProvider {
 	protected Fare getFare() {
 		ObjectFromFileProvider<Fare> conditionFileProvider = new ObjectFromFileProvider<>();
 		return conditionFileProvider.getObject("", Fare.class, configuration.getFareFile());
-	}
-
-	@Override
-	protected OptionsLeg getLeg() {
-		ObjectFromFileProvider<OptionsLeg> conditionFileProvider = new ObjectFromFileProvider<>();
-		return conditionFileProvider.getObject("", OptionsLeg.class, configuration.getOptionsLegFile());
 	}
 
 	@Override
