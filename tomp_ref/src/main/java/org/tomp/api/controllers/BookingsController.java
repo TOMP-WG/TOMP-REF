@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.tomp.api.booking.BookingProvider;
 import org.tomp.api.booking.SharedCarBookingProvider;
 import org.tomp.api.model.PostPonedResult;
+import org.tomp.api.repository.DummyRepository;
 import org.tomp.api.utils.HeaderValidator;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiParam;
@@ -40,6 +42,9 @@ public class BookingsController extends BookingsApiController {
 	private HttpServletRequest request;
 
 	private ObjectMapper objectMapper;
+
+	@Autowired
+	private DummyRepository repository;
 
 	public BookingsController(ObjectMapper objectMapper, HttpServletRequest request) {
 		super(objectMapper, request);
@@ -89,12 +94,12 @@ public class BookingsController extends BookingsApiController {
 		provider.subscribeToBookings(acceptLanguage, api, apiVersion, id, body);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@Override
 	public ResponseEntity<Void> bookingsIdSubscriptionDelete(String acceptLanguage, String api, String apiVersion,
 			String id) {
 		provider.unsubscribeToBookings(acceptLanguage, api, apiVersion, id);
-		return  new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@GetMapping("/postponed/{id}")
@@ -113,6 +118,10 @@ public class BookingsController extends BookingsApiController {
 			((SharedCarBookingProvider) provider).saveResult(result.getId(), result.getChoice() == 1,
 					result.getRemark());
 		}
-		return "ok";
+		try {
+			return objectMapper.writeValueAsString(repository.getBooking(result.getId()));
+		} catch (JsonProcessingException e) {
+			return e.getMessage();
+		}
 	}
 }

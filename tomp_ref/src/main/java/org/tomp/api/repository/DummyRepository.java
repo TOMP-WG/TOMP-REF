@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,6 +104,10 @@ public class DummyRepository {
 
 	public Booking getBooking(String id) {
 		return bookings.get(id);
+	}
+
+	public Stream<Booking> getBookings(Predicate<? super Booking> predicate) {
+		return bookings.values().stream().filter(predicate);
 	}
 
 	public Leg getLeg(String id) {

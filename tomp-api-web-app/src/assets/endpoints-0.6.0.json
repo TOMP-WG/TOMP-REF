@@ -29,15 +29,14 @@
   },
   {
     "type": "POST",
-    "value": "/planning-options/",
+    "value": "/plannings/?booking-intent=true",
     "body": {
-      "startTime": null,
-      "endTime": null,
-      "from": null,
-      "to": null,
+      "startTime": "2020-01-01 10:00",
+      "endTime": "2020-01-01 12:00",
+      "from": { "coordinates": "" },
+      "to": { "coordinates": "" },
       "radius": 1000,
       "travellers": 1,
-      "provideIds": false,
       "users": [
         {
           "age": 44

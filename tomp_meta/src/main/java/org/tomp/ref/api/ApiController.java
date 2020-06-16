@@ -135,14 +135,31 @@ public class ApiController extends OperatorsApiController {
 			if (old == null) {
 				// return new ResponseEntity<MaasOperator>(HttpStatus.BAD_REQUEST);
 				// for now, autoregistrate
+				// overwrite properties
 				repository.register(body);
 				log.info("REGISTERED {}", id);
 				return new ResponseEntity<>(body, HttpStatus.OK);
 			}
 			if (repository.getToken(id).equals(token)) {
+				old.setCountry(body.getCountry());
+				old.setName(body.getName());
+				old.setServicedArea(body.getServicedArea());
+				old.setUrl(body.getUrl());
+				old.setValidationToken(body.getValidationToken());
+
+				// extend versions
+				for (EndpointImplementation v : body.getSupportedVersions()) {
+					if (!old.getSupportedVersions().stream().filter(x -> x.getVersion().equals(v.getVersion()))
+							.findAny().isPresent()) {
+						old.getSupportedVersions().add(v);
+					}
+				}
+
 				repository.register(body);
 				log.info("REFRESHED {}", id);
 				return new ResponseEntity<>(body, HttpStatus.OK);
+			} else {
+				log.error("Tokens unequal {}, {}", repository.getToken(id), token);
 			}
 		}
 

@@ -1,11 +1,14 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { InternalService } from '../../services/internal.service';
 import { PlanningOptions } from '../../domain/planning-options.model';
+import { Plannings } from '../../domain/plannings.model';
 import { Endpoint } from '../../domain/endpoint.model';
 import { ApiService } from '../../services/api.service';
 import { EndpointType } from '../../domain/endpoint.enum';
 import { CustomHeaders } from '../../domain/custom-headers.model';
 import { ActivatedRoute } from '@angular/router';
+import { formatDate } from '@angular/common';
+import { Place } from 'src/app/domain/place.model';
 
 @Component({
   selector: 'app-request',
@@ -48,7 +51,7 @@ export class RequestComponent implements OnInit {
 
           let i = 0;
           for (i = 0; i < this.endpoints.length; i++) {
-            if ( this.endpoints[i].value === '/planning-options/' ) {
+            if ( this.endpoints[i].value === '/planning-options/' || this.endpoints[i].value.startsWith('/plannings/')) {
               break;
             }
           }
@@ -143,19 +146,37 @@ export class RequestComponent implements OnInit {
   }
 
   private updatePlanning(planning: PlanningOptions) {
-    const body = (this.body as any) as PlanningOptions;
-    body.endTime = planning.endTime;
-    body.startTime = planning.startTime;
-    body.from = planning.from;
-    body.to = planning.to;
+    if ( this.headers['Api-Version'] === '0.5.0' ) {
+      const body = (this.body as any) as PlanningOptions;
+      body.endTime = planning.endTime;
+      body.startTime = planning.startTime;
+      body.from = planning.from;
+      body.to = planning.to;
+    }
+    else {
+      const body = (this.body as any) as Plannings;
+      body.endTime = new Date(planning.endTime).toISOString();
+      body.startTime = new Date(planning.startTime).toISOString();
+      if (body.from === null) {
+        body.from = new Place();
+      }
+      if (body.to === null ) {
+        body.to = new Place();
+      }
+      body.from.coordinates = planning.from;
+      body.to.coordinates = planning.to;
+    }
   }
 
   private fetchId(json: any) {
     if ( this.endpoint.type === EndpointType.POST && this.endpoint.value === '/planning-options/') {
-      if ( json.results.length > 0 ) {
-        if ( json.results[0].id ) {
-          this.id = json.results[0].id;
-        }
+      if ( json.results.length > 0 && json.results[0].id ) {
+        this.id = json.results[0].id;
+      }
+    }
+    else if ( this.endpoint.type === EndpointType.POST && this.endpoint.value.startsWith('/plannings/')) {
+      if ( json.legOptions.length > 0 && json.legOptions[0].id ) {
+        this.id = json.legOptions[0].id;
       }
     }
   }

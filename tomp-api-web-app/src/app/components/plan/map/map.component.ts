@@ -117,6 +117,10 @@ export class MapComponent implements AfterViewInit {
       this.showRegions(json);
       this.showSegments(json);
     }
+    else if ( this.endpoint.type === EndpointType.POST && this.endpoint.value.startsWith('/plannings/')) {
+      this.showRegions(json);
+      this.showSegments(json);
+    }
     else if (this.endpoint.type === EndpointType.GET && this.endpoint.value === '/operator/regions') {
       let first = true;
       for (const area of json ) {
@@ -127,6 +131,27 @@ export class MapComponent implements AfterViewInit {
   }
 
   private showSimpleLeg(result: any) {
+    if (result.parts !== undefined) {
+      for ( const part of result.parts ) {
+        this.showSimpleLeg(part);
+      }
+    }
+    else
+    {
+      const start = this.toCoord(result.from);
+      const end = this.toCoord(result.to);
+      this.addLine(start, end);
+      const lng = (result.from.lng + result.to.lng) / 2;
+      const lat = (result.from.lat + result.to.lat) / 2;
+      let description = '';
+      if (result.suboperator !== undefined ) {
+        description = result.suboperator.name + ' ' + result.suboperator.description;
+      }
+      this.addIcon(result.asset, '[' + lat + ',' + lng + ']', description);
+    }
+  }
+
+  private showSimpleLegV05(result: any) {
     const start = this.toCoord(result.leg.from);
     const end = this.toCoord(result.leg.to);
     this.addLine(start, end);
@@ -136,26 +161,41 @@ export class MapComponent implements AfterViewInit {
   }
 
   private showSegments(json: any) {
-    if (json.results.length > 0) {
-      for (const marker of this.modalityMarkers) {
-        marker.removeFrom(this.map);
-      }
+    for (const marker of this.modalityMarkers) {
+      marker.removeFrom(this.map);
+    }
 
-      for ( const segment of this.segments ) {
-        segment.removeFrom(this.map);
-      }
-      this.segments = [];
+    for ( const segment of this.segments ) {
+      segment.removeFrom(this.map);
+    }
+    this.segments = [];
 
+    this.showLinesV05(json);
+    this.showLines(json);
+  }
+
+  private showLinesV05(json: any) {
+    if (json.results) {
+      // version 0.5.0
       for (const result of json.results) {
         if (result.resultType === 'simpleLeg') {
-          this.showSimpleLeg(result);
+          this.showSimpleLegV05(result);
         }
         else if (result.resultType === 'compositeLeg') {
           for ( const operatorLeg of result.legs ) {
-            this.showSimpleLeg(operatorLeg);
+            this.showSimpleLegV05(operatorLeg);
           }
           return;
         }
+      }
+    }
+  }
+
+  private showLines(json: any) {
+    if (json.legOptions) {
+      // version 0.6.0 +
+      for (const result of json.legOptions) {
+          this.showSimpleLeg(result);
       }
     }
   }
