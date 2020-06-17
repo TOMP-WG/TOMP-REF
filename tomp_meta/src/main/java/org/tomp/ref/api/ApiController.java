@@ -155,7 +155,7 @@ public class ApiController extends OperatorsApiController {
 					}
 				}
 
-				repository.register(body);
+				repository.register(old);
 				log.info("REFRESHED {}", id);
 				return new ResponseEntity<>(body, HttpStatus.OK);
 			} else {
