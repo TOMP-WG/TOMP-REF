@@ -7,7 +7,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.threeten.bp.OffsetDateTime;
 
@@ -24,7 +24,7 @@ import io.swagger.model.TypeOfAsset;
 import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
 
 @Component
-@Profile("bus")
+@ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "bus", matchIfMissing = false)
 public class BusPlanningProvider implements PlanningProvider {
 
 	private @NotNull @Valid Coordinates from;

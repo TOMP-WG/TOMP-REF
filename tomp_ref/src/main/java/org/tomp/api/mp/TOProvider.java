@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.tomp.api.model.LookupService;
 import org.tomp.api.model.MaasEnvironmentType;
@@ -30,7 +30,7 @@ import io.swagger.model.SystemRegion;
 import io.swagger.model.TypeOfAsset;
 
 @Component
-@Profile("maasprovider")
+@ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "maasprovider", matchIfMissing = false)
 public class TOProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(TOProvider.class);

@@ -1,14 +1,10 @@
 package org.tomp.api.configuration;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.tomp.api.authentication.APIKeyAuthFilter;
 import org.tomp.api.model.LookupService;
@@ -58,21 +53,16 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
 			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 			CorsConfiguration config = new CorsConfiguration();
 			config.setAllowCredentials(true);
-			//config.addAllowedOrigin("http://localhost:4200");
+			// config.addAllowedOrigin("http://localhost:4200");
 			config.addAllowedOrigin("*");
 			config.addAllowedHeader("*");
 			config.addAllowedMethod("*");
 			source.registerCorsConfiguration("/**", config);
 			t.configurationSource(source);
 		};
-		httpSecurity
-			.csrf().disable()
-				.authorizeRequests().antMatchers("/postponed/**").permitAll()
-				.and()
-				.antMatcher("/**").cors(corsCustomizer)
-				.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and().addFilter(filter).authorizeRequests()
+		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/postponed/**").permitAll().and()
+				.antMatcher("/**").cors(corsCustomizer).sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().addFilter(filter).authorizeRequests()
 				.anyRequest().authenticated();
 	}
 }

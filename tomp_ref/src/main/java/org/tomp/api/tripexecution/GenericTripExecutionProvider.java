@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
@@ -27,7 +27,7 @@ import io.swagger.model.Place;
 import io.swagger.model.Token;
 
 @Component
-@Profile(value = { "dummy", "bike", "bus", "train", "car", "shared-car" })
+@ConditionalOnProperty(value = "tomp.providers.tripexecution", havingValue = "generic", matchIfMissing = true)
 public class GenericTripExecutionProvider implements TripExecutionProvider {
 
 	@Autowired

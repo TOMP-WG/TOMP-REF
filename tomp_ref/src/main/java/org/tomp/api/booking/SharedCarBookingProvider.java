@@ -2,6 +2,7 @@ package org.tomp.api.booking;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -9,7 +10,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -37,7 +38,7 @@ import io.swagger.model.KeyValue;
 import io.swagger.model.Leg;
 
 @Component
-@Profile(value = { "shared-car" })
+@ConditionalOnProperty(value = "tomp.providers.booking", havingValue = "shared-car", matchIfMissing = false)
 public class SharedCarBookingProvider implements BookingProvider {
 
 	private static final String MAAS_ID = "maas-id";
@@ -58,10 +59,10 @@ public class SharedCarBookingProvider implements BookingProvider {
 	LegUtil legUtil;
 
 	@Autowired
-	public SharedCarBookingProvider(DummyRepository repository, MailUtil mailService,
+	public SharedCarBookingProvider(DummyRepository repository, Optional<MailUtil> mailService,
 			ExternalConfiguration configuration, ClientUtil clientUtil, LookupService lookupService) {
 		this.repository = repository;
-		this.mailService = mailService;
+		this.mailService = mailService.isPresent() ? mailService.get() : null;
 		this.configuration = configuration;
 		this.clientUtil = clientUtil;
 		this.lookupService = lookupService;
@@ -150,15 +151,25 @@ public class SharedCarBookingProvider implements BookingProvider {
 	}
 
 	private void sendMail(Booking booking) {
-		StringBuilder builder = getBookingRequestText(booking);
-		String to = booking.getCustomer().getEmail();
-		if (to == null || to.equals("")) {
-			to = configuration.getBookingMailBox();
-		}
+		if (this.mailService != null) {
+			StringBuilder builder = getBookingRequestText(booking);
+			String to = booking.getCustomer().getEmail();
+			if (to == null || to.equals("")) {
+				to = configuration.getBookingMailBox();
+			}
 
-		SendMailThread t = new SendMailThread(configuration.getBookingMailBox(), to, booking.getId(),
-				builder.toString());
-		new Thread(t).start();
+			SendMailThread t = new SendMailThread(configuration.getBookingMailBox(), to, booking.getId(),
+					builder.toString());
+			new Thread(t).start();
+		} else {
+			String mpUrl = configuration.getExternalUrl();
+			if (mpUrl.endsWith("/")) {
+				mpUrl = mpUrl.substring(0, mpUrl.length() - 1);
+			}
+			String url = mpUrl + "/postponed/" + booking.getId();
+			log.info("URL: {}", url);
+			booking.setWebhook(url);
+		}
 	}
 
 	private class SendMailThread implements Runnable {

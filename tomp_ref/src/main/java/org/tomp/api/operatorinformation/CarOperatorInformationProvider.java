@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.utils.ObjectFromFileProvider;
@@ -17,7 +17,7 @@ import io.swagger.model.SystemRegion;
 import io.swagger.model.TypeOfAsset;
 
 @Component
-@Profile(value = { "car" })
+@ConditionalOnProperty(value = "tomp.providers.operatorinformation", havingValue = "car", matchIfMissing = false)
 public class CarOperatorInformationProvider implements OperatorInformationProvider {
 
 	ExternalConfiguration configuration;

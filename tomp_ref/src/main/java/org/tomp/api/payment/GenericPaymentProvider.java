@@ -1,9 +1,9 @@
 package org.tomp.api.payment;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.threeten.bp.OffsetDateTime;
 import org.tomp.api.repository.DummyRepository;
@@ -13,6 +13,7 @@ import io.swagger.model.JournalEntry;
 import io.swagger.model.JournalState;
 
 @Component
+@ConditionalOnProperty(value = "tomp.providers.payment", havingValue = "generic", matchIfMissing = true)
 public class GenericPaymentProvider implements PaymentProvider {
 
 	@Autowired

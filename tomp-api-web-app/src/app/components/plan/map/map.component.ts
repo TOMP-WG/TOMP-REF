@@ -124,8 +124,10 @@ export class MapComponent implements AfterViewInit {
     else if (this.endpoint.type === EndpointType.GET && this.endpoint.value === '/operator/regions') {
       let first = true;
       for (const area of json ) {
-        this.addRegion(JSON.stringify(area.serviceArea.points), first);
-        first = false;
+        if (area.serviceArea !== undefined) {
+          this.addRegion(JSON.stringify(area.serviceArea.points), first);
+          first = false;
+        }
       }
     }
   }
@@ -201,7 +203,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   private showRegions(json: any) {
-    if (json.conditions !== null ) {
+    if (json.conditions !== undefined ) {
       if (json.conditions.length > 0) {
         let first = true;
         for (const condition of json.conditions) {

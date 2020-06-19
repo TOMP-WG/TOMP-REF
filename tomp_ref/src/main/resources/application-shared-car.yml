@@ -2,15 +2,6 @@ spring:
    profiles: shared-car
    application:
       name: shared-car
-   mail:
-      username: bte@dat.nl
-      password: Dat4Bt.e17!
-      properties:
-         mail:
-            smtp:
-               auth: true      
-               starttls:
-                  enable=true
 server:
    port: 8086
 tomp:
@@ -28,5 +19,9 @@ tomp:
    version-file: src/main/resources/versions.json
    currency-code: NL
    vat-rate: 21
-   
+   providers:
+     booking: shared-car
+     operatorinformation: generic
+     planning: shared-car
+     tripexecution: generic
    

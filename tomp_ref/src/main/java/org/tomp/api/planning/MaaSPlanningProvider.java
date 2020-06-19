@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
@@ -38,7 +38,7 @@ import io.swagger.model.TypeOfAsset;
 import io.swagger.model.User;
 
 @Component
-@Profile("maasprovider")
+@ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "maasprovider", matchIfMissing = false)
 public class MaaSPlanningProvider implements PlanningProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(MaaSPlanningProvider.class);

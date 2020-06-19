@@ -98,17 +98,6 @@ spring:
    profiles: shared-car
    application:
       name: shared-car
-   mail:
-      host: smtp.gmail.com
-      port: 587
-      username: <gmail account>
-      password: <gmail password>
-      properties:
-         mail:
-            smpt:
-               auth: true
-               starttls:
-                  enable: true
 server:
    port: 8086
 tomp:

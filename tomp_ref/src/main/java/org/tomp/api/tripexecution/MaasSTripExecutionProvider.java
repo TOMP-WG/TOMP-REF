@@ -1,7 +1,7 @@
 package org.tomp.api.tripexecution;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.tomp.api.repository.MPRepository;
 import org.tomp.api.utils.ClientUtil;
@@ -10,7 +10,7 @@ import io.swagger.model.Execution;
 import io.swagger.model.ExecutionEvent;
 
 @Component
-@Profile("maasprovider")
+@ConditionalOnProperty(value = "tomp.providers.tripexecution", havingValue = "maasprovider", matchIfMissing = false)
 public class MaasSTripExecutionProvider implements TripExecutionProvider {
 
 	@Autowired

@@ -20,6 +20,11 @@ tomp:
    expiration-days: 14
    currency-code: NL
    vat-rate: 21   
+   providers:
+     booking: maasprovider
+     operatorinformation: generic
+     planning: maasprovider
+     tripexecution: maasprovider
 logging:
    level:
       org.springframework: ERROR

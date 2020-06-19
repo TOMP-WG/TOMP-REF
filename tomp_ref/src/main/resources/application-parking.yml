@@ -1,11 +1,11 @@
 spring:
-   profiles: car
+   profiles: parking
    application:
-      name: car-to
+      name: parking
 server:
-   port: 8083
+   port: 8069
 tomp:
-   maas-id: aac7f6ae-1d0d-44cd-9da5-ca62d48eb48d
+   maas-id: aac7f6ae-1d0d-44cd-9da5-ca62d48eb483
    asset-file: src/main/resources/cars.json
    lookup-service: http://localhost:7999/
    accept-language: nl
@@ -15,14 +15,19 @@ tomp:
    regions-file: src/main/resources/regions.json
    stations-file: src/main/resources/stations.json
    area-file: src/main/resources/area.json
-   external-url: http://localhost:8083/
+   external-url: http://localhost:8069/
    version-file: src/main/resources/versions.json
-   expiration-days: 14
-   currency-code: NL
-   vat-rate: 21
    providers:
-      operatorinformation: car
-      planning: car   
+     booking: none
+     operatorinformation: parking
+     planning: none
+     tripexecution: none
+parking:
+   opendataUrl: https://npropendata.rdw.nl/parkingdata/v2/
+   uuids: 
+   nameContains: Amsterdam
+   refreshInMillis: 60000
+   r: 0.00001
 logging:
    level:
       org.springframework: ERROR

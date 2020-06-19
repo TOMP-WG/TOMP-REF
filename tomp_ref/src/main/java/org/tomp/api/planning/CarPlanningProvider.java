@@ -3,7 +3,7 @@ package org.tomp.api.planning;
 import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.repository.DummyRepository;
@@ -16,7 +16,7 @@ import io.swagger.model.TypeOfAsset;
 import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
 
 @Component
-@Profile("car")
+@ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "car", matchIfMissing = false)
 public class CarPlanningProvider extends BasePlanningProvider {
 
 	@Autowired

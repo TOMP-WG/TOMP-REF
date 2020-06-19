@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.repository.DummyRepository;
@@ -26,7 +26,7 @@ import io.swagger.model.TypeOfAsset;
 import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
 
 @Component
-@Profile("bike")
+@ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "bike", matchIfMissing = false)
 public class BikePlanningProvider extends BasePlanningProvider {
 
 	@Autowired

@@ -20,6 +20,18 @@ tomp:
    expiration-days: 14
    currency-code: NL
    vat-rate: 21
+   providers:
+      operatorinformation: bike
+      planning: bike
+geodecode:
+   active: false
+   url: https://locationiq.org/v1/reverse.php?key=[some token]&format=json
+   streetAddress: address.road| |address.house_number
+   area: address.city| - |address.state
+   postalCode: address.postcode
+   country: address.country
+   lon: lon
+   lat: lat  
 logging:
    level:
       org.springframework: ERROR      

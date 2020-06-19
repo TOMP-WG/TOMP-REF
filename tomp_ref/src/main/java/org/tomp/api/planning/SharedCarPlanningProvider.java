@@ -6,9 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.repository.DummyRepository;
@@ -25,7 +24,7 @@ import io.swagger.model.Planning;
 import io.swagger.model.PlanningRequest;
 
 @Component
-@Profile("shared-car")
+@ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "shared-car", matchIfMissing = false)
 public class SharedCarPlanningProvider extends GenericPlanningProvider {
 
 	@Autowired
