@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 public class GeoDecodeConfiguration {
 
 	private boolean active = false;
-	private String url;
+	private String decodeUrl;
+	private String encodeUrl;
 	private String streetAddress;
 	private String area;
 	private String postalCode;
@@ -16,12 +17,12 @@ public class GeoDecodeConfiguration {
 	private String lon;
 	private String lat;
 
-	public String getUrl() {
-		return url;
+	public String getDecodeUrl() {
+		return decodeUrl;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setDecodeUrl(String url) {
+		this.decodeUrl = url;
 	}
 
 	public String getStreetAddress() {
@@ -78,5 +79,13 @@ public class GeoDecodeConfiguration {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public String getEncodeUrl() {
+		return encodeUrl;
+	}
+
+	public void setEncodeUrl(String encodeUrl) {
+		this.encodeUrl = encodeUrl;
 	}
 }

@@ -146,6 +146,13 @@ public class SharedCarBookingProvider implements BookingProvider {
 		}
 		booking.setWebhook(mpUrl + "/bookings/" + id + "/events");
 		repository.saveBooking(booking);
+
+		JournalEntry entry = new JournalEntry();
+		Leg leg = repository.getSavedOption(id);
+		entry.setDetails(leg.getPricing());
+		entry.setJournalId(leg.getId());
+		repository.saveJournalEntry(entry, request.getHeader("maas-id"));
+
 		sendMail(booking);
 		return booking;
 	}

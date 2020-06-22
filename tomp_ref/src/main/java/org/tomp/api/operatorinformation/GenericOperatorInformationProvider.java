@@ -11,7 +11,10 @@ import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.utils.ObjectFromFileProvider;
 
 import io.swagger.model.StationInformation;
+import io.swagger.model.SystemCalendar;
+import io.swagger.model.SystemHours;
 import io.swagger.model.SystemInformation;
+import io.swagger.model.SystemPricingPlan;
 import io.swagger.model.SystemRegion;
 import io.swagger.model.TypeOfAsset;
 
@@ -62,6 +65,21 @@ public class GenericOperatorInformationProvider implements OperatorInformationPr
 			regions.add(regionArray[i]);
 		}
 		return regions;
+	}
+
+	@Override
+	public List<SystemPricingPlan> getPricingPlans(String acceptLanguage) {
+		return new ArrayList<>();
+	}
+
+	@Override
+	public List<SystemHours> getHours(String acceptLanguage) {
+		return new ArrayList<>();
+	}
+
+	@Override
+	public List<SystemCalendar> getCalendar(String acceptLanguage) {
+		return new ArrayList<>();
 	}
 
 }

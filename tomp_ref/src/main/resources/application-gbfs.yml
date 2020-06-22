@@ -1,0 +1,39 @@
+spring:
+   profiles: gbfs
+   application:
+      name: gbfs-swiss
+server:
+   port: 8071
+tomp:
+   maas-id: a35dba1f-22c1-4080-8556-f3fb28254f80
+   lookup-service: http://localhost:7999/
+   refreshOnStartUp: false
+   allowUnknownOperators: true
+   authenticationRequired: false
+   accept-language: nl
+   api-version: 0.6.0
+   condition-file: src/main/resources/conditions.json
+   version-file: src/main/resources/versions.json
+   providers:
+      operatorinformation: gbfs
+      booking: none
+      planning: nearStart
+      tripexecution: none
+gbfs:
+   opendataUrl: https://gbfs.nextbike.net/maps/gbfs/v1/nextbike_ch/gbfs.json
+   nameContains: Amsterdam
+   refreshInMillis: 60000
+   r: 1.0E-5
+geodecode:
+   active: true
+   encodeUrl: https://locationiq.org/v1/search.php?key=054b943dd98be6&format=json&q=
+   decodeUrl: https://locationiq.org/v1/reverse.php?key=054b943dd98be6&format=json
+   streetAddress: address.road| |address.house_number
+   area: address.city| - |address.state
+   postalCode: address.postcode
+   country: address.country
+   lon: lon
+   lat: lat
+logging:
+   level:
+      org.springframework: ERROR

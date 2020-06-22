@@ -1,13 +1,9 @@
 package org.tomp.api.planning;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.tomp.api.configuration.ExternalConfiguration;
-import org.tomp.api.repository.DummyRepository;
-import org.tomp.api.utils.ObjectFromFileProvider;
+import org.tomp.api.providers.assets.AssetProvider;
+import org.tomp.api.providers.fares.FareProvider;
 
 import io.swagger.model.Fare;
 import io.swagger.model.TypeOfAsset;
@@ -15,25 +11,19 @@ import io.swagger.model.TypeOfAsset;
 @ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "generic", matchIfMissing = true)
 public class GenericPlanningProvider extends BasePlanningProvider {
 
-	public GenericPlanningProvider(DummyRepository repository, ExternalConfiguration configuration) {
-		super(repository, configuration);
-	}
+	@Autowired
+	AssetProvider assetProvider;
+
+	@Autowired
+	FareProvider fareProvider;
 
 	@Override
 	protected Fare getFare() {
-		ObjectFromFileProvider<Fare> conditionFileProvider = new ObjectFromFileProvider<>();
-		return conditionFileProvider.getObject("", Fare.class, configuration.getFareFile());
+		return fareProvider.getFare();
 	}
 
 	@Override
 	protected TypeOfAsset getAssetType() {
-		ObjectFromFileProvider<TypeOfAsset[]> provider = new ObjectFromFileProvider<>();
-		ArrayList<TypeOfAsset> list = new ArrayList<>();
-		String assetFile = configuration.getAssetFile();
-		TypeOfAsset[] assets = provider.getObject("", TypeOfAsset[].class, assetFile);
-		Collections.addAll(list, assets);
-		int randomItem = new Random().nextInt(list.size());
-		return list.get(randomItem);
+		return assetProvider.getTypeOfAsset();
 	}
-
 }

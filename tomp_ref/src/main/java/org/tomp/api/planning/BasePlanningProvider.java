@@ -8,10 +8,11 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.threeten.bp.OffsetDateTime;
 import org.tomp.api.configuration.ExternalConfiguration;
+import org.tomp.api.providers.conditions.ConditionProvider;
 import org.tomp.api.repository.DummyRepository;
-import org.tomp.api.utils.ObjectFromFileProvider;
 
 import io.swagger.model.Condition;
 import io.swagger.model.Coordinates;
@@ -30,13 +31,12 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 	protected @Valid OffsetDateTime start;
 	protected @Valid OffsetDateTime end;
 
+	@Autowired
 	protected DummyRepository repository;
+	@Autowired
 	protected ExternalConfiguration configuration;
-
-	public BasePlanningProvider(DummyRepository repository, ExternalConfiguration configuration) {
-		this.repository = repository;
-		this.configuration = configuration;
-	}
+	@Autowired
+	protected ConditionProvider conditionProvider;
 
 	public Planning getOptions(@Valid PlanningRequest body, String acceptLanguage, boolean bookingIntent) {
 		log.info("Request for options");
@@ -59,14 +59,7 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 	}
 
 	protected List<Condition> getConditions(String acceptLanguage) {
-		ObjectFromFileProvider<Condition[]> conditionFileProvider = new ObjectFromFileProvider<>();
-		Condition[] conditions = conditionFileProvider.getObject(acceptLanguage, Condition[].class,
-				configuration.getConditionFile());
-		List<Condition> conditionList = new ArrayList<>();
-		for (Condition c : conditions) {
-			conditionList.add(c);
-		}
-		return conditionList;
+		return conditionProvider.getConditions(acceptLanguage);
 	}
 
 	protected ArrayList<Leg> getResults(@Valid PlanningRequest body, boolean bookingIntent) {
@@ -82,8 +75,9 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		result.setPricing(getFare());
 		result.setConditions(getConditionsForLeg(result));
 		if (provideIds) {
-			log.info("We have to take a closer look. Can we more or less guarantee that we can fulfill this request?");
-			result.setId(UUID.randomUUID().toString());
+			String uuid = UUID.randomUUID().toString();
+			result.setId(uuid);
+			log.info("Save this leg: {}", uuid);
 		}
 		arrayList.add(result);
 

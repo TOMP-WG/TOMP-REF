@@ -20,7 +20,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiParam;
 import io.swagger.api.OperatorApiController;
 import io.swagger.model.StationInformation;
+import io.swagger.model.SystemCalendar;
+import io.swagger.model.SystemHours;
 import io.swagger.model.SystemInformation;
+import io.swagger.model.SystemPricingPlan;
 import io.swagger.model.SystemRegion;
 import io.swagger.model.TypeOfAsset;
 
@@ -96,6 +99,42 @@ public class OperatorInformationController extends OperatorApiController {
 		HeaderValidator.validateHeader(request);
 		try {
 			return new ResponseEntity<>(provider.getRegions(acceptLanguage), HttpStatus.OK);
+		} catch (Exception e) {
+			log.error("operatorRegionsGet", e);
+			throw e;
+		}
+	}
+
+	@Override
+	public ResponseEntity<List<SystemPricingPlan>> operatorPricingPlansGet(String acceptLanguage, String api,
+			String apiVersion) {
+		HeaderValidator.validateHeader(request);
+		try {
+			return new ResponseEntity<>(provider.getPricingPlans(acceptLanguage), HttpStatus.OK);
+		} catch (Exception e) {
+			log.error("operatorRegionsGet", e);
+			throw e;
+		}
+	}
+
+	@Override
+	public ResponseEntity<List<SystemHours>> operatorOperatingHoursGet(String acceptLanguage, String api,
+			String apiVersion) {
+		HeaderValidator.validateHeader(request);
+		try {
+			return new ResponseEntity<>(provider.getHours(acceptLanguage), HttpStatus.OK);
+		} catch (Exception e) {
+			log.error("operatorRegionsGet", e);
+			throw e;
+		}
+	}
+
+	@Override
+	public ResponseEntity<List<SystemCalendar>> operatorOperatingCalendarGet(String acceptLanguage, String api,
+			String apiVersion) {
+		HeaderValidator.validateHeader(request);
+		try {
+			return new ResponseEntity<>(provider.getCalendar(acceptLanguage), HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("operatorRegionsGet", e);
 			throw e;

@@ -16,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.tomp.api.model.Segment;
 import org.tomp.api.model.TransportOperator;
 import org.tomp.api.model.Trip;
-import org.tomp.api.repository.DummyRepository;
 import org.tomp.api.repository.MPRepository;
 import org.tomp.api.utils.ClientUtil;
 
@@ -45,11 +44,6 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 
 	@Autowired
 	ClientUtil clientUtil;
-
-	@Autowired
-	public MaaSBookingProvider(DummyRepository repository) {
-		super(repository);
-	}
 
 	@Override
 	public Booking addNewBooking(@Valid BookingOption body, String acceptLanguage) {

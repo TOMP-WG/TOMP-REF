@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,6 +31,9 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
 	private static final Logger log = LoggerFactory.getLogger(SecurityAdapter.class);
 
 	@Autowired
+	ExternalConfiguration configuration;
+
+	@Autowired
 	LookupService lookupService;
 
 	@Override
@@ -43,7 +47,9 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
 				MaasOperator maasOperator = lookupService.getMaasOperator(maasId);
 				if (maasOperator == null) {
 					log.error("Unknown MaaS Operator is trying to request information {}", maasId);
-					// throw new BadCredentialsException("Unknown MaaS Operator.");
+					if (!configuration.isAllowUnknownOperators()) {
+						throw new BadCredentialsException("Unknown MaaS Operator.");
+					}
 				}
 				authentication.setAuthenticated(true);
 				return authentication;

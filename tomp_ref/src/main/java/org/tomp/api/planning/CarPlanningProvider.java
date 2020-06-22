@@ -2,11 +2,8 @@ package org.tomp.api.planning;
 
 import java.math.BigDecimal;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-import org.tomp.api.configuration.ExternalConfiguration;
-import org.tomp.api.repository.DummyRepository;
 
 import io.swagger.model.AssetClass;
 import io.swagger.model.Fare;
@@ -18,11 +15,6 @@ import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
 @Component
 @ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "car", matchIfMissing = false)
 public class CarPlanningProvider extends BasePlanningProvider {
-
-	@Autowired
-	public CarPlanningProvider(DummyRepository repository, ExternalConfiguration configuration) {
-		super(repository, configuration);
-	}
 
 	@Override
 	protected Fare getFare() {

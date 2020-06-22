@@ -10,6 +10,9 @@ tomp:
    lookup-service: http://localhost:7999/
    accept-language: nl
    api-version: 0.6.0
+   allowUnknownOperators: true
+   authenticationRequired: false
+   
    system-information-file: src/main/resources/system-info-generic.json
    condition-file: src/main/resources/conditions.json
    regions-file: src/main/resources/regions.json
@@ -25,7 +28,7 @@ tomp:
       planning: bike
 geodecode:
    active: false
-   url: https://locationiq.org/v1/reverse.php?key=[some token]&format=json
+   decodeUrl: https://locationiq.org/v1/reverse.php?key=[some token]&format=json
    streetAddress: address.road| |address.house_number
    area: address.city| - |address.state
    postalCode: address.postcode

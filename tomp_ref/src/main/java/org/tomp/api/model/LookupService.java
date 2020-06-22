@@ -55,6 +55,9 @@ public class LookupService {
 	}
 
 	public boolean validate(String maasId, String token) {
+		if (!configuration.isAuthenticationRequired()) {
+			return true;
+		}
 		MaasOperator operator = callEndpoint("POST", "/operators/authenticate?id=" + maasId + "&token=" + token, "",
 				MaasOperator.class);
 		return operator != null;
@@ -76,12 +79,14 @@ public class LookupService {
 	}
 
 	private void refreshMetaInformation() throws IOException {
-		String body = body(configuration.getMaasId());
-		MaasOperator registered = callEndpoint("PUT",
-				"/operators/" + configuration.getMaasId() + "?token=" + configuration.getMaasId(), body,
-				MaasOperator.class);
-		if (registered != null) {
-			configuration.setMaasId(registered.getId());
+		if (configuration.isRefreshOnStartUp()) {
+			String body = body(configuration.getMaasId());
+			MaasOperator registered = callEndpoint("PUT",
+					"/operators/" + configuration.getMaasId() + "?token=" + configuration.getMaasId(), body,
+					MaasOperator.class);
+			if (registered != null) {
+				configuration.setMaasId(registered.getId());
+			}
 		}
 	}
 

@@ -51,6 +51,9 @@ public class ExternalConfiguration {
 	private long vatRate;
 
 	private String versionFile;
+	private boolean refreshOnStartUp = true;
+	private boolean allowUnknownOperators = false;
+	private boolean authenticationRequired = true;
 
 	private MaasEnvironmentType environmentType = MaasEnvironmentType.TO;
 
@@ -232,5 +235,29 @@ public class ExternalConfiguration {
 
 	public void setEnvironmentType(MaasEnvironmentType environmentType) {
 		this.environmentType = environmentType;
+	}
+
+	public boolean isRefreshOnStartUp() {
+		return refreshOnStartUp;
+	}
+
+	public void setRefreshOnStartUp(boolean refreshOnStartUp) {
+		this.refreshOnStartUp = refreshOnStartUp;
+	}
+
+	public boolean isAllowUnknownOperators() {
+		return allowUnknownOperators;
+	}
+
+	public void setAllowUnknownOperators(boolean allowUnknownOperators) {
+		this.allowUnknownOperators = allowUnknownOperators;
+	}
+
+	public boolean isAuthenticationRequired() {
+		return authenticationRequired;
+	}
+
+	public void setAuthenticationRequired(boolean authenticationRequired) {
+		this.authenticationRequired = authenticationRequired;
 	}
 }

@@ -3,7 +3,10 @@ package org.tomp.api.operatorinformation;
 import java.util.List;
 
 import io.swagger.model.StationInformation;
+import io.swagger.model.SystemCalendar;
+import io.swagger.model.SystemHours;
 import io.swagger.model.SystemInformation;
+import io.swagger.model.SystemPricingPlan;
 import io.swagger.model.SystemRegion;
 import io.swagger.model.TypeOfAsset;
 
@@ -17,4 +20,9 @@ public interface OperatorInformationProvider {
 
 	List<SystemRegion> getRegions(String acceptLanguage);
 
+	List<SystemPricingPlan> getPricingPlans(String acceptLanguage);
+
+	List<SystemHours> getHours(String acceptLanguage);
+
+	List<SystemCalendar> getCalendar(String acceptLanguage);
 }

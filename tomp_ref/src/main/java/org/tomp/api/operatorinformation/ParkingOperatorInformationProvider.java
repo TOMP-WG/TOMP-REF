@@ -44,7 +44,10 @@ import io.swagger.model.AssetClass;
 import io.swagger.model.Coordinates;
 import io.swagger.model.Polygon;
 import io.swagger.model.StationInformation;
+import io.swagger.model.SystemCalendar;
+import io.swagger.model.SystemHours;
 import io.swagger.model.SystemInformation;
+import io.swagger.model.SystemPricingPlan;
 import io.swagger.model.SystemRegion;
 import io.swagger.model.TypeOfAsset;
 
@@ -76,7 +79,7 @@ public class ParkingOperatorInformationProvider implements OperatorInformationPr
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		readUrls();
 
-		Timer timer = new Timer("Timer");
+		Timer timer = new Timer("ParkingTimer");
 
 		long delay = configuration.getRefreshInMillis();
 		timer.schedule(task, delay);
@@ -308,5 +311,20 @@ public class ParkingOperatorInformationProvider implements OperatorInformationPr
 		for (Entry<String, String> entry : repository.getDynamicUrls().entrySet()) {
 			registrateDynamicInfo(entry.getValue());
 		}
+	}
+
+	@Override
+	public List<SystemPricingPlan> getPricingPlans(String acceptLanguage) {
+		return new ArrayList<>();
+	}
+
+	@Override
+	public List<SystemHours> getHours(String acceptLanguage) {
+		return new ArrayList<>();
+	}
+
+	@Override
+	public List<SystemCalendar> getCalendar(String acceptLanguage) {
+		return new ArrayList<>();
 	}
 }

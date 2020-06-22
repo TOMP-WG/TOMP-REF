@@ -14,7 +14,7 @@ import io.swagger.model.SystemRegion;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.operatorinformation", havingValue = "parking", matchIfMissing = false)
-public class ParkingRepository {
+public class ParkingRepository implements RegionContainer {
 
 	private HashMap<String, ParkingFacilityInformation> staticData = new HashMap<>();
 	private HashMap<String, ParkingFacilityDynamicInformation> dynamicData = new HashMap<>();
