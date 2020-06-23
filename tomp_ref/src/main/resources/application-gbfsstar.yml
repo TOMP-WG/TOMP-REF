@@ -12,12 +12,12 @@ tomp:
    authenticationRequired: false
    accept-language: nl
    api-version: 0.6.0
-   condition-file: src/main/resources/conditions.json
    version-file: src/main/resources/versions.json
+   fare-file: src/main/resources/fare.json
    providers:
       operatorinformation: gbfs
       booking: none
-      planning: nearStart
+      planning: gbfs
       tripexecution: none
 gbfs:
    opendataUrl: https://eu.ftp.opendatasoft.com/star/gbfs/gbfs.json

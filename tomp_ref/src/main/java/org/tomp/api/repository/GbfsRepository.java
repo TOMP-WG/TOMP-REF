@@ -2,12 +2,17 @@ package org.tomp.api.repository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+import org.tomp.api.utils.GeoUtil;
 
 import io.swagger.model.Asset;
 import io.swagger.model.AssetClass;
@@ -22,7 +27,7 @@ import io.swagger.model.TypeOfAsset;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.operatorinformation", havingValue = "gbfs", matchIfMissing = false)
-public class GbfsRepository implements RegionContainer {
+public class GbfsRepository implements RegionContainer, StationContainer {
 
 	private Map<String, String> operatorInformation;
 	private List<String> languages;
@@ -62,18 +67,16 @@ public class GbfsRepository implements RegionContainer {
 			for (HashMap<String, Object> e : this.bikesAtStations) {
 				TypeOfAsset assetType = new TypeOfAsset();
 				String stationId = e.get("station_id").toString();
-				String stationName = getStationName(stationId);
+				Asset assetsItem = new Asset();
+				assetType.addAssetsItem(assetsItem);
+
+				copyStationValues(stationId, assetType);
+
 				assetType.setName("Station " + stationId);
 				assetType.setAssetClass(AssetClass.BICYCLE);
 				assetType.setAmountAvailable(
 						BigDecimal.valueOf(Double.valueOf(e.get("num_bikes_available").toString())));
-				Asset assetsItem = new Asset();
-				Place place = new Place();
-				place.setCoordinates(getCoordinates(stationId));
-				place.setStationId(stationId);
-				place.setName(stationName);
-				assetsItem.setPlace(place);
-				assetType.addAssetsItem(assetsItem);
+
 				assets.add(assetType);
 			}
 		}
@@ -94,6 +97,19 @@ public class GbfsRepository implements RegionContainer {
 		return assets;
 	}
 
+	private void copyStationValues(String stationId, TypeOfAsset assetType) {
+		for (StationInformation station : getStations()) {
+			if (station.getStationId().equals(stationId)) {
+				Place place = new Place();
+				place.setCoordinates(getCoordinates(stationId));
+				place.setStationId(stationId);
+				place.setName(station.getName());
+				place.setPhysicalAddress(station.getPhysicalAddress());
+				assetType.getAssets().get(0).setPlace(place);
+			}
+		}
+	}
+
 	private Coordinates getCoordinates(String stationId) {
 		for (StationInformation station : getStations()) {
 			if (station.getStationId().equals(stationId)) {
@@ -110,15 +126,6 @@ public class GbfsRepository implements RegionContainer {
 		coordinates.setLng(BigDecimal.valueOf((Double) lng));
 		p.setCoordinates(coordinates);
 		return p;
-	}
-
-	private String getStationName(String id) {
-		for (StationInformation station : getStations()) {
-			if (station.getStationId().equals(id)) {
-				return station.getName();
-			}
-		}
-		return null;
 	}
 
 	public List<StationInformation> getStations() {
@@ -139,5 +146,31 @@ public class GbfsRepository implements RegionContainer {
 
 	public void setFreeBikes(ArrayList<HashMap<String, Object>> freeBikes) {
 		this.freeBikes = freeBikes;
+	}
+
+	public List<TypeOfAsset> getNearestAssets(@NotNull @Valid Place from, @Valid BigDecimal radius) {
+		List<TypeOfAsset> results = new ArrayList<>();
+		for (TypeOfAsset assetType : getAssets()) {
+			if (assetType.getAmountAvailable() == null) {
+				for (Asset asset : assetType.getAssets()) {
+					if (GeoUtil.isNearby(asset.getPlace().getCoordinates(), from.getCoordinates(),
+							radius.doubleValue())) {
+						TypeOfAsset clone = clone(assetType);
+						clone.setAssets(Arrays.asList(asset));
+						results.add(clone);
+					}
+				}
+			} else if (GeoUtil.isNearby(assetType.getAssets().get(0).getPlace().getCoordinates(), from.getCoordinates(),
+					radius.doubleValue())) {
+				results.add(assetType);
+			}
+		}
+		return results;
+	}
+
+	private TypeOfAsset clone(TypeOfAsset assetType) {
+		TypeOfAsset typeOfAsset = new TypeOfAsset();
+		typeOfAsset.setName(assetType.getName());
+		return typeOfAsset;
 	}
 }

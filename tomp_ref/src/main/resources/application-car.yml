@@ -10,6 +10,9 @@ tomp:
    lookup-service: http://localhost:7999/
    accept-language: nl
    api-version: 0.6.0
+   allowUnknownOperators: true
+   authenticationRequired: false
+   
    system-information-file: src/main/resources/system-info-generic.json
    condition-file: src/main/resources/conditions.json
    regions-file: src/main/resources/regions.json

@@ -1,7 +1,7 @@
 spring:
    profiles: gbfs
    application:
-      name: gbfs-swiss
+      name: gbfs
 server:
    port: 8071
 tomp:
@@ -12,12 +12,12 @@ tomp:
    authenticationRequired: false
    accept-language: nl
    api-version: 0.6.0
-   condition-file: src/main/resources/conditions.json
    version-file: src/main/resources/versions.json
+   fare-file: src/main/resources/fare.json
    providers:
       operatorinformation: gbfs
       booking: none
-      planning: nearStart
+      planning: gbfs
       tripexecution: none
 gbfs:
    opendataUrl: https://gbfs.nextbike.net/maps/gbfs/v1/nextbike_ch/gbfs.json
@@ -26,8 +26,8 @@ gbfs:
    r: 1.0E-5
 geodecode:
    active: true
-   encodeUrl: https://locationiq.org/v1/search.php?key=[key]&format=json&q=
-   decodeUrl: https://locationiq.org/v1/reverse.php?key=[key]&format=json
+   encodeUrl: https://locationiq.org/v1/search.php?key=054b943dd98be6&format=json&q=
+   decodeUrl: https://locationiq.org/v1/reverse.php?key=054b943dd98be6&format=json
    streetAddress: address.road| |address.house_number
    area: address.city| - |address.state
    postalCode: address.postcode

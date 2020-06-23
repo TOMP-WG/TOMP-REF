@@ -7,12 +7,15 @@ server:
 tomp:
    maas-id: e54f5550-f577-4718-99e0-fce0cd973ba4
    api-version: 0.6.0
-   type-of-asset-file: src/main/resources/shared-cars.json
+   lookup-service: http://localhost:7999/
+   allowUnknownOperators: true
+   authenticationRequired: false
    system-information-file: src/main/resources/system-info-generic.json
    condition-file: src/main/resources/conditions.json
    regions-file: src/main/resources/regions.json
    stations-file: src/main/resources/stations.json
    area-file: src/main/resources/area.json
+   asset-file: src/main/resources/shared-cars.json
    external-url: http://localhost:8086/
    booking-mail-box: bte@dat.nl
    expiration-days: 14

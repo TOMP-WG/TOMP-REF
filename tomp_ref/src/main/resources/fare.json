@@ -1,0 +1,18 @@
+{
+	"estimated": false,
+	"description": "Usage per hour",
+	"parts": [
+		{
+			"amount": 15,
+			"currencyCode": "EUR",
+			"type": "FIXED"
+		},
+		{
+			"amount": 1.50,
+			"currencyCode": "EUR",
+			"type": "FLEX",
+			"unitType": "HOUR",
+			"units": 1
+		}
+	]
+}

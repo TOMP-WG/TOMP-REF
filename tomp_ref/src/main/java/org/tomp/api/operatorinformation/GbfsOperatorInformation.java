@@ -182,15 +182,19 @@ public class GbfsOperatorInformation implements OperatorInformationProvider {
 	@SuppressWarnings("unchecked")
 	private void processOperatorInformation() {
 		HashMap<String, Object> systemInformation = getObjectFromUrl(getLink("system_information"), HashMap.class);
-		repository.setOperatorInformation((HashMap<String, String>) systemInformation.get("data"));
+		if (systemInformation != null) {
+			repository.setOperatorInformation((HashMap<String, String>) systemInformation.get("data"));
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	private void processStationInformation() {
-		HashMap<String, Object> systemInformation = getObjectFromUrl(getLink("station_information"), HashMap.class);
-		ArrayList<HashMap<String, Object>> stationData = (ArrayList<HashMap<String, Object>>) ((HashMap<String, Object>) systemInformation
-				.get("data")).get("stations");
-		processStations(stationData);
+		HashMap<String, Object> stationInformation = getObjectFromUrl(getLink("station_information"), HashMap.class);
+		if (stationInformation != null) {
+			ArrayList<HashMap<String, Object>> stationData = (ArrayList<HashMap<String, Object>>) ((HashMap<String, Object>) stationInformation
+					.get("data")).get("stations");
+			processStations(stationData);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -212,10 +216,12 @@ public class GbfsOperatorInformation implements OperatorInformationProvider {
 
 	@SuppressWarnings("unchecked")
 	private void processRegionInformation() {
-		HashMap<String, Object> systemInformation = getObjectFromUrl(getLink("system_regions"), HashMap.class);
-		ArrayList<HashMap<String, String>> regions = (ArrayList<HashMap<String, String>>) ((HashMap<String, Object>) systemInformation
-				.get("data")).get("regions");
-		geocodeRegions(regions);
+		HashMap<String, Object> regionInformation = getObjectFromUrl(getLink("system_regions"), HashMap.class);
+		if (regionInformation != null) {
+			ArrayList<HashMap<String, String>> regions = (ArrayList<HashMap<String, String>>) ((HashMap<String, Object>) regionInformation
+					.get("data")).get("regions");
+			geocodeRegions(regions);
+		}
 	}
 
 	private void configureMapper() {
@@ -288,7 +294,9 @@ public class GbfsOperatorInformation implements OperatorInformationProvider {
 			coordinates.setLng(BigDecimal.valueOf(Double.valueOf(info.get("lon").toString())));
 			station.setCoordinates(coordinates);
 			station.setName(info.get("name").toString());
-			station.setRegionId(info.get("region_id").toString());
+			if (info.containsKey("region_id")) {
+				station.setRegionId(info.get("region_id").toString());
+			}
 			station.setStationId(info.get("station_id").toString());
 			repository.getStations().add(station);
 			delay += 1;

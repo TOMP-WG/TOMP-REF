@@ -47,8 +47,9 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		to = body.getTo().getCoordinates();
 		start = body.getStartTime();
 		end = body.getEndTime();
-		options.setConditions(getConditions(acceptLanguage));
-		options.setLegOptions(getResults(body, bookingIntent));
+		ArrayList<Leg> results = getResults(body, acceptLanguage, bookingIntent);
+		options.setLegOptions(results);
+		options.setConditions(getConditions(results, acceptLanguage));
 
 		if (provideIds) {
 			repository.saveOptions(options);
@@ -58,11 +59,31 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		return options;
 	}
 
-	protected List<Condition> getConditions(String acceptLanguage) {
-		return conditionProvider.getConditions(acceptLanguage);
+	protected List<Condition> getConditions(ArrayList<Leg> results, String acceptLanguage) {
+		List<Condition> conditions = new ArrayList<>();
+		List<Condition> allConditions = conditionProvider.getConditions(acceptLanguage);
+		List<String> usedConditions = getUsedConditions(results);
+		for (Condition c : allConditions) {
+			if (usedConditions.contains(c.getId())) {
+				conditions.add(c);
+			}
+		}
+		return conditions;
 	}
 
-	protected ArrayList<Leg> getResults(@Valid PlanningRequest body, boolean bookingIntent) {
+	private List<String> getUsedConditions(ArrayList<Leg> results) {
+		List<String> conditionIds = new ArrayList<>();
+		for (Leg leg : results) {
+			for (String conditionId : leg.getConditions()) {
+				if (!conditionIds.contains(conditionId)) {
+					conditionIds.add(conditionId);
+				}
+			}
+		}
+		return conditionIds;
+	}
+
+	protected ArrayList<Leg> getResults(@Valid PlanningRequest body, String acceptLanguage, boolean bookingIntent) {
 		boolean provideIds = bookingIntent;
 
 		ArrayList<Leg> arrayList = new ArrayList<>();
@@ -73,7 +94,7 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		result.setStartTime(getStartTime());
 		result.setEndTime(getEndTime());
 		result.setPricing(getFare());
-		result.setConditions(getConditionsForLeg(result));
+		result.setConditions(getConditionsForLeg(result, acceptLanguage));
 		if (provideIds) {
 			String uuid = UUID.randomUUID().toString();
 			result.setId(uuid);
@@ -100,8 +121,8 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		return from;
 	}
 
-	protected List<String> getConditionsForLeg(Leg result) {
-		return new ArrayList<>();
+	protected List<String> getConditionsForLeg(Leg result, String acceptLanguage) {
+		return conditionProvider.getApplyingConditions(acceptLanguage, result);
 	}
 
 	protected abstract Fare getFare();

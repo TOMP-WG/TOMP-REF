@@ -1,6 +1,7 @@
 package org.tomp.api.planning;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class BikePlanningProvider extends BasePlanningProvider {
 	}
 
 	@Override
-	protected List<Condition> getConditions(String acceptLanguage) {
+	protected List<Condition> getConditions(ArrayList<Leg> results, String acceptLanguage) {
 		ConditionReturnArea condition = new ConditionReturnArea();
 		condition.setId("Haarlem");
 		Polygon geometry = new Polygon();
@@ -72,7 +73,7 @@ public class BikePlanningProvider extends BasePlanningProvider {
 	}
 
 	@Override
-	protected List<String> getConditionsForLeg(Leg result) {
+	protected List<String> getConditionsForLeg(Leg result, String acceptLanguage) {
 		return Arrays.asList("Haarlem");
 	}
 

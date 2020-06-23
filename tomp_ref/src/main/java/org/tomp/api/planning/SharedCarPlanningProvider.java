@@ -1,6 +1,7 @@
 package org.tomp.api.planning;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -13,6 +14,7 @@ import io.swagger.model.ConditionRequireBookingData;
 import io.swagger.model.ConditionRequireBookingData.RequiredFieldsEnum;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
+import io.swagger.model.Leg;
 import io.swagger.model.FarePart.TypeEnum;
 import io.swagger.model.FarePart.UnitTypeEnum;
 
@@ -42,8 +44,8 @@ public class SharedCarPlanningProvider extends GenericPlanningProvider {
 	}
 
 	@Override
-	protected List<Condition> getConditions(String acceptLanguage) {
-		List<Condition> conditions = super.getConditions(acceptLanguage);
+	protected List<Condition> getConditions(ArrayList<Leg> results, String acceptLanguage) {
+		List<Condition> conditions = super.getConditions(results, acceptLanguage);
 		ConditionPostponedCommit condition = new ConditionPostponedCommit();
 
 		condition.setUltimateResponseTime(ChronoUnit.SECONDS.addTo(this.getStartTime(), -3600));

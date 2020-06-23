@@ -1,5 +1,6 @@
 package org.tomp.api.providers.conditions;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,9 +10,10 @@ import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
 
 import io.swagger.model.Condition;
+import io.swagger.model.Leg;
 
 @Component
-@ConditionalOnProperty(value = "tomp.condition-file", havingValue="none", matchIfMissing = true)
+@ConditionalOnProperty(value = "tomp.condition-file", havingValue = "empty", matchIfMissing = false)
 public class NoConditionProvider implements ConditionProvider {
 
 	@Autowired
@@ -22,4 +24,8 @@ public class NoConditionProvider implements ConditionProvider {
 		return Arrays.asList(new Condition());
 	}
 
+	@Override
+	public List<String> getApplyingConditions(String acceptLanguage, Leg result) {
+		return new ArrayList<>();
+	}
 }

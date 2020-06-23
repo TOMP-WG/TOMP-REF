@@ -35,6 +35,7 @@ import org.tomp.api.model.parking.ParkingFacilityInformation;
 import org.tomp.api.model.parking.Specification;
 import org.tomp.api.model.parking.StaticParkingData;
 import org.tomp.api.repository.ParkingRepository;
+import org.tomp.api.utils.GeoUtil;
 import org.tomp.api.utils.ObjectFromFileProvider;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -114,7 +115,7 @@ public class ParkingOperatorInformationProvider implements OperatorInformationPr
 							SystemRegion e = new SystemRegion();
 							e.setName(facility.getName());
 							e.setRegionId(facility.getUuid());
-							e.setServiceArea(toPolygon(facility.getGeoLocation()));
+							e.setServiceArea(GeoUtil.toPolygon(facility.getGeoLocation(), configuration.getR()));
 							repository.getRegions().add(e);
 						}
 						registrateStaticInfo(facility.getStaticDataUrl());
@@ -183,7 +184,7 @@ public class ParkingOperatorInformationProvider implements OperatorInformationPr
 						SystemRegion region = new SystemRegion();
 						region.setName(information.getName());
 						region.setRegionId(information.getIdentifier());
-						region.setServiceArea(toPolygon(location));
+						region.setServiceArea(GeoUtil.toPolygon(location, configuration.getR()));
 						regionList.add(region);
 						break;
 					}
@@ -205,36 +206,6 @@ public class ParkingOperatorInformationProvider implements OperatorInformationPr
 			}
 		}
 		return regionList;
-	}
-
-	private Polygon toPolygon(LonLatLocation location) {
-		Polygon p = new Polygon();
-		BigDecimal r = BigDecimal.valueOf(configuration.getR());
-		Coordinates pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLatitude().subtract(r));
-		pointsItem.setLng(location.getLongitude().subtract(r));
-		p.addPointsItem(pointsItem);
-
-		pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLatitude().subtract(r));
-		pointsItem.setLng(location.getLongitude().add(r));
-		p.addPointsItem(pointsItem);
-
-		pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLatitude().add(r));
-		pointsItem.setLng(location.getLongitude().add(r));
-		p.addPointsItem(pointsItem);
-
-		pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLatitude().add(r));
-		pointsItem.setLng(location.getLongitude().subtract(r));
-		p.addPointsItem(pointsItem);
-
-		pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLatitude().subtract(r));
-		pointsItem.setLng(location.getLongitude().subtract(r));
-		p.addPointsItem(pointsItem);
-		return p;
 	}
 
 	private Polygon toServiceArea(BigDecimal[][][] area) {
