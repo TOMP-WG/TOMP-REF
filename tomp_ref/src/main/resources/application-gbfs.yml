@@ -25,7 +25,7 @@ gbfs:
    refreshInMillis: 60000
    r: 1.0E-5
 geodecode:
-   active: true
+   active: false
    encodeUrl: https://locationiq.org/v1/search.php?key=054b943dd98be6&format=json&q=
    decodeUrl: https://locationiq.org/v1/reverse.php?key=054b943dd98be6&format=json
    streetAddress: address.road| |address.house_number

@@ -25,6 +25,11 @@ export class MapComponent implements AfterViewInit {
   segments: Array<L.GeoJSON> = [];
   modalityMarkers: Array<L.Marker> = [];
 
+  resultIndex = 0;
+  cachedResult = '';
+  nextDisabled = true;
+  previousDisabled = true;
+
   endpoint: Endpoint;
   private map: Map;
 
@@ -163,6 +168,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   private showSegments(json: any) {
+    this.resultIndex = 0;
     for (const marker of this.modalityMarkers) {
       marker.removeFrom(this.map);
     }
@@ -195,9 +201,14 @@ export class MapComponent implements AfterViewInit {
 
   private showLines(json: any) {
     if (json.legOptions) {
+      this.cachedResult = json;
       // version 0.6.0 +
+      let i = 0 ;
       for (const result of json.legOptions) {
+        if ( i === this.resultIndex ) {
           this.showSimpleLeg(result);
+        }
+        i++;
       }
     }
   }
@@ -208,8 +219,10 @@ export class MapComponent implements AfterViewInit {
         let first = true;
         for (const condition of json.conditions) {
           if (condition.conditionType === 'conditionReturnArea') {
-            this.addRegion(JSON.stringify(condition.returnArea.points), first);
-            first = false;
+            if (condition.returnArea !== undefined ) {
+              this.addRegion(JSON.stringify(condition.returnArea.points), first);
+              first = false;
+            }
           }
         }
       }
@@ -262,5 +275,35 @@ export class MapComponent implements AfterViewInit {
       this.modalityMarkers.push(icon);
       icon.addTo(this.map);
     }
+  }
+
+  public previousResult(e: Event) {
+    for (const marker of this.modalityMarkers) {
+      marker.removeFrom(this.map);
+    }
+    for ( const segment of this.segments ) {
+      segment.removeFrom(this.map);
+    }
+    this.segments = [];
+    if (this.resultIndex > 0) {
+      this.resultIndex--;
+      this.showLines(this.cachedResult);
+    }
+    e.stopPropagation();
+    return false;
+  }
+
+  public nextResult(e: Event) {
+    for (const marker of this.modalityMarkers) {
+      marker.removeFrom(this.map);
+    }
+    for ( const segment of this.segments ) {
+      segment.removeFrom(this.map);
+    }
+    this.segments = [];
+    this.resultIndex++;
+    this.showLines(this.cachedResult);
+    e.stopPropagation();
+    return false;
   }
 }

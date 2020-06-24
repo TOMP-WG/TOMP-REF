@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.tomp.api.repository.GbfsRepository;
+import org.tomp.api.utils.GeoUtil;
 
 import io.swagger.model.Condition;
 import io.swagger.model.ConditionReturnArea;
@@ -26,9 +27,11 @@ public class GbfsConditionProvider implements ConditionProvider {
 		ArrayList<Condition> conditions = new ArrayList<>();
 		for (StationInformation station : repository.getStations()) {
 			ConditionReturnArea condition = new ConditionReturnArea();
+			condition.setId("RA_" + station.getStationId());
 			condition.setCoordinates(station.getCoordinates());
-			condition.setStationId("RA_" + station.getStationId());
+			condition.setStationId(station.getStationId());
 			condition.setReturnHours(repository.getSystemHours());
+			condition.setReturnArea(GeoUtil.toPolygon(station.getCoordinates(), 0.0001));
 			conditions.add(condition);
 		}
 		return conditions;

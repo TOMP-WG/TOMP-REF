@@ -1,4 +1,8 @@
 <div class="map-container">
   <div id="map">
+    <div id="result-navigator" class="leaflet-bar leaflet-control leaflet-navigate">
+      <a class="leaflet-control-zoom-in" href="#" title="Previous" id="prev" role="button" aria-label="Previous" (click)="previousResult($event)" >&lt;</a>
+      <a class="leaflet-control-zoom-in" href="#" title="Next" id="next" role="button" aria-label="Next" (click)="nextResult($event)" >&gt;</a>
+    </div>
   </div>
 </div>
