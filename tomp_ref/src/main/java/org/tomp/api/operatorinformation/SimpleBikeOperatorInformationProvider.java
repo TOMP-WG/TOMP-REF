@@ -17,7 +17,7 @@ import io.swagger.model.SystemHours;
 import io.swagger.model.SystemInformation;
 import io.swagger.model.SystemPricingPlan;
 import io.swagger.model.SystemRegion;
-import io.swagger.model.TypeOfAsset;
+import io.swagger.model.AssetType;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.operatorinformation", havingValue = "bike", matchIfMissing = false)
@@ -31,10 +31,11 @@ public class SimpleBikeOperatorInformationProvider implements OperatorInformatio
 	}
 
 	@Override
-	public List<TypeOfAsset> getAvailableAssetTypes(String acceptLanguage) {
-		ObjectFromFileProvider<TypeOfAsset[]> provider = new ObjectFromFileProvider<>();
-		ArrayList<TypeOfAsset> list = new ArrayList<>();
-		Collections.addAll(list, provider.getObject(acceptLanguage, TypeOfAsset[].class, configuration.getAssetFile()));
+	public List<AssetType> getAvailableAssetTypes(String acceptLanguage) {
+		ObjectFromFileProvider<AssetType[]> provider = new ObjectFromFileProvider<>();
+		ArrayList<AssetType> list = new ArrayList<>();
+		AssetType[] assets = provider.getObject(acceptLanguage, AssetType[].class, configuration.getAssetFile());
+		Collections.addAll(list, assets);
 		return list;
 	}
 
@@ -50,7 +51,6 @@ public class SimpleBikeOperatorInformationProvider implements OperatorInformatio
 
 	@Override
 	public List<StationInformation> getStations(String acceptLanguage) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

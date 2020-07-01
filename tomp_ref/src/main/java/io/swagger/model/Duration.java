@@ -7,11 +7,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * A duration of some time (relative to time) in milliseconds
+ * A duration of some time (relative to a time) in milliseconds
  */
-@ApiModel(description = "A duration of some time (relative to time) in milliseconds")
+@ApiModel(description = "A duration of some time (relative to a time) in milliseconds")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:11:18.823Z[GMT]")
 public class Duration   {
 
   @Override

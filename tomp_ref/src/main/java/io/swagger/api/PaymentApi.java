@@ -40,8 +40,8 @@ public interface PaymentApi {
 @Authorization(value = "OpenId")    }, tags={ "payment","MP", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "journal entry received, will be processed (state = INVOICED)", response = JournalEntry.class),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class) })
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class) })
     @RequestMapping(value = "/payment/{id}/claim-extra-costs",
         produces = { "application/json" }, 
         consumes = { "application/json" },
@@ -63,8 +63,8 @@ public interface PaymentApi {
 @Authorization(value = "OpenId")    }, tags={ "payment","MP","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "journal entries", response = JournalEntry.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class) })
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class) })
     @RequestMapping(value = "/payment/journal-entry",
         produces = { "application/json" }, 
         method = RequestMethod.GET)

@@ -5,45 +5,45 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import io.swagger.model.Execution;
-import io.swagger.model.ExecutionEvent;
+import io.swagger.model.Leg;
+import io.swagger.model.LegEvent;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.tripexecution", havingValue = "none", matchIfMissing = false)
 public class NoTripExecutionProvider implements TripExecutionProvider {
 
 	@Override
-	public Execution prepare(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg prepare(LegEvent body, String acceptLanguage, String id, String maasId) {
 		throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
 	}
 
 	@Override
-	public Execution assignAsset(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg assignAsset(LegEvent body, String acceptLanguage, String id, String maasId) {
 		throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
 	}
 
 	@Override
-	public Execution reserve(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg reserve(LegEvent body, String acceptLanguage, String id, String maasId) {
 		throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
 	}
 
 	@Override
-	public Execution setInUse(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg setInUse(LegEvent body, String acceptLanguage, String id, String maasId) {
 		throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
 	}
 
 	@Override
-	public Execution pause(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg pause(LegEvent body, String acceptLanguage, String id, String maasId) {
 		throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
 	}
 
 	@Override
-	public Execution startFinishing(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg startFinishing(LegEvent body, String acceptLanguage, String id, String maasId) {
 		throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
 	}
 
 	@Override
-	public Execution finish(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg finish(LegEvent body, String acceptLanguage, String id, String maasId) {
 		throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
 	}
 

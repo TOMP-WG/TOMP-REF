@@ -1,7 +1,8 @@
 package org.tomp.api.planning;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -11,16 +12,18 @@ import org.springframework.stereotype.Component;
 import org.threeten.bp.OffsetDateTime;
 
 import io.swagger.model.AssetClass;
-import io.swagger.model.Condition;
+import io.swagger.model.AssetProperties;
+import io.swagger.model.AssetProperties.EnergyLabelEnum;
+import io.swagger.model.AssetType;
+import io.swagger.model.Booking;
 import io.swagger.model.Coordinates;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
 import io.swagger.model.Leg;
+import io.swagger.model.Place;
 import io.swagger.model.Planning;
 import io.swagger.model.PlanningRequest;
-import io.swagger.model.TypeOfAsset;
-import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "train", matchIfMissing = false)
@@ -33,29 +36,33 @@ public class TrainPlanningProvider implements PlanningProvider {
 
 	public Planning getOptions(@Valid PlanningRequest body, String acceptLanguage, boolean bookingIntent) {
 		Planning options = new Planning();
-		options.setConditions(new ArrayList<Condition>());
 		from = body.getFrom().getCoordinates();
 		to = body.getTo().getCoordinates();
-		start = body.getStartTime();
-		end = body.getEndTime();
-		options.setLegOptions(getResults(body, bookingIntent));
+		start = body.getDepartureTime();
+		end = body.getArrivalTime();
+		options.setOptions(getResults(body, bookingIntent));
 		return options;
 	}
 
-	private ArrayList<Leg> getResults(@Valid PlanningRequest body, boolean bookingIntent) {
-		ArrayList<Leg> arrayList = new ArrayList<>();
-		Leg result = new Leg();
+	private List<Booking> getResults(@Valid PlanningRequest body, boolean bookingIntent) {
+		Booking booking = new Booking();
+		Leg leg = new Leg();
 		if (bookingIntent) {
-			result.setId("DF(L<#NFSD=SFDKLJ");
+			leg.setId("DF(L<#NFSD=SFDKLJ");
 		}
-		result.setAsset(getAssetType());
-		result.setFrom(from);
-		result.setTo(to);
-		result.setStartTime(start);
-		result.setEndTime(end);
-		result.setPricing(getFare());
-		arrayList.add(result);
-		return arrayList;
+		leg.setAssetType(getAssetType());
+		leg.setFrom(toPlace(from));
+		leg.setTo(toPlace(to));
+		leg.setDepartureTime(start);
+		leg.setArrivalTime(end);
+		leg.setPricing(getFare());
+		booking.setLegs(Arrays.asList(leg));
+		return Arrays.asList(booking);
+	}
+
+	private Place toPlace(@NotNull @Valid Coordinates from2) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private Fare getFare() {
@@ -69,12 +76,15 @@ public class TrainPlanningProvider implements PlanningProvider {
 		return fare;
 	}
 
-	private TypeOfAsset getAssetType() {
-		TypeOfAsset typeOfAsset = new TypeOfAsset();
+	private AssetType getAssetType() {
+		AssetType typeOfAsset = new AssetType();
 		typeOfAsset.setAssetClass(AssetClass.BICYCLE);
 		typeOfAsset.setAssetSubClass("Child, 26 inch");
-		typeOfAsset.setModel("Batavus");
-		typeOfAsset.setEnergyLabel(EnergyLabelEnum.A);
+		AssetProperties sharedProperties = new AssetProperties();
+
+		typeOfAsset.setSharedProperties(sharedProperties);
+		sharedProperties.setModel("Batavus");
+		sharedProperties.setEnergyLabel(EnergyLabelEnum.A);
 		return typeOfAsset;
 	}
 

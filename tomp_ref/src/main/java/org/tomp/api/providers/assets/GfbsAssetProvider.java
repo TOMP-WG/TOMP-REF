@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.tomp.api.repository.GbfsRepository;
 
-import io.swagger.model.TypeOfAsset;
+import io.swagger.model.AssetType;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.operatorinformation", havingValue = "gbfs", matchIfMissing = false)
@@ -20,13 +20,13 @@ public class GfbsAssetProvider implements AssetProvider {
 	private static Random r = new Random();
 
 	@Override
-	public TypeOfAsset getTypeOfAsset() {
-		List<TypeOfAsset> assets = repostory.getAssets();
+	public AssetType getTypeOfAsset() {
+		List<AssetType> assets = repostory.getAssets();
 		return assets.get(r.nextInt(assets.size()));
 	}
 
 	@Override
-	public List<TypeOfAsset> getAssetTypes() {
+	public List<AssetType> getAssetTypes() {
 		return repostory.getAssets();
 	}
 }

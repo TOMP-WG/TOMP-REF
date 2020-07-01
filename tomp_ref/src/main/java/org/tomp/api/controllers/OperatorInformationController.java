@@ -19,13 +19,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.api.OperatorApiController;
+import io.swagger.model.AssetType;
 import io.swagger.model.StationInformation;
 import io.swagger.model.SystemCalendar;
 import io.swagger.model.SystemHours;
 import io.swagger.model.SystemInformation;
 import io.swagger.model.SystemPricingPlan;
 import io.swagger.model.SystemRegion;
-import io.swagger.model.TypeOfAsset;
 
 @RestController
 public class OperatorInformationController extends OperatorApiController {
@@ -46,13 +46,13 @@ public class OperatorInformationController extends OperatorApiController {
 	}
 
 	@Override
-	public ResponseEntity<List<TypeOfAsset>> operatorAvailableAssetsGet(
+	public ResponseEntity<List<AssetType>> operatorAvailableAssetsGet(
 			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion) {
 		HeaderValidator.validateHeader(request);
 		try {
-			List<TypeOfAsset> list = provider.getAvailableAssetTypes(acceptLanguage);
+			List<AssetType> list = provider.getAvailableAssetTypes(acceptLanguage);
 			return new ResponseEntity<>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("operatorAvailableAssetsGet", e);

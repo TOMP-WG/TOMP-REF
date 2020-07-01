@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.threeten.bp.OffsetDateTime;
-import org.tomp.api.repository.DummyRepository;
+import org.tomp.api.repository.DefaultRepository;
 
 import io.swagger.model.ExtraCosts;
 import io.swagger.model.JournalEntry;
@@ -17,7 +17,7 @@ import io.swagger.model.JournalState;
 public class GenericPaymentProvider implements PaymentProvider {
 
 	@Autowired
-	DummyRepository repository;
+	DefaultRepository repository;
 
 	@Override
 	public JournalEntry claimExtraCosts(String acceptLanguage, String api, String apiVersion, String id,

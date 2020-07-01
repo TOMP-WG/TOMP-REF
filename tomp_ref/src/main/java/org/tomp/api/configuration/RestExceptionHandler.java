@@ -1,7 +1,5 @@
 package org.tomp.api.configuration;
 
-import java.math.BigDecimal;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -47,7 +45,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private Error toError(Exception exception, HttpStatus status) {
 		Error error = new Error();
-		error.setStatus(BigDecimal.valueOf(status.value()));
+		error.setStatus(status.value());
 		error.setTitle(exception.getMessage());
 		error.setType(status.name());
 		return error;

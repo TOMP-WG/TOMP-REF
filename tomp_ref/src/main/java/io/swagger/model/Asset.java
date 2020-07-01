@@ -3,16 +3,9 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Asset;
-import io.swagger.model.AssetClass;
-import io.swagger.model.KeyValue;
-import io.swagger.model.Place;
-import io.swagger.model.TypeOfAsset;
-import java.math.BigDecimal;
-import java.util.List;
+import io.swagger.model.AssetProperties;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -22,13 +15,10 @@ import javax.validation.constraints.*;
  * Asset
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
-public class Asset extends TypeOfAsset  {
-  @JsonProperty("assetId")
-  private String assetId = null;
-
-  @JsonProperty("place")
-  private Place place = null;
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:11:18.823Z[GMT]")
+public class Asset   {
+  @JsonProperty("id")
+  private String id = null;
 
   @JsonProperty("isReserved")
   private Boolean isReserved = null;
@@ -42,50 +32,27 @@ public class Asset extends TypeOfAsset  {
   @JsonProperty("isDisabled")
   private Boolean isDisabled = null;
 
-  @JsonProperty("image")
-  private String image = null;
+  @JsonProperty("properties")
+  private AssetProperties properties = null;
 
-  @JsonProperty("rentalUrl")
-  private String rentalUrl = null;
-
-  public Asset assetId(String assetId) {
-    this.assetId = assetId;
+  public Asset id(String id) {
+    this.id = id;
     return this;
   }
 
   /**
-   * unique identifier of an asset
-   * @return assetId
+   * Unique identifier of an asset
+   * @return id
   **/
-  @ApiModelProperty(required = true, value = "unique identifier of an asset")
+  @ApiModelProperty(required = true, value = "Unique identifier of an asset")
       @NotNull
 
-    public String getAssetId() {
-    return assetId;
+    public String getId() {
+    return id;
   }
 
-  public void setAssetId(String assetId) {
-    this.assetId = assetId;
-  }
-
-  public Asset place(Place place) {
-    this.place = place;
-    return this;
-  }
-
-  /**
-   * Get place
-   * @return place
-  **/
-  @ApiModelProperty(value = "")
-  
-    @Valid
-    public Place getPlace() {
-    return place;
-  }
-
-  public void setPlace(Place place) {
-    this.place = place;
+  public void setId(String id) {
+    this.id = id;
   }
 
   public Asset isReserved(Boolean isReserved) {
@@ -113,10 +80,10 @@ public class Asset extends TypeOfAsset  {
   }
 
   /**
-   * Get isReservedFrom
+   * optional addition to determine if an asset is reserved in the future
    * @return isReservedFrom
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "optional addition to determine if an asset is reserved in the future")
   
     @Valid
     public OffsetDateTime getIsReservedFrom() {
@@ -133,10 +100,10 @@ public class Asset extends TypeOfAsset  {
   }
 
   /**
-   * Get isReservedTo
+   * optional addition to determine when asset is available in the future
    * @return isReservedTo
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "optional addition to determine when asset is available in the future")
   
     @Valid
     public OffsetDateTime getIsReservedTo() {
@@ -166,42 +133,25 @@ public class Asset extends TypeOfAsset  {
     this.isDisabled = isDisabled;
   }
 
-  public Asset image(String image) {
-    this.image = image;
+  public Asset properties(AssetProperties properties) {
+    this.properties = properties;
     return this;
   }
 
   /**
-   * specific image, overruling asset-type image
-   * @return image
+   * Get properties
+   * @return properties
   **/
-  @ApiModelProperty(example = "https://files.fietsersbond.nl/app/uploads/2014/10/30151126/ST2_Men_Side_CityKit-Stromer.jpg", value = "specific image, overruling asset-type image")
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
   
-    public String getImage() {
-    return image;
+    @Valid
+    public AssetProperties getProperties() {
+    return properties;
   }
 
-  public void setImage(String image) {
-    this.image = image;
-  }
-
-  public Asset rentalUrl(String rentalUrl) {
-    this.rentalUrl = rentalUrl;
-    return this;
-  }
-
-  /**
-   * deep-linking option from GBFS+
-   * @return rentalUrl
-  **/
-  @ApiModelProperty(example = "https://www.rentmyfreebike.com/rental", value = "deep-linking option from GBFS+")
-  
-    public String getRentalUrl() {
-    return rentalUrl;
-  }
-
-  public void setRentalUrl(String rentalUrl) {
-    this.rentalUrl = rentalUrl;
+  public void setProperties(AssetProperties properties) {
+    this.properties = properties;
   }
 
 
@@ -214,35 +164,30 @@ public class Asset extends TypeOfAsset  {
       return false;
     }
     Asset asset = (Asset) o;
-    return Objects.equals(this.assetId, asset.assetId) &&
-        Objects.equals(this.place, asset.place) &&
+    return Objects.equals(this.id, asset.id) &&
         Objects.equals(this.isReserved, asset.isReserved) &&
         Objects.equals(this.isReservedFrom, asset.isReservedFrom) &&
         Objects.equals(this.isReservedTo, asset.isReservedTo) &&
         Objects.equals(this.isDisabled, asset.isDisabled) &&
-        Objects.equals(this.image, asset.image) &&
-        Objects.equals(this.rentalUrl, asset.rentalUrl) &&
-        super.equals(o);
+        Objects.equals(this.properties, asset.properties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(assetId, place, isReserved, isReservedFrom, isReservedTo, isDisabled, image, rentalUrl, super.hashCode());
+    return Objects.hash(id, isReserved, isReservedFrom, isReservedTo, isDisabled, properties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Asset {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    assetId: ").append(toIndentedString(assetId)).append("\n");
-    sb.append("    place: ").append(toIndentedString(place)).append("\n");
+    
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    isReserved: ").append(toIndentedString(isReserved)).append("\n");
     sb.append("    isReservedFrom: ").append(toIndentedString(isReservedFrom)).append("\n");
     sb.append("    isReservedTo: ").append(toIndentedString(isReservedTo)).append("\n");
     sb.append("    isDisabled: ").append(toIndentedString(isDisabled)).append("\n");
-    sb.append("    image: ").append(toIndentedString(image)).append("\n");
-    sb.append("    rentalUrl: ").append(toIndentedString(rentalUrl)).append("\n");
+    sb.append("    properties: ").append(toIndentedString(properties)).append("\n");
     sb.append("}");
     return sb.toString();
   }

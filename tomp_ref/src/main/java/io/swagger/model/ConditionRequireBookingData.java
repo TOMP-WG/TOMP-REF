@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
  * ConditionRequireBookingData
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T15:19:29.217Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:48:03.908Z[GMT]")
 public class ConditionRequireBookingData extends Condition implements OneOfcondition {
   /**
    * Gets or Sets requiredFields
@@ -45,7 +45,11 @@ public class ConditionRequireBookingData extends Condition implements OneOfcondi
     
     ID_CARDS("ID_CARDS"),
     
-    CREDIT_CARDS("CREDIT_CARDS");
+    CREDIT_CARDS("CREDIT_CARDS"),
+    
+    NAME("NAME"),
+    
+    AGE("AGE");
 
     private String value;
 

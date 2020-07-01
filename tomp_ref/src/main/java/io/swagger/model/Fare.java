@@ -41,7 +41,8 @@ public class Fare   {
    * is this fare an estimation?
    * @return estimated
   **/
-  @ApiModelProperty(value = "is this fare an estimation?")
+  @ApiModelProperty(required = true, value = "is this fare an estimation?")
+      @NotNull
   
     public Boolean isEstimated() {
     return estimated;
@@ -106,7 +107,8 @@ public class Fare   {
    * Get parts
    * @return parts
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
       @Valid
     public List<FarePart> getParts() {
     return parts;

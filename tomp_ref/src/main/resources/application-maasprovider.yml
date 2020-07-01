@@ -7,7 +7,7 @@ server:
 tomp:
    lookup-service: https://tomp.dat.nl/meta
    accept-language: nl
-   api-version: 0.6.0
+   api-version: 0.9.0
    maas-id: 196aa22d-d05f-4ec9-9d65-a325516196bb
    area-file: src/main/resources/area.json
    system-information-file: src/main/resources/system-info-generic.json

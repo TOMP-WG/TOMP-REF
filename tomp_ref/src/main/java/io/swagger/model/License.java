@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.AssetClass;
+import io.swagger.model.LicenseType;
 import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -16,19 +17,13 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "driver or usage license for a specific user. Contains the number and the assetType you're allowed to operate (e.g. driver license for CAR)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
-public class License   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:11:18.823Z[GMT]")
+public class License extends LicenseType  {
   @JsonProperty("number")
   private String number = null;
 
-  @JsonProperty("assetClass")
-  private AssetClass assetClass = null;
-
   @JsonProperty("licenseCode")
   private String licenseCode = null;
-
-  @JsonProperty("country")
-  private String country = null;
 
   @JsonProperty("validUntil")
   private LocalDate validUntil = null;
@@ -52,26 +47,6 @@ public class License   {
     this.number = number;
   }
 
-  public License assetClass(AssetClass assetClass) {
-    this.assetClass = assetClass;
-    return this;
-  }
-
-  /**
-   * Get assetClass
-   * @return assetClass
-  **/
-  @ApiModelProperty(value = "")
-  
-    @Valid
-    public AssetClass getAssetClass() {
-    return assetClass;
-  }
-
-  public void setAssetClass(AssetClass assetClass) {
-    this.assetClass = assetClass;
-  }
-
   public License licenseCode(String licenseCode) {
     this.licenseCode = licenseCode;
     return this;
@@ -89,25 +64,6 @@ public class License   {
 
   public void setLicenseCode(String licenseCode) {
     this.licenseCode = licenseCode;
-  }
-
-  public License country(String country) {
-    this.country = country;
-    return this;
-  }
-
-  /**
-   * Get country
-   * @return country
-  **/
-  @ApiModelProperty(value = "")
-  
-  @Size(min=2,max=2)   public String getCountry() {
-    return country;
-  }
-
-  public void setCountry(String country) {
-    this.country = country;
   }
 
   public License validUntil(LocalDate validUntil) {
@@ -141,26 +97,23 @@ public class License   {
     }
     License license = (License) o;
     return Objects.equals(this.number, license.number) &&
-        Objects.equals(this.assetClass, license.assetClass) &&
         Objects.equals(this.licenseCode, license.licenseCode) &&
-        Objects.equals(this.country, license.country) &&
-        Objects.equals(this.validUntil, license.validUntil);
+        Objects.equals(this.validUntil, license.validUntil) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(number, assetClass, licenseCode, country, validUntil);
+    return Objects.hash(number, licenseCode, validUntil, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class License {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
-    sb.append("    assetClass: ").append(toIndentedString(assetClass)).append("\n");
     sb.append("    licenseCode: ").append(toIndentedString(licenseCode)).append("\n");
-    sb.append("    country: ").append(toIndentedString(country)).append("\n");
     sb.append("    validUntil: ").append(toIndentedString(validUntil)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.tomp.api.providers.assets.AssetProvider;
 import org.tomp.api.providers.fares.FareProvider;
 
+import io.swagger.model.AssetType;
 import io.swagger.model.Fare;
-import io.swagger.model.TypeOfAsset;
 
 @ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "generic", matchIfMissing = true)
 public class GenericPlanningProvider extends BasePlanningProvider {
@@ -23,7 +23,7 @@ public class GenericPlanningProvider extends BasePlanningProvider {
 	}
 
 	@Override
-	protected TypeOfAsset getAssetType() {
+	protected AssetType getAssetType() {
 		return assetProvider.getTypeOfAsset();
 	}
 }

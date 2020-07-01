@@ -1,7 +1,7 @@
 package org.tomp.api.tripexecution;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,19 +11,18 @@ import org.springframework.stereotype.Component;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.tomp.api.configuration.ExternalConfiguration;
-import org.tomp.api.repository.DummyRepository;
+import org.tomp.api.repository.DefaultRepository;
 
+import io.swagger.model.Asset;
 import io.swagger.model.Coordinates;
-import io.swagger.model.Execution;
-import io.swagger.model.ExecutionEvent;
-import io.swagger.model.ExecutionState;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.JournalEntry;
 import io.swagger.model.JournalState;
-import io.swagger.model.KeyValue;
 import io.swagger.model.Leg;
-import io.swagger.model.Place;
+import io.swagger.model.LegEvent;
+import io.swagger.model.LegState;
+import io.swagger.model.Suboperator;
 import io.swagger.model.Token;
 
 @Component
@@ -31,120 +30,106 @@ import io.swagger.model.Token;
 public class GenericTripExecutionProvider implements TripExecutionProvider {
 
 	@Autowired
-	DummyRepository repository;
+	DefaultRepository repository;
 
 	@Autowired
 	ExternalConfiguration configuration;
 
 	@Override
-	public Execution prepare(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
-		Leg planning = repository.getSavedOption(id);
-		Execution execution = new Execution();
-		execution.setAssetAccessData(constructTokenToOpenAsset(body, planning));
-		execution.setState(ExecutionState.PREPARING);
+	public Leg prepare(LegEvent body, String acceptLanguage, String id, String maasId) {
+		Leg leg = repository.getLeg(id);
+		leg.setAssetAccessData(constructTokenToOpenAsset(body, leg));
+		leg.setState(LegState.PREPARING);
 		repository.saveLegEvent(id, body);
-		return execution;
+		return leg;
 	}
 
-	private Token constructTokenToOpenAsset(ExecutionEvent body, Leg planning) {
+	private Token constructTokenToOpenAsset(LegEvent body, Leg planning) {
 		Token token = new Token();
-		token.setStartTime(body.getTime());
-		token.setEndTime(ChronoUnit.SECONDS.addTo(planning.getEndTime(), -3600));
-		token.setMeta(Arrays.asList(toKV("code", UUID.randomUUID())));
+		token.setValidFrom(body.getTime());
+		token.setValidUntil(ChronoUnit.SECONDS.addTo(planning.getDepartureTime(), -3600));
+		HashMap<String, Object> tokenData = new HashMap<String, Object>();
+		tokenData.put("code", UUID.randomUUID());
+		token.setTokenData(tokenData);
 		return token;
 	}
 
-	private KeyValue toKV(String string, UUID randomUUID) {
-		KeyValue kv = new KeyValue();
-		kv.put(string, randomUUID);
-		return null;
+	@Override
+	public Leg assignAsset(LegEvent body, String acceptLanguage, String id, String maasId) {
+		Leg leg = repository.getLeg(id);
+		Asset asset = new Asset();
+		asset.setId(id);
+		leg.setAsset(asset);
+		repository.saveLegEvent(id, body);
+		return leg;
 	}
 
 	@Override
-	public Execution assignAsset(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg reserve(LegEvent body, String acceptLanguage, String id, String maasId) {
 		Leg leg = repository.getLeg(id);
+		Asset asset = new Asset();
+		asset.setId(id);
+		leg.setAsset(asset);
 		repository.saveLegEvent(id, body);
-		return toExecution(leg);
+		return leg;
 	}
 
 	@Override
-	public Execution reserve(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
-		Leg leg = repository.getLeg(id);
+	public Leg setInUse(LegEvent body, String acceptLanguage, String id, String maasId) {
+		Leg execution = repository.getLeg(id);
+		Suboperator suboperator = new Suboperator();
+		suboperator.setMaasId(maasId);
+		execution.setSuboperator(suboperator);
+		if (execution.getAsset() == null && body.getAsset() != null) {
+			execution.setAsset(body.getAsset());
+		}
+		execution.setFrom(body.getAsset().getProperties().getLocation());
+		execution.setDepartureTime(body.getTime());
 		repository.saveLegEvent(id, body);
-		return toExecution(leg);
-	}
-
-	private Execution toExecution(Leg leg) {
-		Execution execution = new Execution();
-		execution.setAgencyId(configuration.getMaasId());
-		execution.setStartTime(leg.getStartTime());
-		execution.setEndTime(leg.getEndTime());
-		execution.setFrom(toPlace(leg.getFrom()));
-		execution.setTo(toPlace(leg.getTo()));
-		return execution;
-	}
-
-	private Place toPlace(Coordinates coordinate) {
-		Place place = new Place();
-		place.setCoordinates(coordinate);
-		return place;
-	}
-
-	@Override
-	public Execution setInUse(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
-		Leg leg = repository.getLeg(id);
-		Execution execution = toExecution(leg);
-		execution.setAgencyId(maasId);
-		execution.setFrom(body.getAsset().getPlace());
-		leg.setStartTime(body.getTime());
-		repository.saveLegEvent(id, body);
-		execution.setState(ExecutionState.IN_USE);
+		execution.setState(LegState.IN_USE);
 		createJournalItem(id, execution, body, maasId);
 		return execution;
 	}
 
 	@Override
-	public Execution pause(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg pause(LegEvent body, String acceptLanguage, String id, String maasId) {
 		Leg leg = repository.getLeg(id);
-		Execution execution = toExecution(leg);
-		execution.setState(ExecutionState.PAUSED);
+		leg.setState(LegState.PAUSED);
 		repository.saveLegEvent(id, body);
-		return execution;
+		return leg;
 	}
 
 	@Override
-	public Execution startFinishing(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg startFinishing(LegEvent body, String acceptLanguage, String id, String maasId) {
 		Leg leg = repository.getLeg(id);
-		Execution execution = toExecution(leg);
-		execution.setState(ExecutionState.FINISHING);
+		leg.setState(LegState.FINISHING);
 		repository.saveLegEvent(id, body);
-		return execution;
+		return leg;
 	}
 
 	@Override
-	public Execution finish(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg finish(LegEvent body, String acceptLanguage, String id, String maasId) {
 		Leg leg = repository.getLeg(id);
-		Execution execution = toExecution(leg);
-		execution.setState(ExecutionState.FINISHED);
-		execution.setTo(body.getAsset().getPlace());
-		execution.setEndTime(body.getTime());
-		execution.setFare(leg.getPricing());
-		execution.getFare().setEstimated(false);
-		finaliseJournalItem(id, execution, body, maasId);
+		leg.setState(LegState.FINISHED);
+		leg.setTo(body.getAsset().getProperties().getLocation());
+		leg.setArrivalTime(body.getTime());
+		leg.setPricing(leg.getPricing());
+		leg.getPricing().setEstimated(false);
+		finaliseJournalItem(id, leg, body, maasId);
 		repository.saveLegEvent(id, body);
-		return execution;
+		return leg;
 	}
 
-	private void createJournalItem(String id, Execution execution, ExecutionEvent body, String maasId) {
+	private void createJournalItem(String id, Leg execution, LegEvent body, String maasId) {
 		JournalEntry entry = new JournalEntry();
 		entry.setJournalId(id);
 		entry.setState(null);
 		repository.saveJournalEntry(entry, maasId);
 	}
 
-	private BigDecimal calculateFare(Execution execution) {
+	private BigDecimal calculateFare(Leg execution) {
 		double amount = 0;
-		Fare fare = execution.getFare();
+		Fare fare = execution.getPricing();
 
 		for (FarePart part : fare.getParts()) {
 			switch (part.getType()) {
@@ -168,31 +153,31 @@ public class GenericTripExecutionProvider implements TripExecutionProvider {
 		return BigDecimal.valueOf(amount);
 	}
 
-	private double calculateFlexPart(FarePart part, Execution execution) {
+	private double calculateFlexPart(FarePart part, Leg execution) {
 		double amount = part.getAmount().doubleValue();
 		switch (part.getUnitType()) {
 		case HOUR:
-			return ChronoUnit.HOURS.between(execution.getStartTime(), execution.getEndTime());
+			return ChronoUnit.HOURS.between(execution.getDepartureTime(), execution.getArrivalTime());
 		case KM:
 			return amount * (execution.getDistance().doubleValue() / 1000);
 		case MILE:
 			return amount * (execution.getDistance().doubleValue() / 1609);
 		case MINUTE:
-			return ChronoUnit.MINUTES.between(execution.getStartTime(), execution.getEndTime());
+			return ChronoUnit.MINUTES.between(execution.getDepartureTime(), execution.getArrivalTime());
 		case PERCENTAGE:
 			break;
 		case SECOND:
-			return ChronoUnit.SECONDS.between(execution.getStartTime(), execution.getEndTime());
+			return ChronoUnit.SECONDS.between(execution.getDepartureTime(), execution.getArrivalTime());
 		default:
 			break;
 		}
 		return 0;
 	}
 
-	private void finaliseJournalItem(String id, Execution execution, ExecutionEvent legEvent, String maasId) {
+	private void finaliseJournalItem(String id, Leg execution, LegEvent legEvent, String maasId) {
 		JournalEntry entry = repository.getLastStartJournalEntry(maasId, id);
-		entry.setUsedTime(
-				BigDecimal.valueOf(ChronoUnit.SECONDS.between(execution.getStartTime(), execution.getEndTime())));
+		entry.setUsedTime(BigDecimal
+				.valueOf(ChronoUnit.SECONDS.between(execution.getDepartureTime(), execution.getArrivalTime())));
 		entry.setDistance(calculateDistance(entry, legEvent));
 		BigDecimal amount = calculateFare(execution);
 		entry.setAmount(amount);
@@ -205,10 +190,10 @@ public class GenericTripExecutionProvider implements TripExecutionProvider {
 		entry.setState(JournalState.TO_INVOICE);
 	}
 
-	private BigDecimal calculateDistance(JournalEntry entry, ExecutionEvent legEvent) {
-		List<ExecutionEvent> legEvents = repository.getLegEvents(entry.getJournalId());
-		Coordinates coordinates = legEvents.get(0).getAsset().getPlace().getCoordinates();
-		Coordinates coordinates2 = legEvent.getAsset().getPlace().getCoordinates();
+	private BigDecimal calculateDistance(JournalEntry entry, LegEvent legEvent) {
+		List<LegEvent> legEvents = repository.getLegEvents(entry.getJournalId());
+		Coordinates coordinates = legEvents.get(0).getAsset().getProperties().getLocation().getCoordinates();
+		Coordinates coordinates2 = legEvent.getAsset().getProperties().getLocation().getCoordinates();
 
 		BigDecimal lat = coordinates.getLat().subtract(coordinates2.getLat()).abs();
 		BigDecimal lon = coordinates.getLng().subtract(coordinates2.getLng()).abs();

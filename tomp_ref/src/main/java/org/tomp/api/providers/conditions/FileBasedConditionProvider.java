@@ -21,7 +21,6 @@ public class FileBasedConditionProvider implements ConditionProvider {
 	@Autowired
 	protected ExternalConfiguration configuration;
 
-	@Override
 	public List<Condition> getConditions(String acceptLanguage) {
 		ObjectFromFileProvider<Condition[]> conditionFileProvider = new ObjectFromFileProvider<>();
 		Condition[] conditions = conditionFileProvider.getObject(acceptLanguage, Condition[].class,
@@ -34,9 +33,9 @@ public class FileBasedConditionProvider implements ConditionProvider {
 	}
 
 	@Override
-	public List<String> getApplyingConditions(String acceptLanguage, Leg result) {
+	public List<Condition> getApplyingConditions(String acceptLanguage, Leg result) {
 		Random r = new Random();
-		return getConditions(acceptLanguage).stream().filter(x -> r.nextBoolean()).map(Condition::getId).collect(Collectors.toList());
+		return getConditions(acceptLanguage).stream().filter(x -> r.nextBoolean()).collect(Collectors.toList());
 	}
 
 }

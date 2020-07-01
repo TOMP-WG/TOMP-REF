@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "in case the TO demands a upfront payment before usage. The payment should be made in the booking phase.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T15:19:29.217Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:48:03.908Z[GMT]")
 public class ConditionUpfrontPayment extends Condition implements OneOfcondition {
 
   @Override

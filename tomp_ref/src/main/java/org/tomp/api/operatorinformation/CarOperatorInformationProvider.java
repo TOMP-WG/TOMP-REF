@@ -13,6 +13,7 @@ import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.providers.assets.AssetProvider;
 import org.tomp.api.utils.ObjectFromFileProvider;
 
+import io.swagger.model.AssetType;
 import io.swagger.model.Day;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
@@ -24,8 +25,6 @@ import io.swagger.model.SystemHours;
 import io.swagger.model.SystemInformation;
 import io.swagger.model.SystemPricingPlan;
 import io.swagger.model.SystemRegion;
-import io.swagger.model.Time;
-import io.swagger.model.TypeOfAsset;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.operatorinformation", havingValue = "car", matchIfMissing = false)
@@ -38,7 +37,7 @@ public class CarOperatorInformationProvider implements OperatorInformationProvid
 	AssetProvider assetProvider;
 
 	@Override
-	public List<TypeOfAsset> getAvailableAssetTypes(String acceptLanguage) {
+	public List<AssetType> getAvailableAssetTypes(String acceptLanguage) {
 		return assetProvider.getAssetTypes();
 	}
 
@@ -112,21 +111,13 @@ public class CarOperatorInformationProvider implements OperatorInformationProvid
 	public List<SystemHours> getHours(String acceptLanguage) {
 		SystemHours weekHours = new SystemHours();
 		weekHours.setDays(Arrays.asList(Day.MON, Day.TUE, Day.WED, Day.THU, Day.FRI));
-		Time startTime = new Time();
-		startTime.setTime("08:00");
-		weekHours.setStartTime(startTime);
-		Time endTime = new Time();
-		endTime.setTime("18:00");
-		weekHours.setEndTime(endTime);
+		weekHours.setStartTime("08:00");
+		weekHours.setEndTime("18:00");
 
 		SystemHours hours = new SystemHours();
 		hours.setDays(Arrays.asList(Day.SAT));
-		startTime = new Time();
-		startTime.setTime("10:00");
-		hours.setStartTime(startTime);
-		endTime = new Time();
-		endTime.setTime("16:00");
-		hours.setEndTime(endTime);
+		hours.setStartTime("10:00");
+		hours.setEndTime("16:00");
 
 		return Arrays.asList(weekHours, hours);
 	}

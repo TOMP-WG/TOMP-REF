@@ -9,10 +9,10 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.AmountOfMoney;
 import io.swagger.model.BankAccount;
 import io.swagger.model.JournalCategory;
-import io.swagger.model.KeyValue;
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -75,7 +75,7 @@ public class ExtraCosts extends AmountOfMoney  {
 
   @JsonProperty("meta")
   @Valid
-  private List<KeyValue> meta = null;
+  private Map<String, Object> meta = null;
 
   public ExtraCosts category(JournalCategory category) {
     this.category = category;
@@ -176,16 +176,16 @@ public class ExtraCosts extends AmountOfMoney  {
     this.account = account;
   }
 
-  public ExtraCosts meta(List<KeyValue> meta) {
+  public ExtraCosts meta(Map<String, Object> meta) {
     this.meta = meta;
     return this;
   }
 
-  public ExtraCosts addMetaItem(KeyValue metaItem) {
+  public ExtraCosts putMetaItem(String key, Object metaItem) {
     if (this.meta == null) {
-      this.meta = new ArrayList<KeyValue>();
+      this.meta = new HashMap<String, Object>();
     }
-    this.meta.add(metaItem);
+    this.meta.put(key, metaItem);
     return this;
   }
 
@@ -194,12 +194,12 @@ public class ExtraCosts extends AmountOfMoney  {
    * @return meta
   **/
   @ApiModelProperty(value = "Arbitrary metadata that a TO can add, like voucher codes")
-      @Valid
-    public List<KeyValue> getMeta() {
+  
+    public Map<String, Object> getMeta() {
     return meta;
   }
 
-  public void setMeta(List<KeyValue> meta) {
+  public void setMeta(Map<String, Object> meta) {
     this.meta = meta;
   }
 

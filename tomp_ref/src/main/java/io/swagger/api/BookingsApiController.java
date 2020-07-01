@@ -2,7 +2,7 @@ package io.swagger.api;
 
 import io.swagger.model.Booking;
 import io.swagger.model.BookingOperation;
-import io.swagger.model.BookingOption;
+import io.swagger.model.BookingRequest;
 import io.swagger.model.BookingState;
 import io.swagger.model.Error;
 import io.swagger.model.Notification;
@@ -164,7 +164,7 @@ public class BookingsApiController implements BookingsApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Booking> bookingsPost(@ApiParam(value = "One of available legs, returned by /planning, with an ID." ,required=true )  @Valid @RequestBody BookingOption body
+    public ResponseEntity<Booking> bookingsPost(@ApiParam(value = "One of available legs, returned by /plannings, with an ID." ,required=true )  @Valid @RequestBody BookingRequest body
 ,@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion

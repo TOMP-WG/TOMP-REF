@@ -16,6 +16,8 @@ import org.tomp.api.utils.GeoUtil;
 
 import io.swagger.model.Asset;
 import io.swagger.model.AssetClass;
+import io.swagger.model.AssetProperties;
+import io.swagger.model.AssetType;
 import io.swagger.model.Coordinates;
 import io.swagger.model.Place;
 import io.swagger.model.StationInformation;
@@ -23,7 +25,6 @@ import io.swagger.model.SystemCalendar;
 import io.swagger.model.SystemHours;
 import io.swagger.model.SystemInformation;
 import io.swagger.model.SystemRegion;
-import io.swagger.model.TypeOfAsset;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.operatorinformation", havingValue = "gbfs", matchIfMissing = false)
@@ -61,35 +62,38 @@ public class GbfsRepository implements RegionContainer, StationContainer {
 		return regions;
 	}
 
-	public List<TypeOfAsset> getAssets() {
-		List<TypeOfAsset> assets = new ArrayList<>();
+	public List<AssetType> getAssets() {
+		List<AssetType> assets = new ArrayList<>();
 		if (bikesAtStations != null) {
 			for (HashMap<String, Object> e : this.bikesAtStations) {
-				TypeOfAsset assetType = new TypeOfAsset();
+				AssetType assetType = new AssetType();
 				String stationId = e.get("station_id").toString();
 				Asset assetsItem = new Asset();
 				assetType.addAssetsItem(assetsItem);
 
 				copyStationValues(stationId, assetType);
 
-				assetType.setName("Station " + stationId);
+				AssetProperties sharedProperties = new AssetProperties();
+				assetType.setSharedProperties(sharedProperties);
+				sharedProperties.setName("Station " + stationId);
 				assetType.setAssetClass(AssetClass.BICYCLE);
-				assetType.setAmountAvailable(
-						BigDecimal.valueOf(Double.valueOf(e.get("num_bikes_available").toString())));
+				assetType.setNrAvailable(Integer.valueOf(e.get("num_bikes_available").toString()));
 
 				assets.add(assetType);
 			}
 		}
 
 		if (freeBikes != null) {
-			TypeOfAsset assetType = new TypeOfAsset();
+			AssetType assetType = new AssetType();
 			assetType.setAssetClass(AssetClass.BICYCLE);
 
 			for (HashMap<String, Object> e : freeBikes) {
 				Asset asset = new Asset();
-				asset.setName("Bike " + e.get("bike_id"));
-				asset.setAssetId(e.get("bike_id").toString());
-				asset.setPlace(toPlace(e.get("lat"), e.get("lon")));
+				AssetProperties properties = new AssetProperties();
+				asset.setProperties(properties);
+				properties.setName("Bike " + e.get("bike_id"));
+				asset.setId(e.get("bike_id").toString());
+				properties.setLocation(toPlace(e.get("lat"), e.get("lon")));
 				assetType.addAssetsItem(asset);
 			}
 			assets.add(assetType);
@@ -97,7 +101,7 @@ public class GbfsRepository implements RegionContainer, StationContainer {
 		return assets;
 	}
 
-	private void copyStationValues(String stationId, TypeOfAsset assetType) {
+	private void copyStationValues(String stationId, AssetType assetType) {
 		for (StationInformation station : getStations()) {
 			if (station.getStationId().equals(stationId)) {
 				Place place = new Place();
@@ -105,7 +109,7 @@ public class GbfsRepository implements RegionContainer, StationContainer {
 				place.setStationId(stationId);
 				place.setName(station.getName());
 				place.setPhysicalAddress(station.getPhysicalAddress());
-				assetType.getAssets().get(0).setPlace(place);
+				assetType.getAssets().get(0).getProperties().setLocation(place);
 			}
 		}
 	}
@@ -148,29 +152,31 @@ public class GbfsRepository implements RegionContainer, StationContainer {
 		this.freeBikes = freeBikes;
 	}
 
-	public List<TypeOfAsset> getNearestAssets(@NotNull @Valid Place from, @Valid BigDecimal radius) {
-		List<TypeOfAsset> results = new ArrayList<>();
-		for (TypeOfAsset assetType : getAssets()) {
-			if (assetType.getAmountAvailable() == null) {
+	public List<AssetType> getNearestAssets(@NotNull @Valid Place from, @Valid BigDecimal radius) {
+		List<AssetType> results = new ArrayList<>();
+		for (AssetType assetType : getAssets()) {
+			if (assetType.getNrAvailable() == null) {
 				for (Asset asset : assetType.getAssets()) {
-					if (GeoUtil.isNearby(asset.getPlace().getCoordinates(), from.getCoordinates(),
+					if (GeoUtil.isNearby(asset.getProperties().getLocation().getCoordinates(), from.getCoordinates(),
 							radius.doubleValue())) {
-						TypeOfAsset clone = clone(assetType);
+						AssetType clone = clone(assetType);
 						clone.setAssets(Arrays.asList(asset));
 						results.add(clone);
 					}
 				}
-			} else if (GeoUtil.isNearby(assetType.getAssets().get(0).getPlace().getCoordinates(), from.getCoordinates(),
-					radius.doubleValue())) {
+			} else if (GeoUtil.isNearby(assetType.getAssets().get(0).getProperties().getLocation().getCoordinates(),
+					from.getCoordinates(), radius.doubleValue())) {
 				results.add(assetType);
 			}
 		}
 		return results;
 	}
 
-	private TypeOfAsset clone(TypeOfAsset assetType) {
-		TypeOfAsset typeOfAsset = new TypeOfAsset();
-		typeOfAsset.setName(assetType.getName());
+	private AssetType clone(AssetType assetType) {
+		AssetType typeOfAsset = new AssetType();
+		AssetProperties sharedProperties = new AssetProperties();
+		sharedProperties.setName(assetType.getSharedProperties().getName());
+		typeOfAsset.setSharedProperties(sharedProperties);
 		return typeOfAsset;
 	}
 }

@@ -7,7 +7,7 @@ import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Polygon;
+import io.swagger.model.GeojsonPolygon;
 
 /**
  * MaasOperator
@@ -33,7 +33,7 @@ public class MaasOperator {
 	private String validationToken = null;
 
 	@JsonProperty("servicedArea")
-	private Polygon servicedArea = null;
+	private GeojsonPolygon servicedArea = null;
 
 	public MaasOperator id(String id) {
 		this.id = id;
@@ -156,7 +156,7 @@ public class MaasOperator {
 		this.validationToken = validationToken;
 	}
 
-	public MaasOperator servicedArea(Polygon servicedArea) {
+	public MaasOperator servicedArea(GeojsonPolygon servicedArea) {
 		this.servicedArea = servicedArea;
 		return this;
 	}
@@ -169,11 +169,11 @@ public class MaasOperator {
 	@ApiModelProperty(value = "")
 
 	@Valid
-	public Polygon getServicedArea() {
+	public GeojsonPolygon getServicedArea() {
 		return servicedArea;
 	}
 
-	public void setServicedArea(Polygon servicedArea) {
+	public void setServicedArea(GeojsonPolygon servicedArea) {
 		this.servicedArea = servicedArea;
 	}
 

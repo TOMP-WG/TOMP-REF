@@ -7,11 +7,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Address;
 import io.swagger.model.Card;
+import io.swagger.model.CardType;
 import io.swagger.model.License;
+import io.swagger.model.LicenseType;
 import io.swagger.model.Phone;
 import io.swagger.model.Requirements;
-import io.swagger.model.User;
-import java.math.BigDecimal;
+import io.swagger.model.Traveler;
 import java.util.ArrayList;
 import java.util.List;
 import org.threeten.bp.LocalDate;
@@ -20,12 +21,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * a person that wants to travel. Only use the properties that are needed.
+ * A MaaS user that wishes to make a booking, only use the fields required by booking conditions
  */
-@ApiModel(description = "a person that wants to travel. Only use the properties that are needed.")
+@ApiModel(description = "A MaaS user that wishes to make a booking, only use the fields required by booking conditions")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
-public class Customer extends User  {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:11:18.823Z[GMT]")
+public class Customer extends Traveler  {
   @JsonProperty("id")
   private String id = null;
 
@@ -62,6 +63,14 @@ public class Customer extends User  {
 
   @JsonProperty("photo")
   private byte[] photo = null;
+
+  @JsonProperty("cards")
+  @Valid
+  private List<Card> cards = null;
+
+  @JsonProperty("licenses")
+  @Valid
+  private List<License> licenses = null;
 
   public Customer id(String id) {
     this.id = id;
@@ -302,6 +311,60 @@ public class Customer extends User  {
     this.photo = photo;
   }
 
+  public Customer cards(List<Card> cards) {
+    this.cards = cards;
+    return this;
+  }
+
+  public Customer addCardsItem(Card cardsItem) {
+    if (this.cards == null) {
+      this.cards = new ArrayList<Card>();
+    }
+    this.cards.add(cardsItem);
+    return this;
+  }
+
+  /**
+   * Get cards
+   * @return cards
+  **/
+  @ApiModelProperty(value = "")
+      @Valid
+    public List<Card> getCards() {
+    return cards;
+  }
+
+  public void setCards(List<Card> cards) {
+    this.cards = cards;
+  }
+
+  public Customer licenses(List<License> licenses) {
+    this.licenses = licenses;
+    return this;
+  }
+
+  public Customer addLicensesItem(License licensesItem) {
+    if (this.licenses == null) {
+      this.licenses = new ArrayList<License>();
+    }
+    this.licenses.add(licensesItem);
+    return this;
+  }
+
+  /**
+   * Get licenses
+   * @return licenses
+  **/
+  @ApiModelProperty(value = "")
+      @Valid
+    public List<License> getLicenses() {
+    return licenses;
+  }
+
+  public void setLicenses(List<License> licenses) {
+    this.licenses = licenses;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -324,12 +387,14 @@ public class Customer extends User  {
         Objects.equals(this.birthDate, customer.birthDate) &&
         Objects.equals(this.address, customer.address) &&
         Objects.equals(this.photo, customer.photo) &&
+        Objects.equals(this.cards, customer.cards) &&
+        Objects.equals(this.licenses, customer.licenses) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, initials, firstName, lastName, middleName, prefix, postfix, phones, email, birthDate, address, photo, super.hashCode());
+    return Objects.hash(id, initials, firstName, lastName, middleName, prefix, postfix, phones, email, birthDate, address, photo, cards, licenses, super.hashCode());
   }
 
   @Override
@@ -349,6 +414,8 @@ public class Customer extends User  {
     sb.append("    birthDate: ").append(toIndentedString(birthDate)).append("\n");
     sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("    photo: ").append(toIndentedString(photo)).append("\n");
+    sb.append("    cards: ").append(toIndentedString(cards)).append("\n");
+    sb.append("    licenses: ").append(toIndentedString(licenses)).append("\n");
     sb.append("}");
     return sb.toString();
   }

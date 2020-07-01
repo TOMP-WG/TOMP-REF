@@ -11,7 +11,7 @@ import io.swagger.model.Leg;
 public class LegUtil {
 
 	public double getDuration(Leg leg) {
-		return ChronoUnit.MILLIS.between(leg.getStartTime(), leg.getStartTime());
+		return ChronoUnit.MILLIS.between(leg.getDepartureTime(), leg.getArrivalTime());
 	}
 
 	public double getDistance(@Valid Leg leg) {

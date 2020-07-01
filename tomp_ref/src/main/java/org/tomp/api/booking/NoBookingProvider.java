@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import io.swagger.model.Booking;
 import io.swagger.model.BookingOperation;
-import io.swagger.model.BookingOption;
+import io.swagger.model.BookingRequest;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.booking", havingValue = "none", matchIfMissing = false)
@@ -22,7 +22,7 @@ public class NoBookingProvider implements BookingProvider {
 	}
 
 	@Override
-	public Booking addNewBooking(@Valid BookingOption body, String acceptLanguage) {
+	public Booking addNewBooking(@Valid BookingRequest body, String acceptLanguage) {
 		throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
 	}
 

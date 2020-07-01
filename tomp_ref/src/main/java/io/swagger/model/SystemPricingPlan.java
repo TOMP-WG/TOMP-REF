@@ -102,7 +102,8 @@ public class SystemPricingPlan   {
    * Get fare
    * @return fare
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
   
     @Valid
     public Fare getFare() {

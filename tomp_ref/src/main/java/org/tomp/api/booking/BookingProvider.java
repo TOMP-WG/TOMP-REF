@@ -5,13 +5,13 @@ import javax.validation.Valid;
 
 import io.swagger.model.Booking;
 import io.swagger.model.BookingOperation;
-import io.swagger.model.BookingOption;
+import io.swagger.model.BookingRequest;
 
 public interface BookingProvider {
 
 	void setRequest(HttpServletRequest request);
 
-	Booking addNewBooking(@Valid BookingOption body, String acceptLanguage);
+	Booking addNewBooking(@Valid BookingRequest body, String acceptLanguage);
 
 	Booking addNewBookingEvent(BookingOperation body, String acceptLanguage, String id);
 
@@ -20,5 +20,5 @@ public interface BookingProvider {
 	void subscribeToBookings(String acceptLanguage, String api, String apiVersion, String id, @Valid Booking body);
 
 	void unsubscribeToBookings(String acceptLanguage, String api, String apiVersion, String id);
-	
+
 }

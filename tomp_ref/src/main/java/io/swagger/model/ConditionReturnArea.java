@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Condition;
 import io.swagger.model.Coordinates;
-import io.swagger.model.Polygon;
+import io.swagger.model.GeojsonPolygon;
 import io.swagger.model.SystemHours;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +20,13 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "a return area. In the condition list there can be multiple return area's.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T15:19:29.217Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:48:03.908Z[GMT]")
 public class ConditionReturnArea extends Condition implements OneOfcondition {
   @JsonProperty("stationId")
   private String stationId = null;
 
   @JsonProperty("returnArea")
-  private Polygon returnArea = null;
+  private GeojsonPolygon returnArea = null;
 
   @JsonProperty("coordinates")
   private Coordinates coordinates = null;
@@ -54,7 +54,7 @@ public class ConditionReturnArea extends Condition implements OneOfcondition {
     this.stationId = stationId;
   }
 
-  public ConditionReturnArea returnArea(Polygon returnArea) {
+  public ConditionReturnArea returnArea(GeojsonPolygon returnArea) {
     this.returnArea = returnArea;
     return this;
   }
@@ -66,11 +66,11 @@ public class ConditionReturnArea extends Condition implements OneOfcondition {
   @ApiModelProperty(value = "")
   
     @Valid
-    public Polygon getReturnArea() {
+    public GeojsonPolygon getReturnArea() {
     return returnArea;
   }
 
-  public void setReturnArea(Polygon returnArea) {
+  public void setReturnArea(GeojsonPolygon returnArea) {
     this.returnArea = returnArea;
   }
 

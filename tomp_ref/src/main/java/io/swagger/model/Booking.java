@@ -5,65 +5,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Address;
-import io.swagger.model.BookingOption;
+import io.swagger.model.BookingRequest;
 import io.swagger.model.BookingState;
-import io.swagger.model.Condition;
 import io.swagger.model.Customer;
-import io.swagger.model.KeyValue;
-import io.swagger.model.Token;
+import io.swagger.model.Fare;
+import io.swagger.model.Leg;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * The booking information describing the state and details of the transaction
+ * The booking information describing the state and details of an agreed upon trip
  */
-@ApiModel(description = "The booking information describing the state and details of the transaction")
+@ApiModel(description = "The booking information describing the state and details of an agreed upon trip")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
-public class Booking extends BookingOption  {
-  @JsonProperty("id")
-  private String id = null;
-
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:11:18.823Z[GMT]")
+public class Booking extends BookingRequest  {
   @JsonProperty("state")
   private BookingState state = null;
 
-  @JsonProperty("conditions")
+  @JsonProperty("legs")
   @Valid
-  private List<Condition> conditions = null;
+  private List<Leg> legs = new ArrayList<Leg>();
 
-  @JsonProperty("token")
-  private Token token = null;
+  @JsonProperty("pricing")
+  private Fare pricing = null;
 
-  @JsonProperty("webhook")
-  private String webhook = null;
-
-  @JsonProperty("meta")
+  @JsonProperty("extraData")
   @Valid
-  private List<KeyValue> meta = null;
-
-  public Booking id(String id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * The identifier MaaS will be using to referring to the booking
-   * @return id
-  **/
-  @ApiModelProperty(required = true, value = "The identifier MaaS will be using to referring to the booking")
-      @NotNull
-
-    public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
+  private Map<String, Object> extraData = null;
 
   public Booking state(BookingState state) {
     this.state = state;
@@ -74,8 +48,7 @@ public class Booking extends BookingOption  {
    * Get state
    * @return state
   **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+  @ApiModelProperty(value = "")
 
     @Valid
     public BookingState getState() {
@@ -86,98 +59,76 @@ public class Booking extends BookingOption  {
     this.state = state;
   }
 
-  public Booking conditions(List<Condition> conditions) {
-    this.conditions = conditions;
+  public Booking legs(List<Leg> legs) {
+    this.legs = legs;
     return this;
   }
 
-  public Booking addConditionsItem(Condition conditionsItem) {
-    if (this.conditions == null) {
-      this.conditions = new ArrayList<Condition>();
-    }
-    this.conditions.add(conditionsItem);
+  public Booking addLegsItem(Leg legsItem) {
+    this.legs.add(legsItem);
     return this;
   }
 
   /**
-   * Get conditions
-   * @return conditions
+   * The legs of this booking, generally just one for simple legs, in order of how they will be travelled
+   * @return legs
+  **/
+  @ApiModelProperty(required = true, value = "The legs of this booking, generally just one for simple legs, in order of how they will be travelled")
+      @NotNull
+    @Valid
+    public List<Leg> getLegs() {
+    return legs;
+  }
+
+  public void setLegs(List<Leg> legs) {
+    this.legs = legs;
+  }
+
+  public Booking pricing(Fare pricing) {
+    this.pricing = pricing;
+    return this;
+  }
+
+  /**
+   * Get pricing
+   * @return pricing
   **/
   @ApiModelProperty(value = "")
-      @Valid
-    public List<Condition> getConditions() {
-    return conditions;
-  }
-
-  public void setConditions(List<Condition> conditions) {
-    this.conditions = conditions;
-  }
-
-  public Booking token(Token token) {
-    this.token = token;
-    return this;
-  }
-
-  /**
-   * Get token
-   * @return token
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
-
-    @Valid
-    public Token getToken() {
-    return token;
-  }
-
-  public void setToken(Token token) {
-    this.token = token;
-  }
-
-  public Booking webhook(String webhook) {
-    this.webhook = webhook;
-    return this;
-  }
-
-  /**
-   * in case this field is used, the webhook ``must`` be used to communicate, even though the URL of cancelling or expiring the booking is derivable.
-   * @return webhook
-  **/
-  @ApiModelProperty(example = "https://myserver.com/booking/{id}/events", value = "in case this field is used, the webhook ``must`` be used to communicate, even though the URL of cancelling or expiring the booking is derivable.")
   
-    public String getWebhook() {
-    return webhook;
+    @Valid
+    public Fare getPricing() {
+    return pricing;
   }
 
-  public void setWebhook(String webhook) {
-    this.webhook = webhook;
+  public void setPricing(Fare pricing) {
+    this.pricing = pricing;
   }
 
-  public Booking meta(List<KeyValue> meta) {
-    this.meta = meta;
+  public Booking extraData(Map<String, Object> extraData) {
+    this.extraData = extraData;
     return this;
   }
 
-  public Booking addMetaItem(KeyValue metaItem) {
-    if (this.meta == null) {
-      this.meta = new ArrayList<KeyValue>();
+  public Booking putExtraDataItem(String key, Object extraDataItem) {
+    if (this.extraData == null) {
+      this.extraData = new HashMap<String, Object>();
     }
-    this.meta.add(metaItem);
+    this.extraData.put(key, extraDataItem);
     return this;
   }
 
   /**
-   * Arbitrary metadata that a TO can add
-   * @return meta
+   * Arbitrary information that a TO can add
+   * @return extraData
   **/
-  @ApiModelProperty(value = "Arbitrary metadata that a TO can add")
-      @Valid
-    public List<KeyValue> getMeta() {
-    return meta;
+  @ApiModelProperty(value = "Arbitrary information that a TO can add")
+  
+    public Map<String, Object> getExtraData() {
+    return extraData;
   }
 
-  public void setMeta(List<KeyValue> meta) {
-    this.meta = meta;
+  public void setExtraData(Map<String, Object> extraData) {
+    this.extraData = extraData;
   }
 
 
@@ -190,18 +141,16 @@ public class Booking extends BookingOption  {
       return false;
     }
     Booking booking = (Booking) o;
-    return Objects.equals(this.id, booking.id) &&
-        Objects.equals(this.state, booking.state) &&
-        Objects.equals(this.conditions, booking.conditions) &&
-        Objects.equals(this.token, booking.token) &&
-        Objects.equals(this.webhook, booking.webhook) &&
-        Objects.equals(this.meta, booking.meta) &&
+    return Objects.equals(this.state, booking.state) &&
+        Objects.equals(this.legs, booking.legs) &&
+        Objects.equals(this.pricing, booking.pricing) &&
+        Objects.equals(this.extraData, booking.extraData) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, state, conditions, token, webhook, meta, super.hashCode());
+    return Objects.hash(state, legs, pricing, extraData, super.hashCode());
   }
 
   @Override
@@ -209,12 +158,10 @@ public class Booking extends BookingOption  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Booking {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    state: ").append(toIndentedString(state)).append("\n");
-    sb.append("    conditions: ").append(toIndentedString(conditions)).append("\n");
-    sb.append("    token: ").append(toIndentedString(token)).append("\n");
-    sb.append("    webhook: ").append(toIndentedString(webhook)).append("\n");
-    sb.append("    meta: ").append(toIndentedString(meta)).append("\n");
+    sb.append("    legs: ").append(toIndentedString(legs)).append("\n");
+    sb.append("    pricing: ").append(toIndentedString(pricing)).append("\n");
+    sb.append("    extraData: ").append(toIndentedString(extraData)).append("\n");
     sb.append("}");
     return sb.toString();
   }

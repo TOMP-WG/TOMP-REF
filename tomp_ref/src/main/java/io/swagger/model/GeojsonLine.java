@@ -2,17 +2,20 @@ package io.swagger.model;
 
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
+import io.swagger.model.GeojsonPoint;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * timestamp according to ISO 8601 (RFC3339)
+ * An array  of WGS84 coordinate pairs
  */
-@ApiModel(description = "timestamp according to ISO 8601 (RFC3339)")
+@ApiModel(description = "An array  of WGS84 coordinate pairs")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
-public class Timestamp   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-01T13:52:55.748Z[GMT]")
+public class GeojsonLine extends ArrayList<GeojsonPoint>  {
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -27,14 +30,14 @@ public class Timestamp   {
 
   @Override
   public int hashCode() {
-    return Objects.hash();
+    return Objects.hash(super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Timestamp {\n");
-    
+    sb.append("class GeojsonLine {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("}");
     return sb.toString();
   }

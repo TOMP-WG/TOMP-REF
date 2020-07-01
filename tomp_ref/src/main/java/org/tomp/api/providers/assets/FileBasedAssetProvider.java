@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.utils.ObjectFromFileProvider;
 
-import io.swagger.model.TypeOfAsset;
+import io.swagger.model.AssetType;
 
 @Component
 @ConditionalOnProperty(value = "tomp.asset-file", matchIfMissing = false)
@@ -20,20 +20,20 @@ public class FileBasedAssetProvider implements AssetProvider {
 	@Autowired
 	ExternalConfiguration configuration;
 
-	public List<TypeOfAsset> getAssetTypes() {
-		ObjectFromFileProvider<TypeOfAsset[]> provider = new ObjectFromFileProvider<>();
+	public List<AssetType> getAssetTypes() {
+		ObjectFromFileProvider<AssetType[]> provider = new ObjectFromFileProvider<>();
 		String assetFile = configuration.getAssetFile();
-		TypeOfAsset[] assets = provider.getObject("", TypeOfAsset[].class, assetFile);
-		ArrayList<TypeOfAsset> list = new ArrayList<>();
+		AssetType[] assets = provider.getObject("", AssetType[].class, assetFile);
+		ArrayList<AssetType> list = new ArrayList<>();
 		Collections.addAll(list, assets);
 		return list;
 	}
 
-	public TypeOfAsset getTypeOfAsset() {
-		ObjectFromFileProvider<TypeOfAsset[]> provider = new ObjectFromFileProvider<>();
-		ArrayList<TypeOfAsset> list = new ArrayList<>();
+	public AssetType getTypeOfAsset() {
+		ObjectFromFileProvider<AssetType[]> provider = new ObjectFromFileProvider<>();
+		ArrayList<AssetType> list = new ArrayList<>();
 		String assetFile = configuration.getAssetFile();
-		TypeOfAsset[] assets = provider.getObject("", TypeOfAsset[].class, assetFile);
+		AssetType[] assets = provider.getObject("", AssetType[].class, assetFile);
 		Collections.addAll(list, assets);
 		int randomItem = new Random().nextInt(list.size());
 		return list.get(randomItem);

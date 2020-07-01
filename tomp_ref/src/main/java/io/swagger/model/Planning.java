@@ -5,8 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Condition;
-import io.swagger.model.Leg;
+import io.swagger.model.Booking;
+import io.swagger.model.Place;
+import io.swagger.model.PlanningRequest;
+import io.swagger.model.Traveler;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.threeten.bp.OffsetDateTime;
@@ -15,22 +18,18 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Available option matching the query.
+ * A travel planning with bookable options that fulfil the constraints of the planning
  */
-@ApiModel(description = "Available option matching the query.")
+@ApiModel(description = "A travel planning with bookable options that fulfil the constraints of the planning")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T13:55:00.069Z[GMT]")
-public class Planning   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:11:18.823Z[GMT]")
+public class Planning extends PlanningRequest  {
   @JsonProperty("validUntil")
   private OffsetDateTime validUntil = null;
 
-  @JsonProperty("conditions")
+  @JsonProperty("options")
   @Valid
-  private List<Condition> conditions = new ArrayList<Condition>();
-
-  @JsonProperty("legOptions")
-  @Valid
-  private List<Leg> legOptions = new ArrayList<Leg>();
+  private List<Booking> options = new ArrayList<Booking>();
 
   public Planning validUntil(OffsetDateTime validUntil) {
     this.validUntil = validUntil;
@@ -38,10 +37,10 @@ public class Planning   {
   }
 
   /**
-   * Get validUntil
+   * The time until which the presented options are (likely) available
    * @return validUntil
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(required = true, value = "The time until which the presented options are (likely) available")
       @NotNull
 
     @Valid
@@ -53,54 +52,29 @@ public class Planning   {
     this.validUntil = validUntil;
   }
 
-  public Planning conditions(List<Condition> conditions) {
-    this.conditions = conditions;
+  public Planning options(List<Booking> options) {
+    this.options = options;
     return this;
   }
 
-  public Planning addConditionsItem(Condition conditionsItem) {
-    this.conditions.add(conditionsItem);
-    return this;
-  }
-
-  /**
-   * An array of the conditions that apply to at least one of the leg options
-   * @return conditions
-  **/
-  @ApiModelProperty(required = true, value = "An array of the conditions that apply to at least one of the leg options")
-      @NotNull
-    @Valid
-    public List<Condition> getConditions() {
-    return conditions;
-  }
-
-  public void setConditions(List<Condition> conditions) {
-    this.conditions = conditions;
-  }
-
-  public Planning legOptions(List<Leg> legOptions) {
-    this.legOptions = legOptions;
-    return this;
-  }
-
-  public Planning addLegOptionsItem(Leg legOptionsItem) {
-    this.legOptions.add(legOptionsItem);
+  public Planning addOptionsItem(Booking optionsItem) {
+    this.options.add(optionsItem);
     return this;
   }
 
   /**
-   * Legs the TO has found that match the planning request
-   * @return legOptions
+   * Get options
+   * @return options
   **/
-  @ApiModelProperty(required = true, value = "Legs the TO has found that match the planning request")
+  @ApiModelProperty(required = true, value = "")
       @NotNull
     @Valid
-    public List<Leg> getLegOptions() {
-    return legOptions;
+    public List<Booking> getOptions() {
+    return options;
   }
 
-  public void setLegOptions(List<Leg> legOptions) {
-    this.legOptions = legOptions;
+  public void setOptions(List<Booking> options) {
+    this.options = options;
   }
 
 
@@ -114,23 +88,22 @@ public class Planning   {
     }
     Planning planning = (Planning) o;
     return Objects.equals(this.validUntil, planning.validUntil) &&
-        Objects.equals(this.conditions, planning.conditions) &&
-        Objects.equals(this.legOptions, planning.legOptions);
+        Objects.equals(this.options, planning.options) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(validUntil, conditions, legOptions);
+    return Objects.hash(validUntil, options, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Planning {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    validUntil: ").append(toIndentedString(validUntil)).append("\n");
-    sb.append("    conditions: ").append(toIndentedString(conditions)).append("\n");
-    sb.append("    legOptions: ").append(toIndentedString(legOptions)).append("\n");
+    sb.append("    options: ").append(toIndentedString(options)).append("\n");
     sb.append("}");
     return sb.toString();
   }

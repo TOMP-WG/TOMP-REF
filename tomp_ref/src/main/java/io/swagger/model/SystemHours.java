@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Day;
-import io.swagger.model.Time;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -54,10 +53,10 @@ public class SystemHours   {
   private UserTypeEnum userType = null;
 
   @JsonProperty("startTime")
-  private Time startTime = null;
+  private String startTime = null;
 
   @JsonProperty("endTime")
-  private Time endTime = null;
+  private String endTime = null;
 
   @JsonProperty("days")
   @Valid
@@ -82,7 +81,7 @@ public class SystemHours   {
     this.userType = userType;
   }
 
-  public SystemHours startTime(Time startTime) {
+  public SystemHours startTime(String startTime) {
     this.startTime = startTime;
     return this;
   }
@@ -94,16 +93,15 @@ public class SystemHours   {
   @ApiModelProperty(required = true, value = "")
       @NotNull
 
-    @Valid
-    public Time getStartTime() {
+    public String getStartTime() {
     return startTime;
   }
 
-  public void setStartTime(Time startTime) {
+  public void setStartTime(String startTime) {
     this.startTime = startTime;
   }
 
-  public SystemHours endTime(Time endTime) {
+  public SystemHours endTime(String endTime) {
     this.endTime = endTime;
     return this;
   }
@@ -115,12 +113,11 @@ public class SystemHours   {
   @ApiModelProperty(required = true, value = "")
       @NotNull
 
-    @Valid
-    public Time getEndTime() {
+    public String getEndTime() {
     return endTime;
   }
 
-  public void setEndTime(Time endTime) {
+  public void setEndTime(String endTime) {
     this.endTime = endTime;
   }
 

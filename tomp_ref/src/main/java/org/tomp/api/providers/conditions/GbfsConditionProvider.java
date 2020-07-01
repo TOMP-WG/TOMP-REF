@@ -1,8 +1,8 @@
 package org.tomp.api.providers.conditions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -22,7 +22,6 @@ public class GbfsConditionProvider implements ConditionProvider {
 	@Autowired
 	GbfsRepository repository;
 
-	@Override
 	public List<Condition> getConditions(String acceptLanguage) {
 		ArrayList<Condition> conditions = new ArrayList<>();
 		for (StationInformation station : repository.getStations()) {
@@ -38,9 +37,10 @@ public class GbfsConditionProvider implements ConditionProvider {
 	}
 
 	@Override
-	public List<String> getApplyingConditions(String acceptLanguage, Leg leg) {
-		String fromStationId = leg.getAsset().getAssets().get(0).getPlace().getStationId();
-		return Arrays.asList("RA_" + fromStationId);
+	public List<Condition> getApplyingConditions(String acceptLanguage, Leg leg) {
+		String fromStationId = leg.getAssetType().getAssets().get(0).getProperties().getLocation().getStationId();
+		return getConditions(acceptLanguage).stream().filter(x -> x.getId().equals("RA_" + fromStationId))
+				.collect(Collectors.toList());
 	}
 
 }

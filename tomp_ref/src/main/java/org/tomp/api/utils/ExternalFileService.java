@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
 
-import io.swagger.model.Polygon;
+import io.swagger.model.GeojsonPolygon;
 
 @Component
 public class ExternalFileService {
@@ -20,9 +20,9 @@ public class ExternalFileService {
 		this.configuration = configuration;
 	}
 
-	public Polygon getArea() {
-		ObjectFromFileProvider<Polygon> areaProvider = new ObjectFromFileProvider<>();
-		return areaProvider.getObject("", Polygon.class, configuration.getAreaFile());
+	public GeojsonPolygon getArea() {
+		ObjectFromFileProvider<GeojsonPolygon> areaProvider = new ObjectFromFileProvider<>();
+		return areaProvider.getObject("", GeojsonPolygon.class, configuration.getAreaFile());
 	}
 
 	public String getVersions() throws IOException {

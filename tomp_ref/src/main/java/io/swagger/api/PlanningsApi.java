@@ -38,7 +38,7 @@ public interface PlanningsApi {
 @Authorization(value = "OpenId")    }, tags={ "planning","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The planning was found", response = Planning.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
         @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists."),
         @ApiResponse(code = 410, message = "The requested resource is no longer available. This is permanent.") })
     @RequestMapping(value = "/plannings/{id}",
@@ -61,8 +61,8 @@ public interface PlanningsApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "Available transport methods matching the given query parameters. If no transport methods are available, an empty array is returned.", response = Planning.class),
         @ApiResponse(code = 202, message = "Request was successfully accepted for processing but has not yet completed."),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class) })
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class) })
     @RequestMapping(value = "/plannings/",
         produces = { "application/json" }, 
         consumes = { "application/json" },

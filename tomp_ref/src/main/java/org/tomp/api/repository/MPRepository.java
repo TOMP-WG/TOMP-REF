@@ -20,8 +20,8 @@ public class MPRepository {
 	private static final Map<Booking, ArrayList<SimpleEntry<Booking, TransportOperator>>> bookings = new HashMap<>();
 	private static final Map<String, Leg> legs = new HashMap<>();
 
-	public void saveTrip(Leg leg, Trip trip) {
-		options.put(leg.getId(), trip);
+	public void saveBooking(Booking booking, Trip trip) {
+		options.put(booking.getId(), trip);
 	}
 
 	public Trip getTrip(String id) {

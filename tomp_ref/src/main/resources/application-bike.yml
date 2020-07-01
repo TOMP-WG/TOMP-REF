@@ -6,20 +6,23 @@ server:
    port: 8082
 tomp:
    maas-id: d52bfad0-ee4b-4f72-9f38-efce115ffb49
-   asset-file: src/main/resources/bikes.json
    lookup-service: http://localhost:7999/
    accept-language: nl
-   api-version: 0.6.0
+   api-version: 0.9.0
    allowUnknownOperators: true
    authenticationRequired: false
+
+   version-file: src/main/resources/versions.json
    
    system-information-file: src/main/resources/system-info-generic.json
-   condition-file: src/main/resources/conditions.json
    regions-file: src/main/resources/regions.json
    stations-file: src/main/resources/stations.json
    area-file: src/main/resources/area.json
+
+   asset-file: src/main/resources/bikes.json
+   condition-file: src/main/resources/conditions.json
+
    external-url: http://localhost:8082/
-   version-file: src/main/resources/versions.json
    expiration-days: 14
    currency-code: NL
    vat-rate: 21

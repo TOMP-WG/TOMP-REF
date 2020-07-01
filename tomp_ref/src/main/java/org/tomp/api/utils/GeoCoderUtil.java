@@ -22,7 +22,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.model.Address;
 import io.swagger.model.Coordinates;
-import io.swagger.model.Polygon;
+import io.swagger.model.GeojsonLine;
+import io.swagger.model.GeojsonPoint;
+import io.swagger.model.GeojsonPolygon;
 
 @Component
 public class GeoCoderUtil {
@@ -34,7 +36,7 @@ public class GeoCoderUtil {
 	ObjectMapper mapper = new ObjectMapper();
 
 	@SuppressWarnings("unchecked")
-	public Polygon getRegionByName(String name) {
+	public GeojsonPolygon getRegionByName(String name) {
 		String url = geoDecodeConfiguration.getEncodeUrl() + name;
 		try (InputStream is = new URL(url).openStream()) {
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
@@ -42,7 +44,7 @@ public class GeoCoderUtil {
 			HashMap<String, Object>[] results = mapper.readValue(jsonText, HashMap[].class);
 			if (results.length > 0) {
 				ArrayList<String> bb = (ArrayList<String>) results[0].get("boundingbox");
-				Polygon p = new Polygon();
+				GeojsonPolygon p = new GeojsonPolygon();
 				addPoint(bb, 2, 0, p);
 				addPoint(bb, 3, 0, p);
 				addPoint(bb, 3, 1, p);
@@ -93,11 +95,14 @@ public class GeoCoderUtil {
 		return sb.toString();
 	}
 
-	private void addPoint(ArrayList<String> bb, int indexLng, int indexLat, Polygon p) {
-		Coordinates c = new Coordinates();
-		c.setLat(BigDecimal.valueOf(Double.valueOf(bb.get(indexLat))));
-		c.setLng(BigDecimal.valueOf(Double.valueOf(bb.get(indexLng))));
-		p.addPointsItem(c);
+	private void addPoint(ArrayList<String> bb, int indexLng, int indexLat, GeojsonPolygon p) {
+		if (p.isEmpty()) {
+			p.add(new GeojsonLine());
+		}
+		GeojsonPoint c = new GeojsonPoint();
+		c.add(BigDecimal.valueOf(Double.valueOf(bb.get(indexLng))));
+		c.add(BigDecimal.valueOf(Double.valueOf(bb.get(indexLat))));
+		p.get(0).add(c);
 	}
 
 	public boolean isActive() {

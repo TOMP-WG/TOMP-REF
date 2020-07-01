@@ -23,10 +23,10 @@ import io.swagger.client.ApiException;
 import io.swagger.model.Booking;
 import io.swagger.model.BookingOperation;
 import io.swagger.model.BookingOperation.OperationEnum;
-import io.swagger.model.BookingOption;
+import io.swagger.model.BookingRequest;
 import io.swagger.model.BookingState;
 import io.swagger.model.Card;
-import io.swagger.model.Card.CardTypeEnum;
+import io.swagger.model.CardType.TypeEnum;
 import io.swagger.model.Condition;
 import io.swagger.model.ConditionRequireBookingData;
 import io.swagger.model.ConditionRequireBookingData.RequiredFieldsEnum;
@@ -46,7 +46,7 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 	ClientUtil clientUtil;
 
 	@Override
-	public Booking addNewBooking(@Valid BookingOption body, String acceptLanguage) {
+	public Booking addNewBooking(@Valid BookingRequest body, String acceptLanguage) {
 		log.info("Book option {}", body.getId());
 
 		Trip savedOption = maasRepository.getTrip(body.getId());
@@ -161,13 +161,13 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 		booking.setState(BookingState.CANCELLED);
 	}
 
-	private void commitAllLegs(BookingOption body, Trip savedOption, Booking booking) {
+	private void commitAllLegs(BookingRequest body, Trip savedOption, Booking booking) {
 		boolean allPending = true;
 		boolean cancelled = false;
 		for (Segment segment : savedOption.getSegments()) {
 			TransportOperator operator = segment.getOperators().iterator().next();
 			BookingOperation operation = new BookingOperation();
-			Leg planningResult = segment.getResult(operator).getLegOptions().get(0);
+			Booking planningResult = segment.getResult(operator).getOptions().get(0);
 			operation.setOperation(OperationEnum.COMMIT);
 			try {
 				Booking clientBooking = clientUtil.post(operator, "/bookings/" + planningResult.getId() + "/events/",
@@ -206,7 +206,7 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 		operation.setOperation(OperationEnum.CANCEL);
 		for (Segment segment : segments) {
 			TransportOperator operator = segment.getOperators().iterator().next();
-			Leg planningResult = segment.getResult(operator).getLegOptions().get(0);
+			Booking planningResult = segment.getResult(operator).getOptions().get(0);
 			try {
 				clientUtil.post(operator, "/bookings/" + planningResult.getId() + "/events/", operation, Booking.class);
 			} catch (ApiException e) {
@@ -215,13 +215,13 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 		}
 	}
 
-	private BookingState bookAllLegs(BookingOption body, Trip savedOption) {
+	private BookingState bookAllLegs(BookingRequest body, Trip savedOption) {
 		BookingState generalState = BookingState.PENDING;
 		for (Segment segment : savedOption.getSegments()) {
 			TransportOperator operator = segment.getOperators().iterator().next();
-			BookingOption option = new BookingOption();
+			BookingRequest option = new BookingRequest();
 			Planning result = segment.getResult(operator);
-			Leg simpleLeg = result.getLegOptions().get(0);
+			Booking simpleLeg = result.getOptions().get(0);
 			String id = simpleLeg.getId();
 			option.setId(id);
 			option.setCustomer(body.getCustomer());
@@ -243,23 +243,23 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 		return generalState;
 	}
 
-	private void addRequiredFields(BookingOption option, Planning result, Leg simpleLeg) {
-		for (String conditionName : simpleLeg.getConditions()) {
-			ConditionRequireBookingData condition = getRequireBookingDataCondition(result.getConditions(),
-					conditionName);
-			if (condition != null) {
-				for (RequiredFieldsEnum field : condition.getRequiredFields()) {
-					addRequiredField(option, field);
+	private void addRequiredFields(BookingRequest option, Planning result, Booking booking) {
+		for (Leg leg : booking.getLegs()) {
+			for (Condition condition : leg.getConditions()) {
+				if (condition instanceof ConditionRequireBookingData) {
+					for (RequiredFieldsEnum field : ((ConditionRequireBookingData) condition).getRequiredFields()) {
+						addRequiredField(option, field);
+					}
 				}
 			}
 		}
 	}
 
-	private void addRequiredField(BookingOption option, RequiredFieldsEnum field) {
+	private void addRequiredField(BookingRequest option, RequiredFieldsEnum field) {
 		switch (field) {
 		case BANK_CARDS:
 			Card card = new Card();
-			card.setCardType(CardTypeEnum.BANK);
+			card.setType(TypeEnum.BANK);
 			card.setCardNumber("NL21RABO43892222");
 			card.setCountry("NL");
 			option.getCustomer().setCards(Arrays.asList(card));
@@ -290,15 +290,5 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 			break;
 		}
 
-	}
-
-	private ConditionRequireBookingData getRequireBookingDataCondition(List<Condition> conditions,
-			String conditionName) {
-		for (Condition c : conditions) {
-			if (c instanceof ConditionRequireBookingData) {
-				return (ConditionRequireBookingData) c;
-			}
-		}
-		return null;
 	}
 }

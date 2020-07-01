@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Polygon;
+import io.swagger.model.GeojsonPolygon;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -23,7 +23,7 @@ public class SystemRegion   {
   private String name = null;
 
   @JsonProperty("serviceArea")
-  private Polygon serviceArea = null;
+  private GeojsonPolygon serviceArea = null;
 
   public SystemRegion regionId(String regionId) {
     this.regionId = regionId;
@@ -65,7 +65,7 @@ public class SystemRegion   {
     this.name = name;
   }
 
-  public SystemRegion serviceArea(Polygon serviceArea) {
+  public SystemRegion serviceArea(GeojsonPolygon serviceArea) {
     this.serviceArea = serviceArea;
     return this;
   }
@@ -77,11 +77,11 @@ public class SystemRegion   {
   @ApiModelProperty(value = "")
   
     @Valid
-    public Polygon getServiceArea() {
+    public GeojsonPolygon getServiceArea() {
     return serviceArea;
   }
 
-  public void setServiceArea(Polygon serviceArea) {
+  public void setServiceArea(GeojsonPolygon serviceArea) {
     this.serviceArea = serviceArea;
   }
 

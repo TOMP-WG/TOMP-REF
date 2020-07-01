@@ -42,15 +42,16 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.model.AssetClass;
+import io.swagger.model.AssetProperties;
 import io.swagger.model.Coordinates;
-import io.swagger.model.Polygon;
+import io.swagger.model.GeojsonPolygon;
 import io.swagger.model.StationInformation;
 import io.swagger.model.SystemCalendar;
 import io.swagger.model.SystemHours;
 import io.swagger.model.SystemInformation;
 import io.swagger.model.SystemPricingPlan;
 import io.swagger.model.SystemRegion;
-import io.swagger.model.TypeOfAsset;
+import io.swagger.model.AssetType;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.operatorinformation", havingValue = "parking", matchIfMissing = false)
@@ -208,9 +209,11 @@ public class ParkingOperatorInformationProvider implements OperatorInformationPr
 		return regionList;
 	}
 
-	private Polygon toServiceArea(BigDecimal[][][] area) {
-		Polygon p = new Polygon();
-		p.setPoints(toCoordinates(area));
+	private GeojsonPolygon toServiceArea(BigDecimal[][][] area) {
+		GeojsonPolygon p = new GeojsonPolygon();
+		for (Coordinates c : toCoordinates(area)) {
+			GeoUtil.addPoint(p, c.getLng(), c.getLat());
+		}
 		return p;
 	}
 
@@ -244,20 +247,22 @@ public class ParkingOperatorInformationProvider implements OperatorInformationPr
 	}
 
 	@Override
-	public List<TypeOfAsset> getAvailableAssetTypes(String acceptLanguage) {
-		List<TypeOfAsset> assets = new ArrayList<>();
+	public List<AssetType> getAvailableAssetTypes(String acceptLanguage) {
+		List<AssetType> assets = new ArrayList<>();
 		for (ParkingFacilityDynamicInformation data : repository.getDynamicData().values()) {
-			assets.add(convertToTypeOfAsset(data));
+			assets.add(convertToAssetType(data));
 		}
 
 		return assets;
 	}
 
-	private TypeOfAsset convertToTypeOfAsset(ParkingFacilityDynamicInformation data) {
-		TypeOfAsset type = new TypeOfAsset();
-		type.setName(data.getName());
+	private AssetType convertToAssetType(ParkingFacilityDynamicInformation data) {
+		AssetType type = new AssetType();
+		AssetProperties sharedProperties = new AssetProperties();
+		sharedProperties.setName(data.getName());
+		type.setSharedProperties(sharedProperties);
 		type.setAssetClass(AssetClass.PARKING);
-		type.setAmountAvailable(BigDecimal.valueOf(data.getFacilityActualStatus().getVacantSpaces()));
+		type.setNrAvailable((int) data.getFacilityActualStatus().getVacantSpaces());
 		return type;
 	}
 

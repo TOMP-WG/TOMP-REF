@@ -75,8 +75,8 @@ public class SupportRequest   {
   @JsonProperty("location")
   private Place location = null;
 
-  @JsonProperty("timestamp")
-  private OffsetDateTime timestamp = null;
+  @JsonProperty("time")
+  private OffsetDateTime time = null;
 
   /**
    * the priority of the support request.
@@ -184,24 +184,24 @@ public class SupportRequest   {
     this.location = location;
   }
 
-  public SupportRequest timestamp(OffsetDateTime timestamp) {
-    this.timestamp = timestamp;
+  public SupportRequest time(OffsetDateTime time) {
+    this.time = time;
     return this;
   }
 
   /**
-   * Get timestamp
-   * @return timestamp
+   * Get time
+   * @return time
   **/
   @ApiModelProperty(value = "")
   
     @Valid
-    public OffsetDateTime getTimestamp() {
-    return timestamp;
+    public OffsetDateTime getTime() {
+    return time;
   }
 
-  public void setTimestamp(OffsetDateTime timestamp) {
-    this.timestamp = timestamp;
+  public void setTime(OffsetDateTime time) {
+    this.time = time;
   }
 
   public SupportRequest priority(PriorityEnum priority) {
@@ -294,7 +294,7 @@ public class SupportRequest   {
     return Objects.equals(this.id, supportRequest.id) &&
         Objects.equals(this.supportType, supportRequest.supportType) &&
         Objects.equals(this.location, supportRequest.location) &&
-        Objects.equals(this.timestamp, supportRequest.timestamp) &&
+        Objects.equals(this.time, supportRequest.time) &&
         Objects.equals(this.priority, supportRequest.priority) &&
         Objects.equals(this.contactInformationEndUser, supportRequest.contactInformationEndUser) &&
         Objects.equals(this.comment, supportRequest.comment) &&
@@ -303,7 +303,7 @@ public class SupportRequest   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, supportType, location, timestamp, priority, contactInformationEndUser, comment, requestedResponseTime);
+    return Objects.hash(id, supportType, location, time, priority, contactInformationEndUser, comment, requestedResponseTime);
   }
 
   @Override
@@ -314,7 +314,7 @@ public class SupportRequest   {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    supportType: ").append(toIndentedString(supportType)).append("\n");
     sb.append("    location: ").append(toIndentedString(location)).append("\n");
-    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
+    sb.append("    time: ").append(toIndentedString(time)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    contactInformationEndUser: ").append(toIndentedString(contactInformationEndUser)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");

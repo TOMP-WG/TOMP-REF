@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -16,90 +15,41 @@ import org.threeten.bp.OffsetDateTime;
 import org.tomp.api.configuration.ExternalConfiguration;
 
 import io.swagger.model.Booking;
-import io.swagger.model.BookingState;
-import io.swagger.model.ExecutionEvent;
 import io.swagger.model.ExtraCosts;
 import io.swagger.model.JournalEntry;
 import io.swagger.model.JournalState;
 import io.swagger.model.Leg;
+import io.swagger.model.LegEvent;
 import io.swagger.model.Planning;
-import io.swagger.model.Suboperator;
 
 @Component
-public class DummyRepository {
+public class DefaultRepository {
 
-	private static final Logger log = LoggerFactory.getLogger(DummyRepository.class);
+	private static final Logger log = LoggerFactory.getLogger(DefaultRepository.class);
 
 	@Autowired
 	ExternalConfiguration configuration;
 
-	private Map<String, Planning> options = new HashMap<>();
 	private Map<String, Booking> bookings = new HashMap<>();
-	private Map<String, Leg> legs = new HashMap<>();
 	private Map<String, Map<String, List<JournalEntry>>> journalEntries = new HashMap<>();
-	private Map<String, List<ExecutionEvent>> startEvents = new HashMap<>();
+	private Map<String, List<LegEvent>> legEvents = new HashMap<>();
 
-	public void saveOptions(Planning optionsToSave) {
+	public void saveBookingOption(Planning optionsToSave) {
 		if (optionsToSave == null) {
 			return;
 		}
-		for (Leg leg : optionsToSave.getLegOptions()) {
-			log.info("Saved leg: {}", leg.getId());
-			options.put(leg.getId(), optionsToSave);
+		for (Booking booking : optionsToSave.getOptions()) {
+			log.info("Saved booking: {}", booking.getId());
+			bookings.put(booking.getId(), booking);
 		}
 	}
 
-	public Leg getSavedOption(String id) {
-		Planning planningOptions = options.get(id);
-		if (planningOptions == null) {
-			log.info("missing leg: {}", id);
-			return null;
-		}
-		for (Leg leg : planningOptions.getLegOptions()) {
-			if (leg.getId().equals(id)) {
-				return leg;
-			}
-		}
-		return null;
+	public Booking getSavedOption(String id) {
+		return bookings.get(id);
 	}
 
 	public void saveBooking(Booking booking) {
 		bookings.put(booking.getId(), booking);
-
-		if (booking.getState().equals(BookingState.CONFIRMED)) {
-			legs.put(booking.getId(), constructLeg(booking));
-		}
-	}
-
-	private Leg constructLeg(Booking booking) {
-		Leg leg = new Leg();
-		Leg simpleLeg = getPlanningResult(booking.getId());
-		if (simpleLeg != null) {
-			injectOptionsLeg(simpleLeg, leg);
-		}
-		return leg;
-	}
-
-	private void injectOptionsLeg(Leg simpleLeg, Leg leg) {
-		leg.setPricing(simpleLeg.getPricing());
-		leg.setSuboperator(simpleLeg.getSuboperator() == null ? new Suboperator() : simpleLeg.getSuboperator());
-		leg.getSuboperator().setMaasId(configuration.getMaasId());
-		leg.setStartTime(simpleLeg.getStartTime());
-		leg.setEndTime(simpleLeg.getEndTime());
-		leg.setAsset(simpleLeg.getAsset());
-		leg.setFrom(simpleLeg.getFrom());
-		leg.setTo(simpleLeg.getTo());
-	}
-
-	private Leg getPlanningResult(String id) {
-		for (Entry<String, Planning> o : options.entrySet()) {
-			for (Leg result : o.getValue().getLegOptions()) {
-				if (result.getId().equals(id)) {
-					return result;
-				}
-			}
-		}
-		return null;
 	}
 
 	public Booking getBooking(String id) {
@@ -111,19 +61,26 @@ public class DummyRepository {
 	}
 
 	public Leg getLeg(String id) {
-		return legs.get(id);
+		for (Booking b : bookings.values()) {
+			for (Leg leg : b.getLegs()) {
+				if (leg.getId().equals(id)) {
+					return leg;
+				}
+			}
+		}
+		return null;
 	}
 
-	public void saveLegEvent(String id, ExecutionEvent body) {
-		if (!startEvents.containsKey(id)) {
-			startEvents.put(id, new ArrayList<>());
+	public void saveLegEvent(String id, LegEvent body) {
+		if (!legEvents.containsKey(id)) {
+			legEvents.put(id, new ArrayList<>());
 		}
 
-		startEvents.get(id).add(body);
+		legEvents.get(id).add(body);
 	}
 
-	public List<ExecutionEvent> getLegEvents(String id) {
-		return startEvents.get(id);
+	public List<LegEvent> getLegEvents(String id) {
+		return legEvents.get(id);
 	}
 
 	public void saveJournalEntry(JournalEntry entry, String maasId) {

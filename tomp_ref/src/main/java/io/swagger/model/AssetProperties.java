@@ -6,12 +6,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Asset;
-import io.swagger.model.AssetClass;
-import io.swagger.model.KeyValue;
+import io.swagger.model.Place;
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -21,26 +20,13 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "what kind of asset is this? Classify it, give the aspects. Most aspects are optional and should be used when applicable.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
-public class TypeOfAsset   {
-  @JsonProperty("typeId")
-  private String typeId = null;
-
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:11:18.823Z[GMT]")
+public class AssetProperties   {
   @JsonProperty("name")
   private String name = null;
 
-  @JsonProperty("assetClass")
-  private AssetClass assetClass = null;
-
-  @JsonProperty("assetSubClass")
-  private String assetSubClass = null;
-
-  @JsonProperty("amountAvailable")
-  private BigDecimal amountAvailable = null;
-
-  @JsonProperty("assets")
-  @Valid
-  private List<Asset> assets = null;
+  @JsonProperty("location")
+  private Place location = null;
 
   /**
    * Gets or Sets fuel
@@ -96,7 +82,7 @@ public class TypeOfAsset   {
   private FuelEnum fuel = null;
 
   /**
-   * Gets or Sets energyLabel
+   * Energy efficiency
    */
   public enum EnergyLabelEnum {
     A("A"),
@@ -144,7 +130,7 @@ public class TypeOfAsset   {
   private String model = null;
 
   @JsonProperty("buildingYear")
-  private BigDecimal buildingYear = null;
+  private Integer buildingYear = null;
 
   @JsonProperty("travelAbroad")
   private Boolean travelAbroad = null;
@@ -243,6 +229,9 @@ public class TypeOfAsset   {
   @JsonProperty("image")
   private String image = null;
 
+  @JsonProperty("rentalUrl")
+  private String rentalUrl = null;
+
   @JsonProperty("infantSeat")
   private Boolean infantSeat = null;
 
@@ -315,40 +304,19 @@ public class TypeOfAsset   {
 
   @JsonProperty("meta")
   @Valid
-  private List<KeyValue> meta = null;
+  private Map<String, Object> meta = null;
 
-  public TypeOfAsset typeId(String typeId) {
-    this.typeId = typeId;
-    return this;
-  }
-
-  /**
-   * unique identifier of a type, scope TO
-   * @return typeId
-  **/
-  @ApiModelProperty(required = true, value = "unique identifier of a type, scope TO")
-      @NotNull
-
-    public String getTypeId() {
-    return typeId;
-  }
-
-  public void setTypeId(String typeId) {
-    this.typeId = typeId;
-  }
-
-  public TypeOfAsset name(String name) {
+  public AssetProperties name(String name) {
     this.name = name;
     return this;
   }
 
   /**
-   * name of asset type
+   * name of asset (type), required in either assetType or asset, should match Content-Language
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "name of asset type")
-      @NotNull
-
+  @ApiModelProperty(value = "name of asset (type), required in either assetType or asset, should match Content-Language")
+  
     public String getName() {
     return name;
   }
@@ -357,94 +325,27 @@ public class TypeOfAsset   {
     this.name = name;
   }
 
-  public TypeOfAsset assetClass(AssetClass assetClass) {
-    this.assetClass = assetClass;
+  public AssetProperties location(Place location) {
+    this.location = location;
     return this;
   }
 
   /**
-   * Get assetClass
-   * @return assetClass
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
-
-    @Valid
-    public AssetClass getAssetClass() {
-    return assetClass;
-  }
-
-  public void setAssetClass(AssetClass assetClass) {
-    this.assetClass = assetClass;
-  }
-
-  public TypeOfAsset assetSubClass(String assetSubClass) {
-    this.assetSubClass = assetSubClass;
-    return this;
-  }
-
-  /**
-   * a more precise classification of the asset, like 'cargo bike', 'public bus', 'coach bus', 'office bus', 'water taxi',  'segway'. This is mandatory when using 'OTHER' as class.
-   * @return assetSubClass
-  **/
-  @ApiModelProperty(value = "a more precise classification of the asset, like 'cargo bike', 'public bus', 'coach bus', 'office bus', 'water taxi',  'segway'. This is mandatory when using 'OTHER' as class.")
-  
-    public String getAssetSubClass() {
-    return assetSubClass;
-  }
-
-  public void setAssetSubClass(String assetSubClass) {
-    this.assetSubClass = assetSubClass;
-  }
-
-  public TypeOfAsset amountAvailable(BigDecimal amountAvailable) {
-    this.amountAvailable = amountAvailable;
-    return this;
-  }
-
-  /**
-   * Get amountAvailable
-   * @return amountAvailable
+   * Get location
+   * @return location
   **/
   @ApiModelProperty(value = "")
   
     @Valid
-    public BigDecimal getAmountAvailable() {
-    return amountAvailable;
+    public Place getLocation() {
+    return location;
   }
 
-  public void setAmountAvailable(BigDecimal amountAvailable) {
-    this.amountAvailable = amountAvailable;
+  public void setLocation(Place location) {
+    this.location = location;
   }
 
-  public TypeOfAsset assets(List<Asset> assets) {
-    this.assets = assets;
-    return this;
-  }
-
-  public TypeOfAsset addAssetsItem(Asset assetsItem) {
-    if (this.assets == null) {
-      this.assets = new ArrayList<Asset>();
-    }
-    this.assets.add(assetsItem);
-    return this;
-  }
-
-  /**
-   * Get assets
-   * @return assets
-  **/
-  @ApiModelProperty(value = "")
-      @Valid
-    public List<Asset> getAssets() {
-    return assets;
-  }
-
-  public void setAssets(List<Asset> assets) {
-    this.assets = assets;
-  }
-
-  public TypeOfAsset fuel(FuelEnum fuel) {
+  public AssetProperties fuel(FuelEnum fuel) {
     this.fuel = fuel;
     return this;
   }
@@ -463,18 +364,17 @@ public class TypeOfAsset   {
     this.fuel = fuel;
   }
 
-  public TypeOfAsset energyLabel(EnergyLabelEnum energyLabel) {
+  public AssetProperties energyLabel(EnergyLabelEnum energyLabel) {
     this.energyLabel = energyLabel;
     return this;
   }
 
   /**
-   * Get energyLabel
+   * Energy efficiency
    * @return energyLabel
   **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
-
+  @ApiModelProperty(value = "Energy efficiency")
+  
     public EnergyLabelEnum getEnergyLabel() {
     return energyLabel;
   }
@@ -483,7 +383,7 @@ public class TypeOfAsset   {
     this.energyLabel = energyLabel;
   }
 
-  public TypeOfAsset co2PerKm(BigDecimal co2PerKm) {
+  public AssetProperties co2PerKm(BigDecimal co2PerKm) {
     this.co2PerKm = co2PerKm;
     return this;
   }
@@ -503,7 +403,7 @@ public class TypeOfAsset   {
     this.co2PerKm = co2PerKm;
   }
 
-  public TypeOfAsset brand(String brand) {
+  public AssetProperties brand(String brand) {
     this.brand = brand;
     return this;
   }
@@ -522,7 +422,7 @@ public class TypeOfAsset   {
     this.brand = brand;
   }
 
-  public TypeOfAsset model(String model) {
+  public AssetProperties model(String model) {
     this.model = model;
     return this;
   }
@@ -541,7 +441,7 @@ public class TypeOfAsset   {
     this.model = model;
   }
 
-  public TypeOfAsset buildingYear(BigDecimal buildingYear) {
+  public AssetProperties buildingYear(Integer buildingYear) {
     this.buildingYear = buildingYear;
     return this;
   }
@@ -552,16 +452,15 @@ public class TypeOfAsset   {
   **/
   @ApiModelProperty(value = "")
   
-    @Valid
-    public BigDecimal getBuildingYear() {
+    public Integer getBuildingYear() {
     return buildingYear;
   }
 
-  public void setBuildingYear(BigDecimal buildingYear) {
+  public void setBuildingYear(Integer buildingYear) {
     this.buildingYear = buildingYear;
   }
 
-  public TypeOfAsset travelAbroad(Boolean travelAbroad) {
+  public AssetProperties travelAbroad(Boolean travelAbroad) {
     this.travelAbroad = travelAbroad;
     return this;
   }
@@ -580,7 +479,7 @@ public class TypeOfAsset   {
     this.travelAbroad = travelAbroad;
   }
 
-  public TypeOfAsset airConditioning(Boolean airConditioning) {
+  public AssetProperties airConditioning(Boolean airConditioning) {
     this.airConditioning = airConditioning;
     return this;
   }
@@ -599,7 +498,7 @@ public class TypeOfAsset   {
     this.airConditioning = airConditioning;
   }
 
-  public TypeOfAsset cabrio(Boolean cabrio) {
+  public AssetProperties cabrio(Boolean cabrio) {
     this.cabrio = cabrio;
     return this;
   }
@@ -618,7 +517,7 @@ public class TypeOfAsset   {
     this.cabrio = cabrio;
   }
 
-  public TypeOfAsset colour(String colour) {
+  public AssetProperties colour(String colour) {
     this.colour = colour;
     return this;
   }
@@ -637,7 +536,7 @@ public class TypeOfAsset   {
     this.colour = colour;
   }
 
-  public TypeOfAsset cargo(String cargo) {
+  public AssetProperties cargo(String cargo) {
     this.cargo = cargo;
     return this;
   }
@@ -656,7 +555,7 @@ public class TypeOfAsset   {
     this.cargo = cargo;
   }
 
-  public TypeOfAsset easyAccessibility(EasyAccessibilityEnum easyAccessibility) {
+  public AssetProperties easyAccessibility(EasyAccessibilityEnum easyAccessibility) {
     this.easyAccessibility = easyAccessibility;
     return this;
   }
@@ -675,7 +574,7 @@ public class TypeOfAsset   {
     this.easyAccessibility = easyAccessibility;
   }
 
-  public TypeOfAsset gears(Integer gears) {
+  public AssetProperties gears(Integer gears) {
     this.gears = gears;
     return this;
   }
@@ -694,7 +593,7 @@ public class TypeOfAsset   {
     this.gears = gears;
   }
 
-  public TypeOfAsset gearbox(GearboxEnum gearbox) {
+  public AssetProperties gearbox(GearboxEnum gearbox) {
     this.gearbox = gearbox;
     return this;
   }
@@ -713,16 +612,16 @@ public class TypeOfAsset   {
     this.gearbox = gearbox;
   }
 
-  public TypeOfAsset image(String image) {
+  public AssetProperties image(String image) {
     this.image = image;
     return this;
   }
 
   /**
-   * Get image
+   * Link to an image of the asset
    * @return image
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "https://files.fietsersbond.nl/app/uploads/2014/10/30151126/ST2_Men_Side_CityKit-Stromer.jpg", value = "Link to an image of the asset")
   
     public String getImage() {
     return image;
@@ -732,7 +631,26 @@ public class TypeOfAsset   {
     this.image = image;
   }
 
-  public TypeOfAsset infantSeat(Boolean infantSeat) {
+  public AssetProperties rentalUrl(String rentalUrl) {
+    this.rentalUrl = rentalUrl;
+    return this;
+  }
+
+  /**
+   * deep-linking option from GBFS+
+   * @return rentalUrl
+  **/
+  @ApiModelProperty(example = "https://www.rentmyfreebike.com/rental", value = "deep-linking option from GBFS+")
+  
+    public String getRentalUrl() {
+    return rentalUrl;
+  }
+
+  public void setRentalUrl(String rentalUrl) {
+    this.rentalUrl = rentalUrl;
+  }
+
+  public AssetProperties infantSeat(Boolean infantSeat) {
     this.infantSeat = infantSeat;
     return this;
   }
@@ -751,18 +669,19 @@ public class TypeOfAsset   {
     this.infantSeat = infantSeat;
   }
 
-  public TypeOfAsset persons(Integer persons) {
+  public AssetProperties persons(Integer persons) {
     this.persons = persons;
     return this;
   }
 
   /**
    * number of persons able to use the asset
+   * minimum: 1
    * @return persons
   **/
   @ApiModelProperty(value = "number of persons able to use the asset")
   
-    public Integer getPersons() {
+  @Min(1)  public Integer getPersons() {
     return persons;
   }
 
@@ -770,7 +689,7 @@ public class TypeOfAsset   {
     this.persons = persons;
   }
 
-  public TypeOfAsset pets(Boolean pets) {
+  public AssetProperties pets(Boolean pets) {
     this.pets = pets;
     return this;
   }
@@ -789,7 +708,7 @@ public class TypeOfAsset   {
     this.pets = pets;
   }
 
-  public TypeOfAsset propulsion(PropulsionEnum propulsion) {
+  public AssetProperties propulsion(PropulsionEnum propulsion) {
     this.propulsion = propulsion;
     return this;
   }
@@ -808,7 +727,7 @@ public class TypeOfAsset   {
     this.propulsion = propulsion;
   }
 
-  public TypeOfAsset smoking(Boolean smoking) {
+  public AssetProperties smoking(Boolean smoking) {
     this.smoking = smoking;
     return this;
   }
@@ -827,7 +746,7 @@ public class TypeOfAsset   {
     this.smoking = smoking;
   }
 
-  public TypeOfAsset stateOfCharge(Integer stateOfCharge) {
+  public AssetProperties stateOfCharge(Integer stateOfCharge) {
     this.stateOfCharge = stateOfCharge;
     return this;
   }
@@ -848,7 +767,7 @@ public class TypeOfAsset   {
     this.stateOfCharge = stateOfCharge;
   }
 
-  public TypeOfAsset towingHook(Boolean towingHook) {
+  public AssetProperties towingHook(Boolean towingHook) {
     this.towingHook = towingHook;
     return this;
   }
@@ -867,7 +786,7 @@ public class TypeOfAsset   {
     this.towingHook = towingHook;
   }
 
-  public TypeOfAsset undergroundParking(Boolean undergroundParking) {
+  public AssetProperties undergroundParking(Boolean undergroundParking) {
     this.undergroundParking = undergroundParking;
     return this;
   }
@@ -886,7 +805,7 @@ public class TypeOfAsset   {
     this.undergroundParking = undergroundParking;
   }
 
-  public TypeOfAsset winterTires(Boolean winterTires) {
+  public AssetProperties winterTires(Boolean winterTires) {
     this.winterTires = winterTires;
     return this;
   }
@@ -905,7 +824,7 @@ public class TypeOfAsset   {
     this.winterTires = winterTires;
   }
 
-  public TypeOfAsset other(String other) {
+  public AssetProperties other(String other) {
     this.other = other;
     return this;
   }
@@ -924,30 +843,30 @@ public class TypeOfAsset   {
     this.other = other;
   }
 
-  public TypeOfAsset meta(List<KeyValue> meta) {
+  public AssetProperties meta(Map<String, Object> meta) {
     this.meta = meta;
     return this;
   }
 
-  public TypeOfAsset addMetaItem(KeyValue metaItem) {
+  public AssetProperties putMetaItem(String key, Object metaItem) {
     if (this.meta == null) {
-      this.meta = new ArrayList<KeyValue>();
+      this.meta = new HashMap<String, Object>();
     }
-    this.meta.add(metaItem);
+    this.meta.put(key, metaItem);
     return this;
   }
 
   /**
-   * this array can contain extra information about the type of asset. For instance values from the 'Woordenboek Reizigerskenmerken'. [https://github.com/efel85/TOMP-API/issues/17]. These values can also be used in the planning-options.
+   * this object can contain extra information about the type of asset. For instance values from the 'Woordenboek Reizigerskenmerken'. [https://github.com/efel85/TOMP-API/issues/17]. These values can also be used in the planning.
    * @return meta
   **/
-  @ApiModelProperty(value = "this array can contain extra information about the type of asset. For instance values from the 'Woordenboek Reizigerskenmerken'. [https://github.com/efel85/TOMP-API/issues/17]. These values can also be used in the planning-options.")
-      @Valid
-    public List<KeyValue> getMeta() {
+  @ApiModelProperty(value = "this object can contain extra information about the type of asset. For instance values from the 'Woordenboek Reizigerskenmerken'. [https://github.com/efel85/TOMP-API/issues/17]. These values can also be used in the planning.")
+  
+    public Map<String, Object> getMeta() {
     return meta;
   }
 
-  public void setMeta(List<KeyValue> meta) {
+  public void setMeta(Map<String, Object> meta) {
     this.meta = meta;
   }
 
@@ -960,57 +879,50 @@ public class TypeOfAsset   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TypeOfAsset typeOfAsset = (TypeOfAsset) o;
-    return Objects.equals(this.typeId, typeOfAsset.typeId) &&
-        Objects.equals(this.name, typeOfAsset.name) &&
-        Objects.equals(this.assetClass, typeOfAsset.assetClass) &&
-        Objects.equals(this.assetSubClass, typeOfAsset.assetSubClass) &&
-        Objects.equals(this.amountAvailable, typeOfAsset.amountAvailable) &&
-        Objects.equals(this.assets, typeOfAsset.assets) &&
-        Objects.equals(this.fuel, typeOfAsset.fuel) &&
-        Objects.equals(this.energyLabel, typeOfAsset.energyLabel) &&
-        Objects.equals(this.co2PerKm, typeOfAsset.co2PerKm) &&
-        Objects.equals(this.brand, typeOfAsset.brand) &&
-        Objects.equals(this.model, typeOfAsset.model) &&
-        Objects.equals(this.buildingYear, typeOfAsset.buildingYear) &&
-        Objects.equals(this.travelAbroad, typeOfAsset.travelAbroad) &&
-        Objects.equals(this.airConditioning, typeOfAsset.airConditioning) &&
-        Objects.equals(this.cabrio, typeOfAsset.cabrio) &&
-        Objects.equals(this.colour, typeOfAsset.colour) &&
-        Objects.equals(this.cargo, typeOfAsset.cargo) &&
-        Objects.equals(this.easyAccessibility, typeOfAsset.easyAccessibility) &&
-        Objects.equals(this.gears, typeOfAsset.gears) &&
-        Objects.equals(this.gearbox, typeOfAsset.gearbox) &&
-        Objects.equals(this.image, typeOfAsset.image) &&
-        Objects.equals(this.infantSeat, typeOfAsset.infantSeat) &&
-        Objects.equals(this.persons, typeOfAsset.persons) &&
-        Objects.equals(this.pets, typeOfAsset.pets) &&
-        Objects.equals(this.propulsion, typeOfAsset.propulsion) &&
-        Objects.equals(this.smoking, typeOfAsset.smoking) &&
-        Objects.equals(this.stateOfCharge, typeOfAsset.stateOfCharge) &&
-        Objects.equals(this.towingHook, typeOfAsset.towingHook) &&
-        Objects.equals(this.undergroundParking, typeOfAsset.undergroundParking) &&
-        Objects.equals(this.winterTires, typeOfAsset.winterTires) &&
-        Objects.equals(this.other, typeOfAsset.other) &&
-        Objects.equals(this.meta, typeOfAsset.meta);
+    AssetProperties assetProperties = (AssetProperties) o;
+    return Objects.equals(this.name, assetProperties.name) &&
+        Objects.equals(this.location, assetProperties.location) &&
+        Objects.equals(this.fuel, assetProperties.fuel) &&
+        Objects.equals(this.energyLabel, assetProperties.energyLabel) &&
+        Objects.equals(this.co2PerKm, assetProperties.co2PerKm) &&
+        Objects.equals(this.brand, assetProperties.brand) &&
+        Objects.equals(this.model, assetProperties.model) &&
+        Objects.equals(this.buildingYear, assetProperties.buildingYear) &&
+        Objects.equals(this.travelAbroad, assetProperties.travelAbroad) &&
+        Objects.equals(this.airConditioning, assetProperties.airConditioning) &&
+        Objects.equals(this.cabrio, assetProperties.cabrio) &&
+        Objects.equals(this.colour, assetProperties.colour) &&
+        Objects.equals(this.cargo, assetProperties.cargo) &&
+        Objects.equals(this.easyAccessibility, assetProperties.easyAccessibility) &&
+        Objects.equals(this.gears, assetProperties.gears) &&
+        Objects.equals(this.gearbox, assetProperties.gearbox) &&
+        Objects.equals(this.image, assetProperties.image) &&
+        Objects.equals(this.rentalUrl, assetProperties.rentalUrl) &&
+        Objects.equals(this.infantSeat, assetProperties.infantSeat) &&
+        Objects.equals(this.persons, assetProperties.persons) &&
+        Objects.equals(this.pets, assetProperties.pets) &&
+        Objects.equals(this.propulsion, assetProperties.propulsion) &&
+        Objects.equals(this.smoking, assetProperties.smoking) &&
+        Objects.equals(this.stateOfCharge, assetProperties.stateOfCharge) &&
+        Objects.equals(this.towingHook, assetProperties.towingHook) &&
+        Objects.equals(this.undergroundParking, assetProperties.undergroundParking) &&
+        Objects.equals(this.winterTires, assetProperties.winterTires) &&
+        Objects.equals(this.other, assetProperties.other) &&
+        Objects.equals(this.meta, assetProperties.meta);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(typeId, name, assetClass, assetSubClass, amountAvailable, assets, fuel, energyLabel, co2PerKm, brand, model, buildingYear, travelAbroad, airConditioning, cabrio, colour, cargo, easyAccessibility, gears, gearbox, image, infantSeat, persons, pets, propulsion, smoking, stateOfCharge, towingHook, undergroundParking, winterTires, other, meta);
+    return Objects.hash(name, location, fuel, energyLabel, co2PerKm, brand, model, buildingYear, travelAbroad, airConditioning, cabrio, colour, cargo, easyAccessibility, gears, gearbox, image, rentalUrl, infantSeat, persons, pets, propulsion, smoking, stateOfCharge, towingHook, undergroundParking, winterTires, other, meta);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TypeOfAsset {\n");
+    sb.append("class AssetProperties {\n");
     
-    sb.append("    typeId: ").append(toIndentedString(typeId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    assetClass: ").append(toIndentedString(assetClass)).append("\n");
-    sb.append("    assetSubClass: ").append(toIndentedString(assetSubClass)).append("\n");
-    sb.append("    amountAvailable: ").append(toIndentedString(amountAvailable)).append("\n");
-    sb.append("    assets: ").append(toIndentedString(assets)).append("\n");
+    sb.append("    location: ").append(toIndentedString(location)).append("\n");
     sb.append("    fuel: ").append(toIndentedString(fuel)).append("\n");
     sb.append("    energyLabel: ").append(toIndentedString(energyLabel)).append("\n");
     sb.append("    co2PerKm: ").append(toIndentedString(co2PerKm)).append("\n");
@@ -1026,6 +938,7 @@ public class TypeOfAsset   {
     sb.append("    gears: ").append(toIndentedString(gears)).append("\n");
     sb.append("    gearbox: ").append(toIndentedString(gearbox)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
+    sb.append("    rentalUrl: ").append(toIndentedString(rentalUrl)).append("\n");
     sb.append("    infantSeat: ").append(toIndentedString(infantSeat)).append("\n");
     sb.append("    persons: ").append(toIndentedString(persons)).append("\n");
     sb.append("    pets: ").append(toIndentedString(pets)).append("\n");

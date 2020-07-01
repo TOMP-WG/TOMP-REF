@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import org.tomp.api.model.MaasOperator;
-import org.tomp.api.repository.DummyRepository;
+import org.tomp.api.repository.DefaultRepository;
 import org.tomp.api.utils.ClientUtil;
 import org.tomp.api.utils.GeoCoderUtil;
 
@@ -21,10 +22,11 @@ import io.swagger.client.ApiException;
 import io.swagger.model.Address;
 import io.swagger.model.Booking;
 import io.swagger.model.BookingOperation;
-import io.swagger.model.BookingOption;
+import io.swagger.model.BookingRequest;
 import io.swagger.model.BookingState;
 import io.swagger.model.Coordinates;
 import io.swagger.model.Leg;
+import io.swagger.model.Place;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.booking", havingValue = "generic", matchIfMissing = true)
@@ -41,40 +43,47 @@ public class GenericBookingProvider implements BookingProvider {
 	GeoCoderUtil geocoderUtil;
 
 	@Autowired
-	DummyRepository repository;
+	DefaultRepository repository;
 
 	@Override
-	public Booking addNewBooking(@Valid BookingOption body, String acceptLanguage) {
+	public Booking addNewBooking(@Valid BookingRequest body, String acceptLanguage) {
 		log.info("POST bookings {}", body.getId());
 
 		String id = body.getId();
 		validateId(id);
-		Booking booking = new Booking();
-		booking.setId(id);
+
+		Booking booking = repository.getSavedOption(id);
 		booking.setState(BookingState.PENDING);
 
 		if (geocoderUtil.isActive()) {
-			Leg savedOption = repository.getSavedOption(id);
-			Address address = booking.getFromAddress();
+			@NotNull
+			@Valid
+			Place from = booking.getFrom();
+			@Valid
+			Place to = booking.getTo();
+
+			Address address = from.getPhysicalAddress();
 			if (address == null) {
 				address = new Address();
-				booking.setFromAddress(address);
+				Place p = new Place();
+				p.setPhysicalAddress(address);
+				booking.setFrom(p);
 			}
-			Coordinates coord = savedOption.getFrom();
+			Coordinates coord = booking.getFrom().getCoordinates();
 			geocoderUtil.getPhysicalAddressByCoordinate(coord, address);
 
-			address = booking.getToAddress();
+			address = to.getPhysicalAddress();
 			if (address == null) {
 				address = new Address();
-				booking.setToAddress(address);
+				Place p = new Place();
+				p.setPhysicalAddress(address);
+				booking.setTo(p);
 			}
-			coord = savedOption.getTo();
+			coord = booking.getTo().getCoordinates();
 			geocoderUtil.getPhysicalAddressByCoordinate(coord, address);
 		}
 
 		repository.saveBooking(booking);
-
-		log.info("Response {}", booking);
 		return booking;
 	}
 
@@ -118,7 +127,7 @@ public class GenericBookingProvider implements BookingProvider {
 		Booking listener = listeners.get(id);
 		if (listener != null) {
 			MaasOperator to = new MaasOperator();
-			to.setUrl(listener.getWebhook());
+			// to.setUrl(listener.getWebhook());
 			try {
 				clientUtil.post(to, "", body, Void.class);
 			} catch (ApiException e) {

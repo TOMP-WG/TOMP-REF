@@ -16,6 +16,7 @@ import com.squareup.okhttp.*;
 import com.squareup.okhttp.internal.http.HttpMethod;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor.Level;
+
 import okio.BufferedSink;
 import okio.Okio;
 
@@ -657,7 +658,7 @@ public class ApiClient {
 			String content;
 			if (obj != null) {
 				if (obj instanceof String && ((String) obj).startsWith("{")) {
-					content = (String)obj;
+					content = (String) obj;
 				} else {
 					content = json.serialize(obj);
 				}

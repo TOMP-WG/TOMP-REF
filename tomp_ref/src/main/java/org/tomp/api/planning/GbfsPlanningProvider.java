@@ -13,11 +13,14 @@ import org.tomp.api.providers.fares.FareProvider;
 import org.tomp.api.repository.GbfsRepository;
 
 import io.swagger.model.AssetClass;
+import io.swagger.model.AssetType;
+import io.swagger.model.Booking;
 import io.swagger.model.Coordinates;
 import io.swagger.model.Fare;
 import io.swagger.model.Leg;
+import io.swagger.model.Place;
 import io.swagger.model.PlanningRequest;
-import io.swagger.model.TypeOfAsset;
+import io.swagger.model.AssetType;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "gbfs", matchIfMissing = false)
@@ -33,51 +36,54 @@ public class GbfsPlanningProvider extends BasePlanningProvider {
 	GbfsRepository gbfsRepository;
 
 	@Override
-	protected ArrayList<Leg> getResults(@Valid PlanningRequest body, String acceptLanguage, boolean bookingIntent) {
-		List<TypeOfAsset> assets = gbfsRepository.getNearestAssets(body.getFrom(), body.getRadius());
-		ArrayList<Leg> arrayList = new ArrayList<>();
+	protected ArrayList<Booking> getResults(@Valid PlanningRequest body, String acceptLanguage, boolean bookingIntent) {
+		List<AssetType> assets = gbfsRepository.getNearestAssets(body.getFrom(), body.getRadius());
+		ArrayList<Booking> bookingList = new ArrayList<>();
 
-		for (TypeOfAsset assetType : assets) {
-			Leg result = new Leg();
-			result.setAsset(assetType);
-			result.setFrom(getFrom());
-			result.setTo(getTo());
-			result.setStartTime(getStartTime());
-			result.setEndTime(getEndTime());
-			result.setPricing(getFare());
-			result.setConditions(getConditionsForLeg(result, acceptLanguage));
+		for (AssetType assetType : assets) {
+			Booking booking = new Booking();
+			Leg leg = new Leg();
+			leg.setAssetType(assetType);
+			leg.setFrom(getFrom());
+			leg.setTo(getTo());
+			leg.setDepartureTime(getStartTime());
+			leg.setArrivalTime(getEndTime());
+			leg.setPricing(getFare());
+			leg.setConditions(getConditionsForLeg(leg, acceptLanguage));
 
-			Coordinates assetLocation = getAssetLocation(assetType);
+			Place assetLocation = getAssetLocation(assetType);
 			if (assetLocation == null) {
-				assetLocation = body.getFrom().getCoordinates();
+				assetLocation = body.getFrom();
 			}
+			booking.addLegsItem(leg);
 
 			Leg byFoot = new Leg();
-			TypeOfAsset asset = new TypeOfAsset();
+			AssetType asset = new AssetType();
 			asset.setAssetClass(AssetClass.FOOT);
-			byFoot.setAsset(asset);
+			byFoot.setAssetType(asset);
 			byFoot.setFrom(getFrom());
 			byFoot.setTo(assetLocation);
-			byFoot.setStartTime(body.getStartTime());
-			byFoot.setEndTime(body.getStartTime().plusMinutes(5));
-			result.addPartsItem(byFoot);
+			byFoot.setDepartureTime(body.getDepartureTime());
+			byFoot.setArrivalTime(body.getArrivalTime().plusMinutes(5));
+			booking.addLegsItem(byFoot);
 
 			Leg byBike = new Leg();
-			byBike.setAsset(assetType);
+			byBike.setAssetType(assetType);
 			byBike.setFrom(assetLocation);
 			byBike.setTo(getTo());
-			byBike.setStartTime(body.getStartTime().plusMinutes(5));
-			byBike.setEndTime(body.getEndTime());
-			result.addPartsItem(byBike);
+			byBike.setDepartureTime(body.getDepartureTime().plusMinutes(5));
+			byBike.setArrivalTime(body.getArrivalTime());
+			booking.addLegsItem(byBike);
 
-			arrayList.add(result);
+			bookingList.add(booking);
 		}
-		return arrayList;
+		return bookingList;
 	}
 
-	private Coordinates getAssetLocation(TypeOfAsset assetType) {
-		if (assetType != null && !assetType.getAssets().isEmpty() && assetType.getAssets().get(0).getPlace() != null) {
-			return assetType.getAssets().get(0).getPlace().getCoordinates();
+	private Place getAssetLocation(AssetType assetType) {
+		if (assetType != null && !assetType.getAssets().isEmpty()
+				&& assetType.getAssets().get(0).getProperties().getLocation() != null) {
+			return assetType.getAssets().get(0).getProperties().getLocation();
 		}
 		return null;
 	}
@@ -88,7 +94,7 @@ public class GbfsPlanningProvider extends BasePlanningProvider {
 	}
 
 	@Override
-	protected TypeOfAsset getAssetType() {
+	protected AssetType getAssetType() {
 		return assetProvider.getTypeOfAsset();
 	}
 

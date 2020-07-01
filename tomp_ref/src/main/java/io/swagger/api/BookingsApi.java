@@ -7,7 +7,7 @@ package io.swagger.api;
 
 import io.swagger.model.Booking;
 import io.swagger.model.BookingOperation;
-import io.swagger.model.BookingOption;
+import io.swagger.model.BookingRequest;
 import io.swagger.model.BookingState;
 import io.swagger.model.Error;
 import io.swagger.model.Notification;
@@ -41,8 +41,8 @@ public interface BookingsApi {
 @Authorization(value = "OpenId")    }, tags={ "booking [optional]","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The bookings matching the query", response = Booking.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class) })
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class) })
     @RequestMapping(value = "/bookings/",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
@@ -63,9 +63,9 @@ public interface BookingsApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The modified booking", response = Booking.class),
         @ApiResponse(code = 204, message = "Request was successful, no content to return."),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class),
-        @ApiResponse(code = 403, message = "The request will not be fulfilled, because the request is not legal in the current state. Authorization will not help.", response = Error.class),
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 403, message = "The request will not be fulfilled, because the request is not legal in the current state. Authorization will not help. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
         @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists."),
         @ApiResponse(code = 410, message = "The requested resource is no longer available. This is permanent.") })
     @RequestMapping(value = "/bookings/{id}/events",
@@ -89,7 +89,7 @@ public interface BookingsApi {
 @Authorization(value = "OpenId")    }, tags={ "booking","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The booking was found", response = Booking.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
         @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists."),
         @ApiResponse(code = 410, message = "The requested resource is no longer available. This is permanent.") })
     @RequestMapping(value = "/bookings/{id}",
@@ -111,8 +111,8 @@ public interface BookingsApi {
 @Authorization(value = "OpenId")    }, tags={ "general","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The bookings matching the query", response = Notification.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class),
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
         @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists."),
         @ApiResponse(code = 410, message = "The requested resource is no longer available. This is permanent.") })
     @RequestMapping(value = "/bookings/{id}/notifications",
@@ -134,8 +134,8 @@ public interface BookingsApi {
 @Authorization(value = "OpenId")    }, tags={ "general","TO","MP", })
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Request was successful, no content to return."),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class),
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
         @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists."),
         @ApiResponse(code = 410, message = "The requested resource is no longer available. This is permanent.") })
     @RequestMapping(value = "/bookings/{id}/notifications",
@@ -159,9 +159,9 @@ public interface BookingsApi {
 @Authorization(value = "OpenId")    }, tags={ "booking","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The booking was modified", response = Booking.class),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class),
-        @ApiResponse(code = 403, message = "The request will not be fulfilled, because the request is not legal in the current state. Authorization will not help.", response = Error.class),
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 403, message = "The request will not be fulfilled, because the request is not legal in the current state. Authorization will not help. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
         @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists."),
         @ApiResponse(code = 409, message = "The request will not be fulfilled. The request itself is legal, but the content conflicts with the server and might be stale. The user might try again after looking up the current state of the resource."),
         @ApiResponse(code = 410, message = "The requested resource is no longer available. This is permanent.") })
@@ -186,8 +186,8 @@ public interface BookingsApi {
 @Authorization(value = "OpenId")    }, tags={ "booking [optional]","TO","MP", })
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Request was successful, no content to return."),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class),
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
         @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists."),
         @ApiResponse(code = 410, message = "The requested resource is no longer available. This is permanent."),
         @ApiResponse(code = 200, message = "Unexpected error", response = Error.class) })
@@ -210,8 +210,8 @@ public interface BookingsApi {
 @Authorization(value = "OpenId")    }, tags={ "booking [optional]","TO","MP", })
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Request was successful, no content to return."),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class),
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
         @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists."),
         @ApiResponse(code = 410, message = "The requested resource is no longer available. This is permanent.") })
     @RequestMapping(value = "/bookings/{id}/subscription",
@@ -236,15 +236,15 @@ public interface BookingsApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "A new booking was succesfully created, status pending", response = Booking.class),
         @ApiResponse(code = 202, message = "Request was successfully accepted for processing but has not yet completed."),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class),
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
         @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists."),
         @ApiResponse(code = 409, message = "The request will not be fulfilled. The request itself is legal, but the content conflicts with the server and might be stale. The user might try again after looking up the current state of the resource.") })
     @RequestMapping(value = "/bookings/",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Booking> bookingsPost(@ApiParam(value = "One of available legs, returned by /planning, with an ID." ,required=true )  @Valid @RequestBody BookingOption body
+    ResponseEntity<Booking> bookingsPost(@ApiParam(value = "One of available legs, returned by /plannings, with an ID." ,required=true )  @Valid @RequestBody BookingRequest body
 ,@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion

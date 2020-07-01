@@ -1,0 +1,25 @@
+spring:
+   profiles: osm-chargingstation
+   application:
+      name: osm-chargingstation
+server:
+   port: 8074
+tomp:
+   maas-id: a35dba1f-22c1-4080-8556-f3fb33454e80
+   lookup-service: http://localhost:7999/
+   refreshOnStartUp: false
+   allowUnknownOperators: true
+   authenticationRequired: false
+   accept-language: nl
+   api-version: 0.9.0
+   area-file: src/main/resources/area.json
+   providers:
+      operatorinformation: overpass
+      booking: none
+      planning: none
+      tripexecution: none
+overpass:
+   ql: '"amenity"="charging_station"'
+logging:
+   level:
+      org.springframework: ERROR

@@ -1,16 +1,27 @@
 package org.tomp.api.utils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Envelope;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.tomp.api.model.parking.LonLatLocation;
 
 import io.swagger.model.Coordinates;
-import io.swagger.model.Polygon;
+import io.swagger.model.GeojsonLine;
+import io.swagger.model.GeojsonPoint;
+import io.swagger.model.GeojsonPolygon;
 
 public class GeoUtil {
+
+	static GeometryFactory gf = new GeometryFactory();
 
 	private GeoUtil() {
 	}
@@ -39,63 +50,77 @@ public class GeoUtil {
 		return c;
 	}
 
-	public static Polygon toPolygon(LonLatLocation location, double radius) {
-		Polygon p = new Polygon();
+	public static GeojsonPolygon toPolygon(LonLatLocation location, double radius) {
+		Coordinates c = new Coordinates();
+		c.setLng(location.getLongitude());
+		c.setLat(location.getLatitude());
+		return toPolygon(c, radius);
+	}
+
+	public static void addPoint(GeojsonPolygon polygon, BigDecimal lng, BigDecimal lat) {
+		if (polygon.isEmpty()) {
+			polygon.add(new GeojsonLine());
+		}
+		GeojsonPoint e = new GeojsonPoint();
+		e.add(lng);
+		e.add(lat);
+		polygon.get(0).add(e);
+	}
+
+	public static void addPoint(GeojsonPolygon polygon, double lng, double lat) {
+		addPoint(polygon, BigDecimal.valueOf(lng), BigDecimal.valueOf(lat));
+	}
+
+	public static GeojsonPolygon toPolygon(Coordinates location, double radius) {
+		GeojsonPolygon p = new GeojsonPolygon();
+
 		BigDecimal r = BigDecimal.valueOf(radius);
-		Coordinates pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLatitude().subtract(r));
-		pointsItem.setLng(location.getLongitude().subtract(r));
-		p.addPointsItem(pointsItem);
 
-		pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLatitude().subtract(r));
-		pointsItem.setLng(location.getLongitude().add(r));
-		p.addPointsItem(pointsItem);
+		addPoint(p, location.getLng().subtract(r), location.getLat().subtract(r));
+		addPoint(p, location.getLng().add(r), location.getLat().subtract(r));
+		addPoint(p, location.getLng().add(r), location.getLat().add(r));
+		addPoint(p, location.getLng().subtract(r), location.getLat().add(r));
+		addPoint(p, location.getLng().subtract(r), location.getLat().subtract(r));
 
-		pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLatitude().add(r));
-		pointsItem.setLng(location.getLongitude().add(r));
-		p.addPointsItem(pointsItem);
-
-		pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLatitude().add(r));
-		pointsItem.setLng(location.getLongitude().subtract(r));
-		p.addPointsItem(pointsItem);
-
-		pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLatitude().subtract(r));
-		pointsItem.setLng(location.getLongitude().subtract(r));
-		p.addPointsItem(pointsItem);
 		return p;
 	}
 
-	public static Polygon toPolygon(Coordinates location, double radius) {
-		Polygon p = new Polygon();
-		BigDecimal r = BigDecimal.valueOf(radius);
-		Coordinates pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLat().subtract(r));
-		pointsItem.setLng(location.getLng().subtract(r));
-		p.addPointsItem(pointsItem);
+	public static Envelope getBoundingBox(Geometry geometry) {
+		final Envelope envelope = new Envelope();
+		final Geometry enclosingGeometry = geometry.getEnvelope();
+		final Coordinate[] enclosingCoordinates = enclosingGeometry.getCoordinates();
+		for (Coordinate c : enclosingCoordinates) {
+			envelope.expandToInclude(c);
+		}
+		return envelope;
+	}
 
-		pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLat().subtract(r));
-		pointsItem.setLng(location.getLng().add(r));
-		p.addPointsItem(pointsItem);
+	public static org.locationtech.jts.geom.Polygon toPolygon(GeojsonPolygon serviceArea) {
+		List<Coordinate> points = new ArrayList<>();
+		for (GeojsonPoint coordinate : serviceArea.get(0)) {
+			points.add(toCoordinate(coordinate));
+		}
+		return gf.createPolygon(points.toArray(new Coordinate[] {}));
+	}
 
-		pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLat().add(r));
-		pointsItem.setLng(location.getLng().add(r));
-		p.addPointsItem(pointsItem);
+	private static Coordinate toCoordinate(@NotNull @Valid GeojsonPoint coordinates) {
+		Coordinate c = new Coordinate();
+		c.setX(coordinates.get(0).doubleValue());
+		c.setY(coordinates.get(1).doubleValue());
+		return c;
+	}
 
-		pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLat().add(r));
-		pointsItem.setLng(location.getLng().subtract(r));
-		p.addPointsItem(pointsItem);
-
-		pointsItem = new Coordinates();
-		pointsItem.setLat(location.getLat().subtract(r));
-		pointsItem.setLng(location.getLng().subtract(r));
-		p.addPointsItem(pointsItem);
-		return p;
+	public static List<Coordinates> getCoordinatesFromPolygon(@Valid GeojsonPolygon serviceArea) {
+		List<Coordinates> coordinates = new ArrayList<>();
+		for (GeojsonLine line : serviceArea) {
+			List<Coordinates> points = line.stream().map(point -> {
+				Coordinates c = new Coordinates();
+				c.setLng(point.get(0));
+				c.setLat(point.get(1));
+				return c;
+			}).collect(Collectors.toList());
+			coordinates.addAll(points);
+		}
+		return coordinates;
 	}
 }

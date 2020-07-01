@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Period;
 import java.util.ArrayList;
 import java.util.List;
 import org.threeten.bp.OffsetDateTime;
@@ -62,7 +61,7 @@ public class SystemAlert   {
 
   @JsonProperty("startAndEndTimes")
   @Valid
-  private List<Period> startAndEndTimes = null;
+  private List<List<OffsetDateTime>> startAndEndTimes = null;
 
   @JsonProperty("stationIds")
   @Valid
@@ -124,14 +123,14 @@ public class SystemAlert   {
     this.alertType = alertType;
   }
 
-  public SystemAlert startAndEndTimes(List<Period> startAndEndTimes) {
+  public SystemAlert startAndEndTimes(List<List<OffsetDateTime>> startAndEndTimes) {
     this.startAndEndTimes = startAndEndTimes;
     return this;
   }
 
-  public SystemAlert addStartAndEndTimesItem(Period startAndEndTimesItem) {
+  public SystemAlert addStartAndEndTimesItem(List<OffsetDateTime> startAndEndTimesItem) {
     if (this.startAndEndTimes == null) {
-      this.startAndEndTimes = new ArrayList<Period>();
+      this.startAndEndTimes = new ArrayList<List<OffsetDateTime>>();
     }
     this.startAndEndTimes.add(startAndEndTimesItem);
     return this;
@@ -143,11 +142,11 @@ public class SystemAlert   {
   **/
   @ApiModelProperty(value = "Array of hashes with the keys \"start\" and \"end\" indicating when the alert is in effect (e.g. when the system or station is actually closed, or when it is scheduled to be moved). If this array is omitted then the alert should be displayed as long as it is in the feed.")
       @Valid
-    public List<Period> getStartAndEndTimes() {
+    public List<List<OffsetDateTime>> getStartAndEndTimes() {
     return startAndEndTimes;
   }
 
-  public void setStartAndEndTimes(List<Period> startAndEndTimes) {
+  public void setStartAndEndTimes(List<List<OffsetDateTime>> startAndEndTimes) {
     this.startAndEndTimes = startAndEndTimes;
   }
 

@@ -19,15 +19,18 @@ import org.tomp.api.model.Segment;
 import org.tomp.api.model.TransportOperator;
 import org.tomp.api.utils.ClientUtil;
 import org.tomp.api.utils.ExternalFileService;
+import org.tomp.api.utils.GeoUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import io.swagger.client.ApiException;
+import io.swagger.model.AssetType;
 import io.swagger.model.Coordinates;
-import io.swagger.model.Polygon;
+import io.swagger.model.GeojsonLine;
+import io.swagger.model.GeojsonPoint;
+import io.swagger.model.GeojsonPolygon;
 import io.swagger.model.SystemInformation;
 import io.swagger.model.SystemRegion;
-import io.swagger.model.TypeOfAsset;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "maasprovider", matchIfMissing = false)
@@ -52,7 +55,7 @@ public class TOProvider {
 		getOperatorsInArea(fileService.getArea());
 	}
 
-	private void getOperatorsInArea(Polygon area) {
+	private void getOperatorsInArea(GeojsonPolygon area) {
 		MaasOperator[] data;
 		try {
 			data = lookupService.findOperators(area);
@@ -92,48 +95,49 @@ public class TOProvider {
 		return null;
 	}
 
-	private Polygon getBoundingBox(Segment segment) {
-		Polygon p = new Polygon();
+	private GeojsonPolygon getBoundingBox(Segment segment) {
+		GeojsonPolygon p = new GeojsonPolygon();
 		double minLng = Double.MAX_VALUE;
 		double minLat = Double.MAX_VALUE;
 		double maxLng = Double.MIN_VALUE;
 		double maxLat = Double.MIN_VALUE;
 
-		double lat = segment.getFrom().getLat().doubleValue();
+		double lat = segment.getFrom().getCoordinates().getLat().doubleValue();
 		if (lat < minLat)
 			minLat = lat;
 		if (lat > maxLat)
 			maxLat = lat;
-		double lng = segment.getFrom().getLng().doubleValue();
+		double lng = segment.getFrom().getCoordinates().getLng().doubleValue();
 		if (lng < minLng)
 			minLng = lng;
 		if (lng > maxLng)
 			maxLng = lng;
-		lat = segment.getTo().getLat().doubleValue();
+		lat = segment.getTo().getCoordinates().getLat().doubleValue();
 		if (lat < minLat)
 			minLat = lat;
 		if (lat > maxLat)
 			maxLat = lat;
-		lng = segment.getTo().getLng().doubleValue();
+		lng = segment.getTo().getCoordinates().getLng().doubleValue();
 		if (lng < minLng)
 			minLng = lng;
 		if (lng > maxLng)
 			maxLng = lng;
 
-		Coordinates start = toCoordinates(minLng, minLat);
-		p.addPointsItem(start);
-		p.addPointsItem(toCoordinates(minLng, maxLat));
-		p.addPointsItem(toCoordinates(maxLng, maxLat));
-		p.addPointsItem(toCoordinates(maxLng, minLat));
-		p.addPointsItem(start);
+		GeojsonPoint start = toCoordinates(minLng, minLat);
+		p.add(new GeojsonLine());
+		p.get(0).add(start);
+		p.get(0).add(toCoordinates(minLng, maxLat));
+		p.get(0).add(toCoordinates(maxLng, maxLat));
+		p.get(0).add(toCoordinates(maxLng, minLat));
+		p.get(0).add(start);
 
 		return p;
 	}
 
-	private Coordinates toCoordinates(double minLng, double minLat) {
-		Coordinates start = new Coordinates();
-		start.setLat(BigDecimal.valueOf(minLat));
-		start.setLng(BigDecimal.valueOf(minLng));
+	private GeojsonPoint toCoordinates(double minLng, double minLat) {
+		GeojsonPoint start = new GeojsonPoint();
+		start.add(BigDecimal.valueOf(minLng));
+		start.add(BigDecimal.valueOf(minLat));
 		return start;
 	}
 
@@ -141,7 +145,8 @@ public class TOProvider {
 		if (segment != null) {
 			for (TransportOperator operator : cache) {
 				for (SystemRegion region : operator.getRegions()) {
-					if (isRegion(region, segment.getFrom()) || isRegion(region, segment.getTo())) {
+					if (isRegion(region, segment.getFrom().getCoordinates())
+							|| isRegion(region, segment.getTo().getCoordinates())) {
 						return true;
 					}
 				}
@@ -157,7 +162,7 @@ public class TOProvider {
 		double maxLng = Double.MIN_VALUE;
 		double maxLat = Double.MIN_VALUE;
 
-		for (Coordinates p : region.getServiceArea().getPoints()) {
+		for (Coordinates p : GeoUtil.getCoordinatesFromPolygon(region.getServiceArea())) {
 			double lat = p.getLat().doubleValue();
 			if (lat < minLat)
 				minLat = lat;
@@ -198,8 +203,8 @@ public class TOProvider {
 	}
 
 	private void getAssetInformation(TransportOperator to) throws ApiException {
-		TypeOfAsset[] assets = clientUtil.get(to, "/operator/available-assets", TypeOfAsset[].class);
-		for (TypeOfAsset assetType : assets) {
+		AssetType[] assets = clientUtil.get(to, "/operator/available-assets", AssetType[].class);
+		for (AssetType assetType : assets) {
 			to.getAssetClasses().add(assetType.getAssetClass());
 		}
 	}

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 import org.tomp.api.repository.MPRepository;
 import org.tomp.api.utils.ClientUtil;
 
-import io.swagger.model.Execution;
-import io.swagger.model.ExecutionEvent;
+import io.swagger.model.Leg;
+import io.swagger.model.LegEvent;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.tripexecution", havingValue = "maasprovider", matchIfMissing = false)
@@ -20,7 +20,7 @@ public class MaasSTripExecutionProvider implements TripExecutionProvider {
 	ClientUtil clientUtil;
 
 	@Override
-	public Execution prepare(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg prepare(LegEvent body, String acceptLanguage, String id, String maasId) {
 		/*
 		 * Trip trip = repository.getTrip(id); Segment segment =
 		 * trip.getSegments().get(Integer.parseInt(body.getComment()));
@@ -34,37 +34,37 @@ public class MaasSTripExecutionProvider implements TripExecutionProvider {
 	}
 
 	@Override
-	public Execution assignAsset(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg assignAsset(LegEvent body, String acceptLanguage, String id, String maasId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Execution reserve(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg reserve(LegEvent body, String acceptLanguage, String id, String maasId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Execution setInUse(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg setInUse(LegEvent body, String acceptLanguage, String id, String maasId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Execution pause(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg pause(LegEvent body, String acceptLanguage, String id, String maasId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Execution startFinishing(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg startFinishing(LegEvent body, String acceptLanguage, String id, String maasId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Execution finish(ExecutionEvent body, String acceptLanguage, String id, String maasId) {
+	public Leg finish(LegEvent body, String acceptLanguage, String id, String maasId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

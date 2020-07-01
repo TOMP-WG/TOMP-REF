@@ -5,6 +5,8 @@
  */
 package io.swagger.api;
 
+import io.swagger.model.AssetType;
+import io.swagger.model.EndpointImplementation;
 import io.swagger.model.Error;
 import io.swagger.model.StationInformation;
 import io.swagger.model.SystemAlert;
@@ -13,7 +15,6 @@ import io.swagger.model.SystemHours;
 import io.swagger.model.SystemInformation;
 import io.swagger.model.SystemPricingPlan;
 import io.swagger.model.SystemRegion;
-import io.swagger.model.TypeOfAsset;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -44,8 +45,8 @@ public interface OperatorApi {
 @Authorization(value = "OpenId")    }, tags={ "operator information","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "returns currently active system alerts", response = SystemAlert.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class) })
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class) })
     @RequestMapping(value = "/operator/alerts",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
@@ -55,7 +56,7 @@ public interface OperatorApi {
 );
 
 
-    @ApiOperation(value = "", nickname = "operatorAvailableAssetsGet", notes = "Returns a list of available assets.", response = TypeOfAsset.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "", nickname = "operatorAvailableAssetsGet", notes = "Returns a list of available assets.", response = AssetType.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth"),
 @Authorization(value = "BasicAuth"),
 @Authorization(value = "BearerAuth"),
@@ -63,14 +64,14 @@ public interface OperatorApi {
             }),
 @Authorization(value = "OpenId")    }, tags={ "operator information","TO", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Available assets or asset-types. In case assets are replied, the realtime location is also available.", response = TypeOfAsset.class, responseContainer = "List"),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class),
-        @ApiResponse(code = 403, message = "The request will not be fulfilled, because the request is not legal in the current state. Authorization will not help.", response = Error.class),
+        @ApiResponse(code = 200, message = "Available assets or asset-types. In case assets are replied, the realtime location is also available.", response = AssetType.class, responseContainer = "List"),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 403, message = "The request will not be fulfilled, because the request is not legal in the current state. Authorization will not help. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
         @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists.") })
     @RequestMapping(value = "/operator/available-assets",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<TypeOfAsset>> operatorAvailableAssetsGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    ResponseEntity<List<AssetType>> operatorAvailableAssetsGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 );
@@ -85,14 +86,30 @@ public interface OperatorApi {
 @Authorization(value = "OpenId")    }, tags={ "operator information","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = SystemInformation.class),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class) })
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class) })
     @RequestMapping(value = "/operator/information",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<SystemInformation> operatorInformationGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
+);
+
+
+    @ApiOperation(value = "describes the running implementations", nickname = "operatorMetaGet", notes = "all versions that are implemented on this url, are described in the result of this endpoint. In contains all versions and per version the endpoints, their status and the supported scenarios.", response = EndpointImplementation.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth"),
+@Authorization(value = "BasicAuth"),
+@Authorization(value = "BearerAuth"),
+@Authorization(value = "OAuth", scopes = { 
+            }),
+@Authorization(value = "OpenId")    }, tags={ "operator information","TO","MP", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = EndpointImplementation.class, responseContainer = "List") })
+    @RequestMapping(value = "/operator/meta",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<List<EndpointImplementation>> operatorMetaGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 );
 
 
@@ -105,8 +122,8 @@ public interface OperatorApi {
 @Authorization(value = "OpenId")    }, tags={ "operator information","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = SystemCalendar.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class) })
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class) })
     @RequestMapping(value = "/operator/operating-calendar",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
@@ -125,8 +142,8 @@ public interface OperatorApi {
 @Authorization(value = "OpenId")    }, tags={ "operator information","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = SystemHours.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class) })
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class) })
     @RequestMapping(value = "/operator/operating-hours",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
@@ -145,8 +162,8 @@ public interface OperatorApi {
 @Authorization(value = "OpenId")    }, tags={ "operator information","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "returns standard pricing plans for an operator", response = SystemPricingPlan.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class) })
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class) })
     @RequestMapping(value = "/operator/pricing-plans",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
@@ -165,8 +182,8 @@ public interface OperatorApi {
 @Authorization(value = "OpenId")    }, tags={ "operator information","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = SystemRegion.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class) })
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class) })
     @RequestMapping(value = "/operator/regions",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
@@ -185,8 +202,8 @@ public interface OperatorApi {
 @Authorization(value = "OpenId")    }, tags={ "operator information","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = StationInformation.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class) })
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class) })
     @RequestMapping(value = "/operator/stations",
         produces = { "application/json" }, 
         method = RequestMethod.GET)

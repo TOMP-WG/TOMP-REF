@@ -24,7 +24,7 @@ import io.swagger.client.ApiException;
 import io.swagger.client.ApiResponse;
 import io.swagger.client.Pair;
 import io.swagger.client.ProgressRequestBody.ProgressRequestListener;
-import io.swagger.model.Polygon;
+import io.swagger.model.GeojsonPolygon;
 
 @Component
 public class LookupService {
@@ -64,7 +64,7 @@ public class LookupService {
 
 	}
 
-	public MaasOperator[] findOperators(Polygon area) throws JsonProcessingException {
+	public MaasOperator[] findOperators(GeojsonPolygon area) throws JsonProcessingException {
 		Object body = "{\"area\": " + mapper.writeValueAsString(area) + "}";
 		return callEndpoint("POST", "/operators", body, MaasOperator[].class);
 	}
@@ -100,7 +100,7 @@ public class LookupService {
 	}
 
 	private String body(String id) throws IOException {
-		Polygon area = fileService.getArea();
+		GeojsonPolygon area = fileService.getArea();
 		MaasEnvironmentType type = configuration.getEnvironmentType();
 		return "{" + "  \"id\": \"" + id + "\"," + "  \"type\": " + mapper.writeValueAsString(type) + ","
 				+ "  \"name\": \"" + configuration.getAppName() + "\"," + "  \"url\": \""

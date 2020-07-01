@@ -7,8 +7,11 @@ import java.util.List;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+import org.tomp.api.utils.GeoUtil;
 
 import io.swagger.model.AssetClass;
+import io.swagger.model.AssetProperties;
+import io.swagger.model.AssetProperties.EnergyLabelEnum;
 import io.swagger.model.Condition;
 import io.swagger.model.ConditionReturnArea;
 import io.swagger.model.Coordinates;
@@ -16,12 +19,10 @@ import io.swagger.model.Day;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
+import io.swagger.model.GeojsonPolygon;
 import io.swagger.model.Leg;
-import io.swagger.model.Polygon;
 import io.swagger.model.SystemHours;
-import io.swagger.model.Time;
-import io.swagger.model.TypeOfAsset;
-import io.swagger.model.TypeOfAsset.EnergyLabelEnum;
+import io.swagger.model.AssetType;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "bike", matchIfMissing = false)
@@ -40,47 +41,33 @@ public class BikePlanningProvider extends BasePlanningProvider {
 	}
 
 	@Override
-	protected TypeOfAsset getAssetType() {
-		TypeOfAsset typeOfAsset = new TypeOfAsset();
-		typeOfAsset.setAssetClass(AssetClass.BICYCLE);
-		typeOfAsset.setAssetSubClass("Child, 26 inch");
-		typeOfAsset.setModel("Batavus");
-		typeOfAsset.setEnergyLabel(EnergyLabelEnum.A);
-		return typeOfAsset;
+	protected AssetType getAssetType() {
+		AssetType assetType = new AssetType();
+		assetType.setAssetClass(AssetClass.BICYCLE);
+		assetType.setAssetSubClass("Child, 26 inch");
+		AssetProperties sharedProperties = new AssetProperties();
+		sharedProperties.setModel("Batavus");
+		sharedProperties.setEnergyLabel(EnergyLabelEnum.A);
+		assetType.setSharedProperties(sharedProperties);
+		return assetType;
 	}
 
 	@Override
-	protected List<Condition> getConditions(ArrayList<Leg> results, String acceptLanguage) {
+	protected List<Condition> getConditionsForLeg(Leg result, String acceptLanguage) {
 		ConditionReturnArea condition = new ConditionReturnArea();
 		condition.setId("Haarlem");
-		Polygon geometry = new Polygon();
-		geometry.addPointsItem(toPoint(4.599516, 52.42857));
-		geometry.addPointsItem(toPoint(4.686921, 52.42857));
-		geometry.addPointsItem(toPoint(4.686921, 52.338906));
-		geometry.addPointsItem(toPoint(4.599516, 52.338906));
-		geometry.addPointsItem(toPoint(4.599516, 52.42857));
+		GeojsonPolygon geometry = new GeojsonPolygon();
+		GeoUtil.addPoint(geometry, 4.599516, 52.42857);
+		GeoUtil.addPoint(geometry, 4.686921, 52.42857);
+		GeoUtil.addPoint(geometry, 4.686921, 52.338906);
+		GeoUtil.addPoint(geometry, 4.599516, 52.338906);
+		GeoUtil.addPoint(geometry, 4.599516, 52.42857);
 		condition.setReturnArea(geometry);
 		SystemHours period = new SystemHours();
-		Time startTime = new Time();
-		startTime.setTime("12:18");
-		period.setStartTime(startTime);
-		Time endTime = new Time();
-		endTime.setTime("13:02");
-		period.setEndTime(endTime);
+		period.setStartTime("12:18");
+		period.setEndTime("13:02");
 		period.setDays(Arrays.asList(Day.MON));
 		condition.setReturnHours(Arrays.asList(period));
 		return Arrays.asList((Condition) condition);
-	}
-
-	@Override
-	protected List<String> getConditionsForLeg(Leg result, String acceptLanguage) {
-		return Arrays.asList("Haarlem");
-	}
-
-	private Coordinates toPoint(double d, double e) {
-		Coordinates coordinate = new Coordinates();
-		coordinate.setLng(BigDecimal.valueOf(d));
-		coordinate.setLat(BigDecimal.valueOf(e));
-		return coordinate;
 	}
 }

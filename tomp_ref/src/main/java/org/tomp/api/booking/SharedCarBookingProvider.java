@@ -1,7 +1,8 @@
 package org.tomp.api.booking;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.model.LookupService;
 import org.tomp.api.model.MaasOperator;
-import org.tomp.api.repository.DummyRepository;
+import org.tomp.api.repository.DefaultRepository;
 import org.tomp.api.utils.ClientUtil;
 import org.tomp.api.utils.FareUtil;
 import org.tomp.api.utils.LegUtil;
@@ -27,14 +28,13 @@ import io.swagger.client.ApiException;
 import io.swagger.model.Booking;
 import io.swagger.model.BookingOperation;
 import io.swagger.model.BookingOperation.OperationEnum;
-import io.swagger.model.BookingOption;
+import io.swagger.model.BookingRequest;
 import io.swagger.model.BookingState;
 import io.swagger.model.Coordinates;
 import io.swagger.model.Customer;
 import io.swagger.model.ExtraCosts;
 import io.swagger.model.JournalCategory;
 import io.swagger.model.JournalEntry;
-import io.swagger.model.KeyValue;
 import io.swagger.model.Leg;
 
 @Component
@@ -44,7 +44,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 	private static final String MAAS_ID = "maas-id";
 	private static final Logger log = LoggerFactory.getLogger(SharedCarBookingProvider.class);
 
-	private DummyRepository repository;
+	private DefaultRepository repository;
 	private MailUtil mailService;
 	private LookupService lookupService;
 
@@ -59,7 +59,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 	LegUtil legUtil;
 
 	@Autowired
-	public SharedCarBookingProvider(DummyRepository repository, Optional<MailUtil> mailService,
+	public SharedCarBookingProvider(DefaultRepository repository, Optional<MailUtil> mailService,
 			ExternalConfiguration configuration, ClientUtil clientUtil, LookupService lookupService) {
 		this.repository = repository;
 		this.mailService = mailService.isPresent() ? mailService.get() : null;
@@ -69,7 +69,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 	}
 
 	@Override
-	public Booking addNewBooking(@Valid BookingOption body, String acceptLanguage) {
+	public Booking addNewBooking(@Valid BookingRequest body, String acceptLanguage) {
 		log.info("Booking request {}", body.getId());
 		String id = body.getId();
 		Booking booking = new Booking();
@@ -114,7 +114,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 
 			booking.setState(BookingState.CANCELLED);
 			JournalEntry entry = new JournalEntry();
-			Leg savedOption = repository.getSavedOption(id);
+			Leg savedOption = repository.getLeg(id);
 
 			double calculated = fareUtil.calculateFare(savedOption);
 			if (calculated > 0) {
@@ -135,20 +135,18 @@ public class SharedCarBookingProvider implements BookingProvider {
 		Booking booking = repository.getBooking(id);
 		booking.setState(BookingState.CONDITIONAL_CONFIRMED);
 		String maasId = request.getHeader(MAAS_ID);
-		KeyValue e = new KeyValue();
-		e.put(MAAS_ID, maasId);
-		ArrayList<KeyValue> meta = new ArrayList<>();
-		meta.add(e);
-		booking.setMeta(meta);
+		HashMap<String, Object> extraData = new HashMap<>();
+		extraData.put(MAAS_ID, maasId);
+		booking.setExtraData(extraData);
 		String mpUrl = getMPUrl(maasId);
 		if (mpUrl.endsWith("/")) {
 			mpUrl = mpUrl.substring(0, mpUrl.length() - 1);
 		}
-		booking.setWebhook(mpUrl + "/bookings/" + id + "/events");
+		// booking.setWebhook(mpUrl + "/bookings/" + id + "/events");
 		repository.saveBooking(booking);
 
 		JournalEntry entry = new JournalEntry();
-		Leg leg = repository.getSavedOption(id);
+		Leg leg = repository.getLeg(id);
 		entry.setDetails(leg.getPricing());
 		entry.setJournalId(leg.getId());
 		repository.saveJournalEntry(entry, request.getHeader("maas-id"));
@@ -175,7 +173,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 			}
 			String url = mpUrl + "/postponed/" + booking.getId();
 			log.info("URL: {}", url);
-			booking.setWebhook(url);
+			// booking.setWebhook(url);
 		}
 	}
 
@@ -218,18 +216,18 @@ public class SharedCarBookingProvider implements BookingProvider {
 		builder.append(customer.getBirthDate());
 		builder.append("\r\n");
 
-		Leg leg = repository.getSavedOption(booking.getId());
-		Coordinates from = leg.getFrom();
+		Leg leg = repository.getLeg(booking.getId());
+		Coordinates from = leg.getFrom().getCoordinates();
 		builder.append("Start ");
-		builder.append(leg.getStartTime());
+		builder.append(leg.getDepartureTime());
 		builder.append(" - ");
 		builder.append(from.getLat());
 		builder.append("/");
 		builder.append(from.getLng());
 		builder.append("\r\n");
-		Coordinates to = leg.getTo();
+		Coordinates to = leg.getTo().getCoordinates();
 		builder.append("End ");
-		builder.append(leg.getEndTime());
+		builder.append(leg.getArrivalTime());
 		builder.append(" - ");
 		builder.append(to.getLat());
 		builder.append("/");
@@ -274,26 +272,26 @@ public class SharedCarBookingProvider implements BookingProvider {
 		Booking booking = repository.getBooking(id);
 		booking.setState(committed ? BookingState.CONFIRMED : BookingState.CANCELLED);
 		if (!committed) {
-			KeyValue e = new KeyValue();
-			e.put("DenyReason", remark);
-			booking.getMeta().add(e);
+			HashMap<String, Object> extraData = new HashMap<>();
+			extraData.put("DenyReason", remark);
+			booking.setExtraData(extraData);
 		}
 		repository.saveBooking(booking);
 
 		BookingOperation operation = new BookingOperation();
 		operation.setOperation(committed ? OperationEnum.COMMIT : OperationEnum.DENY);
-		for (KeyValue kv : booking.getMeta()) {
-			if (kv.get(MAAS_ID) != null) {
-				MaasOperator mp = lookupService.getMaasOperator(kv.get(MAAS_ID).toString());
+		for (Entry<String, Object> kv : booking.getExtraData().entrySet()) {
+			if (kv.getKey().equals(MAAS_ID)) {
+				MaasOperator mp = lookupService.getMaasOperator(kv.getValue().toString());
 				if (mp != null) {
 					try {
 						clientUtil.post(mp, "/bookings/" + id + "/events", operation, Void.class);
 					} catch (ApiException e) {
-						log.error("MP {} cannot be reached", kv.get(MAAS_ID));
+						log.error("MP {} cannot be reached", kv.getValue());
 						log.error(e.getMessage());
 					}
 				} else {
-					log.error("MP not in meta directory: {} or Meta directory not available", kv.get(MAAS_ID));
+					log.error("MP not in meta directory: {} or Meta directory not available", kv.getValue());
 				}
 				return;
 			}

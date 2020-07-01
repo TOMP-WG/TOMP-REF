@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * ConditionPostponedCommit
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:48:03.908Z[GMT]")
 public class ConditionPostponedCommit extends Condition implements OneOfcondition {
   @JsonProperty("ultimateResponseTime")
   private OffsetDateTime ultimateResponseTime = null;

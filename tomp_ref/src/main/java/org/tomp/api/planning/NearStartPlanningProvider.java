@@ -1,6 +1,5 @@
 package org.tomp.api.planning;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.tomp.api.repository.RegionContainer;
+import org.tomp.api.utils.GeoUtil;
 
 import io.swagger.model.Coordinates;
 import io.swagger.model.Planning;
@@ -34,21 +34,13 @@ public class NearStartPlanningProvider extends GenericPlanningProvider {
 		Point start = gf.createPoint(toCoordinate(body.getFrom().getCoordinates()));
 		List<SystemRegion> regions = regionContainer.getRegions();
 		for (SystemRegion region : regions) {
-			Polygon p = toPolygon(region.getServiceArea());
+			Polygon p = GeoUtil.toPolygon(region.getServiceArea());
 			double distance = start.distance(p);
 			if (distance < body.getRadius().doubleValue()) {
 				return super.getOptions(body, acceptLanguage, bookingIntent);
 			}
 		}
 		return new Planning();
-	}
-
-	private Polygon toPolygon(io.swagger.model.Polygon serviceArea) {
-		List<Coordinate> points = new ArrayList<>();
-		for (Coordinates coordinate : serviceArea.getPoints()) {
-			points.add(toCoordinate(coordinate));
-		}
-		return gf.createPolygon(points.toArray(new Coordinate[] {}));
 	}
 
 	private Coordinate toCoordinate(@NotNull @Valid Coordinates coordinates) {

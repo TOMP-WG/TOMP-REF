@@ -6,7 +6,5 @@ import io.swagger.model.Condition;
 import io.swagger.model.Leg;
 
 public interface ConditionProvider {
-	public List<Condition> getConditions(String acceptLanguage);
-
-	public List<String> getApplyingConditions(String acceptLanguage, Leg result);
+	public List<Condition> getApplyingConditions(String acceptLanguage, Leg result);
 }

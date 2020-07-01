@@ -17,12 +17,12 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiParam;
-import io.swagger.api.ExecutionsApiController;
-import io.swagger.model.Execution;
-import io.swagger.model.ExecutionEvent;
+import io.swagger.api.LegsApiController;
+import io.swagger.model.Leg;
+import io.swagger.model.LegEvent;
 
 @RestController
-public class TripExecutionController extends ExecutionsApiController {
+public class TripExecutionController extends LegsApiController {
 
 	@Autowired
 	TripExecutionProvider provider;
@@ -39,15 +39,15 @@ public class TripExecutionController extends ExecutionsApiController {
 	}
 
 	@Override
-	public ResponseEntity<Execution> executionsIdEventsPost(
-			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
+	public ResponseEntity<Leg> legsIdEventsPost(
+			@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
 			@ApiParam(value = "Leg identifier", required = true) @PathVariable("id") String id,
-			@ApiParam(value = "") @Valid @RequestBody ExecutionEvent body) {
+			@ApiParam(value = "") @Valid @RequestBody LegEvent body) {
 
 		HeaderValidator.validateHeader(request);
-		Execution leg = null;
+		Leg leg = null;
 
 		String maasId = request.getHeader("maas-id");
 		switch (body.getEvent()) {

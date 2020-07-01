@@ -7,10 +7,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.AmountOfMoney;
-import io.swagger.model.KeyValue;
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -152,7 +152,7 @@ public class FarePart extends AmountOfMoney  {
 
   @JsonProperty("meta")
   @Valid
-  private List<KeyValue> meta = null;
+  private Map<String, Object> meta = null;
 
   public FarePart type(TypeEnum type) {
     this.type = type;
@@ -182,7 +182,8 @@ public class FarePart extends AmountOfMoney  {
    * in case of 'FLEX' mandatory. E.g. 0.5 EUR per HOUR
    * @return unitType
   **/
-  @ApiModelProperty(value = "in case of 'FLEX' mandatory. E.g. 0.5 EUR per HOUR")
+  @ApiModelProperty(required = true, value = "in case of 'FLEX' mandatory. E.g. 0.5 EUR per HOUR")
+      @NotNull
   
     public UnitTypeEnum getUnitType() {
     return unitType;
@@ -309,16 +310,16 @@ public class FarePart extends AmountOfMoney  {
     this.propertyClass = propertyClass;
   }
 
-  public FarePart meta(List<KeyValue> meta) {
+  public FarePart meta(Map<String, Object> meta) {
     this.meta = meta;
     return this;
   }
 
-  public FarePart addMetaItem(KeyValue metaItem) {
+  public FarePart putMetaItem(String key, Object metaItem) {
     if (this.meta == null) {
-      this.meta = new ArrayList<KeyValue>();
+      this.meta = new HashMap<String, Object>();
     }
-    this.meta.add(metaItem);
+    this.meta.put(key, metaItem);
     return this;
   }
 
@@ -327,12 +328,12 @@ public class FarePart extends AmountOfMoney  {
    * @return meta
   **/
   @ApiModelProperty(value = "")
-      @Valid
-    public List<KeyValue> getMeta() {
+  
+    public Map<String, Object> getMeta() {
     return meta;
   }
 
-  public void setMeta(List<KeyValue> meta) {
+  public void setMeta(Map<String, Object> meta) {
     this.meta = meta;
   }
 

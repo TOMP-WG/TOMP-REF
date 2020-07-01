@@ -16,7 +16,7 @@ import io.swagger.model.SystemHours;
 import io.swagger.model.SystemInformation;
 import io.swagger.model.SystemPricingPlan;
 import io.swagger.model.SystemRegion;
-import io.swagger.model.TypeOfAsset;
+import io.swagger.model.AssetType;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.operatorinformation", havingValue = "generic", matchIfMissing = true)
@@ -30,10 +30,10 @@ public class GenericOperatorInformationProvider implements OperatorInformationPr
 	}
 
 	@Override
-	public List<TypeOfAsset> getAvailableAssetTypes(String acceptLanguage) {
-		ObjectFromFileProvider<TypeOfAsset[]> provider = new ObjectFromFileProvider<>();
-		ArrayList<TypeOfAsset> list = new ArrayList<>();
-		Collections.addAll(list, provider.getObject(acceptLanguage, TypeOfAsset[].class, configuration.getAssetFile()));
+	public List<AssetType> getAvailableAssetTypes(String acceptLanguage) {
+		ObjectFromFileProvider<AssetType[]> provider = new ObjectFromFileProvider<>();
+		ArrayList<AssetType> list = new ArrayList<>();
+		Collections.addAll(list, provider.getObject(acceptLanguage, AssetType[].class, configuration.getAssetFile()));
 		return list;
 	}
 

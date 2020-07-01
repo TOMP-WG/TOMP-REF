@@ -17,8 +17,8 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "event for the execution")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T13:55:00.069Z[GMT]")
-public class ExecutionEvent   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:11:18.823Z[GMT]")
+public class LegEvent   {
   @JsonProperty("time")
   private OffsetDateTime time = null;
 
@@ -71,7 +71,7 @@ public class ExecutionEvent   {
   @JsonProperty("asset")
   private Asset asset = null;
 
-  public ExecutionEvent time(OffsetDateTime time) {
+  public LegEvent time(OffsetDateTime time) {
     this.time = time;
     return this;
   }
@@ -92,7 +92,7 @@ public class ExecutionEvent   {
     this.time = time;
   }
 
-  public ExecutionEvent event(EventEnum event) {
+  public LegEvent event(EventEnum event) {
     this.event = event;
     return this;
   }
@@ -112,7 +112,7 @@ public class ExecutionEvent   {
     this.event = event;
   }
 
-  public ExecutionEvent comment(String comment) {
+  public LegEvent comment(String comment) {
     this.comment = comment;
     return this;
   }
@@ -131,7 +131,7 @@ public class ExecutionEvent   {
     this.comment = comment;
   }
 
-  public ExecutionEvent asset(Asset asset) {
+  public LegEvent asset(Asset asset) {
     this.asset = asset;
     return this;
   }
@@ -160,11 +160,11 @@ public class ExecutionEvent   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ExecutionEvent executionEvent = (ExecutionEvent) o;
-    return Objects.equals(this.time, executionEvent.time) &&
-        Objects.equals(this.event, executionEvent.event) &&
-        Objects.equals(this.comment, executionEvent.comment) &&
-        Objects.equals(this.asset, executionEvent.asset);
+    LegEvent legEvent = (LegEvent) o;
+    return Objects.equals(this.time, legEvent.time) &&
+        Objects.equals(this.event, legEvent.event) &&
+        Objects.equals(this.comment, legEvent.comment) &&
+        Objects.equals(this.asset, legEvent.asset);
   }
 
   @Override
@@ -175,7 +175,7 @@ public class ExecutionEvent   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ExecutionEvent {\n");
+    sb.append("class LegEvent {\n");
     
     sb.append("    time: ").append(toIndentedString(time)).append("\n");
     sb.append("    event: ").append(toIndentedString(event)).append("\n");

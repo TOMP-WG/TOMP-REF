@@ -5,48 +5,62 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Coordinates;
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Polygon
+ * a lon, lat (WGS84, EPSG:4326)
  */
+@ApiModel(description = "a lon, lat (WGS84, EPSG:4326)")
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
-public class Polygon   {
-  @JsonProperty("points")
-  @Valid
-  private List<Coordinates> points = null;
+public class Coordinates   {
+  @JsonProperty("lng")
+  private BigDecimal lng = null;
 
-  public Polygon points(List<Coordinates> points) {
-    this.points = points;
-    return this;
-  }
+  @JsonProperty("lat")
+  private BigDecimal lat = null;
 
-  public Polygon addPointsItem(Coordinates pointsItem) {
-    if (this.points == null) {
-      this.points = new ArrayList<Coordinates>();
-    }
-    this.points.add(pointsItem);
+  public Coordinates lng(BigDecimal lng) {
+    this.lng = lng;
     return this;
   }
 
   /**
-   * Get points
-   * @return points
+   * Get lng
+   * @return lng
   **/
-  @ApiModelProperty(value = "")
-      @Valid
-    public List<Coordinates> getPoints() {
-    return points;
+  @ApiModelProperty(example = "6.169639", value = "")
+  
+    @Valid
+    public BigDecimal getLng() {
+    return lng;
   }
 
-  public void setPoints(List<Coordinates> points) {
-    this.points = points;
+  public void setLng(BigDecimal lng) {
+    this.lng = lng;
+  }
+
+  public Coordinates lat(BigDecimal lat) {
+    this.lat = lat;
+    return this;
+  }
+
+  /**
+   * Get lat
+   * @return lat
+  **/
+  @ApiModelProperty(example = "52.253279", value = "")
+  
+    @Valid
+    public BigDecimal getLat() {
+    return lat;
+  }
+
+  public void setLat(BigDecimal lat) {
+    this.lat = lat;
   }
 
 
@@ -58,21 +72,23 @@ public class Polygon   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Polygon polygon = (Polygon) o;
-    return Objects.equals(this.points, polygon.points);
+    Coordinates coordinates = (Coordinates) o;
+    return Objects.equals(this.lng, coordinates.lng) &&
+        Objects.equals(this.lat, coordinates.lat);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(points);
+    return Objects.hash(lng, lat);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Polygon {\n");
+    sb.append("class Coordinates {\n");
     
-    sb.append("    points: ").append(toIndentedString(points)).append("\n");
+    sb.append("    lng: ").append(toIndentedString(lng)).append("\n");
+    sb.append("    lat: ").append(toIndentedString(lat)).append("\n");
     sb.append("}");
     return sb.toString();
   }

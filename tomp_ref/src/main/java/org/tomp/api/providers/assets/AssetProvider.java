@@ -2,10 +2,10 @@ package org.tomp.api.providers.assets;
 
 import java.util.List;
 
-import io.swagger.model.TypeOfAsset;
+import io.swagger.model.AssetType;
 
 public interface AssetProvider {
-	public TypeOfAsset getTypeOfAsset();
+	public AssetType getTypeOfAsset();
 
-	public List<TypeOfAsset> getAssetTypes();
+	public List<AssetType> getAssetTypes();
 }

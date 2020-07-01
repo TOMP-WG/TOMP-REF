@@ -34,21 +34,21 @@ import org.tomp.api.model.gbfs.GbfsLanguageFeed;
 import org.tomp.api.model.gbfs.GbfsLink;
 import org.tomp.api.repository.GbfsRepository;
 import org.tomp.api.utils.GeoCoderUtil;
+import org.tomp.api.utils.GeoUtil;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.swagger.model.AssetType;
 import io.swagger.model.Coordinates;
 import io.swagger.model.Day;
 import io.swagger.model.StationInformation;
 import io.swagger.model.SystemCalendar;
 import io.swagger.model.SystemHours;
+import io.swagger.model.SystemHours.UserTypeEnum;
 import io.swagger.model.SystemInformation;
 import io.swagger.model.SystemPricingPlan;
 import io.swagger.model.SystemRegion;
-import io.swagger.model.Time;
-import io.swagger.model.TypeOfAsset;
-import io.swagger.model.SystemHours.UserTypeEnum;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.operatorinformation", havingValue = "gbfs", matchIfMissing = false)
@@ -141,8 +141,8 @@ public class GbfsOperatorInformation implements OperatorInformationProvider {
 				hours.setUserType(UserTypeEnum.MEMBER);
 			}
 			hours.setDays(toDays(info.get("days")));
-			hours.setStartTime(toTime(info.get("start_time").toString()));
-			hours.setEndTime(toTime(info.get("end_time").toString()));
+			hours.setStartTime(info.get("start_time").toString());
+			hours.setEndTime(info.get("end_time").toString());
 			repository.getSystemHours().add(hours);
 		}
 	}
@@ -155,12 +155,6 @@ public class GbfsOperatorInformation implements OperatorInformationProvider {
 			days.add(Day.fromValue(importDay.toUpperCase()));
 		}
 		return days;
-	}
-
-	private Time toTime(String time) {
-		Time t = new Time();
-		t.setTime(time);
-		return t;
 	}
 
 	private void processGbfsUrls() {
@@ -270,7 +264,7 @@ public class GbfsOperatorInformation implements OperatorInformationProvider {
 	}
 
 	@Override
-	public List<TypeOfAsset> getAvailableAssetTypes(String acceptLanguage) {
+	public List<AssetType> getAvailableAssetTypes(String acceptLanguage) {
 		return repository.getAssets();
 	}
 

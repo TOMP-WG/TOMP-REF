@@ -1,8 +1,5 @@
 package org.tomp.api.controllers;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -20,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.tomp.api.booking.BookingProvider;
 import org.tomp.api.booking.SharedCarBookingProvider;
 import org.tomp.api.model.PostPonedResult;
-import org.tomp.api.repository.DummyRepository;
+import org.tomp.api.repository.DefaultRepository;
 import org.tomp.api.utils.HeaderValidator;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -31,7 +28,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.api.BookingsApiController;
 import io.swagger.model.Booking;
 import io.swagger.model.BookingOperation;
-import io.swagger.model.BookingOption;
+import io.swagger.model.BookingRequest;
 
 @RestController
 public class BookingsController extends BookingsApiController {
@@ -44,7 +41,7 @@ public class BookingsController extends BookingsApiController {
 	private ObjectMapper objectMapper;
 
 	@Autowired
-	private DummyRepository repository;
+	private DefaultRepository repository;
 
 	public BookingsController(ObjectMapper objectMapper, HttpServletRequest request) {
 		super(objectMapper, request);
@@ -55,7 +52,7 @@ public class BookingsController extends BookingsApiController {
 
 	@Override
 	public ResponseEntity<Booking> bookingsPost(
-			@ApiParam(value = "One of available options, returned by /planning-options, with an ID.", required = true) @Valid @RequestBody BookingOption body,
+			@ApiParam(value = "One of available options, returned by /planning-options, with an ID.", required = true) @Valid @RequestBody BookingRequest body,
 			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
 			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion) {

@@ -32,7 +32,8 @@ public class Coordinates   {
    * Get lng
    * @return lng
   **/
-  @ApiModelProperty(example = "6.169639", value = "")
+  @ApiModelProperty(example = "6.169639", required = true, value = "")
+      @NotNull
   
     @Valid
     public BigDecimal getLng() {
@@ -52,7 +53,8 @@ public class Coordinates   {
    * Get lat
    * @return lat
   **/
-  @ApiModelProperty(example = "52.253279", value = "")
+  @ApiModelProperty(example = "52.253279", required = true, value = "")
+      @NotNull
   
     @Valid
     public BigDecimal getLat() {

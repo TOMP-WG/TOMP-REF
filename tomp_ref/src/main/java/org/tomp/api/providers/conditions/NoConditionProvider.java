@@ -20,12 +20,7 @@ public class NoConditionProvider implements ConditionProvider {
 	protected ExternalConfiguration configuration;
 
 	@Override
-	public List<Condition> getConditions(String acceptLanguage) {
-		return Arrays.asList(new Condition());
-	}
-
-	@Override
-	public List<String> getApplyingConditions(String acceptLanguage, Leg result) {
+	public List<Condition> getApplyingConditions(String acceptLanguage, Leg result) {
 		return new ArrayList<>();
 	}
 }

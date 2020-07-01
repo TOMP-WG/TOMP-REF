@@ -38,8 +38,8 @@ public interface SupportApi {
 @Authorization(value = "OpenId")    }, tags={ "support","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "support status delivered", response = SupportStatus.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class),
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
         @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists.") })
     @RequestMapping(value = "/support/{id}/status",
         produces = { "application/json" }, 
@@ -60,8 +60,8 @@ public interface SupportApi {
 @Authorization(value = "OpenId")    }, tags={ "support","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "support request acknowledged", response = SupportStatus.class),
-        @ApiResponse(code = 400, message = "Bad request (invalid query or body parameters).", response = Error.class),
-        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization.", response = Error.class),
+        @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
         @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists.") })
     @RequestMapping(value = "/support/",
         produces = { "application/json" }, 
