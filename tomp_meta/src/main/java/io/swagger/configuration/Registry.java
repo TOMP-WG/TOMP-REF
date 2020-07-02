@@ -1,5 +1,6 @@
 package io.swagger.configuration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +9,12 @@ import java.util.Map.Entry;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.swagger.model.Coordinates;
+import io.swagger.model.GeojsonLine;
+import io.swagger.model.GeojsonPoint;
+import io.swagger.model.GeojsonPolygon;
 import io.swagger.model.MaasOperator;
 import io.swagger.model.Polygon;
 
@@ -23,6 +29,7 @@ public class Registry {
 		map.put(operator.getId(), operator);
 		tokens.put(operator.getId(), operator.getValidationToken());
 		operator.setValidationToken("");
+
 		registerArea(operator.getId(), operator.getServicedArea());
 	}
 
@@ -34,8 +41,41 @@ public class Registry {
 		return tokens.get(id);
 	}
 
-	public void registerArea(String id, Polygon serviceArea) {
-		areaMap.put(id, serviceArea);
+	public void registerArea(String id, Object serviceArea) {
+		ObjectMapper mapper = new ObjectMapper();
+		Polygon polygon = null;
+		try {
+			polygon = mapper.readValue(serviceArea.toString(), Polygon.class);
+		} catch (Exception e) {
+		}
+		if (polygon == null) {
+			try {
+				GeojsonPolygon p = mapper.readValue(serviceArea.toString(), GeojsonPolygon.class);
+				if (p != null) {
+					polygon = toPolygon(p);
+				}
+			} catch (Exception e) {
+			}
+		}
+
+		areaMap.put(id, polygon);
+	}
+
+	public void registerPolygon(String id, Polygon polygon) {
+		areaMap.put(id, polygon);
+	}
+
+	private Polygon toPolygon(GeojsonPolygon p) {
+		Polygon polygon = new Polygon();
+		for (GeojsonLine line : p) {
+			for (GeojsonPoint point : line) {
+				Coordinates pointsItem = new Coordinates();
+				pointsItem.setLng(point.get(0));
+				pointsItem.setLat(point.get(1));
+				polygon.addPointsItem(pointsItem);
+			}
+		}
+		return polygon;
 	}
 
 	public boolean isInArea(String id, Coordinates location) {
@@ -55,4 +95,5 @@ public class Registry {
 
 		return locations;
 	}
+
 }

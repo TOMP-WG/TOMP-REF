@@ -206,9 +206,7 @@ public class ApiController extends OperatorsApiController {
 	}
 
 	private void fetchArea(MaasOperator operator) {
-		if (operator.getServicedArea() == null || operator.getServicedArea().getPoints() == null
-				|| operator.getServicedArea().getPoints().isEmpty()) {
-
+		if (operator.getServicedArea() == null || !operator.getServicedArea().equals("")) {
 			ApiClient client = new ApiClient();
 			String url = operator.getUrl();
 			if (url.endsWith("/")) {
@@ -250,7 +248,7 @@ public class ApiController extends OperatorsApiController {
 				}
 
 				io.swagger.model.Polygon serviceArea = toPolygon(polygon);
-				repository.registerArea(operator.getId(), serviceArea);
+				repository.registerPolygon(operator.getId(), serviceArea);
 
 			} catch (ApiException e) {
 				log.error(e.getMessage());
