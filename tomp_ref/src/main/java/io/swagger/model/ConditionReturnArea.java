@@ -20,7 +20,9 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "a return area. In the condition list there can be multiple return area's.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:48:03.908Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:11:01.002Z[GMT]")
+
+
 public class ConditionReturnArea extends Condition implements OneOfcondition {
   @JsonProperty("stationId")
   private String stationId = null;

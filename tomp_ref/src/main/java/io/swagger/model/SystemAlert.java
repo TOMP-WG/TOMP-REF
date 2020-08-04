@@ -17,7 +17,9 @@ import javax.validation.constraints.*;
  * SystemAlert
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+
+
 public class SystemAlert   {
   @JsonProperty("alertId")
   private String alertId = null;

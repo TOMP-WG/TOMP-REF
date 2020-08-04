@@ -18,7 +18,9 @@ import javax.validation.constraints.*;
  * AssetType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:11:18.823Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+
+
 public class AssetType   {
   @JsonProperty("id")
   private String id = null;

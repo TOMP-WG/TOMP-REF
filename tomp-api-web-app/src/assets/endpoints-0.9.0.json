@@ -1,0 +1,163 @@
+[
+  {
+    "type": "GET",
+    "value": "/operator/meta"
+  },
+  {
+    "type": "GET",
+    "value": "/operator/information"
+  },
+  {
+    "type": "GET",
+    "value": "​/operator​/available-assets"
+  },
+  {
+    "type": "GET",
+    "value": "/operator/regions"
+  },
+  {
+    "type": "GET",
+    "value": "/operator/stations"
+  },
+  {
+    "type": "GET",
+    "value": "/operator/alerts"
+  },
+  {
+    "type": "GET",
+    "value": "/operator/operating-calendar"
+  },
+  {
+    "type": "GET",
+    "value": "/operator/operating-hours"
+  },
+  {
+    "type": "GET",
+    "value": "/operator/pricing-plans"
+  },
+  {
+    "type": "POST",
+    "value": "/plannings/?booking-intent=true",
+    "body": {
+      "departureTime": "2020-01-01 10:00",
+      "arrivalTime": "2020-01-01 12:00",
+      "from": { "coordinates": "" },
+      "to": { "coordinates": "" },
+      "radius": 1000,
+      "travellers": 1,
+      "users": [
+        {
+          "age": 44
+        }
+      ]
+    }
+  },
+  {
+    "type": "POST",
+    "value": "/bookings/",
+    "body": {
+      "id": "{id}",
+      "customer": {
+        "validated": true,
+        "age": 0,
+        "licenses": [
+          {
+            "number": 1287948792,
+            "assetClass": "AIR",
+            "licenseCode": "D4",
+            "country": "NL",
+            "validUntil": "2020-05-11"
+          }
+        ],
+        "cards": [
+          {
+            "cardType": "ID",
+            "cardSubType": "string",
+            "cardDescription": "string",
+            "cardAcceptors": [
+              "string"
+            ],
+            "cardNumber": "string",
+            "cardAdditionalNumber": "string",
+            "validUntil": "2020-05-11",
+            "country": "NL",
+            "assetClass": "AIR"
+          }
+        ],
+        "requirements": 
+          {
+            "wheelchair": true
+          }
+        ,
+        "id": "A0-123456",
+        "initials": "string",
+        "firstName": "John",
+        "lastName": "Doe",
+        "middleName": "von",
+        "prefix": "string",
+        "postfix": "string",
+        "phones": [
+          {
+            "preferred": true,
+            "number": "0031-48934758",
+            "kind": "LANDLINE",
+            "type": "PRIVATE"
+          }
+        ],
+        "email": "string",
+        "birthDate": "2020-05-11",
+        "address": {
+          "streetAddress": "example street 18, 2nd floor, 18-B33",
+          "areaReference": "Smallcity, Pinetree county",
+          "postalCode": "string",
+          "country": "NL"
+        },
+        "photo": null
+      },
+      "fromAddress": {
+        "streetAddress": "example street 18, 2nd floor, 18-B33",
+        "areaReference": "Smallcity, Pinetree county",
+        "postalCode": "string",
+        "country": "NL"
+      },
+      "toAddress": {
+        "streetAddress": "example street 18, 2nd floor, 18-B33",
+        "areaReference": "Smallcity, Pinetree county",
+        "postalCode": "string",
+        "country": "NL"
+      }
+    }
+  },
+  {
+    "type": "POST",
+    "value": "/bookings/{id}/events",
+    "body": {
+      "operation": "COMMIT"
+    }
+  },
+  {
+    "type": "POST",
+    "value": "/bookings/{id}/events",
+    "body": {
+      "operation": "DENY"
+    }
+  },
+  {
+    "type": "GET",
+    "value": "/bookings/{id}"
+  },
+  {
+    "type": "POST",
+    "value": "/legs/{id}/events",
+    "body": {
+      "operation": "SET_IN_USE"
+    }
+  },
+  {
+    "type": "POST",
+    "value": "/legs/{id}/events",
+    "body": {
+      "operation": "FINISH"
+    }
+  }
+]

@@ -14,7 +14,9 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "geojson representation of a polygon. First and last point must be equal. See also https://geojson.org/geojson-spec.html#polygon and example https://geojson.org/geojson-spec.html#id4")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-01T13:52:55.748Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+
+
 public class GeojsonPolygon extends ArrayList<GeojsonLine>  {
 
   @Override

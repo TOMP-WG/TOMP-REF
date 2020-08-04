@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
+import org.tomp.api.utils.ExternalFileService;
 import org.tomp.api.utils.ObjectFromFileProvider;
 
 import io.swagger.model.StationInformation;
@@ -18,17 +19,17 @@ import io.swagger.model.SystemInformation;
 import io.swagger.model.SystemPricingPlan;
 import io.swagger.model.SystemRegion;
 import io.swagger.model.AssetType;
+import io.swagger.model.EndpointImplementation;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.operatorinformation", havingValue = "bike", matchIfMissing = false)
 public class SimpleBikeOperatorInformationProvider implements OperatorInformationProvider {
 
+	@Autowired
 	ExternalConfiguration configuration;
 
 	@Autowired
-	public SimpleBikeOperatorInformationProvider(ExternalConfiguration configuration) {
-		this.configuration = configuration;
-	}
+	ExternalFileService fileService;
 
 	@Override
 	public List<AssetType> getAvailableAssetTypes(String acceptLanguage) {
@@ -80,5 +81,10 @@ public class SimpleBikeOperatorInformationProvider implements OperatorInformatio
 	@Override
 	public List<SystemCalendar> getCalendar(String acceptLanguage) {
 		return new ArrayList<>();
+	}
+
+	@Override
+	public List<EndpointImplementation> getMeta(String acceptLanguage) {
+		return fileService.getEndPoints();
 	}
 }

@@ -17,7 +17,9 @@ import javax.validation.constraints.*;
  * ConditionRequireBookingData
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:48:03.908Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:11:01.002Z[GMT]")
+
+
 public class ConditionRequireBookingData extends Condition implements OneOfcondition {
   /**
    * Gets or Sets requiredFields

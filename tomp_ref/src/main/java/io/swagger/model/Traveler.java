@@ -19,7 +19,9 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "A generic description of a traveler, not including any identifying information")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:11:18.823Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+
+
 public class Traveler   {
   @JsonProperty("isValidated")
   private Boolean isValidated = null;

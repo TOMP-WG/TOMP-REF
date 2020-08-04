@@ -15,7 +15,9 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "provides current asset location & duration and distance of the current leg")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+
+
 public class LegProgress   {
   @JsonProperty("coordinates")
   private Coordinates coordinates = null;

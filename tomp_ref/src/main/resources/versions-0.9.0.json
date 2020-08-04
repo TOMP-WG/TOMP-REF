@@ -1,0 +1,89 @@
+[
+	{
+		"version": "0.9.0",
+		"endpoints": [
+			{
+				"method": "GET",
+				"path": "/operator/meta/",
+				"status": "IMPLEMENTED"
+			},
+			{
+				"method": "GET",
+				"path": "/operator/information/",
+				"status": "IMPLEMENTED"
+			},
+			{
+				"method": "GET",
+				"path": "/operator/regions/",
+				"status": "IMPLEMENTED"
+			},
+			{
+				"method": "GET",
+				"path": "/operator/operating-hours/",
+				"status": "IMPLEMENTED"
+			},
+			{
+				"method": "GET",
+				"path": "/operator/pricing-plans/",
+				"status": "IMPLEMENTED"
+			},
+			{
+				"method": "GET",
+				"path": "/operator/stations/",
+				"status": "NOT_IMPLEMENTED"
+			},
+			{
+				"method": "GET",
+				"path": "/operator/available-assets/",
+				"status": "NOT_IMPLEMENTED"
+			},
+			{
+				"method": "GET",
+				"path": "/operator/alerts/",
+				"status": "NOT_IMPLEMENTED"
+			},
+			{
+				"method": "POST",
+				"path": "/plannings/",
+				"status": "IMPLEMENTED"
+			},
+			{
+				"method": "POST",
+				"path": "/bookings/",
+				"status": "IMPLEMENTED"
+			},
+			{
+				"method": "POST",
+				"path": "/bookings/{id}/events",
+				"status": "IMPLEMENTED",
+				"eventType": "COMMIT"
+			},
+			{
+				"method": "POST",
+				"path": "/bookings/{id}/events",
+				"status": "IMPLEMENTED",
+				"eventType": "DENY"
+			},
+			{
+				"method": "POST",
+				"path": "/legs/{id}/events",
+				"status": "IMPLEMENTED",
+				"eventType": "SET_IN_USE"
+			},			
+			{
+				"method": "POST",
+				"path": "/legs/{id}/events",
+				"status": "IMPLEMENTED",
+				"eventType": "FINISH"
+			}
+		],
+		"scenarios": ["POSTPONED_COMMIT", "REQUIRE_BOOKING_DATA"],
+		"processIdentifiers":  {
+			"operatorInformation": ["DEFAULT"],
+			"planning": ["PLANNING_BASED"],
+			"booking": ["ACCESS_CODE_PDF", "ACCESS_CODE_IN_COMMIT_EVENT"],
+			"tripExecution": ["USE_PREPARE_TO_INDICATE_START", "ETA_NOTIFICATION", "TO_CONTROLLED"],
+			"payment": ["CORRECTION_BY_EXTRA_COSTS"]
+		}
+	}
+]

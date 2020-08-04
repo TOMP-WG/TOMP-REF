@@ -126,11 +126,11 @@ public class BookingsApiController implements BookingsApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Booking> bookingsIdPut(@ApiParam(value = "changed booking" ,required=true )  @Valid @RequestBody Booking body
-,@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    public ResponseEntity<Booking> bookingsIdPut(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 ,@ApiParam(value = "Booking identifier",required=true) @PathVariable("id") String id
+,@ApiParam(value = "changed booking" ,required=true )  @Valid @RequestBody Booking body
 ) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
@@ -164,10 +164,10 @@ public class BookingsApiController implements BookingsApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Booking> bookingsPost(@ApiParam(value = "One of available legs, returned by /plannings, with an ID." ,required=true )  @Valid @RequestBody BookingRequest body
-,@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
+    public ResponseEntity<Booking> bookingsPost(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
+,@ApiParam(value = "One of available legs, returned by /plannings, with an ID." ,required=true )  @Valid @RequestBody BookingRequest body
 ) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {

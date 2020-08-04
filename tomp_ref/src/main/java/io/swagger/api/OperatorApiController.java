@@ -171,7 +171,7 @@ public class OperatorApiController implements OperatorApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<List<SystemRegion>>(objectMapper.readValue("[ {\n  \"serviceArea\" : [ [ [ 6.169639, 52.253279 ], [ 6.05623, 52.63473 ] ], [ [ 6.169639, 52.253279 ], [ 6.05623, 52.63473 ] ] ],\n  \"regionId\" : \"BikeRegion\",\n  \"name\" : \"BikeTown\"\n}, {\n  \"serviceArea\" : [ [ [ 6.169639, 52.253279 ], [ 6.05623, 52.63473 ] ], [ [ 6.169639, 52.253279 ], [ 6.05623, 52.63473 ] ] ],\n  \"regionId\" : \"BikeRegion\",\n  \"name\" : \"BikeTown\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<List<SystemRegion>>(objectMapper.readValue("[ {\n  \"serviceArea\" : [ [ [ \"lon1\", \"lat1\" ], [ \"lon2\", \"lat2\" ], [ \"lon3\", \"lat3\" ], [ \"lon1\", \"lat1\" ] ] ],\n  \"regionId\" : \"BikeRegion\",\n  \"name\" : \"BikeTown\"\n}, {\n  \"serviceArea\" : [ [ [ \"lon1\", \"lat1\" ], [ \"lon2\", \"lat2\" ], [ \"lon3\", \"lat3\" ], [ \"lon1\", \"lat1\" ] ] ],\n  \"regionId\" : \"BikeRegion\",\n  \"name\" : \"BikeTown\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<SystemRegion>>(HttpStatus.INTERNAL_SERVER_ERROR);

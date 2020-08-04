@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiParam;
 import io.swagger.api.OperatorApiController;
 import io.swagger.model.AssetType;
+import io.swagger.model.EndpointImplementation;
 import io.swagger.model.StationInformation;
 import io.swagger.model.SystemCalendar;
 import io.swagger.model.SystemHours;
@@ -135,6 +136,18 @@ public class OperatorInformationController extends OperatorApiController {
 		HeaderValidator.validateHeader(request);
 		try {
 			return new ResponseEntity<>(provider.getCalendar(acceptLanguage), HttpStatus.OK);
+		} catch (Exception e) {
+			log.error("operatorRegionsGet", e);
+			throw e;
+		}
+	}
+	
+	@Override
+	public ResponseEntity<List<EndpointImplementation>> operatorMetaGet(String acceptLanguage) {
+		HeaderValidator.validateHeader(request);
+		
+		try {
+			return new ResponseEntity<>(provider.getMeta(acceptLanguage), HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("operatorRegionsGet", e);
 			throw e;

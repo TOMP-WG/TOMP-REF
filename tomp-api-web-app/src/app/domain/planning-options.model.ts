@@ -6,4 +6,7 @@ export class PlanningOptions {
   endTime: number;
   from: Coordinates = new Coordinates();
   to: Coordinates = new Coordinates();
+
+  departureTime: number;
+  arrivalTime: number;
 }

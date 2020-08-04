@@ -23,7 +23,9 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "The booking information describing the state and details of an agreed upon trip")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:11:18.823Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:11:01.002Z[GMT]")
+
+
 public class Booking extends BookingRequest  {
   @JsonProperty("state")
   private BookingState state = null;

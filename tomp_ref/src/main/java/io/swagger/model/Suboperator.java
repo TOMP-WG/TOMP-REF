@@ -14,7 +14,9 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "The operator of a leg or asset, in case this is not the TO itself but should be shown to the user")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T13:55:00.069Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+
+
 public class Suboperator   {
   @JsonProperty("name")
   private String name = null;

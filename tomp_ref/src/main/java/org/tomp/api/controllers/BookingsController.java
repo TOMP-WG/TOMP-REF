@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.tomp.api.booking.BookingProvider;
 import org.tomp.api.booking.SharedCarBookingProvider;
+import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.model.PostPonedResult;
 import org.tomp.api.repository.DefaultRepository;
 import org.tomp.api.utils.HeaderValidator;
@@ -41,6 +42,9 @@ public class BookingsController extends BookingsApiController {
 	private ObjectMapper objectMapper;
 
 	@Autowired
+	private ExternalConfiguration config;
+
+	@Autowired
 	private DefaultRepository repository;
 
 	public BookingsController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -50,12 +54,25 @@ public class BookingsController extends BookingsApiController {
 		this.request = request;
 	}
 
-	@Override
 	public ResponseEntity<Booking> bookingsPost(
-			@ApiParam(value = "One of available options, returned by /planning-options, with an ID.", required = true) @Valid @RequestBody BookingRequest body,
-			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
+			@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
 			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
-			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion) {
+			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
+			@ApiParam(value = "One of available legs, returned by /plannings, with an ID.", required = true) @Valid @RequestBody BookingRequest body)
+
+	// @Override
+	// public ResponseEntity<Booking> bookingsPost(
+	// @ApiParam(value = "One of available options, returned by /planning-options,
+	// with an ID.", required = true) @Valid @RequestBody BookingRequest body,
+	// @ApiParam(value = "ISO 639-1 two letter language code", required = true)
+	// @RequestHeader(value = "Accept-Language", required = true) String
+	// acceptLanguage,
+	// @ApiParam(value = "API description, can be TOMP or maybe other
+	// (specific/derived) API definitions", required = true) @RequestHeader(value =
+	// "Api", required = true) String api,
+	// @ApiParam(value = "Version of the API.", required = true)
+	// @RequestHeader(value = "Api-Version", required = true) String apiVersion) {
+	{
 
 		HeaderValidator.validateHeader(request);
 
@@ -103,7 +120,11 @@ public class BookingsController extends BookingsApiController {
 	@ResponseBody
 	public String respondToPostponedBooking(@PathVariable("id") String id) {
 		if (provider instanceof SharedCarBookingProvider) {
-			return ((SharedCarBookingProvider) provider).getPostponedBookingHtml(id, "/postponed/");
+			String externalUrl = config.getExternalUrl();
+			if (externalUrl.endsWith("/")) {
+				externalUrl = externalUrl.substring(0, externalUrl.length() - 1);
+			}
+			return ((SharedCarBookingProvider) provider).getPostponedBookingHtml(id, externalUrl + "/postponed/");
 		}
 		return "";
 	}

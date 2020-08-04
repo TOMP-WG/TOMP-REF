@@ -46,11 +46,13 @@ public class SharedCarPlanningProvider extends GenericPlanningProvider {
 	protected List<Condition> getConditionsForLeg(Leg leg, String acceptLanguage) {
 		List<Condition> conditions = super.getConditionsForLeg(leg, acceptLanguage);
 		ConditionPostponedCommit condition = new ConditionPostponedCommit();
+		condition.setConditionType("conditionPostponedCommit");
 
 		condition.setUltimateResponseTime(ChronoUnit.SECONDS.addTo(this.getStartTime(), -3600));
 		conditions.add(condition);
 
 		ConditionRequireBookingData bookingDataCondition = new ConditionRequireBookingData();
+		bookingDataCondition.setConditionType("conditionRequireBookingData");
 		bookingDataCondition.addRequiredFieldsItem(RequiredFieldsEnum.LICENSES);
 		conditions.add(bookingDataCondition);
 

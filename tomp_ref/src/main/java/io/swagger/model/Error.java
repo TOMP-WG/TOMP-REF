@@ -15,7 +15,9 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "An error that the service may send, e.g. in case of invalid input, missing authorization or internal service error. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T12:13:27.463Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+
+
 public class Error   {
   @JsonProperty("errorcode")
   private BigDecimal errorcode = null;

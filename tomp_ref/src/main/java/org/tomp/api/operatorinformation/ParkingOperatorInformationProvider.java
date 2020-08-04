@@ -35,6 +35,7 @@ import org.tomp.api.model.parking.ParkingFacilityInformation;
 import org.tomp.api.model.parking.Specification;
 import org.tomp.api.model.parking.StaticParkingData;
 import org.tomp.api.repository.ParkingRepository;
+import org.tomp.api.utils.ExternalFileService;
 import org.tomp.api.utils.GeoUtil;
 import org.tomp.api.utils.ObjectFromFileProvider;
 
@@ -44,6 +45,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.model.AssetClass;
 import io.swagger.model.AssetProperties;
 import io.swagger.model.Coordinates;
+import io.swagger.model.EndpointImplementation;
 import io.swagger.model.GeojsonPolygon;
 import io.swagger.model.StationInformation;
 import io.swagger.model.SystemCalendar;
@@ -73,6 +75,9 @@ public class ParkingOperatorInformationProvider implements OperatorInformationPr
 
 	@Autowired
 	ExternalConfiguration fileConfiguration;
+
+	@Autowired
+	ExternalFileService fileService;
 
 	ObjectMapper mapper = new ObjectMapper();
 
@@ -303,4 +308,10 @@ public class ParkingOperatorInformationProvider implements OperatorInformationPr
 	public List<SystemCalendar> getCalendar(String acceptLanguage) {
 		return new ArrayList<>();
 	}
+
+	@Override
+	public List<EndpointImplementation> getMeta(String acceptLanguage) {
+		return fileService.getEndPoints();
+	}
+
 }

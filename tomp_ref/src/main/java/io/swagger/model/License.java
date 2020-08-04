@@ -17,7 +17,9 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "driver or usage license for a specific user. Contains the number and the assetType you're allowed to operate (e.g. driver license for CAR)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:11:18.823Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+
+
 public class License extends LicenseType  {
   @JsonProperty("number")
   private String number = null;

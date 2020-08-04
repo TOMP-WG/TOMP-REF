@@ -21,6 +21,7 @@ import org.tomp.api.utils.GeoUtil;
 import org.tomp.api.utils.OSMUtil;
 
 import io.swagger.model.AssetType;
+import io.swagger.model.EndpointImplementation;
 import io.swagger.model.GeojsonPolygon;
 import io.swagger.model.Place;
 import io.swagger.model.StationInformation;
@@ -125,4 +126,8 @@ public class OsmOperatorInformationProvider implements OperatorInformationProvid
 		throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
 	}
 
+	@Override
+	public List<EndpointImplementation> getMeta(String acceptLanguage) {
+		return fileService.getEndPoints();
+	}
 }

@@ -15,7 +15,9 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "a lon, lat (WGS84, EPSG:4326)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+
+
 public class Coordinates   {
   @JsonProperty("lng")
   private BigDecimal lng = null;

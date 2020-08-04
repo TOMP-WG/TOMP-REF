@@ -33,8 +33,8 @@ import org.tomp.api.model.gbfs.Gbfs;
 import org.tomp.api.model.gbfs.GbfsLanguageFeed;
 import org.tomp.api.model.gbfs.GbfsLink;
 import org.tomp.api.repository.GbfsRepository;
+import org.tomp.api.utils.ExternalFileService;
 import org.tomp.api.utils.GeoCoderUtil;
-import org.tomp.api.utils.GeoUtil;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,6 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.model.AssetType;
 import io.swagger.model.Coordinates;
 import io.swagger.model.Day;
+import io.swagger.model.EndpointImplementation;
 import io.swagger.model.StationInformation;
 import io.swagger.model.SystemCalendar;
 import io.swagger.model.SystemHours;
@@ -65,6 +66,9 @@ public class GbfsOperatorInformation implements OperatorInformationProvider {
 
 	@Autowired
 	GbfsRepository repository;
+
+	@Autowired
+	private ExternalFileService fileService;
 
 	private ObjectMapper mapper = new ObjectMapper();
 	private Gbfs gbfs;
@@ -340,4 +344,10 @@ public class GbfsOperatorInformation implements OperatorInformationProvider {
 	public List<SystemCalendar> getCalendar(String acceptLanguage) {
 		return new ArrayList<>();
 	}
+
+	@Override
+	public List<EndpointImplementation> getMeta(String acceptLanguage) {
+		return fileService.getEndPoints();
+	}
+
 }

@@ -72,7 +72,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 	public Booking addNewBooking(@Valid BookingRequest body, String acceptLanguage) {
 		log.info("Booking request {}", body.getId());
 		String id = body.getId();
-		Booking booking = new Booking();
+		Booking booking = repository.getBooking(id);
 		booking.setId(id);
 		booking.setState(BookingState.PENDING);
 		booking.setCustomer(body.getCustomer());

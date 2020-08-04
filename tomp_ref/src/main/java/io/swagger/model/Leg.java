@@ -26,7 +26,9 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "A planned (segment of) a booked trip using one asset type")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T13:55:00.069Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+
+
 public class Leg {
   @JsonProperty("id")
   private String id = null;

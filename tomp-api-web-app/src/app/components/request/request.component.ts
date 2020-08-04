@@ -45,7 +45,7 @@ export class RequestComponent implements OnInit {
       if ( apiVersion != null)  {
         this.headers['Api-Version'] = apiVersion;
       }
-      this.apiService.loadEndpointConfig(this.headers['Api-Version']).subscribe(data => {
+      this.apiService.loadEndpointConfig(externalUrl, this.headers['Api-Version'], this.headers).subscribe(data => {
         this.endpoints = data;
         if (this.endpoints.length > 0) {
 
@@ -104,7 +104,7 @@ export class RequestComponent implements OnInit {
     if ( this.internalService != null ) {
       this.internalService.endPointChanged(this.endpoint);
     }
-    if (this.endpoint.body) {
+    if (this.endpoint && this.endpoint.body) {
       this.updateBody();
     } else {
       this.body = null;
@@ -118,7 +118,7 @@ export class RequestComponent implements OnInit {
   public headerChanged(key: string, value: string) {
     this.headers[key] = value;
     if (key === 'Api-Version'){
-      this.apiService.loadEndpointConfig(this.headers['Api-Version']).subscribe(data => {
+      this.apiService.loadEndpointConfig(this.url, this.headers['Api-Version'], this.headers).subscribe(data => {
         const index = this.endpoints.indexOf(this.endpoint);
         this.endpoints = data;
         this.endpoint = this.endpoints[index];
@@ -155,8 +155,14 @@ export class RequestComponent implements OnInit {
     }
     else {
       const body = (this.body as any) as Plannings;
-      body.endTime = new Date(planning.endTime).toISOString();
-      body.startTime = new Date(planning.startTime).toISOString();
+      if ( this.headers['Api-Version'] === '0.6.0' ) {
+        body.endTime = new Date(planning.endTime).toISOString();
+        body.startTime = new Date(planning.startTime).toISOString();
+      }
+      else {
+        body.arrivalTime = new Date(planning.endTime).toISOString();
+        body.departureTime = new Date(planning.startTime).toISOString();
+      }
       if (body.from === null) {
         body.from = new Place();
       }
@@ -175,8 +181,11 @@ export class RequestComponent implements OnInit {
       }
     }
     else if ( this.endpoint.type === EndpointType.POST && this.endpoint.value.startsWith('/plannings/')) {
-      if ( json.legOptions.length > 0 && json.legOptions[0].id ) {
+      if ( json.legOptions !== undefined && json.legOptions.length > 0 && json.legOptions[0].id ) {
         this.id = json.legOptions[0].id;
+      }
+      else if( json.options !== undefined && json.options.length > 0 && json.options[0].id ) {
+        this.id = json.options[0].id;
       }
     }
   }

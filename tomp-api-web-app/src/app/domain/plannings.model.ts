@@ -6,4 +6,7 @@ export class Plannings {
   endTime: string;
   from: Place = new Place();
   to: Place = new Place();
+
+  departureTime: string;
+  arrivalTime: string;
 }

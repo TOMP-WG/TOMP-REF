@@ -8,26 +8,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
+import org.tomp.api.utils.ExternalFileService;
 import org.tomp.api.utils.ObjectFromFileProvider;
 
+import io.swagger.model.AssetType;
+import io.swagger.model.EndpointImplementation;
 import io.swagger.model.StationInformation;
 import io.swagger.model.SystemCalendar;
 import io.swagger.model.SystemHours;
 import io.swagger.model.SystemInformation;
 import io.swagger.model.SystemPricingPlan;
 import io.swagger.model.SystemRegion;
-import io.swagger.model.AssetType;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.operatorinformation", havingValue = "generic", matchIfMissing = true)
 public class GenericOperatorInformationProvider implements OperatorInformationProvider {
 
-	ExternalConfiguration configuration;
-
 	@Autowired
-	public GenericOperatorInformationProvider(ExternalConfiguration configuration) {
-		this.configuration = configuration;
-	}
+	ExternalConfiguration configuration;
+	@Autowired
+	ExternalFileService fileService;
 
 	@Override
 	public List<AssetType> getAvailableAssetTypes(String acceptLanguage) {
@@ -82,4 +82,8 @@ public class GenericOperatorInformationProvider implements OperatorInformationPr
 		return new ArrayList<>();
 	}
 
+	@Override
+	public List<EndpointImplementation> getMeta(String acceptLanguage) {
+		return fileService.getEndPoints();
+	}
 }

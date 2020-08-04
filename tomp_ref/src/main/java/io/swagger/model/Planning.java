@@ -6,10 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Booking;
-import io.swagger.model.Place;
-import io.swagger.model.PlanningRequest;
-import io.swagger.model.Traveler;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.threeten.bp.OffsetDateTime;
@@ -22,8 +18,10 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "A travel planning with bookable options that fulfil the constraints of the planning")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-30T14:11:18.823Z[GMT]")
-public class Planning extends PlanningRequest  {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:11:01.002Z[GMT]")
+
+
+public class Planning   {
   @JsonProperty("validUntil")
   private OffsetDateTime validUntil = null;
 
@@ -88,20 +86,19 @@ public class Planning extends PlanningRequest  {
     }
     Planning planning = (Planning) o;
     return Objects.equals(this.validUntil, planning.validUntil) &&
-        Objects.equals(this.options, planning.options) &&
-        super.equals(o);
+        Objects.equals(this.options, planning.options);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(validUntil, options, super.hashCode());
+    return Objects.hash(validUntil, options);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Planning {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    
     sb.append("    validUntil: ").append(toIndentedString(validUntil)).append("\n");
     sb.append("    options: ").append(toIndentedString(options)).append("\n");
     sb.append("}");

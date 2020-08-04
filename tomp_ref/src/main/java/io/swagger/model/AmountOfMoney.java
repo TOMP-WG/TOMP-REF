@@ -14,7 +14,9 @@ import javax.validation.constraints.*;
  * AmountOfMoney
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T14:08:29.073Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+
+
 public class AmountOfMoney   {
   @JsonProperty("amount")
   private BigDecimal amount = null;

@@ -14,7 +14,9 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Geojson Coordinate")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-01T13:52:55.748Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+
+
 public class GeojsonPoint extends ArrayList<BigDecimal>  {
 
   @Override

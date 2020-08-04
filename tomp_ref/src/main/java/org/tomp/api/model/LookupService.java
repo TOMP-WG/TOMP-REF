@@ -102,13 +102,15 @@ public class LookupService {
 	private String body(String id) throws IOException {
 		GeojsonPolygon area = fileService.getArea();
 		MaasEnvironmentType type = configuration.getEnvironmentType();
-		return "{" + "  \"id\": \"" + id + "\"," + "  \"type\": " + mapper.writeValueAsString(type) + ","
+		String json = mapper.writeValueAsString(area).replace("\"", "\\\"");
+		json = "{" + "  \"id\": \"" + id + "\"," + "  \"type\": " + mapper.writeValueAsString(type) + ","
 				+ "  \"name\": \"" + configuration.getAppName() + "\"," + "  \"url\": \""
 				+ configuration.getExternalUrl() + "\"," + "  \"supportedVersions\": " + fileService.getVersions()
 				+ ",  \"validationToken\": \"" + configuration.getMaasId() + "\","
-				+ "  \"transactionProvider\": \"none\"," + "  \"servicedArea\": " + "    "
-				+ mapper.writeValueAsString(area) + "," + "  \"registrationresult\": \""
-				+ configuration.getExternalUrl() + "/registrated/\"" + "}";
+				+ "  \"transactionProvider\": \"none\"," + "  \"servicedArea\": " + json + ","
+				+ "  \"registrationresult\": \"" + configuration.getExternalUrl() + "/registrated/\"" + "}";
+		log.info(json);
+		return json;
 	}
 
 	private <T> T callEndpoint(String method, String endpoint, Object body, Class<T> c) {

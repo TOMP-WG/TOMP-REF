@@ -16,6 +16,7 @@ import org.tomp.api.repository.DefaultRepository;
 
 import io.swagger.model.AssetType;
 import io.swagger.model.Booking;
+import io.swagger.model.BookingState;
 import io.swagger.model.Condition;
 import io.swagger.model.Coordinates;
 import io.swagger.model.Fare;
@@ -62,6 +63,8 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		boolean provideIds = bookingIntent;
 
 		Booking booking = new Booking();
+		booking.setState(BookingState.NEW);
+
 		Leg leg = new Leg();
 		leg.setAssetType(getAssetType());
 		leg.setFrom(getFrom());
@@ -70,6 +73,7 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		leg.setArrivalTime(getEndTime());
 		leg.setPricing(getFare());
 		leg.setConditions(getConditionsForLeg(leg, acceptLanguage));
+
 		if (provideIds) {
 			String uuid = UUID.randomUUID().toString();
 			leg.setId(uuid);
@@ -77,6 +81,13 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 			booking.setId(uuid);
 		}
 		booking.setLegs(Arrays.asList(leg));
+		booking.setFrom(body.getFrom());
+		booking.setTo(body.getTo());
+		booking.setDepartureTime(leg.getDepartureTime());
+		booking.setArrivalTime(leg.getArrivalTime());
+		booking.setNrOfTravelers(body.getNrOfTravelers());
+		booking.setPricing(leg.getPricing());
+		booking.setRadius(body.getRadius());
 		return Arrays.asList(booking);
 	}
 

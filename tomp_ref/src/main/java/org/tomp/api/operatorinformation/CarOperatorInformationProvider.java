@@ -11,10 +11,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.providers.assets.AssetProvider;
+import org.tomp.api.utils.ExternalFileService;
 import org.tomp.api.utils.ObjectFromFileProvider;
 
 import io.swagger.model.AssetType;
 import io.swagger.model.Day;
+import io.swagger.model.EndpointImplementation;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
@@ -35,6 +37,9 @@ public class CarOperatorInformationProvider implements OperatorInformationProvid
 
 	@Autowired
 	AssetProvider assetProvider;
+	
+	@Autowired
+	ExternalFileService fileService;
 
 	@Override
 	public List<AssetType> getAvailableAssetTypes(String acceptLanguage) {
@@ -134,5 +139,10 @@ public class CarOperatorInformationProvider implements OperatorInformationProvid
 		c.setEndMonth(12);
 		c.setEndDay(31);
 		return new ArrayList<>();
+	}
+
+	@Override
+	public List<EndpointImplementation> getMeta(String acceptLanguage) {
+		return fileService.getEndPoints();
 	}
 }

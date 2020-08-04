@@ -2,9 +2,10 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -17,59 +18,62 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-06-10T13:55:00.069Z[GMT]")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "conditionType", visible = true)
-@JsonSubTypes({ @JsonSubTypes.Type(value = ConditionDeposit.class, name = "conditionDeposit"),
-		@JsonSubTypes.Type(value = ConditionPayWhenFinished.class, name = "conditionPayWhenFinished"),
-		@JsonSubTypes.Type(value = ConditionPostponedCommit.class, name = "conditionPostponedCommit"),
-		@JsonSubTypes.Type(value = ConditionRequireBookingData.class, name = "conditionRequireBookingData"),
-		@JsonSubTypes.Type(value = ConditionReturnArea.class, name = "conditionReturnArea"),
-		@JsonSubTypes.Type(value = ConditionUpfrontPayment.class, name = "conditionUpfrontPayment"), })
-public class Condition implements OneOfcondition {
-	@JsonProperty("conditionType")
-	private String conditionType = null;
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ConditionDeposit.class, name = "conditionDeposit"),
+        @JsonSubTypes.Type(value = ConditionPostponedCommit.class, name = "conditionPostponedCommit"),
+        @JsonSubTypes.Type(value = ConditionUpfrontPayment.class, name = "conditionUpfrontPayment"),
+        @JsonSubTypes.Type(value = ConditionPayWhenFinished.class, name = "conditionPayWhenFinished"),
+        @JsonSubTypes.Type(value = ConditionRequireBookingData.class, name = "conditionRequireBookingData"),
+        @JsonSubTypes.Type(value = ConditionReturnArea.class, name = "conditionReturnArea"),
+})
 
-	@JsonProperty("id")
-	private String id = null;
 
-	public Condition conditionType(String conditionType) {
-		this.conditionType = conditionType;
-		return this;
-	}
+public class Condition  implements OneOfcondition {
+  @JsonTypeId
+  private String conditionType = null;
 
-	/**
-	 * The specific subclass of condition, should match the schema name exactly
-	 * 
-	 * @return conditionType
-	 **/
-	@ApiModelProperty(required = true, value = "The specific subclass of condition, should match the schema name exactly")
-	@NotNull
+  @JsonProperty("id")
+  private String id = null;
 
-	public String getConditionType() {
-		return conditionType;
-	}
+  public Condition conditionType(String conditionType) {
+    this.conditionType = conditionType;
+    return this;
+  }
 
-	public void setConditionType(String conditionType) {
-		this.conditionType = conditionType;
-	}
+  /**
+   * The specific subclass of condition, should match the schema name exactly
+   * @return conditionType
+  **/
+  @ApiModelProperty(required = true, value = "The specific subclass of condition, should match the schema name exactly")
+      @NotNull
 
-	public Condition id(String id) {
-		this.id = id;
-		return this;
-	}
+    public String getConditionType() {
+    return conditionType;
+  }
 
-	/**
-	 * An identifier for this condition that can be used to refer to this condition
-	 * 
-	 * @return id
-	 **/
-	@ApiModelProperty(example = "deposit50eu", value = "An identifier for this condition that can be used to refer to this condition")
+  public void setConditionType(String conditionType) {
+    this.conditionType = conditionType;
+  }
 
-	public String getId() {
-		return id;
-	}
+  public Condition id(String id) {
+    this.id = id;
+    return this;
+  }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  /**
+   * An identifier for this condition that can be used to refer to this condition
+   * @return id
+  **/
+  @ApiModelProperty(example = "deposit50eu", value = "An identifier for this condition that can be used to refer to this condition")
+  
+    public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
 
 	@Override
 	public boolean equals(java.lang.Object o) {
@@ -79,13 +83,14 @@ public class Condition implements OneOfcondition {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		Condition condition = (Condition) o;
-		return Objects.equals(this.conditionType, condition.conditionType) && Objects.equals(this.id, condition.id);
+    Condition condition = (Condition) o;
+    return Objects.equals(this.conditionType, condition.conditionType) &&
+        Objects.equals(this.id, condition.id);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(conditionType, id);
+    return Objects.hash(conditionType, id);
 	}
 
 	@Override
@@ -93,8 +98,8 @@ public class Condition implements OneOfcondition {
 		StringBuilder sb = new StringBuilder();
 		sb.append("class Condition {\n");
 
-		sb.append("    conditionType: ").append(toIndentedString(conditionType)).append("\n");
-		sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    conditionType: ").append(toIndentedString(conditionType)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}

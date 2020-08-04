@@ -1,0 +1,29 @@
+spring:
+   application:
+      name: taxi
+server:
+   port: 8087
+tomp:
+   maas-id: e54f5550-f577-4718-99e0-fce0cd973bb3
+   api-version: 0.9.0
+   lookup-service: http://localhost:7999/
+   allowUnknownOperators: true
+   # authenticationRequired: false
+   system-information-file: src/main/resources/system-info-generic.json
+   condition-file: src/main/resources/conditions.json
+   regions-file: src/main/resources/regions.json
+   stations-file: src/main/resources/stations.json
+   area-file: src/main/resources/area.json
+   asset-file: src/main/resources/taxi.json
+   external-url: http://localhost:8087/
+   booking-mail-box: bte@dat.nl
+   expiration-days: 14
+   version-file: src/main/resources/versions-0.9.0.json
+   currency-code: NL
+   vat-rate: 21
+   providers:
+     booking: shared-car
+     operatorinformation: generic
+     planning: shared-car
+     tripexecution: generic
+   

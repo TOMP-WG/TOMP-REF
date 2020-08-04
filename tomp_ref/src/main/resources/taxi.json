@@ -1,0 +1,24 @@
+[
+	{
+		"id": "f025ec8c-0d12-4878-aa53-d92dac0c5635",
+		"assetClass": "CAR",
+		"assetSubClass": "Taxi",
+		"nrAvailable": 1,
+		"assets": [
+			{
+				"id": "916c6f6e-ce9b-4d0b-b26e-fd6ae4a9fd11",
+				"isReserved": false
+			}
+		],
+		"sharedProperties": {
+			"name": "taxi",
+			"brand": "Mercedes",
+			"model": "E",
+			"buildingYear": 2020,
+			"infantSeat": true,
+			"persons": 3,
+			"pets": true,
+			"smoking": false
+		}
+	}
+]

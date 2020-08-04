@@ -35,7 +35,7 @@ public interface PlanningsApi {
 @Authorization(value = "BearerAuth"),
 @Authorization(value = "OAuth", scopes = { 
             }),
-@Authorization(value = "OpenId")    }, tags={ "planning","TO", })
+@Authorization(value = "OpenId")    }, tags={ "planning [optional]","TO", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The planning was found", response = Planning.class),
         @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
@@ -70,8 +70,9 @@ public interface PlanningsApi {
     ResponseEntity<Planning> planningsPost(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
-,@ApiParam(value = ""  )  @Valid @RequestBody PlanningRequest body
 ,@ApiParam(value = "Specifies whether IDs should be returned for the leg options that can be referred to when booking", defaultValue = "false") @Valid @RequestParam(value = "booking-intent", required = false, defaultValue="false") Boolean bookingIntent
+,@ApiParam(value = ""  )  @Valid @RequestBody PlanningRequest body
 );
 
 }
+

@@ -48,7 +48,7 @@ public class PlanningsApiController implements PlanningsApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Planning>(objectMapper.readValue("\"\"", Planning.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Planning>(objectMapper.readValue("{\n  \"options\" : [ \"\", \"\" ],\n  \"validUntil\" : \"2000-01-23T04:56:07.000+00:00\"\n}", Planning.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Planning>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -61,13 +61,13 @@ public class PlanningsApiController implements PlanningsApi {
     public ResponseEntity<Planning> planningsPost(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
-,@ApiParam(value = ""  )  @Valid @RequestBody PlanningRequest body
 ,@ApiParam(value = "Specifies whether IDs should be returned for the leg options that can be referred to when booking", defaultValue = "false") @Valid @RequestParam(value = "booking-intent", required = false, defaultValue="false") Boolean bookingIntent
+,@ApiParam(value = ""  )  @Valid @RequestBody PlanningRequest body
 ) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Planning>(objectMapper.readValue("\"\"", Planning.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Planning>(objectMapper.readValue("{\n  \"options\" : [ \"\", \"\" ],\n  \"validUntil\" : \"2000-01-23T04:56:07.000+00:00\"\n}", Planning.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Planning>(HttpStatus.INTERNAL_SERVER_ERROR);

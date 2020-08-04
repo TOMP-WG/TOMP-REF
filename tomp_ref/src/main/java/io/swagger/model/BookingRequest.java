@@ -21,7 +21,9 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "A booking requested by the MP")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-01T13:49:57.342Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:11:01.002Z[GMT]")
+
+
 public class BookingRequest extends PlanningRequest  {
   @JsonProperty("id")
   private String id = null;
@@ -57,8 +59,7 @@ public class BookingRequest extends PlanningRequest  {
    * Get customer
    * @return customer
   **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+  @ApiModelProperty(value = "")
 
     @Valid
     public Customer getCustomer() {
