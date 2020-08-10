@@ -75,7 +75,12 @@
 				"path": "/legs/{id}/events",
 				"status": "IMPLEMENTED",
 				"eventType": "FINISH"
-			}
+			},
+			{
+				"method": "POST",
+				"path": "/payment/journal-entry?id={id}",
+				"status": "IMPLEMENTED"
+			}			
 		],
 		"scenarios": ["POSTPONED_COMMIT", "REQUIRE_BOOKING_DATA"],
 		"processIdentifiers":  {

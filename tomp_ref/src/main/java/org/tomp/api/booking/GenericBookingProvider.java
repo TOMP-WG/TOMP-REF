@@ -25,7 +25,6 @@ import io.swagger.model.BookingOperation;
 import io.swagger.model.BookingRequest;
 import io.swagger.model.BookingState;
 import io.swagger.model.Coordinates;
-import io.swagger.model.Leg;
 import io.swagger.model.Place;
 
 @Component

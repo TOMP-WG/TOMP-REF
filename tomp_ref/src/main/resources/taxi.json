@@ -1,7 +1,7 @@
 [
 	{
 		"id": "f025ec8c-0d12-4878-aa53-d92dac0c5635",
-		"assetClass": "CAR",
+		"assetClass": "TAXI",
 		"assetSubClass": "Taxi",
 		"nrAvailable": 1,
 		"assets": [

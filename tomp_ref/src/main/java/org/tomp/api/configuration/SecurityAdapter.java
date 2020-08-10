@@ -59,16 +59,20 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
 			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 			CorsConfiguration config = new CorsConfiguration();
 			config.setAllowCredentials(true);
-			// config.addAllowedOrigin("http://localhost:4200");
 			config.addAllowedOrigin("*");
 			config.addAllowedHeader("*");
 			config.addAllowedMethod("*");
 			source.registerCorsConfiguration("/**", config);
 			t.configurationSource(source);
 		};
-		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/postponed/**").permitAll().and()
+		httpSecurity.csrf().disable().authorizeRequests()
+				.antMatchers("/postponed/**").permitAll()
+				.antMatchers("/ws2").permitAll()
+				.and()
 				.antMatcher("/**").cors(corsCustomizer).sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().addFilter(filter).authorizeRequests()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
+				.addFilter(filter).authorizeRequests()
 				.anyRequest().authenticated();
 	}
 }

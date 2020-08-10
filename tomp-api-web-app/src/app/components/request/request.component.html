@@ -1,10 +1,17 @@
 <div class="request-info">
   <h3>Request</h3>
 
-  <mat-form-field class="request-url">
-    <mat-label>API url</mat-label>
-    <input matInput [(ngModel)]="url">
-  </mat-form-field>
+  <div class="first-row">
+    <mat-form-field class="request-url">
+      <mat-label>API url</mat-label>
+      <input #u matInput [(ngModel)]="url" (keyup.enter)="urlChanged(u.value)" (blur)="urlChanged(u.value)">
+    </mat-form-field>
+    <mat-form-field>
+    <mat-label>API version</mat-label>
+      <input #v matInput [(ngModel)]="version" (keyup.enter)="headerChanged('Api-Version', v.value)"
+                                            (blur)="headerChanged('Api-Version', v.value)">
+    </mat-form-field>
+  </div>
 
   <mat-form-field>
     <mat-label>Endpoint</mat-label>

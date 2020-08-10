@@ -1,17 +1,52 @@
 .response-info {
-  width: 100%;
   height: 100vh;
   padding: 10px;
   display: flex;
   box-sizing: border-box;
   flex-direction: column;
+  overflow: auto;
 
   .response-text-area {
-    width: 100%;
-    overflow-y: auto;
-
+    width: 500px;
+    
     .text-area {
-      height: calc(100vh - 130px);
+      height: calc(100vh - 180px);
+      width: 480px;
     }
   }
+
+  $type-colors: (
+    string: #0bff00,
+    number: #43aca1,
+    boolean: #ce35b4,
+    date: #05668D,
+  
+    array: #999,
+    object: #999,
+    function: #999,
+  
+    'null': #fff,
+    undefined: #fff
+  );
+  
+  @each $type, $color in $type-colors {
+    ::ng-deep .segment-type-#{$type} > .segment-main > .segment-value {
+      color: $color !important;
+    }
+  }
+
+  ::ng-deep .segment-key {
+    color: white !important;
+  }
+}
+
+.response-link {
+  color: #c2185b;
+}
+
+.submit-button {
+  top: calc(100% - 60px);
+  left: calc(100% - 80px);
+  width: 80px;
+  position: sticky;
 }

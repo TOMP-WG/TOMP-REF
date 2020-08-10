@@ -12,6 +12,7 @@ export class InternalService {
   private responseSubject: Subject<string> = new Subject();
   private requestSubject: Subject<void> = new Subject();
   private endpointSubject: Subject<Endpoint> = new Subject();
+  private receiveSubject: Subject<string> = new Subject();
 
   public updatePlanning(planning: PlanningOptions) {
     this.planningSubject.next(planning);
@@ -27,6 +28,14 @@ export class InternalService {
 
   public onAddResponse(): Observable<string> {
     return this.responseSubject;
+  }
+
+  public addReceivedMessage(message: string) {
+    this.receiveSubject.next(message);
+  }
+
+  public onReceivedMessage(): Observable<string> {
+    return this.receiveSubject;
   }
 
   public requestMade() {

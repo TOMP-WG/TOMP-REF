@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import org.tomp.api.configuration.ExternalConfiguration;
+import org.tomp.api.controllers.WebsocketController;
 import org.tomp.api.model.LookupService;
 import org.tomp.api.model.MaasOperator;
 import org.tomp.api.repository.DefaultRepository;
@@ -35,6 +36,8 @@ import io.swagger.model.Customer;
 import io.swagger.model.ExtraCosts;
 import io.swagger.model.JournalCategory;
 import io.swagger.model.JournalEntry;
+import io.swagger.model.JournalEntry.DistanceTypeEnum;
+import io.swagger.model.JournalState;
 import io.swagger.model.Leg;
 
 @Component
@@ -57,6 +60,9 @@ public class SharedCarBookingProvider implements BookingProvider {
 
 	@Autowired
 	LegUtil legUtil;
+
+	@Autowired
+	WebsocketController websocket;
 
 	@Autowired
 	public SharedCarBookingProvider(DefaultRepository repository, Optional<MailUtil> mailService,
@@ -131,24 +137,33 @@ public class SharedCarBookingProvider implements BookingProvider {
 		return booking;
 	}
 
-	private Booking commitBooking(String id) {
+	protected Booking commitBooking(String id) {
 		Booking booking = repository.getBooking(id);
 		booking.setState(BookingState.CONDITIONAL_CONFIRMED);
 		String maasId = request.getHeader(MAAS_ID);
 		HashMap<String, Object> extraData = new HashMap<>();
 		extraData.put(MAAS_ID, maasId);
 		booking.setExtraData(extraData);
-		String mpUrl = getMPUrl(maasId);
-		if (mpUrl.endsWith("/")) {
-			mpUrl = mpUrl.substring(0, mpUrl.length() - 1);
-		}
-		// booking.setWebhook(mpUrl + "/bookings/" + id + "/events");
 		repository.saveBooking(booking);
 
 		JournalEntry entry = new JournalEntry();
 		Leg leg = repository.getLeg(id);
+		entry.setState(JournalState.TO_INVOICE);
 		entry.setDetails(leg.getPricing());
+		leg.getPricing().setEstimated(false);
 		entry.setJournalId(leg.getId());
+
+		FareUtil f = new FareUtil();
+		LegUtil l = new LegUtil();
+
+		double distance = l.getDistance(leg);
+		entry.setDistance(BigDecimal.valueOf(distance / 1000));
+		entry.setDistanceType(DistanceTypeEnum.KM);
+
+		double duration = l.getDuration(leg);
+		entry.setUsedTime(BigDecimal.valueOf(duration));
+
+		entry.setAmount(BigDecimal.valueOf(f.calculateFare(leg.getPricing(), distance, duration)));
 		repository.saveJournalEntry(entry, request.getHeader("maas-id"));
 
 		sendMail(booking);
@@ -173,7 +188,8 @@ public class SharedCarBookingProvider implements BookingProvider {
 			}
 			String url = mpUrl + "/postponed/" + booking.getId();
 			log.info("URL: {}", url);
-			// booking.setWebhook(url);
+
+			websocket.sendMessage(url, null);
 		}
 	}
 
@@ -236,24 +252,13 @@ public class SharedCarBookingProvider implements BookingProvider {
 		return builder;
 	}
 
-	private String getMPUrl(String maasId) {
-		MaasOperator maasProvider = lookupService.getMaasOperator(maasId);
-
-		if (maasProvider != null) {
-			return maasProvider.getUrl();
-		}
-		String address = request.getRemoteAddr();
-		int indexOf = address.indexOf('/', 10);
-		if (indexOf == -1) {
-			address = "http://localhost:8086";
-			return address;
-		}
-		return address.substring(0, indexOf);
-	}
-
 	@Override
 	public void setRequest(HttpServletRequest request) {
 		this.request = request;
+	}
+
+	protected HttpServletRequest getRequest() {
+		return this.request;
 	}
 
 	public String getPostponedBookingHtml(String id, String url) {

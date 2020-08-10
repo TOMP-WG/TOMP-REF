@@ -145,16 +145,27 @@ export class MapComponent implements AfterViewInit {
     }
     else
     {
-      const start = this.toCoord(result.from);
-      const end = this.toCoord(result.to);
+      let ptFrom = result.from.coordinates;
+      let ptTo = result.to.coordinates;
+      if ( ptFrom === undefined ) {
+        ptFrom = result.from;
+        ptTo = result.to;
+      }
+      const start = this.toCoord(ptFrom);
+      const end = this.toCoord(ptTo);
       this.addLine(start, end);
-      const lng = (result.from.lng + result.to.lng) / 2;
-      const lat = (result.from.lat + result.to.lat) / 2;
+      const lng = (ptFrom.lng + ptTo.lng) / 2;
+      const lat = (ptFrom.lat + ptTo.lat) / 2;
+
       let description = '';
       if (result.suboperator !== undefined ) {
         description = result.suboperator.name + ' ' + result.suboperator.description;
       }
-      this.addIcon(result.asset, '[' + lat + ',' + lng + ']', description);
+      let asset = result.asset;
+      if (asset === undefined) {
+        asset = result.legs[0].assetType;
+      }
+      this.addIcon(asset, '[' + lat + ',' + lng + ']', description);
     }
   }
 
@@ -211,6 +222,17 @@ export class MapComponent implements AfterViewInit {
         i++;
       }
     }
+    else if (json.options) {
+      this.cachedResult = json;
+      // version 0.9.0 +
+      let i = 0 ;
+      for (const result of json.options) {
+        if ( i === this.resultIndex ) {
+          this.showSimpleLeg(result);
+        }
+        i++;
+      }
+    }
   }
 
   private showRegions(json: any) {
@@ -230,6 +252,9 @@ export class MapComponent implements AfterViewInit {
   }
 
   private toCoord(point: any) {
+    if (point.coordinates){
+      return '[' + point.coordinates.lng + ',' + point.coordinates.lat + ']';
+    }
     return '[' + point.lng + ',' + point.lat + ']';
   }
 

@@ -7,8 +7,8 @@ import { ApiService } from '../../services/api.service';
 import { EndpointType } from '../../domain/endpoint.enum';
 import { CustomHeaders } from '../../domain/custom-headers.model';
 import { ActivatedRoute } from '@angular/router';
-import { formatDate } from '@angular/common';
 import { Place } from 'src/app/domain/place.model';
+import { WebsocketService } from '../../services/websocket.service';
 
 @Component({
   selector: 'app-request',
@@ -23,10 +23,14 @@ export class RequestComponent implements OnInit {
   public url = 'https://tomp.dat.nl/bike';
   public endpoints: Endpoint[];
   public endpoint: Endpoint;
+  public version = '0.6.0';
   public headers: CustomHeaders = new CustomHeaders();
   public id: string;
 
-  constructor(public internalService: InternalService, public apiService: ApiService, private route: ActivatedRoute) {
+  constructor(public internalService: InternalService,
+              public apiService: ApiService,
+              private route: ActivatedRoute,
+              private websocket: WebsocketService) {
     this.internalService.onUpdatePlanning().subscribe(planning => this.updatePlanning(planning));
     this.internalService.onAddResponse().subscribe(response => this.fetchId(response));
   }
@@ -37,6 +41,7 @@ export class RequestComponent implements OnInit {
       if ( externalUrl != null ){
         this.url = externalUrl;
       }
+      this.urlChanged(this.url);
       const externalId = param.get('maas-id');
       if ( externalId != null ) {
         this.headers['maas-id'] = externalId;
@@ -44,8 +49,9 @@ export class RequestComponent implements OnInit {
       const apiVersion = param.get('api-version');
       if ( apiVersion != null)  {
         this.headers['Api-Version'] = apiVersion;
+        this.version = apiVersion;
       }
-      this.apiService.loadEndpointConfig(externalUrl, this.headers['Api-Version'], this.headers).subscribe(data => {
+      this.apiService.loadEndpointConfig(externalUrl, this.version, this.headers).subscribe(data => {
         this.endpoints = data;
         if (this.endpoints.length > 0) {
 
@@ -75,6 +81,7 @@ export class RequestComponent implements OnInit {
     }
     document.body.classList.add('busy-cursor');
     if (this.endpoint.type === EndpointType.GET) {
+      this.headers['Api-Version'] = this.version;
       this.apiService.doRequest(this.endpoint.type, this.url, endpointPath, this.headers).subscribe(
         (result) => {
           document.body.classList.remove('busy-cursor');
@@ -115,10 +122,24 @@ export class RequestComponent implements OnInit {
     return value.includes('{id}');
   }
 
+  public urlChanged(newUrl: string) {
+    this.websocket.connect(newUrl);
+    this.websocket.stream().subscribe(data => {
+      let message: string;
+      message = data.body;
+      this.internalService.addReceivedMessage(message);
+    },
+    e => {
+      console.log(e);
+    }
+    );
+  }
+
   public headerChanged(key: string, value: string) {
     this.headers[key] = value;
-    if (key === 'Api-Version'){
-      this.apiService.loadEndpointConfig(this.url, this.headers['Api-Version'], this.headers).subscribe(data => {
+    if (key === 'Api-Version') {
+      this.version = value;
+      this.apiService.loadEndpointConfig(this.url, this.version, this.headers).subscribe(data => {
         const index = this.endpoints.indexOf(this.endpoint);
         this.endpoints = data;
         this.endpoint = this.endpoints[index];
@@ -146,7 +167,7 @@ export class RequestComponent implements OnInit {
   }
 
   private updatePlanning(planning: PlanningOptions) {
-    if ( this.headers['Api-Version'] === '0.5.0' ) {
+    if ( this.version === '0.5.0' ) {
       const body = (this.body as any) as PlanningOptions;
       body.endTime = planning.endTime;
       body.startTime = planning.startTime;
@@ -155,7 +176,7 @@ export class RequestComponent implements OnInit {
     }
     else {
       const body = (this.body as any) as Plannings;
-      if ( this.headers['Api-Version'] === '0.6.0' ) {
+      if ( this.version === '0.6.0' ) {
         body.endTime = new Date(planning.endTime).toISOString();
         body.startTime = new Date(planning.startTime).toISOString();
       }
@@ -184,7 +205,7 @@ export class RequestComponent implements OnInit {
       if ( json.legOptions !== undefined && json.legOptions.length > 0 && json.legOptions[0].id ) {
         this.id = json.legOptions[0].id;
       }
-      else if( json.options !== undefined && json.options.length > 0 && json.options[0].id ) {
+      else if ( json.options !== undefined && json.options.length > 0 && json.options[0].id ) {
         this.id = json.options[0].id;
       }
     }

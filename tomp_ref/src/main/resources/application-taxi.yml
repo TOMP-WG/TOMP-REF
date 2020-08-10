@@ -22,8 +22,8 @@ tomp:
    currency-code: NL
    vat-rate: 21
    providers:
-     booking: shared-car
+     booking: taxi
      operatorinformation: generic
      planning: shared-car
-     tripexecution: generic
+     tripexecution: taxi
    

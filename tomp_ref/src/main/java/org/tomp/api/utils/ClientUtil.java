@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
+import org.tomp.api.controllers.WebsocketController;
 import org.tomp.api.model.MaasOperator;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,6 +31,9 @@ public class ClientUtil {
 
 	private static ObjectMapper mapper;
 
+	@Autowired
+	private WebsocketController websocket;
+	
 	@Autowired
 	private ClientUtil(ExternalConfiguration configuration, ObjectMapper mapper) {
 		ClientUtil.configuration = configuration;
@@ -154,6 +158,7 @@ public class ClientUtil {
 				ApiResponse<T> result = apiClient.execute(call, String.class);
 				return result.getData();
 			} catch (ApiException e) {
+				websocket.sendMessage(localVarPath, body);
 				log.error("Cannot connect to {} ({})", to.getName(), to.getUrl());
 				log.error(e.getMessage());
 				log.error(e.getResponseBody());
@@ -180,5 +185,67 @@ public class ClientUtil {
 			log.error(e.getMessage());
 		}
 		return null;
+	}
+	
+	public <T> T patch(MaasOperator to, String localVarPath, Object localVarPostBody, Class<T> class1)
+			throws ApiException {
+		return patch(to, configuration.getAcceptLanguage(), configuration.getApiVersion(), localVarPath,
+				configuration.getMaasId(), localVarPostBody, class1);
+	}
+
+	private <T> T patch(MaasOperator to, String acceptLanguage, String apiVersion, String localVarPath, String maasId,
+			Object localVarPostBody, Class<T> class1) throws ApiException {
+
+		ApiClient apiClient = new ApiClient();
+		apiClient.setConnectTimeout(20000);
+		apiClient.setReadTimeout(20000);
+		String url = to.getUrl();
+		if (url.endsWith("/") && localVarPath.startsWith("/")) {
+			url = url.substring(0, url.length() - 1);
+		}
+		apiClient.setBasePath(url);
+		apiClient.setReadTimeout(10000);
+		log.info("Connecting to {}{}", url, localVarPath);
+		log.info("Body {}", localVarPostBody);
+
+		List<Pair> localVarQueryParams = new ArrayList<>();
+		List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+
+		Map<String, String> localVarHeaderParams = new HashMap<>();
+		if (acceptLanguage != null)
+			localVarHeaderParams.put("Accept-Language", apiClient.parameterToString(acceptLanguage));
+		localVarHeaderParams.put("Api", apiClient.parameterToString("TOMP"));
+		if (apiVersion != null)
+			localVarHeaderParams.put("Api-Version", apiClient.parameterToString(apiVersion));
+
+		localVarHeaderParams.put("maas-id", maasId);
+
+		Map<String, Object> localVarFormParams = new HashMap<>();
+
+		final String[] localVarAccepts = { "application/json" };
+		final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+		if (localVarAccept != null)
+			localVarHeaderParams.put("Accept", localVarAccept);
+
+		final String[] localVarContentTypes = {
+
+		};
+		final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+		localVarHeaderParams.put("Content-Type", localVarContentType);
+
+		String[] localVarAuthNames = new String[] {};
+
+		if (class1 != String.class) {
+			try {
+				localVarPostBody = mapper.writeValueAsString(localVarPostBody);
+			} catch (JsonProcessingException e) {
+				log.error(e.getMessage());
+			}
+		}
+
+		Call call = apiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams,
+				localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, null);
+
+		return handleResult(to, class1, apiClient, call, localVarPath, localVarPostBody, "PATCH");
 	}
 }

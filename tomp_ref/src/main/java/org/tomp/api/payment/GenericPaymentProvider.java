@@ -38,8 +38,8 @@ public class GenericPaymentProvider implements PaymentProvider {
 
 	@Override
 	public List<JournalEntry> getJournalEntries(String acceptLanguage, String api, String apiVersion,
-			OffsetDateTime from, OffsetDateTime to, JournalState state, String category, String maasId) {
-		return repository.getJournalEntries(acceptLanguage, from, to, state, category, maasId);
+			OffsetDateTime from, OffsetDateTime to, JournalState state, String category, String id, String maasId) {
+		return repository.getJournalEntries(acceptLanguage, from, to, state, category, id, maasId);
 	}
 
 }

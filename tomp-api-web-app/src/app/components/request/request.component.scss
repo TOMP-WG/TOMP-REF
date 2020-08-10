@@ -5,6 +5,16 @@
   display: flex;
   box-sizing: border-box;
   flex-direction: column;
+  
+  .first-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .request-url {
+    margin-right: 5px;
+    width: 75%;
+  }
 
   .request-text-area {
     width: 100%;

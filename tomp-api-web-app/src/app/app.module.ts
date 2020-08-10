@@ -22,6 +22,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterModule } from '@angular/router';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { RouterModule } from '@angular/router';
     MatExpansionModule,
     MatDividerModule,
     HttpClientModule,
+    NgxJsonViewerModule,
+    MatTabsModule
   ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },

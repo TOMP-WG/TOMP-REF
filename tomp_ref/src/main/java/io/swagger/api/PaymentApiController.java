@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-24T08:44:01.688Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-08-06T12:33:00.035Z[GMT]")
 @Controller
 public class PaymentApiController implements PaymentApi {
 
@@ -64,10 +64,11 @@ public class PaymentApiController implements PaymentApi {
     public ResponseEntity<List<JournalEntry>> paymentJournalEntryGet(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
-,@NotNull @ApiParam(value = "start of the selection", required = true) @Valid @RequestParam(value = "from", required = true) OffsetDateTime from
-,@NotNull @ApiParam(value = "end of the selection", required = true) @Valid @RequestParam(value = "to", required = true) OffsetDateTime to
-,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "state", required = true) JournalState state
-,@NotNull @ApiParam(value = "type of booking line (e.g. fare, addition costs, fines, ...)", required = true, allowableValues = "ALL, DAMAGE, LOSS, STOLEN, EXTRA_USAGE, REFUND, FINE, OTHER_ASSET_USED, CREDIT, VOUCHER, DEPOSIT, OTHER") @Valid @RequestParam(value = "category", required = true) String category
+,@ApiParam(value = "start of the selection") @Valid @RequestParam(value = "from", required = false) OffsetDateTime from
+,@ApiParam(value = "end of the selection") @Valid @RequestParam(value = "to", required = false) OffsetDateTime to
+,@ApiParam(value = "") @Valid @RequestParam(value = "state", required = false) JournalState state
+,@ApiParam(value = "") @Valid @RequestParam(value = "id", required = false) String id
+,@ApiParam(value = "type of booking line (e.g. fare, addition costs, fines, ...)", allowableValues = "ALL, DAMAGE, LOSS, STOLEN, EXTRA_USAGE, REFUND, FINE, OTHER_ASSET_USED, CREDIT, VOUCHER, DEPOSIT, OTHER") @Valid @RequestParam(value = "category", required = false) String category
 ) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {

@@ -90,13 +90,13 @@ public class DefaultRepository {
 			journalEntries.put(maasId, new HashMap<>());
 		}
 
-		Map<String, List<JournalEntry>> journalItemsPerTO = journalEntries.get(maasId);
-		calculateSequenceId(journalItemsPerTO, entry);
+		Map<String, List<JournalEntry>> journalItemsPerMP = journalEntries.get(maasId);
+		calculateSequenceId(journalItemsPerMP, entry);
 
-		if (!journalItemsPerTO.containsKey(journalId)) {
-			journalItemsPerTO.put(journalId, new ArrayList<>());
+		if (!journalItemsPerMP.containsKey(journalId)) {
+			journalItemsPerMP.put(journalId, new ArrayList<>());
 		}
-		journalItemsPerTO.get(journalId).add(entry);
+		journalItemsPerMP.get(journalId).add(entry);
 	}
 
 	private void calculateSequenceId(Map<String, List<JournalEntry>> journalItemsPerTO, JournalEntry entry) {
@@ -120,13 +120,13 @@ public class DefaultRepository {
 	}
 
 	public List<JournalEntry> getJournalEntries(String acceptLanguage, OffsetDateTime from, OffsetDateTime to,
-			JournalState state, String category, String maasId) {
+			JournalState state, String category, String id, String maasId) {
 		ArrayList<JournalEntry> entries = new ArrayList<>();
 		Map<String, List<JournalEntry>> map = journalEntries.get(maasId);
 		if (map != null) {
 			for (List<JournalEntry> journal : map.values()) {
 				for (JournalEntry entry : journal) {
-					if (conditionsMet(entry, from, to, state, category)) {
+					if (conditionsMet(entry, from, to, state, category, id)) {
 						entries.add(entry);
 					}
 				}
@@ -136,13 +136,15 @@ public class DefaultRepository {
 	}
 
 	private boolean conditionsMet(JournalEntry entry, OffsetDateTime from, OffsetDateTime to, JournalState state,
-			String category) {
+			String category, String id) {
+		if (id != null && entry.getJournalId().equals(id)) {
+			return true;
+		}
 		if (entry == null || entry.getExpirationDate() == null || entry.getState() == null)
 			return false;
-
-		if (entry.getExpirationDate().isAfter(to))
+		if (to != null && entry.getExpirationDate().isAfter(to))
 			return false;
-		if (entry.getExpirationDate().isBefore(from))
+		if (from != null && entry.getExpirationDate().isBefore(from))
 			return false;
 		if (state != null && entry.getState() != state)
 			return false;
