@@ -15,12 +15,10 @@ import org.tomp.api.repository.GbfsRepository;
 import io.swagger.model.AssetClass;
 import io.swagger.model.AssetType;
 import io.swagger.model.Booking;
-import io.swagger.model.Coordinates;
 import io.swagger.model.Fare;
 import io.swagger.model.Leg;
 import io.swagger.model.Place;
 import io.swagger.model.PlanningRequest;
-import io.swagger.model.AssetType;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "gbfs", matchIfMissing = false)
@@ -44,8 +42,8 @@ public class GbfsPlanningProvider extends BasePlanningProvider {
 			Booking booking = new Booking();
 			Leg leg = new Leg();
 			leg.setAssetType(assetType);
-			leg.setFrom(getFrom());
-			leg.setTo(getTo());
+			leg.setFrom(from);
+			leg.setTo(to);
 			leg.setDepartureTime(getStartTime());
 			leg.setArrivalTime(getEndTime());
 			leg.setPricing(getFare());
@@ -61,7 +59,7 @@ public class GbfsPlanningProvider extends BasePlanningProvider {
 			AssetType asset = new AssetType();
 			asset.setAssetClass(AssetClass.FOOT);
 			byFoot.setAssetType(asset);
-			byFoot.setFrom(getFrom());
+			byFoot.setFrom(from);
 			byFoot.setTo(assetLocation);
 			byFoot.setDepartureTime(body.getDepartureTime());
 			byFoot.setArrivalTime(body.getArrivalTime().plusMinutes(5));
@@ -70,7 +68,7 @@ public class GbfsPlanningProvider extends BasePlanningProvider {
 			Leg byBike = new Leg();
 			byBike.setAssetType(assetType);
 			byBike.setFrom(assetLocation);
-			byBike.setTo(getTo());
+			byBike.setTo(to);
 			byBike.setDepartureTime(body.getDepartureTime().plusMinutes(5));
 			byBike.setArrivalTime(body.getArrivalTime());
 			booking.addLegsItem(byBike);

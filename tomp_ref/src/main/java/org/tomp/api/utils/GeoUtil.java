@@ -28,12 +28,14 @@ public class GeoUtil {
 
 	public static boolean isNearby(@NotNull @Valid Coordinates coordinates, @NotNull @Valid Coordinates coordinates2,
 			@Valid double meters) {
-		float distance = distFrom(coordinates.getLat().floatValue(), coordinates.getLng().floatValue(),
+		float distance = distanceInMeters(coordinates.getLat().floatValue(), coordinates.getLng().floatValue(),
 				coordinates2.getLat().floatValue(), coordinates2.getLng().floatValue());
 		return distance < meters;
 	}
 
-	private static float distFrom(float lat1, float lng1, float lat2, float lng2) {
+	/* Distance in meters
+	 * */
+	public static float distanceInMeters(float lat1, float lng1, float lat2, float lng2) {
 		double earthRadius = 6371000; // meters
 		double dLat = Math.toRadians(lat2 - lat1);
 		double dLng = Math.toRadians(lng2 - lng1);

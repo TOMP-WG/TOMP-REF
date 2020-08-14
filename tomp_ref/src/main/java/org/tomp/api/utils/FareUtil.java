@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import javax.validation.constraints.NotNull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -17,17 +19,15 @@ import io.swagger.model.Leg;
 @Component
 public class FareUtil {
 
+	private static final Logger log = LoggerFactory.getLogger(FareUtil.class);
+
 	@Autowired
 	LegUtil legUtil;
 
 	public double calculateFare(Leg leg) {
-		Fare fare = null;
-		double minutes = 60;
-		double distanceInMeters = 1000;
-
-		fare = leg.getPricing();
-		minutes = legUtil.getDuration(leg);
-		distanceInMeters = legUtil.getDistance(leg);
+		Fare fare = leg.getPricing();
+		double minutes = legUtil.getDuration(leg);
+		double distanceInMeters = legUtil.getDistance(leg);
 
 		return calculateFare(fare, minutes, distanceInMeters);
 	}
@@ -61,15 +61,19 @@ public class FareUtil {
 	}
 
 	private double calculateFlexPart(FarePart part, double minutes, double distanceInMeters) {
+		log.info("calc fare {} {} {}", part, minutes, distanceInMeters);
 		if (part.getScaleType() == null) {
 			double amount = part.getAmount().doubleValue();
 			if (part.getUnitType() == UnitTypeEnum.HOUR || part.getUnitType() == UnitTypeEnum.MINUTE
 					|| part.getUnitType() == UnitTypeEnum.SECOND) {
 				double minutesPerUnit = getMinutesPerUnitType(part.getUnitType());
-				amount = amount * minutes / minutesPerUnit;
+				minutesPerUnit = minutesPerUnit * part.getUnits().doubleValue();
+				log.info("minutesPerUnit {}", minutesPerUnit);
+				amount = amount * Math.ceil(minutes / minutesPerUnit);
 			} else if (part.getUnitType() == UnitTypeEnum.KM) {
 				double meterPerUnit = getMetersPerUnitType(part.getUnitType());
-				amount = amount * distanceInMeters / meterPerUnit;
+				log.info("meterPerUnit {}", meterPerUnit);
+				amount = amount * Math.ceil(distanceInMeters / meterPerUnit);
 			}
 			return amount;
 		}
@@ -94,7 +98,7 @@ public class FareUtil {
 	}
 
 	private double getMetersPerUnitType(@NotNull UnitTypeEnum unitType) {
-		switch(unitType) {
+		switch (unitType) {
 		case KM:
 			return 1000;
 		case MILE:
@@ -113,7 +117,8 @@ public class FareUtil {
 		case SECOND:
 			return 1D / 60;
 		default:
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown UnitType for getMinutesPerUnitType: " + unitType);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					"Unknown UnitType for getMinutesPerUnitType: " + unitType);
 		}
 	}
 

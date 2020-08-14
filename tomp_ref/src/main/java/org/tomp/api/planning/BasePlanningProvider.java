@@ -13,12 +13,12 @@ import org.threeten.bp.OffsetDateTime;
 import org.tomp.api.configuration.ExternalConfiguration;
 import org.tomp.api.providers.conditions.ConditionProvider;
 import org.tomp.api.repository.DefaultRepository;
+import org.tomp.api.utils.LegUtil;
 
 import io.swagger.model.AssetType;
 import io.swagger.model.Booking;
 import io.swagger.model.BookingState;
 import io.swagger.model.Condition;
-import io.swagger.model.Coordinates;
 import io.swagger.model.Fare;
 import io.swagger.model.Leg;
 import io.swagger.model.Place;
@@ -29,8 +29,8 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(BasePlanningProvider.class);
 
-	protected Coordinates from;
-	protected Coordinates to;
+	protected Place from;
+	protected Place to;
 	protected @Valid OffsetDateTime start;
 	protected @Valid OffsetDateTime end;
 
@@ -41,13 +41,16 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 	@Autowired
 	protected ConditionProvider conditionProvider;
 
+	@Autowired
+	LegUtil legUtil;
+
 	public Planning getOptions(@Valid PlanningRequest body, String acceptLanguage, boolean bookingIntent) {
 		log.info("Request for options");
 		boolean provideIds = bookingIntent;
 
 		Planning options = new Planning();
-		from = body.getFrom().getCoordinates();
-		to = body.getTo().getCoordinates();
+		from = body.getFrom();
+		to = body.getTo();
 		start = body.getDepartureTime();
 		end = body.getArrivalTime();
 		options.setOptions(getResults(body, acceptLanguage, bookingIntent));
@@ -67,10 +70,14 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 
 		Leg leg = new Leg();
 		leg.setAssetType(getAssetType());
-		leg.setFrom(getFrom());
-		leg.setTo(getTo());
+		leg.setFrom(body.getFrom());
+		leg.setTo(body.getTo());
 		leg.setDepartureTime(getStartTime());
 		leg.setArrivalTime(getEndTime());
+		if (getEndTime() == null) {
+			double duration = legUtil.getDuration(leg);
+			leg.setArrivalTime(getStartTime().plusSeconds((long) duration));
+		}
 		leg.setPricing(getFare());
 		leg.setConditions(getConditionsForLeg(leg, acceptLanguage));
 
@@ -97,18 +104,6 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 
 	protected OffsetDateTime getStartTime() {
 		return start;
-	}
-
-	protected Place getTo() {
-		Place p = new Place();
-		p.setCoordinates(to);
-		return p;
-	}
-
-	protected Place getFrom() {
-		Place p = new Place();
-		p.setCoordinates(from);
-		return p;
 	}
 
 	protected List<Condition> getConditionsForLeg(Leg result, String acceptLanguage) {

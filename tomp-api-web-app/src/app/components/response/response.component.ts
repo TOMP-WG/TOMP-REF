@@ -38,6 +38,7 @@ export class ResponseComponent {
       this.renderer.appendChild(this.divMessages.nativeElement, text);
     }
     this.renderer.appendChild(this.divMessages.nativeElement, this.renderer.createElement('br'));
+    this.renderer.appendChild(this.divMessages.nativeElement, this.renderer.createElement('br'));
   }
 
   private updateResponse(response: string) {

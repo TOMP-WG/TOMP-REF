@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
+import org.threeten.bp.OffsetDateTime;
 import org.tomp.api.controllers.WebsocketController;
 import org.tomp.api.model.LookupService;
 import org.tomp.api.model.MaasEnvironmentType;
@@ -20,6 +21,7 @@ import org.tomp.api.repository.DefaultRepository;
 import org.tomp.api.utils.ClientUtil;
 
 import io.swagger.client.ApiException;
+import io.swagger.model.Asset;
 import io.swagger.model.Booking;
 import io.swagger.model.ExtraCosts;
 import io.swagger.model.JournalCategory;
@@ -185,6 +187,11 @@ public class TaxiTripExecutionProvider implements TripExecutionProvider {
 	private void sendPrepare() {
 		LegEvent event = new LegEvent();
 		event.setEvent(EventEnum.PREPARE);
+		event.setTime(OffsetDateTime.now());
+		Asset asset = new Asset();
+		asset.setId("ZH 445 789");
+		event.setAsset(asset);
+
 		send("/legs/" + tripId + "/events", event);
 	}
 

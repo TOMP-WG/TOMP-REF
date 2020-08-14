@@ -5,7 +5,6 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -27,7 +26,6 @@ import io.swagger.client.ApiException;
 import io.swagger.model.AssetClass;
 import io.swagger.model.AssetType;
 import io.swagger.model.Booking;
-import io.swagger.model.Condition;
 import io.swagger.model.Coordinates;
 import io.swagger.model.Leg;
 import io.swagger.model.Place;

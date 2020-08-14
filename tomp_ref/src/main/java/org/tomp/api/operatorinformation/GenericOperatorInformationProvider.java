@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.tomp.api.configuration.ExternalConfiguration;
+import org.tomp.api.repository.RegionContainer;
 import org.tomp.api.utils.ExternalFileService;
 import org.tomp.api.utils.ObjectFromFileProvider;
 
@@ -22,7 +23,7 @@ import io.swagger.model.SystemRegion;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.operatorinformation", havingValue = "generic", matchIfMissing = true)
-public class GenericOperatorInformationProvider implements OperatorInformationProvider {
+public class GenericOperatorInformationProvider implements OperatorInformationProvider, RegionContainer {
 
 	@Autowired
 	ExternalConfiguration configuration;
@@ -85,5 +86,10 @@ public class GenericOperatorInformationProvider implements OperatorInformationPr
 	@Override
 	public List<EndpointImplementation> getMeta(String acceptLanguage) {
 		return fileService.getEndPoints();
+	}
+
+	@Override
+	public List<SystemRegion> getRegions() {
+		return getRegions("");
 	}
 }

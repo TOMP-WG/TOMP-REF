@@ -27,11 +27,16 @@ export class WebsocketService {
     };
 
     if (this.stompService) {
-      this.stompService.disconnect();
+      this.stompService.deactivate();
     }
 
     this.stompService = new StompService(stompConfig);
     this.messages = this.stompService.subscribe('/topic/backend');
+    this.stompService.webSocketErrors$.subscribe( (x: any) =>
+      {
+        console.log('deactivate stomp connection');
+        this.stompService.deactivate();
+      } );
   }
 
   formatWsUrl(url: string): string {

@@ -7,30 +7,25 @@ import org.springframework.stereotype.Controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 @Controller
 public class WebsocketController {
 
-	ObjectMapper mapper = new ObjectMapper();
+	@Autowired
+	ObjectMapper mapper;
 
 	@Autowired
 	SimpMessagingTemplate simpMessagingTemplate;
 
-	public WebsocketController() {
-		this.mapper.enable(SerializationFeature.INDENT_OUTPUT);
-	}
-
 	public void sendMessage(String message, Object o) {
 		try {
 			if (o == null) {
-				simpMessagingTemplate.convertAndSend("/topic/backend", message);
+				simpMessagingTemplate.convertAndSend("/topic/backend", message + "\r\n");
 			} else {
-				simpMessagingTemplate.convertAndSend("/topic/backend", message + "\r\n" + mapper.writeValueAsString(o));
+				simpMessagingTemplate.convertAndSend("/topic/backend",
+						message + "\r\n" + mapper.writeValueAsString(o) + "\r\n");
 			}
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
+		} catch (MessagingException | JsonProcessingException e) {
 			e.printStackTrace();
 		}
 	}

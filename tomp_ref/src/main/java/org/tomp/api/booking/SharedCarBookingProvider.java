@@ -81,6 +81,8 @@ public class SharedCarBookingProvider implements BookingProvider {
 		Booking booking = repository.getBooking(id);
 		booking.setId(id);
 		booking.setState(BookingState.PENDING);
+		booking.getFrom().setPhysicalAddress(body.getFrom().getPhysicalAddress());
+		booking.getTo().setPhysicalAddress(body.getTo().getPhysicalAddress());
 		booking.setCustomer(body.getCustomer());
 		repository.saveBooking(booking);
 		return booking;
@@ -163,7 +165,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 		double duration = l.getDuration(leg);
 		entry.setUsedTime(BigDecimal.valueOf(duration));
 
-		entry.setAmount(BigDecimal.valueOf(f.calculateFare(leg.getPricing(), distance, duration)));
+		entry.setAmount(BigDecimal.valueOf(f.calculateFare(leg.getPricing(), duration / 60, distance)));
 		repository.saveJournalEntry(entry, request.getHeader("maas-id"));
 
 		sendMail(booking);
@@ -171,6 +173,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 	}
 
 	private void sendMail(Booking booking) {
+		String mpUrl = configuration.getExternalUrl();
 		if (this.mailService != null) {
 			StringBuilder builder = getBookingRequestText(booking);
 			String to = booking.getCustomer().getEmail();
@@ -182,15 +185,13 @@ public class SharedCarBookingProvider implements BookingProvider {
 					builder.toString());
 			new Thread(t).start();
 		} else {
-			String mpUrl = configuration.getExternalUrl();
 			if (mpUrl.endsWith("/")) {
 				mpUrl = mpUrl.substring(0, mpUrl.length() - 1);
 			}
-			String url = mpUrl + "/postponed/" + booking.getId();
-			log.info("URL: {}", url);
-
-			websocket.sendMessage(url, null);
 		}
+		String url = mpUrl + "/postponed/" + booking.getId();
+		log.info("URL: {}", url);
+		websocket.sendMessage(url, null);
 	}
 
 	private class SendMailThread implements Runnable {
@@ -223,14 +224,22 @@ public class SharedCarBookingProvider implements BookingProvider {
 		builder.append("\r\n");
 
 		Customer customer = booking.getCustomer();
-		builder.append("Customer: ");
-		builder.append(customer.getFirstName());
-		builder.append(" ");
-		builder.append(customer.getLastName());
-		builder.append("\r\n");
-		builder.append("Birth date: ");
-		builder.append(customer.getBirthDate());
-		builder.append("\r\n");
+		if (customer != null) {
+			builder.append("Customer: ");
+			if (customer.getFirstName() != null) {
+				builder.append(customer.getFirstName());
+			}
+			builder.append(" ");
+			if (customer.getLastName() != null) {
+				builder.append(customer.getLastName());
+			}
+			builder.append("\r\n");
+			builder.append("Birth date: ");
+			if (customer.getBirthDate() != null) {
+				builder.append(customer.getBirthDate());
+			}
+			builder.append("\r\n");
+		}
 
 		Leg leg = repository.getLeg(booking.getId());
 		Coordinates from = leg.getFrom().getCoordinates();

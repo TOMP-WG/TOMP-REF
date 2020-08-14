@@ -1,7 +1,6 @@
 package org.tomp.api.planning;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,9 +11,9 @@ import org.tomp.api.utils.GeoUtil;
 import io.swagger.model.AssetClass;
 import io.swagger.model.AssetProperties;
 import io.swagger.model.AssetProperties.EnergyLabelEnum;
+import io.swagger.model.AssetType;
 import io.swagger.model.Condition;
 import io.swagger.model.ConditionReturnArea;
-import io.swagger.model.Coordinates;
 import io.swagger.model.Day;
 import io.swagger.model.Fare;
 import io.swagger.model.FarePart;
@@ -22,7 +21,6 @@ import io.swagger.model.FarePart.TypeEnum;
 import io.swagger.model.GeojsonPolygon;
 import io.swagger.model.Leg;
 import io.swagger.model.SystemHours;
-import io.swagger.model.AssetType;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "bike", matchIfMissing = false)

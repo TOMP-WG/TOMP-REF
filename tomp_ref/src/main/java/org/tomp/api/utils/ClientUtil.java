@@ -33,7 +33,7 @@ public class ClientUtil {
 
 	@Autowired
 	private WebsocketController websocket;
-	
+
 	@Autowired
 	private ClientUtil(ExternalConfiguration configuration, ObjectMapper mapper) {
 		ClientUtil.configuration = configuration;
@@ -167,7 +167,8 @@ public class ClientUtil {
 		}
 		try {
 			String dest = getOrPost.equals("POST") ? post(to, localVarPath, body, String.class)
-					: get(to, localVarPath, String.class);
+					: getOrPost.equals("GET") ? get(to, localVarPath, String.class)
+							: patch(to, localVarPath, body, String.class);
 			if (dest != null) {
 				return mapper.readValue(dest, class1);
 			} else {
@@ -186,7 +187,7 @@ public class ClientUtil {
 		}
 		return null;
 	}
-	
+
 	public <T> T patch(MaasOperator to, String localVarPath, Object localVarPostBody, Class<T> class1)
 			throws ApiException {
 		return patch(to, configuration.getAcceptLanguage(), configuration.getApiVersion(), localVarPath,
