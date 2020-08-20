@@ -197,7 +197,8 @@ public class TaxiTripExecutionProvider implements TripExecutionProvider {
 
 	private void waitAFewSeconds() {
 		try {
-			Thread.sleep(1000L * random.nextInt(5));
+			// Thread.sleep(1000L * random.nextInt(5));
+			Thread.sleep(20000L);
 		} catch (InterruptedException e) {
 			log.error(e.getMessage());
 		}

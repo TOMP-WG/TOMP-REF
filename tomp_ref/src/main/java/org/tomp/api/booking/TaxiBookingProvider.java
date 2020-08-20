@@ -41,7 +41,8 @@ public class TaxiBookingProvider extends SharedCarBookingProvider {
 
 	@Override
 	public Booking addNewBooking(@Valid BookingRequest body, String acceptLanguage) {
-		if (body.getFrom().getPhysicalAddress() == null || body.getTo().getPhysicalAddress() == null) {
+		if (body.getFrom() == null || body.getTo() == null || body.getFrom().getPhysicalAddress() == null
+				|| body.getTo().getPhysicalAddress() == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "From and to addresses are required");
 		}
 		Booking booking = super.addNewBooking(body, acceptLanguage);

@@ -2,6 +2,7 @@ package org.tomp.api.booking;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
@@ -114,7 +115,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 		}
 	}
 
-	private Booking cancelBooking(String id) {
+	protected Booking cancelBooking(String id) {
 		Booking booking = repository.getBooking(id);
 
 		if (booking.getState() == BookingState.CONFIRMED) {
@@ -286,7 +287,10 @@ public class SharedCarBookingProvider implements BookingProvider {
 		Booking booking = repository.getBooking(id);
 		booking.setState(committed ? BookingState.CONFIRMED : BookingState.CANCELLED);
 		if (!committed) {
-			HashMap<String, Object> extraData = new HashMap<>();
+			Map<String, Object> extraData = booking.getExtraData();
+			if (extraData == null) {
+				extraData = new HashMap<>();
+			}
 			extraData.put("DenyReason", remark);
 			booking.setExtraData(extraData);
 		}
