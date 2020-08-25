@@ -44,8 +44,23 @@
       "from": { "coordinates": "" },
       "to": { "coordinates": "" },
       "radius": 1000,
-      "travellers": 1,
-      "users": [
+      "travelers": [
+        {
+          "age": 44
+        }
+      ]
+    }
+  },
+  {
+    "type": "POST",
+    "value": "/plannings/?booking-intent=false",
+    "body": {
+      "departureTime": "2020-01-01 10:00",
+      "arrivalTime": "2020-01-01 12:00",
+      "from": { "coordinates": "" },
+      "to": { "coordinates": "" },
+      "radius": 1000,
+      "travelers": [
         {
           "age": 44
         }
@@ -150,14 +165,24 @@
     "type": "POST",
     "value": "/legs/{id}/events",
     "body": {
-      "operation": "SET_IN_USE"
+      "event": "SET_IN_USE",
+      "time": "2020-08-21T13:49:00.362Z",
+      "asset": { "id": "1", "properties": { "location": { "coordinates":  {
+        "lng": 6.169639,
+        "lat": 52.253279
+      } } } }
     }
   },
   {
     "type": "POST",
     "value": "/legs/{id}/events",
     "body": {
-      "operation": "FINISH"
+      "time": "2020-08-21T15:49:00.362Z",
+      "event": "FINISH",
+      "asset": { "id": "1", "properties": { "location": { "coordinates":  {
+        "lng": 6.169639,
+        "lat": 52.253279
+      } } } }
     }
   },
   {

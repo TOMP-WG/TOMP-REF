@@ -143,6 +143,11 @@ export class MapComponent implements AfterViewInit {
         this.showSimpleLeg(part);
       }
     }
+    else if (result.legs !== undefined) {
+      for ( const part of result.legs ) {
+        this.showSimpleLeg(part);
+      }
+    }
     else
     {
       let ptFrom = result.from.coordinates;
@@ -162,8 +167,11 @@ export class MapComponent implements AfterViewInit {
         description = result.suboperator.name + ' ' + result.suboperator.description;
       }
       let asset = result.asset;
-      if (asset === undefined) {
+      if (asset === undefined && result.legs !== undefined)  {
         asset = result.legs[0].assetType;
+      }
+      if (asset === undefined) {
+        asset = result.assetType;
       }
       this.addIcon(asset, '[' + lat + ',' + lng + ']', description);
     }
