@@ -90,7 +90,7 @@ public class GbfsRepository implements RegionContainer, StationContainer {
 			for (HashMap<String, Object> e : freeBikes) {
 				Asset asset = new Asset();
 				AssetProperties properties = new AssetProperties();
-				asset.setProperties(properties);
+				asset.setOverriddenProperties(properties);
 				properties.setName("Bike " + e.get("bike_id"));
 				asset.setId(e.get("bike_id").toString());
 				properties.setLocation(toPlace(e.get("lat"), e.get("lon")));
@@ -109,7 +109,7 @@ public class GbfsRepository implements RegionContainer, StationContainer {
 				place.setStationId(stationId);
 				place.setName(station.getName());
 				place.setPhysicalAddress(station.getPhysicalAddress());
-				assetType.getAssets().get(0).getProperties().setLocation(place);
+				assetType.getAssets().get(0).getOverriddenProperties().setLocation(place);
 			}
 		}
 	}
@@ -157,14 +157,14 @@ public class GbfsRepository implements RegionContainer, StationContainer {
 		for (AssetType assetType : getAssets()) {
 			if (assetType.getNrAvailable() == null) {
 				for (Asset asset : assetType.getAssets()) {
-					if (GeoUtil.isNearby(asset.getProperties().getLocation().getCoordinates(), from.getCoordinates(),
+					if (GeoUtil.isNearby(asset.getOverriddenProperties().getLocation().getCoordinates(), from.getCoordinates(),
 							radius.doubleValue())) {
 						AssetType clone = clone(assetType);
 						clone.setAssets(Arrays.asList(asset));
 						results.add(clone);
 					}
 				}
-			} else if (GeoUtil.isNearby(assetType.getAssets().get(0).getProperties().getLocation().getCoordinates(),
+			} else if (GeoUtil.isNearby(assetType.getAssets().get(0).getOverriddenProperties().getLocation().getCoordinates(),
 					from.getCoordinates(), radius.doubleValue())) {
 				results.add(assetType);
 			}

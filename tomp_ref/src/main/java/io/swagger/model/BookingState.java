@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 public enum BookingState {
   NEW("NEW"),
     PENDING("PENDING"),
+    REJECTED("REJECTED"),
     RELEASED("RELEASED"),
     EXPIRED("EXPIRED"),
     CONDITIONAL_CONFIRMED("CONDITIONAL_CONFIRMED"),

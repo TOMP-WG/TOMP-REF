@@ -80,8 +80,8 @@ public class GbfsPlanningProvider extends BasePlanningProvider {
 
 	private Place getAssetLocation(AssetType assetType) {
 		if (assetType != null && !assetType.getAssets().isEmpty()
-				&& assetType.getAssets().get(0).getProperties().getLocation() != null) {
-			return assetType.getAssets().get(0).getProperties().getLocation();
+				&& assetType.getAssets().get(0).getOverriddenProperties().getLocation() != null) {
+			return assetType.getAssets().get(0).getOverriddenProperties().getLocation();
 		}
 		return null;
 	}

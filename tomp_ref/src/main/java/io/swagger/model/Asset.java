@@ -34,8 +34,8 @@ public class Asset   {
   @JsonProperty("isDisabled")
   private Boolean isDisabled = null;
 
-  @JsonProperty("properties")
-  private AssetProperties properties = null;
+  @JsonProperty("overriddenProperties")
+  private AssetProperties overriddenProperties = null;
 
   public Asset id(String id) {
     this.id = id;
@@ -43,10 +43,10 @@ public class Asset   {
   }
 
   /**
-   * Unique identifier of an asset
+   * Identifier of an asset. Whenever used in Operator Information changed after every trip (GDPR).
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Unique identifier of an asset")
+  @ApiModelProperty(required = true, value = "Identifier of an asset. Whenever used in Operator Information changed after every trip (GDPR).")
       @NotNull
 
     public String getId() {
@@ -135,25 +135,24 @@ public class Asset   {
     this.isDisabled = isDisabled;
   }
 
-  public Asset properties(AssetProperties properties) {
-    this.properties = properties;
+  public Asset overriddenProperties(AssetProperties overriddenProperties) {
+    this.overriddenProperties = overriddenProperties;
     return this;
   }
 
   /**
-   * Get properties
-   * @return properties
+   * Get overriddenProperties
+   * @return overriddenProperties
   **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+  @ApiModelProperty(value = "")
   
     @Valid
-    public AssetProperties getProperties() {
-    return properties;
+    public AssetProperties getOverriddenProperties() {
+    return overriddenProperties;
   }
 
-  public void setProperties(AssetProperties properties) {
-    this.properties = properties;
+  public void setOverriddenProperties(AssetProperties overriddenProperties) {
+    this.overriddenProperties = overriddenProperties;
   }
 
 
@@ -171,12 +170,12 @@ public class Asset   {
         Objects.equals(this.isReservedFrom, asset.isReservedFrom) &&
         Objects.equals(this.isReservedTo, asset.isReservedTo) &&
         Objects.equals(this.isDisabled, asset.isDisabled) &&
-        Objects.equals(this.properties, asset.properties);
+        Objects.equals(this.overriddenProperties, asset.overriddenProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, isReserved, isReservedFrom, isReservedTo, isDisabled, properties);
+    return Objects.hash(id, isReserved, isReservedFrom, isReservedTo, isDisabled, overriddenProperties);
   }
 
   @Override
@@ -189,7 +188,7 @@ public class Asset   {
     sb.append("    isReservedFrom: ").append(toIndentedString(isReservedFrom)).append("\n");
     sb.append("    isReservedTo: ").append(toIndentedString(isReservedTo)).append("\n");
     sb.append("    isDisabled: ").append(toIndentedString(isDisabled)).append("\n");
-    sb.append("    properties: ").append(toIndentedString(properties)).append("\n");
+    sb.append("    overriddenProperties: ").append(toIndentedString(overriddenProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -54,6 +54,9 @@ public class SystemHours   {
   @JsonProperty("userType")
   private UserTypeEnum userType = null;
 
+  @JsonProperty("stationId")
+  private String stationId = null;
+
   @JsonProperty("startTime")
   private String startTime = null;
 
@@ -81,6 +84,25 @@ public class SystemHours   {
 
   public void setUserType(UserTypeEnum userType) {
     this.userType = userType;
+  }
+
+  public SystemHours stationId(String stationId) {
+    this.stationId = stationId;
+    return this;
+  }
+
+  /**
+   * If this parameter is present, it means that starTime and endTime correspond to the opening and closing hour of the station.
+   * @return stationId
+  **/
+  @ApiModelProperty(value = "If this parameter is present, it means that starTime and endTime correspond to the opening and closing hour of the station.")
+  
+    public String getStationId() {
+    return stationId;
+  }
+
+  public void setStationId(String stationId) {
+    this.stationId = stationId;
   }
 
   public SystemHours startTime(String startTime) {
@@ -159,6 +181,7 @@ public class SystemHours   {
     }
     SystemHours systemHours = (SystemHours) o;
     return Objects.equals(this.userType, systemHours.userType) &&
+        Objects.equals(this.stationId, systemHours.stationId) &&
         Objects.equals(this.startTime, systemHours.startTime) &&
         Objects.equals(this.endTime, systemHours.endTime) &&
         Objects.equals(this.days, systemHours.days);
@@ -166,7 +189,7 @@ public class SystemHours   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(userType, startTime, endTime, days);
+    return Objects.hash(userType, stationId, startTime, endTime, days);
   }
 
   @Override
@@ -175,6 +198,7 @@ public class SystemHours   {
     sb.append("class SystemHours {\n");
     
     sb.append("    userType: ").append(toIndentedString(userType)).append("\n");
+    sb.append("    stationId: ").append(toIndentedString(stationId)).append("\n");
     sb.append("    startTime: ").append(toIndentedString(startTime)).append("\n");
     sb.append("    endTime: ").append(toIndentedString(endTime)).append("\n");
     sb.append("    days: ").append(toIndentedString(days)).append("\n");

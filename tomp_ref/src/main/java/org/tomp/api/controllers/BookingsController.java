@@ -104,8 +104,8 @@ public class BookingsController extends BookingsApiController {
 
 	@Override
 	public ResponseEntity<Void> bookingsIdSubscriptionPost(String acceptLanguage, String api, String apiVersion,
-			String id, @Valid Booking body) {
-		provider.subscribeToBookings(acceptLanguage, api, apiVersion, id, body);
+			String id) {
+		provider.subscribeToBookings(acceptLanguage, api, apiVersion, id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

@@ -38,7 +38,7 @@ public class GbfsConditionProvider implements ConditionProvider {
 
 	@Override
 	public List<Condition> getApplyingConditions(String acceptLanguage, Leg leg) {
-		String fromStationId = leg.getAssetType().getAssets().get(0).getProperties().getLocation().getStationId();
+		String fromStationId = leg.getAssetType().getAssets().get(0).getOverriddenProperties().getLocation().getStationId();
 		return getConditions(acceptLanguage).stream().filter(x -> x.getId().equals("RA_" + fromStationId))
 				.collect(Collectors.toList());
 	}

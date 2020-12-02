@@ -216,13 +216,11 @@ public interface BookingsApi {
         @ApiResponse(code = 410, message = "The requested resource is no longer available. This is permanent.") })
     @RequestMapping(value = "/bookings/{id}/subscription",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.POST)
     ResponseEntity<Void> bookingsIdSubscriptionPost(@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information" ,required=true) @RequestHeader(value="Accept-Language", required=true) String acceptLanguage
 ,@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions" ,required=true) @RequestHeader(value="Api", required=true) String api
 ,@ApiParam(value = "Version of the API." ,required=true) @RequestHeader(value="Api-Version", required=true) String apiVersion
 ,@ApiParam(value = "Booking identifier",required=true) @PathVariable("id") String id
-,@ApiParam(value = ""  )  @Valid @RequestBody Booking body
 );
 
 
@@ -238,8 +236,7 @@ public interface BookingsApi {
         @ApiResponse(code = 202, message = "Request was successfully accepted for processing but has not yet completed."),
         @ApiResponse(code = 400, message = "Bad request. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
         @ApiResponse(code = 401, message = "Authorization error (invalid API key) or insufficient access rights given current authorization. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.", response = Error.class),
-        @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists."),
-        @ApiResponse(code = 409, message = "The request will not be fulfilled. The request itself is legal, but the content conflicts with the server and might be stale. The user might try again after looking up the current state of the resource.") })
+        @ApiResponse(code = 404, message = "The requested resources does not exist or the requester is not authorized to see it or know it exists.") })
     @RequestMapping(value = "/bookings/",
         produces = { "application/json" }, 
         consumes = { "application/json" },

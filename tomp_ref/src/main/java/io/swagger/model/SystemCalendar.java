@@ -17,6 +17,9 @@ import javax.validation.constraints.*;
 
 
 public class SystemCalendar   {
+  @JsonProperty("stationId")
+  private String stationId = null;
+
   @JsonProperty("startMonth")
   private Integer startMonth = null;
 
@@ -34,6 +37,25 @@ public class SystemCalendar   {
 
   @JsonProperty("endYear")
   private Integer endYear = null;
+
+  public SystemCalendar stationId(String stationId) {
+    this.stationId = stationId;
+    return this;
+  }
+
+  /**
+   * If this parameter is present, it means that star and end prameters correspond to the opening and closing days of the station.
+   * @return stationId
+  **/
+  @ApiModelProperty(value = "If this parameter is present, it means that star and end prameters correspond to the opening and closing days of the station.")
+  
+    public String getStationId() {
+    return stationId;
+  }
+
+  public void setStationId(String stationId) {
+    this.stationId = stationId;
+  }
 
   public SystemCalendar startMonth(Integer startMonth) {
     this.startMonth = startMonth;
@@ -171,7 +193,8 @@ public class SystemCalendar   {
       return false;
     }
     SystemCalendar systemCalendar = (SystemCalendar) o;
-    return Objects.equals(this.startMonth, systemCalendar.startMonth) &&
+    return Objects.equals(this.stationId, systemCalendar.stationId) &&
+        Objects.equals(this.startMonth, systemCalendar.startMonth) &&
         Objects.equals(this.startDay, systemCalendar.startDay) &&
         Objects.equals(this.startYear, systemCalendar.startYear) &&
         Objects.equals(this.endMonth, systemCalendar.endMonth) &&
@@ -181,7 +204,7 @@ public class SystemCalendar   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(startMonth, startDay, startYear, endMonth, endDay, endYear);
+    return Objects.hash(stationId, startMonth, startDay, startYear, endMonth, endDay, endYear);
   }
 
   @Override
@@ -189,6 +212,7 @@ public class SystemCalendar   {
     StringBuilder sb = new StringBuilder();
     sb.append("class SystemCalendar {\n");
     
+    sb.append("    stationId: ").append(toIndentedString(stationId)).append("\n");
     sb.append("    startMonth: ").append(toIndentedString(startMonth)).append("\n");
     sb.append("    startDay: ").append(toIndentedString(startDay)).append("\n");
     sb.append("    startYear: ").append(toIndentedString(startYear)).append("\n");

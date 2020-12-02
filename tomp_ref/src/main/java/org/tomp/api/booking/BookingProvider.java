@@ -17,7 +17,7 @@ public interface BookingProvider {
 
 	Booking getBooking(String id);
 
-	void subscribeToBookings(String acceptLanguage, String api, String apiVersion, String id, @Valid Booking body);
+	void subscribeToBookings(String acceptLanguage, String api, String apiVersion, String id);
 
 	void unsubscribeToBookings(String acceptLanguage, String api, String apiVersion, String id);
 

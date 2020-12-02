@@ -53,6 +53,7 @@ public class BikePlanningProvider extends BasePlanningProvider {
 	@Override
 	protected List<Condition> getConditionsForLeg(Leg result, String acceptLanguage) {
 		ConditionReturnArea condition = new ConditionReturnArea();
+		condition.setConditionType("conditionReturnArea");
 		condition.setId("Haarlem");
 		GeojsonPolygon geometry = new GeojsonPolygon();
 		GeoUtil.addPoint(geometry, 4.599516, 52.42857);

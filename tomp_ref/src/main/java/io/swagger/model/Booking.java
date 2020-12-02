@@ -10,6 +10,7 @@ import io.swagger.model.BookingState;
 import io.swagger.model.Customer;
 import io.swagger.model.Fare;
 import io.swagger.model.Leg;
+import io.swagger.model.Place;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

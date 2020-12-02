@@ -37,8 +37,7 @@ public class NoBookingProvider implements BookingProvider {
 	}
 
 	@Override
-	public void subscribeToBookings(String acceptLanguage, String api, String apiVersion, String id,
-			@Valid Booking body) {
+	public void subscribeToBookings(String acceptLanguage, String api, String apiVersion, String id) {
 		throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
 	}
 

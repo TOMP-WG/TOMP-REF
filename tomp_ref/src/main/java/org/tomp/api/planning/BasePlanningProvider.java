@@ -90,11 +90,11 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		booking.setLegs(Arrays.asList(leg));
 		booking.setFrom(body.getFrom());
 		booking.setTo(body.getTo());
-		booking.setDepartureTime(leg.getDepartureTime());
-		booking.setArrivalTime(leg.getArrivalTime());
-		booking.setNrOfTravelers(body.getNrOfTravelers());
+//		booking.setDepartureTime(leg.getDepartureTime());
+//		booking.setArrivalTime(leg.getArrivalTime());
+//		booking.setNrOfTravelers(body.getNrOfTravelers());
 		booking.setPricing(leg.getPricing());
-		booking.setRadius(body.getRadius());
+//		booking.setRadius(body.getRadius());
 		return Arrays.asList(booking);
 	}
 

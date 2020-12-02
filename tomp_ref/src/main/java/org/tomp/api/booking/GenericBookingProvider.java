@@ -1,6 +1,7 @@
 package org.tomp.api.booking;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -33,7 +34,7 @@ public class GenericBookingProvider implements BookingProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(GenericBookingProvider.class);
 
-	private HashMap<String, Booking> listeners = new HashMap<>();
+	private List<String> listeners = new ArrayList<>();
 
 	@Autowired
 	ClientUtil clientUtil;
@@ -123,8 +124,7 @@ public class GenericBookingProvider implements BookingProvider {
 	}
 
 	private void informListeners(BookingOperation body, String id) {
-		Booking listener = listeners.get(id);
-		if (listener != null) {
+		if (listeners.contains(id)) {
 			MaasOperator to = new MaasOperator();
 			// to.setUrl(listener.getWebhook());
 			try {
@@ -145,9 +145,8 @@ public class GenericBookingProvider implements BookingProvider {
 	}
 
 	@Override
-	public void subscribeToBookings(String acceptLanguage, String api, String apiVersion, String id,
-			@Valid Booking body) {
-		listeners.put(id, body);
+	public void subscribeToBookings(String acceptLanguage, String api, String apiVersion, String id) {
+		listeners.add(id);
 	}
 
 	@Override

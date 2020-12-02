@@ -83,7 +83,7 @@ public class GenericTripExecutionProvider implements TripExecutionProvider {
 		if (execution.getAsset() == null && body.getAsset() != null) {
 			execution.setAsset(body.getAsset());
 		}
-		execution.setFrom(body.getAsset().getProperties().getLocation());
+		execution.setFrom(body.getAsset().getOverriddenProperties().getLocation());
 		execution.setDepartureTime(body.getTime());
 		repository.saveLegEvent(id, body);
 		execution.setState(LegState.IN_USE);
@@ -111,7 +111,7 @@ public class GenericTripExecutionProvider implements TripExecutionProvider {
 	public Leg finish(LegEvent body, String acceptLanguage, String id, String maasId) {
 		Leg leg = repository.getLeg(id);
 		leg.setState(LegState.FINISHED);
-		leg.setTo(body.getAsset().getProperties().getLocation());
+		leg.setTo(body.getAsset().getOverriddenProperties().getLocation());
 		leg.setArrivalTime(body.getTime());
 		leg.setPricing(leg.getPricing());
 		leg.getPricing().setEstimated(false);
@@ -192,8 +192,8 @@ public class GenericTripExecutionProvider implements TripExecutionProvider {
 
 	private BigDecimal calculateDistance(JournalEntry entry, LegEvent legEvent) {
 		List<LegEvent> legEvents = repository.getLegEvents(entry.getJournalId());
-		Coordinates coordinates = legEvents.get(0).getAsset().getProperties().getLocation().getCoordinates();
-		Coordinates coordinates2 = legEvent.getAsset().getProperties().getLocation().getCoordinates();
+		Coordinates coordinates = legEvents.get(0).getAsset().getOverriddenProperties().getLocation().getCoordinates();
+		Coordinates coordinates2 = legEvent.getAsset().getOverriddenProperties().getLocation().getCoordinates();
 
 		BigDecimal lat = coordinates.getLat().subtract(coordinates2.getLat()).abs();
 		BigDecimal lon = coordinates.getLng().subtract(coordinates2.getLng()).abs();

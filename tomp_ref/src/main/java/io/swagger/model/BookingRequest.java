@@ -7,11 +7,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Customer;
 import io.swagger.model.Place;
-import io.swagger.model.PlanningRequest;
-import io.swagger.model.Traveler;
-import java.math.BigDecimal;
-import java.util.List;
-import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -24,9 +19,15 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:11:01.002Z[GMT]")
 
 
-public class BookingRequest extends PlanningRequest  {
+public class BookingRequest   {
   @JsonProperty("id")
   private String id = null;
+
+  @JsonProperty("from")
+  private Place from = null;
+
+  @JsonProperty("to")
+  private Place to = null;
 
   @JsonProperty("customer")
   private Customer customer = null;
@@ -37,10 +38,11 @@ public class BookingRequest extends PlanningRequest  {
   }
 
   /**
-   * A unique identifier for the TO to know this booking by, required from the point on where booking-intent is true
+   * A unique identifier for the TO to know this booking by
    * @return id
   **/
-  @ApiModelProperty(value = "A unique identifier for the TO to know this booking by, required from the point on where booking-intent is true")
+  @ApiModelProperty(required = true, value = "A unique identifier for the TO to know this booking by")
+      @NotNull
   
     public String getId() {
     return id;
@@ -48,6 +50,46 @@ public class BookingRequest extends PlanningRequest  {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public BookingRequest from(Place from) {
+    this.from = from;
+    return this;
+  }
+
+  /**
+   * Get from
+   * @return from
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public Place getFrom() {
+    return from;
+  }
+
+  public void setFrom(Place from) {
+    this.from = from;
+  }
+
+  public BookingRequest to(Place to) {
+    this.to = to;
+    return this;
+  }
+
+  /**
+   * Get to
+   * @return to
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public Place getTo() {
+    return to;
+  }
+
+  public void setTo(Place to) {
+    this.to = to;
   }
 
   public BookingRequest customer(Customer customer) {
@@ -81,21 +123,24 @@ public class BookingRequest extends PlanningRequest  {
     }
     BookingRequest bookingRequest = (BookingRequest) o;
     return Objects.equals(this.id, bookingRequest.id) &&
-        Objects.equals(this.customer, bookingRequest.customer) &&
-        super.equals(o);
+        Objects.equals(this.from, bookingRequest.from) &&
+        Objects.equals(this.to, bookingRequest.to) &&
+        Objects.equals(this.customer, bookingRequest.customer);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, customer, super.hashCode());
+    return Objects.hash(id, from, to, customer);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class BookingRequest {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    from: ").append(toIndentedString(from)).append("\n");
+    sb.append("    to: ").append(toIndentedString(to)).append("\n");
     sb.append("    customer: ").append(toIndentedString(customer)).append("\n");
     sb.append("}");
     return sb.toString();

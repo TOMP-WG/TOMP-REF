@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.model.AssetClass;
+import io.swagger.model.ChamberOfCommerceInfo;
 import java.util.ArrayList;
 import java.util.List;
 import org.threeten.bp.LocalDate;
@@ -93,8 +95,52 @@ public class SystemInformation   {
   @JsonProperty("typeOfSystem")
   private TypeOfSystemEnum typeOfSystem = null;
 
+  @JsonProperty("chamberOfCommerceInfo")
+  private ChamberOfCommerceInfo chamberOfCommerceInfo = null;
+
   @JsonProperty("conditions")
   private String conditions = null;
+
+  /**
+   * the type of product offered. SHARING should also be used for public transport.
+   */
+  public enum ProductTypeEnum {
+    RENTAL("RENTAL"),
+    
+    SHARING("SHARING"),
+    
+    PARKING("PARKING"),
+    
+    CHARGING("CHARGING");
+
+    private String value;
+
+    ProductTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ProductTypeEnum fromValue(String text) {
+      for (ProductTypeEnum b : ProductTypeEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+  @JsonProperty("productType")
+  private ProductTypeEnum productType = null;
+
+  @JsonProperty("assetClasses")
+  @Valid
+  private List<AssetClass> assetClasses = null;
 
   public SystemInformation systemId(String systemId) {
     this.systemId = systemId;
@@ -354,6 +400,26 @@ public class SystemInformation   {
     this.typeOfSystem = typeOfSystem;
   }
 
+  public SystemInformation chamberOfCommerceInfo(ChamberOfCommerceInfo chamberOfCommerceInfo) {
+    this.chamberOfCommerceInfo = chamberOfCommerceInfo;
+    return this;
+  }
+
+  /**
+   * Get chamberOfCommerceInfo
+   * @return chamberOfCommerceInfo
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public ChamberOfCommerceInfo getChamberOfCommerceInfo() {
+    return chamberOfCommerceInfo;
+  }
+
+  public void setChamberOfCommerceInfo(ChamberOfCommerceInfo chamberOfCommerceInfo) {
+    this.chamberOfCommerceInfo = chamberOfCommerceInfo;
+  }
+
   public SystemInformation conditions(String conditions) {
     this.conditions = conditions;
     return this;
@@ -371,6 +437,52 @@ public class SystemInformation   {
 
   public void setConditions(String conditions) {
     this.conditions = conditions;
+  }
+
+  public SystemInformation productType(ProductTypeEnum productType) {
+    this.productType = productType;
+    return this;
+  }
+
+  /**
+   * the type of product offered. SHARING should also be used for public transport.
+   * @return productType
+  **/
+  @ApiModelProperty(value = "the type of product offered. SHARING should also be used for public transport.")
+  
+    public ProductTypeEnum getProductType() {
+    return productType;
+  }
+
+  public void setProductType(ProductTypeEnum productType) {
+    this.productType = productType;
+  }
+
+  public SystemInformation assetClasses(List<AssetClass> assetClasses) {
+    this.assetClasses = assetClasses;
+    return this;
+  }
+
+  public SystemInformation addAssetClassesItem(AssetClass assetClassesItem) {
+    if (this.assetClasses == null) {
+      this.assetClasses = new ArrayList<AssetClass>();
+    }
+    this.assetClasses.add(assetClassesItem);
+    return this;
+  }
+
+  /**
+   * Get assetClasses
+   * @return assetClasses
+  **/
+  @ApiModelProperty(value = "")
+      @Valid
+    public List<AssetClass> getAssetClasses() {
+    return assetClasses;
+  }
+
+  public void setAssetClasses(List<AssetClass> assetClasses) {
+    this.assetClasses = assetClasses;
   }
 
 
@@ -396,12 +508,15 @@ public class SystemInformation   {
         Objects.equals(this.timezone, systemInformation.timezone) &&
         Objects.equals(this.licenseUrl, systemInformation.licenseUrl) &&
         Objects.equals(this.typeOfSystem, systemInformation.typeOfSystem) &&
-        Objects.equals(this.conditions, systemInformation.conditions);
+        Objects.equals(this.chamberOfCommerceInfo, systemInformation.chamberOfCommerceInfo) &&
+        Objects.equals(this.conditions, systemInformation.conditions) &&
+        Objects.equals(this.productType, systemInformation.productType) &&
+        Objects.equals(this.assetClasses, systemInformation.assetClasses);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(systemId, language, name, shortName, operator, url, purchaseUrl, startDate, phoneNumber, email, timezone, licenseUrl, typeOfSystem, conditions);
+    return Objects.hash(systemId, language, name, shortName, operator, url, purchaseUrl, startDate, phoneNumber, email, timezone, licenseUrl, typeOfSystem, chamberOfCommerceInfo, conditions, productType, assetClasses);
   }
 
   @Override
@@ -422,7 +537,10 @@ public class SystemInformation   {
     sb.append("    timezone: ").append(toIndentedString(timezone)).append("\n");
     sb.append("    licenseUrl: ").append(toIndentedString(licenseUrl)).append("\n");
     sb.append("    typeOfSystem: ").append(toIndentedString(typeOfSystem)).append("\n");
+    sb.append("    chamberOfCommerceInfo: ").append(toIndentedString(chamberOfCommerceInfo)).append("\n");
     sb.append("    conditions: ").append(toIndentedString(conditions)).append("\n");
+    sb.append("    productType: ").append(toIndentedString(productType)).append("\n");
+    sb.append("    assetClasses: ").append(toIndentedString(assetClasses)).append("\n");
     sb.append("}");
     return sb.toString();
   }

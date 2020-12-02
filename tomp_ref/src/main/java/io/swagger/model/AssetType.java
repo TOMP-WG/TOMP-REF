@@ -25,6 +25,9 @@ public class AssetType   {
   @JsonProperty("id")
   private String id = null;
 
+  @JsonProperty("stationId")
+  private String stationId = null;
+
   @JsonProperty("nrAvailable")
   private Integer nrAvailable = null;
 
@@ -59,6 +62,25 @@ public class AssetType   {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public AssetType stationId(String stationId) {
+    this.stationId = stationId;
+    return this;
+  }
+
+  /**
+   * If staionId is present, the nrAvailable is expected to find the availableity at that particular station
+   * @return stationId
+  **/
+  @ApiModelProperty(value = "If staionId is present, the nrAvailable is expected to find the availableity at that particular station")
+  
+    public String getStationId() {
+    return stationId;
+  }
+
+  public void setStationId(String stationId) {
+    this.stationId = stationId;
   }
 
   public AssetType nrAvailable(Integer nrAvailable) {
@@ -177,6 +199,7 @@ public class AssetType   {
     }
     AssetType assetType = (AssetType) o;
     return Objects.equals(this.id, assetType.id) &&
+        Objects.equals(this.stationId, assetType.stationId) &&
         Objects.equals(this.nrAvailable, assetType.nrAvailable) &&
         Objects.equals(this.assets, assetType.assets) &&
         Objects.equals(this.assetClass, assetType.assetClass) &&
@@ -186,7 +209,7 @@ public class AssetType   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, nrAvailable, assets, assetClass, assetSubClass, sharedProperties);
+    return Objects.hash(id, stationId, nrAvailable, assets, assetClass, assetSubClass, sharedProperties);
   }
 
   @Override
@@ -195,6 +218,7 @@ public class AssetType   {
     sb.append("class AssetType {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    stationId: ").append(toIndentedString(stationId)).append("\n");
     sb.append("    nrAvailable: ").append(toIndentedString(nrAvailable)).append("\n");
     sb.append("    assets: ").append(toIndentedString(assets)).append("\n");
     sb.append("    assetClass: ").append(toIndentedString(assetClass)).append("\n");

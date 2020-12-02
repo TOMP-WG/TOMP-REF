@@ -20,10 +20,10 @@ export class RequestComponent implements OnInit {
   @ViewChild('bodyInput', { static: true }) textArea: ElementRef<HTMLInputElement>;
 
   public body: any;
-  public url = 'https://tomp.dat.nl/bike';
+  public url = 'https://tomp.dat.nl/bike/';
   public endpoints: Endpoint[];
   public endpoint: Endpoint;
-  public version = '0.6.0';
+  public version = '1.0.0';
   public headers: CustomHeaders = new CustomHeaders();
   public id: string;
 
