@@ -3,11 +3,10 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Address;
 import io.swagger.model.Coordinates;
 import io.swagger.model.StopReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +18,9 @@ import javax.validation.constraints.*;
 /**
  * a origin or destination of a leg, non 3D. lon/lat in WGS84.
  */
-@ApiModel(description = "a origin or destination of a leg, non 3D. lon/lat in WGS84.")
+@Schema(description = "a origin or destination of a leg, non 3D. lon/lat in WGS84.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class Place   {
@@ -53,8 +52,8 @@ public class Place   {
   /**
    * Human readable name of the place, could match Content-Language
    * @return name
-  **/
-  @ApiModelProperty(value = "Human readable name of the place, could match Content-Language")
+   **/
+  @Schema(description = "Human readable name of the place, could match Content-Language")
   
     public String getName() {
     return name;
@@ -80,8 +79,8 @@ public class Place   {
   /**
    * Get stopReference
    * @return stopReference
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
       @Valid
     public List<StopReference> getStopReference() {
     return stopReference;
@@ -99,8 +98,8 @@ public class Place   {
   /**
    * reference to /operator/stations
    * @return stationId
-  **/
-  @ApiModelProperty(value = "reference to /operator/stations")
+   **/
+  @Schema(description = "reference to /operator/stations")
   
     public String getStationId() {
     return stationId;
@@ -118,8 +117,8 @@ public class Place   {
   /**
    * Get coordinates
    * @return coordinates
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -139,10 +138,10 @@ public class Place   {
   /**
    * Get physicalAddress
    * @return physicalAddress
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
-      @Valid
+    @Valid
     public Address getPhysicalAddress() {
     return physicalAddress;
   }
@@ -167,8 +166,8 @@ public class Place   {
   /**
    * Get extraInfo
    * @return extraInfo
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Map<String, Object> getExtraInfo() {
     return extraInfo;

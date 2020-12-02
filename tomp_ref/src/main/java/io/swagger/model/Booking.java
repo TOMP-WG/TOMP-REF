@@ -3,14 +3,10 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.BookingRequest;
 import io.swagger.model.BookingState;
-import io.swagger.model.Customer;
-import io.swagger.model.Fare;
 import io.swagger.model.Leg;
-import io.swagger.model.Place;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,9 +18,9 @@ import javax.validation.constraints.*;
 /**
  * The booking information describing the state and details of an agreed upon trip
  */
-@ApiModel(description = "The booking information describing the state and details of an agreed upon trip")
+@Schema(description = "The booking information describing the state and details of an agreed upon trip")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:11:01.002Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class Booking extends BookingRequest  {
@@ -36,7 +32,7 @@ public class Booking extends BookingRequest  {
   private List<Leg> legs = new ArrayList<Leg>();
 
   @JsonProperty("pricing")
-  private Fare pricing = null;
+  private Object pricing = null;
 
   @JsonProperty("extraData")
   @Valid
@@ -50,9 +46,9 @@ public class Booking extends BookingRequest  {
   /**
    * Get state
    * @return state
-  **/
-  @ApiModelProperty(value = "")
-
+   **/
+  @Schema(description = "")
+  
     @Valid
     public BookingState getState() {
     return state;
@@ -75,8 +71,8 @@ public class Booking extends BookingRequest  {
   /**
    * The legs of this booking, generally just one for simple legs, in order of how they will be travelled
    * @return legs
-  **/
-  @ApiModelProperty(required = true, value = "The legs of this booking, generally just one for simple legs, in order of how they will be travelled")
+   **/
+  @Schema(required = true, description = "The legs of this booking, generally just one for simple legs, in order of how they will be travelled")
       @NotNull
     @Valid
     public List<Leg> getLegs() {
@@ -87,23 +83,22 @@ public class Booking extends BookingRequest  {
     this.legs = legs;
   }
 
-  public Booking pricing(Fare pricing) {
+  public Booking pricing(Object pricing) {
     this.pricing = pricing;
     return this;
   }
 
   /**
-   * Get pricing
+   * The pricing information of the overall booking, in addition to any leg pricing, if not all legs have pricing the booking should have the fare
    * @return pricing
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "The pricing information of the overall booking, in addition to any leg pricing, if not all legs have pricing the booking should have the fare")
   
-    @Valid
-    public Fare getPricing() {
+    public Object getPricing() {
     return pricing;
   }
 
-  public void setPricing(Fare pricing) {
+  public void setPricing(Object pricing) {
     this.pricing = pricing;
   }
 
@@ -123,8 +118,8 @@ public class Booking extends BookingRequest  {
   /**
    * Arbitrary information that a TO can add
    * @return extraData
-  **/
-  @ApiModelProperty(value = "Arbitrary information that a TO can add")
+   **/
+  @Schema(description = "Arbitrary information that a TO can add")
   
     public Map<String, Object> getExtraData() {
     return extraData;

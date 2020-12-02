@@ -3,17 +3,10 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Asset;
-import io.swagger.model.AssetType;
 import io.swagger.model.Condition;
-import io.swagger.model.Fare;
-import io.swagger.model.GeojsonLine;
 import io.swagger.model.LegState;
-import io.swagger.model.Place;
 import io.swagger.model.Suboperator;
-import io.swagger.model.Token;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.threeten.bp.OffsetDateTime;
@@ -24,14 +17,13 @@ import javax.validation.constraints.*;
 /**
  * A planned (segment of) a booked trip using one asset type
  */
-@ApiModel(description = "A planned (segment of) a booked trip using one asset type")
+@Schema(description = "A planned (segment of) a booked trip using one asset type")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
-
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 public class Leg {
-  @JsonProperty("id")
-  private String id = null;
+	@JsonProperty("id")
+	private String id = null;
 
 	@JsonProperty("from")
 	private Place from = null;
@@ -45,8 +37,15 @@ public class Leg {
 	@JsonProperty("arrivalTime")
 	private OffsetDateTime arrivalTime = null;
 
+	@JsonProperty("travelerReferenceNumbers")
+	@Valid
+	private List<String> travelerReferenceNumbers = null;
+
 	@JsonProperty("assetType")
 	private AssetType assetType = null;
+
+	@JsonProperty("legSequenceNumber")
+	private Integer legSequenceNumber = null;
 
 	@JsonProperty("asset")
 	private Asset asset = null;
@@ -82,24 +81,25 @@ public class Leg {
 	@JsonProperty("assetAccessData")
 	private Token assetAccessData = null;
 
-  public Leg id(String id) {
-    this.id = id;
-    return this;
-  }
+	public Leg id(String id) {
+		this.id = id;
+		return this;
+	}
 
-  /**
-   * The unique identifier (TO) of this leg
-   * @return id
-  **/
-  @ApiModelProperty(value = "The unique identifier (TO) of this leg")
-  
-    public String getId() {
-    return id;
-  }
+	/**
+	 * The unique identifier (TO) of this leg
+	 * 
+	 * @return id
+	 **/
+	@Schema(description = "The unique identifier (TO) of this leg")
 
-  public void setId(String id) {
-    this.id = id;
-  }
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public Leg from(Place from) {
 		this.from = from;
@@ -107,13 +107,13 @@ public class Leg {
 	}
 
 	/**
-	 * Get from
+	 * The departure location of this leg, using this asset type
+	 * 
 	 * @return from
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true, description = "The departure location of this leg, using this asset type")
 	@NotNull
 
-	@Valid
 	public Place getFrom() {
 		return from;
 	}
@@ -128,12 +128,12 @@ public class Leg {
 	}
 
 	/**
-	 * Get to
+	 * The destination of this leg, using this asset type
+	 * 
 	 * @return to
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "The destination of this leg, using this asset type")
 
-	@Valid
 	public Place getTo() {
 		return to;
 	}
@@ -149,9 +149,10 @@ public class Leg {
 
 	/**
 	 * The departure time of this leg
+	 * 
 	 * @return departureTime
 	 **/
-	@ApiModelProperty(value = "The departure time of this leg")
+	@Schema(description = "The departure time of this leg")
 
 	@Valid
 	public OffsetDateTime getDepartureTime() {
@@ -169,9 +170,10 @@ public class Leg {
 
 	/**
 	 * The intended arrival time at the to place
+	 * 
 	 * @return arrivalTime
 	 **/
-	@ApiModelProperty(value = "The intended arrival time at the to place")
+	@Schema(description = "The intended arrival time at the to place")
 
 	@Valid
 	public OffsetDateTime getArrivalTime() {
@@ -182,19 +184,50 @@ public class Leg {
 		this.arrivalTime = arrivalTime;
 	}
 
+	public Leg travelerReferenceNumbers(List<String> travelerReferenceNumbers) {
+		this.travelerReferenceNumbers = travelerReferenceNumbers;
+		return this;
+	}
+
+	public Leg addTravelerReferenceNumbersItem(String travelerReferenceNumbersItem) {
+		if (this.travelerReferenceNumbers == null) {
+			this.travelerReferenceNumbers = new ArrayList<String>();
+		}
+		this.travelerReferenceNumbers.add(travelerReferenceNumbersItem);
+		return this;
+	}
+
+	/**
+	 * reference to the travelers field of the request. If missing, it is refering
+	 * to the first (if any). it is an array to facilitate multiple users on one leg
+	 * (e.g. using a car). If multiple access informations are needed, please create
+	 * a leg per used asset.
+	 * 
+	 * @return travelerReferenceNumbers
+	 **/
+	@Schema(description = "reference to the travelers field of the request. If missing, it is refering to the first (if any). it is an array to facilitate multiple users on one leg (e.g. using a car). If multiple access informations are needed, please create a leg per used asset.")
+
+	public List<String> getTravelerReferenceNumbers() {
+		return travelerReferenceNumbers;
+	}
+
+	public void setTravelerReferenceNumbers(List<String> travelerReferenceNumbers) {
+		this.travelerReferenceNumbers = travelerReferenceNumbers;
+	}
+
 	public Leg assetType(AssetType assetType) {
 		this.assetType = assetType;
 		return this;
 	}
 
 	/**
-	 * Get assetType
+	 * The asset type used in this leg as determined during booking
+	 * 
 	 * @return assetType
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true, description = "The asset type used in this leg as determined during booking")
 	@NotNull
 
-	@Valid
 	public AssetType getAssetType() {
 		return assetType;
 	}
@@ -203,18 +236,39 @@ public class Leg {
 		this.assetType = assetType;
 	}
 
+	public Leg legSequenceNumber(Integer legSequenceNumber) {
+		this.legSequenceNumber = legSequenceNumber;
+		return this;
+	}
+
+	/**
+	 * The order of the leg in the booking. There can be multiple legs with the same
+	 * sequence (different user or parallel usage (eg. parking lot and a bike)).
+	 * 
+	 * @return legSequenceNumber
+	 **/
+	@Schema(description = "The order of the leg in the booking. There can be multiple legs with the same sequence (different user or parallel usage (eg. parking lot and a bike)).")
+
+	public Integer getLegSequenceNumber() {
+		return legSequenceNumber;
+	}
+
+	public void setLegSequenceNumber(Integer legSequenceNumber) {
+		this.legSequenceNumber = legSequenceNumber;
+	}
+
 	public Leg asset(Asset asset) {
 		this.asset = asset;
 		return this;
 	}
 
 	/**
-	 * Get asset
+	 * The concrete asset used for the execution of the leg
+	 * 
 	 * @return asset
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "The concrete asset used for the execution of the leg")
 
-	@Valid
 	public Asset getAsset() {
 		return asset;
 	}
@@ -229,12 +283,13 @@ public class Leg {
 	}
 
 	/**
-	 * Get pricing
+	 * The leg-specific pricing information, all fares are additive, if the booking
+	 * does not have pricing set all legs should
+	 * 
 	 * @return pricing
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "The leg-specific pricing information, all fares are additive, if the booking does not have pricing set all legs should")
 
-	@Valid
 	public Fare getPricing() {
 		return pricing;
 	}
@@ -250,9 +305,10 @@ public class Leg {
 
 	/**
 	 * Get suboperator
+	 * 
 	 * @return suboperator
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Suboperator getSuboperator() {
@@ -277,10 +333,12 @@ public class Leg {
 	}
 
 	/**
-   * The conditions that apply to this leg, there may be more conditions in a parent booking and planning object (if this is returned as part of those)
+	 * The conditions that apply to this leg, there may be more conditions in a
+	 * parent booking and planning object (if this is returned as part of those)
+	 * 
 	 * @return conditions
 	 **/
-	@ApiModelProperty(value = "The conditions that apply to this leg, there may be more conditions in a parent booking and planning object (if this is returned as part of those)")
+	@Schema(description = "The conditions that apply to this leg, there may be more conditions in a parent booking and planning object (if this is returned as part of those)")
 	@Valid
 	public List<Condition> getConditions() {
 		return conditions;
@@ -297,9 +355,10 @@ public class Leg {
 
 	/**
 	 * Get state
+	 * 
 	 * @return state
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public LegState getState() {
@@ -317,9 +376,10 @@ public class Leg {
 
 	/**
 	 * Get departureDelay
+	 * 
 	 * @return departureDelay
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public Integer getDepartureDelay() {
 		return departureDelay;
@@ -336,9 +396,10 @@ public class Leg {
 
 	/**
 	 * Get arrivalDelay
+	 * 
 	 * @return arrivalDelay
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public Integer getArrivalDelay() {
 		return arrivalDelay;
@@ -355,9 +416,10 @@ public class Leg {
 
 	/**
 	 * Get distance
+	 * 
 	 * @return distance
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public Integer getDistance() {
 		return distance;
@@ -373,12 +435,13 @@ public class Leg {
 	}
 
 	/**
-	 * Get progressGeometry
+	 * A list of coordinates describing the progress so far along the leg, as
+	 * GeoJSON LineString coordinates
+	 * 
 	 * @return progressGeometry
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "A list of coordinates describing the progress so far along the leg, as GeoJSON LineString coordinates")
 
-	@Valid
 	public GeojsonLine getProgressGeometry() {
 		return progressGeometry;
 	}
@@ -393,12 +456,12 @@ public class Leg {
 	}
 
 	/**
-	 * Get ticket
+	 * The MaaS user's proof of their right to travel on this leg
+	 * 
 	 * @return ticket
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "The MaaS user's proof of their right to travel on this leg")
 
-	@Valid
 	public Token getTicket() {
 		return ticket;
 	}
@@ -413,12 +476,12 @@ public class Leg {
 	}
 
 	/**
-	 * Get assetAccessData
+	 * Data to open a specific asset (e.g. QR code, image base64)
+	 * 
 	 * @return assetAccessData
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "Data to open a specific asset (e.g. QR code, image base64)")
 
-	@Valid
 	public Token getAssetAccessData() {
 		return assetAccessData;
 	}
@@ -426,7 +489,6 @@ public class Leg {
 	public void setAssetAccessData(Token assetAccessData) {
 		this.assetAccessData = assetAccessData;
 	}
-
 
 	@Override
 	public boolean equals(java.lang.Object o) {
@@ -437,28 +499,25 @@ public class Leg {
 			return false;
 		}
 		Leg leg = (Leg) o;
-    return Objects.equals(this.id, leg.id) &&
-        Objects.equals(this.from, leg.from) &&
-        Objects.equals(this.to, leg.to) &&
-        Objects.equals(this.departureTime, leg.departureTime) &&
-        Objects.equals(this.arrivalTime, leg.arrivalTime) &&
-        Objects.equals(this.assetType, leg.assetType) &&
-        Objects.equals(this.asset, leg.asset) &&
-        Objects.equals(this.pricing, leg.pricing) &&
-        Objects.equals(this.suboperator, leg.suboperator) &&
-        Objects.equals(this.conditions, leg.conditions) &&
-        Objects.equals(this.state, leg.state) &&
-        Objects.equals(this.departureDelay, leg.departureDelay) &&
-        Objects.equals(this.arrivalDelay, leg.arrivalDelay) &&
-        Objects.equals(this.distance, leg.distance) &&
-        Objects.equals(this.progressGeometry, leg.progressGeometry) &&
-        Objects.equals(this.ticket, leg.ticket) &&
-        Objects.equals(this.assetAccessData, leg.assetAccessData);
+		return Objects.equals(this.id, leg.id) && Objects.equals(this.from, leg.from) && Objects.equals(this.to, leg.to)
+				&& Objects.equals(this.departureTime, leg.departureTime)
+				&& Objects.equals(this.arrivalTime, leg.arrivalTime)
+				&& Objects.equals(this.travelerReferenceNumbers, leg.travelerReferenceNumbers)
+				&& Objects.equals(this.assetType, leg.assetType)
+				&& Objects.equals(this.legSequenceNumber, leg.legSequenceNumber)
+				&& Objects.equals(this.asset, leg.asset) && Objects.equals(this.pricing, leg.pricing)
+				&& Objects.equals(this.suboperator, leg.suboperator) && Objects.equals(this.conditions, leg.conditions)
+				&& Objects.equals(this.state, leg.state) && Objects.equals(this.departureDelay, leg.departureDelay)
+				&& Objects.equals(this.arrivalDelay, leg.arrivalDelay) && Objects.equals(this.distance, leg.distance)
+				&& Objects.equals(this.progressGeometry, leg.progressGeometry)
+				&& Objects.equals(this.ticket, leg.ticket) && Objects.equals(this.assetAccessData, leg.assetAccessData);
 	}
 
 	@Override
 	public int hashCode() {
-    return Objects.hash(id, from, to, departureTime, arrivalTime, assetType, asset, pricing, suboperator, conditions, state, departureDelay, arrivalDelay, distance, progressGeometry, ticket, assetAccessData);
+		return Objects.hash(id, from, to, departureTime, arrivalTime, travelerReferenceNumbers, assetType,
+				legSequenceNumber, asset, pricing, suboperator, conditions, state, departureDelay, arrivalDelay,
+				distance, progressGeometry, ticket, assetAccessData);
 	}
 
 	@Override
@@ -466,12 +525,14 @@ public class Leg {
 		StringBuilder sb = new StringBuilder();
 		sb.append("class Leg {\n");
 
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+		sb.append("    id: ").append(toIndentedString(id)).append("\n");
 		sb.append("    from: ").append(toIndentedString(from)).append("\n");
 		sb.append("    to: ").append(toIndentedString(to)).append("\n");
 		sb.append("    departureTime: ").append(toIndentedString(departureTime)).append("\n");
 		sb.append("    arrivalTime: ").append(toIndentedString(arrivalTime)).append("\n");
+		sb.append("    travelerReferenceNumbers: ").append(toIndentedString(travelerReferenceNumbers)).append("\n");
 		sb.append("    assetType: ").append(toIndentedString(assetType)).append("\n");
+		sb.append("    legSequenceNumber: ").append(toIndentedString(legSequenceNumber)).append("\n");
 		sb.append("    asset: ").append(toIndentedString(asset)).append("\n");
 		sb.append("    pricing: ").append(toIndentedString(pricing)).append("\n");
 		sb.append("    suboperator: ").append(toIndentedString(suboperator)).append("\n");

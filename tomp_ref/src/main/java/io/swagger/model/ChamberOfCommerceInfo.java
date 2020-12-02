@@ -3,8 +3,7 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -12,9 +11,9 @@ import javax.validation.constraints.*;
 /**
  * To identify the operator
  */
-@ApiModel(description = "To identify the operator")
+@Schema(description = "To identify the operator")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-09-30T06:13:22.966Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class ChamberOfCommerceInfo   {
@@ -32,8 +31,8 @@ public class ChamberOfCommerceInfo   {
   /**
    * Get number
    * @return number
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getNumber() {
     return number;
@@ -51,8 +50,8 @@ public class ChamberOfCommerceInfo   {
   /**
    * Get place
    * @return place
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPlace() {
     return place;

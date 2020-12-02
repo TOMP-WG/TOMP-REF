@@ -1,8 +1,8 @@
 package io.swagger.model;
 
 import java.util.Objects;
-import io.swagger.annotations.ApiModel;
 import io.swagger.model.Condition;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -10,9 +10,9 @@ import javax.validation.constraints.*;
 /**
  * in case the TO demands a upfront payment before usage. The payment should be made in the booking phase.
  */
-@ApiModel(description = "in case the TO demands a upfront payment before usage. The payment should be made in the booking phase.")
+@Schema(description = "in case the TO demands a upfront payment before usage. The payment should be made in the booking phase.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:11:01.002Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class ConditionUpfrontPayment extends Condition implements OneOfcondition {

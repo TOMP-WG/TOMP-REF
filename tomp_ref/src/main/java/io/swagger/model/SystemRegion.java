@@ -1,20 +1,20 @@
 package io.swagger.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.GeojsonPolygon;
+
+import javax.validation.constraints.NotNull;
+
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * SystemRegion
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class SystemRegion   {
@@ -35,8 +35,8 @@ public class SystemRegion   {
   /**
    * Unique identifier for this region
    * @return regionId
-  **/
-  @ApiModelProperty(example = "BikeRegion", required = true, value = "Unique identifier for this region")
+   **/
+  @Schema(example = "BikeRegion", required = true, description = "Unique identifier for this region")
       @NotNull
 
     public String getRegionId() {
@@ -55,8 +55,8 @@ public class SystemRegion   {
   /**
    * Public name for this region, could match Content-Language
    * @return name
-  **/
-  @ApiModelProperty(example = "BikeTown", required = true, value = "Public name for this region, could match Content-Language")
+   **/
+  @Schema(example = "BikeTown", required = true, description = "Public name for this region, could match Content-Language")
       @NotNull
 
     public String getName() {
@@ -73,12 +73,11 @@ public class SystemRegion   {
   }
 
   /**
-   * Get serviceArea
+   * The area served by the region (i.e. where one may travel using the service's assets) as GeoJSON Polygon coordinates
    * @return serviceArea
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "The area served by the region (i.e. where one may travel using the service's assets) as GeoJSON Polygon coordinates")
   
-    @Valid
     public GeojsonPolygon getServiceArea() {
     return serviceArea;
   }

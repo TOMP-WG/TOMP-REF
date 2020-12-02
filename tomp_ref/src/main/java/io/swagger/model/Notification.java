@@ -4,8 +4,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,9 +13,9 @@ import javax.validation.constraints.*;
 /**
  * notifies the MaaS operator of issues with a booking [addendum]
  */
-@ApiModel(description = "notifies the MaaS operator of issues with a booking [addendum]")
+@Schema(description = "notifies the MaaS operator of issues with a booking [addendum]")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class Notification   {
@@ -28,6 +28,10 @@ public class Notification   {
     USER_NO_SHOW("USER_NO_SHOW"),
     
     ETA("ETA"),
+    
+    MESSAGE_TO_DRIVER("MESSAGE_TO_DRIVER"),
+    
+    MESSAGE_TO_END_USER("MESSAGE_TO_END_USER"),
     
     OTHER("OTHER");
 
@@ -56,6 +60,9 @@ public class Notification   {
   @JsonProperty("type")
   private TypeEnum type = null;
 
+  @JsonProperty("minutes")
+  private BigDecimal minutes = null;
+
   @JsonProperty("comment")
   private String comment = null;
 
@@ -67,15 +74,36 @@ public class Notification   {
   /**
    * Get type
    * @return type
-  **/
-  @ApiModelProperty(example = "VEHICLE_NOT_AVAILABLE", value = "")
-  
+   **/
+  @Schema(example = "VEHICLE_NOT_AVAILABLE", required = true, description = "")
+      @NotNull
+
     public TypeEnum getType() {
     return type;
   }
 
   public void setType(TypeEnum type) {
     this.type = type;
+  }
+
+  public Notification minutes(BigDecimal minutes) {
+    this.minutes = minutes;
+    return this;
+  }
+
+  /**
+   * in case of ETA, the number of minutes until arrival at the pickup location
+   * @return minutes
+   **/
+  @Schema(description = "in case of ETA, the number of minutes until arrival at the pickup location")
+  
+    @Valid
+    public BigDecimal getMinutes() {
+    return minutes;
+  }
+
+  public void setMinutes(BigDecimal minutes) {
+    this.minutes = minutes;
   }
 
   public Notification comment(String comment) {
@@ -86,8 +114,8 @@ public class Notification   {
   /**
    * free text, should match Content-Language
    * @return comment
-  **/
-  @ApiModelProperty(value = "free text, should match Content-Language")
+   **/
+  @Schema(description = "free text, should match Content-Language")
   
     public String getComment() {
     return comment;
@@ -108,12 +136,13 @@ public class Notification   {
     }
     Notification notification = (Notification) o;
     return Objects.equals(this.type, notification.type) &&
+        Objects.equals(this.minutes, notification.minutes) &&
         Objects.equals(this.comment, notification.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, comment);
+    return Objects.hash(type, minutes, comment);
   }
 
   @Override
@@ -122,6 +151,7 @@ public class Notification   {
     sb.append("class Notification {\n");
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    minutes: ").append(toIndentedString(minutes)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

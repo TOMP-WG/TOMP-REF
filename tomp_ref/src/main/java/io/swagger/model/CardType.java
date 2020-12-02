@@ -4,9 +4,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.AssetClass;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -16,9 +15,9 @@ import javax.validation.constraints.*;
 /**
  * A generic description of a card, asset class and acceptors is only allowed for DISCOUNT/TRAVEL/OTHER cards
  */
-@ApiModel(description = "A generic description of a card, asset class and acceptors is only allowed for DISCOUNT/TRAVEL/OTHER cards")
+@Schema(description = "A generic description of a card, asset class and acceptors is only allowed for DISCOUNT/TRAVEL/OTHER cards")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class CardType   {
@@ -83,8 +82,8 @@ public class CardType   {
   /**
    * The broad category of card
    * @return type
-  **/
-  @ApiModelProperty(required = true, value = "The broad category of card")
+   **/
+  @Schema(required = true, description = "The broad category of card")
       @NotNull
 
     public TypeEnum getType() {
@@ -103,8 +102,8 @@ public class CardType   {
   /**
    * For use in case of OTHER. Can be used in bilateral agreements.
    * @return subType
-  **/
-  @ApiModelProperty(value = "For use in case of OTHER. Can be used in bilateral agreements.")
+   **/
+  @Schema(description = "For use in case of OTHER. Can be used in bilateral agreements.")
   
     public String getSubType() {
     return subType;
@@ -122,8 +121,8 @@ public class CardType   {
   /**
    * Get assetClass
    * @return assetClass
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public AssetClass getAssetClass() {
@@ -150,8 +149,8 @@ public class CardType   {
   /**
    * references to accepting parties, only if applicable
    * @return acceptors
-  **/
-  @ApiModelProperty(value = "references to accepting parties, only if applicable")
+   **/
+  @Schema(description = "references to accepting parties, only if applicable")
   
     public List<String> getAcceptors() {
     return acceptors;

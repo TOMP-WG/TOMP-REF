@@ -3,9 +3,8 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.FarePart;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -15,9 +14,9 @@ import javax.validation.constraints.*;
 /**
  * the total fare is the sum of all parts, except for the &#x27;MAX&#x27; farePart. This one descripes the maximum price for the complete leg.
  */
-@ApiModel(description = "the total fare is the sum of all parts, except for the 'MAX' farePart. This one descripes the maximum price for the complete leg.")
+@Schema(description = "the total fare is the sum of all parts, except for the 'MAX' farePart. This one descripes the maximum price for the complete leg.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class Fare   {
@@ -42,10 +41,10 @@ public class Fare   {
   /**
    * is this fare an estimation?
    * @return estimated
-  **/
-  @ApiModelProperty(required = true, value = "is this fare an estimation?")
+   **/
+  @Schema(required = true, description = "is this fare an estimation?")
       @NotNull
-  
+
     public Boolean isEstimated() {
     return estimated;
   }
@@ -62,8 +61,8 @@ public class Fare   {
   /**
    * user friendly description of the fare (e.g. 'full fare'), should match Content-Language
    * @return description
-  **/
-  @ApiModelProperty(value = "user friendly description of the fare (e.g. 'full fare'), should match Content-Language")
+   **/
+  @Schema(description = "user friendly description of the fare (e.g. 'full fare'), should match Content-Language")
   
     public String getDescription() {
     return description;
@@ -81,8 +80,8 @@ public class Fare   {
   /**
    * in the future we'll set up an enumeration of possible \"fare classes\". For now it's free format.
    * @return propertyClass
-  **/
-  @ApiModelProperty(value = "in the future we'll set up an enumeration of possible \"fare classes\". For now it's free format.")
+   **/
+  @Schema(description = "in the future we'll set up an enumeration of possible \"fare classes\". For now it's free format.")
   
     public String getPropertyClass() {
     return propertyClass;
@@ -105,10 +104,10 @@ public class Fare   {
   /**
    * Get parts
    * @return parts
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
-      @Valid
+    @Valid
     public List<FarePart> getParts() {
     return parts;
   }

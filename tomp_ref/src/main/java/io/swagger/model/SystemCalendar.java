@@ -3,8 +3,7 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,12 +12,15 @@ import javax.validation.constraints.*;
  * SystemCalendar
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class SystemCalendar   {
   @JsonProperty("stationId")
   private String stationId = null;
+
+  @JsonProperty("regionId")
+  private String regionId = null;
 
   @JsonProperty("startMonth")
   private Integer startMonth = null;
@@ -44,10 +46,10 @@ public class SystemCalendar   {
   }
 
   /**
-   * If this parameter is present, it means that star and end prameters correspond to the opening and closing days of the station.
+   * If this parameter is present, it means that start and end prameters correspond to the opening and closing days of the station. (GET /operator/stations)
    * @return stationId
-  **/
-  @ApiModelProperty(value = "If this parameter is present, it means that star and end prameters correspond to the opening and closing days of the station.")
+   **/
+  @Schema(description = "If this parameter is present, it means that start and end prameters correspond to the opening and closing days of the station. (GET /operator/stations)")
   
     public String getStationId() {
     return stationId;
@@ -55,6 +57,25 @@ public class SystemCalendar   {
 
   public void setStationId(String stationId) {
     this.stationId = stationId;
+  }
+
+  public SystemCalendar regionId(String regionId) {
+    this.regionId = regionId;
+    return this;
+  }
+
+  /**
+   * If this parameter is present, it means that start and end prameters correspond to the opening and closing days for the region. (GET /operator/regions)
+   * @return regionId
+   **/
+  @Schema(description = "If this parameter is present, it means that start and end prameters correspond to the opening and closing days for the region. (GET /operator/regions)")
+  
+    public String getRegionId() {
+    return regionId;
+  }
+
+  public void setRegionId(String regionId) {
+    this.regionId = regionId;
   }
 
   public SystemCalendar startMonth(Integer startMonth) {
@@ -67,8 +88,8 @@ public class SystemCalendar   {
    * minimum: 1
    * maximum: 12
    * @return startMonth
-  **/
-  @ApiModelProperty(example = "1", required = true, value = "Starting month for the system operations (1-12)")
+   **/
+  @Schema(example = "1", required = true, description = "Starting month for the system operations (1-12)")
       @NotNull
 
   @Min(1) @Max(12)   public Integer getStartMonth() {
@@ -89,8 +110,8 @@ public class SystemCalendar   {
    * minimum: 1
    * maximum: 31
    * @return startDay
-  **/
-  @ApiModelProperty(example = "1", required = true, value = "Starting day for the system operations (1-31)")
+   **/
+  @Schema(example = "1", required = true, description = "Starting day for the system operations (1-31)")
       @NotNull
 
   @Min(1) @Max(31)   public Integer getStartDay() {
@@ -109,8 +130,8 @@ public class SystemCalendar   {
   /**
    * Starting year for the system operations
    * @return startYear
-  **/
-  @ApiModelProperty(example = "2019", value = "Starting year for the system operations")
+   **/
+  @Schema(example = "2019", description = "Starting year for the system operations")
   
     public Integer getStartYear() {
     return startYear;
@@ -130,8 +151,8 @@ public class SystemCalendar   {
    * minimum: 1
    * maximum: 12
    * @return endMonth
-  **/
-  @ApiModelProperty(example = "12", required = true, value = "Ending month for the system operations (1-12)")
+   **/
+  @Schema(example = "12", required = true, description = "Ending month for the system operations (1-12)")
       @NotNull
 
   @Min(1) @Max(12)   public Integer getEndMonth() {
@@ -152,8 +173,8 @@ public class SystemCalendar   {
    * minimum: 1
    * maximum: 31
    * @return endDay
-  **/
-  @ApiModelProperty(example = "31", required = true, value = "Ending day for the system operations (1-31)")
+   **/
+  @Schema(example = "31", required = true, description = "Ending day for the system operations (1-31)")
       @NotNull
 
   @Min(1) @Max(31)   public Integer getEndDay() {
@@ -172,8 +193,8 @@ public class SystemCalendar   {
   /**
    * Ending year for the system operations
    * @return endYear
-  **/
-  @ApiModelProperty(example = "2099", value = "Ending year for the system operations")
+   **/
+  @Schema(example = "2099", description = "Ending year for the system operations")
   
     public Integer getEndYear() {
     return endYear;
@@ -194,6 +215,7 @@ public class SystemCalendar   {
     }
     SystemCalendar systemCalendar = (SystemCalendar) o;
     return Objects.equals(this.stationId, systemCalendar.stationId) &&
+        Objects.equals(this.regionId, systemCalendar.regionId) &&
         Objects.equals(this.startMonth, systemCalendar.startMonth) &&
         Objects.equals(this.startDay, systemCalendar.startDay) &&
         Objects.equals(this.startYear, systemCalendar.startYear) &&
@@ -204,7 +226,7 @@ public class SystemCalendar   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(stationId, startMonth, startDay, startYear, endMonth, endDay, endYear);
+    return Objects.hash(stationId, regionId, startMonth, startDay, startYear, endMonth, endDay, endYear);
   }
 
   @Override
@@ -213,6 +235,7 @@ public class SystemCalendar   {
     sb.append("class SystemCalendar {\n");
     
     sb.append("    stationId: ").append(toIndentedString(stationId)).append("\n");
+    sb.append("    regionId: ").append(toIndentedString(regionId)).append("\n");
     sb.append("    startMonth: ").append(toIndentedString(startMonth)).append("\n");
     sb.append("    startDay: ").append(toIndentedString(startDay)).append("\n");
     sb.append("    startYear: ").append(toIndentedString(startYear)).append("\n");

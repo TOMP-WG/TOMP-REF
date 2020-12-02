@@ -3,11 +3,10 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Endpoint;
 import io.swagger.model.ProcessIdentifiers;
 import io.swagger.model.Scenario;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -17,9 +16,9 @@ import javax.validation.constraints.*;
 /**
  * a complete endpoint description, containing all endpoints, their status, but also the served scenarios and implemented process flows. The identifiers for the process flows can be found at https://github.com/TOMP-WG/TOMP-API/wiki/ProcessIdentifiers
  */
-@ApiModel(description = "a complete endpoint description, containing all endpoints, their status, but also the served scenarios and implemented process flows. The identifiers for the process flows can be found at https://github.com/TOMP-WG/TOMP-API/wiki/ProcessIdentifiers")
+@Schema(description = "a complete endpoint description, containing all endpoints, their status, but also the served scenarios and implemented process flows. The identifiers for the process flows can be found at https://github.com/TOMP-WG/TOMP-API/wiki/ProcessIdentifiers")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class EndpointImplementation   {
@@ -48,8 +47,8 @@ public class EndpointImplementation   {
   /**
    * Get version
    * @return version
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getVersion() {
@@ -68,8 +67,8 @@ public class EndpointImplementation   {
   /**
    * Get baseUrl
    * @return baseUrl
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getBaseUrl() {
@@ -93,8 +92,8 @@ public class EndpointImplementation   {
   /**
    * Get endpoints
    * @return endpoints
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
     @Valid
     public List<Endpoint> getEndpoints() {
@@ -118,8 +117,8 @@ public class EndpointImplementation   {
   /**
    * Get scenarios
    * @return scenarios
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
     @Valid
     public List<Scenario> getScenarios() {
@@ -138,8 +137,8 @@ public class EndpointImplementation   {
   /**
    * Get processIdentifiers
    * @return processIdentifiers
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid

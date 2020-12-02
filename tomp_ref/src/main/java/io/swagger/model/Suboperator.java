@@ -3,8 +3,7 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -12,9 +11,9 @@ import javax.validation.constraints.*;
 /**
  * The operator of a leg or asset, in case this is not the TO itself but should be shown to the user
  */
-@ApiModel(description = "The operator of a leg or asset, in case this is not the TO itself but should be shown to the user")
+@Schema(description = "The operator of a leg or asset, in case this is not the TO itself but should be shown to the user")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class Suboperator   {
@@ -38,8 +37,8 @@ public class Suboperator   {
   /**
    * Name of the operator, could match Content-Language
    * @return name
-  **/
-  @ApiModelProperty(required = true, value = "Name of the operator, could match Content-Language")
+   **/
+  @Schema(required = true, description = "Name of the operator, could match Content-Language")
       @NotNull
 
     public String getName() {
@@ -58,8 +57,8 @@ public class Suboperator   {
   /**
    * the maasId from the operator
    * @return maasId
-  **/
-  @ApiModelProperty(value = "the maasId from the operator")
+   **/
+  @Schema(description = "the maasId from the operator")
   
     public String getMaasId() {
     return maasId;
@@ -77,8 +76,8 @@ public class Suboperator   {
   /**
    * short description of the operator, should match Content-Language
    * @return description
-  **/
-  @ApiModelProperty(value = "short description of the operator, should match Content-Language")
+   **/
+  @Schema(description = "short description of the operator, should match Content-Language")
   
     public String getDescription() {
     return description;
@@ -96,8 +95,8 @@ public class Suboperator   {
   /**
    * contact information, should match Content-Language
    * @return contact
-  **/
-  @ApiModelProperty(value = "contact information, should match Content-Language")
+   **/
+  @Schema(description = "contact information, should match Content-Language")
   
     public String getContact() {
     return contact;

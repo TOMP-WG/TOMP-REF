@@ -3,11 +3,10 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.CardType;
 import io.swagger.model.LicenseType;
 import io.swagger.model.Requirements;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -17,9 +16,9 @@ import javax.validation.constraints.*;
 /**
  * A generic description of a traveler, not including any identifying information
  */
-@ApiModel(description = "A generic description of a traveler, not including any identifying information")
+@Schema(description = "A generic description of a traveler, not including any identifying information")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class Traveler   {
@@ -28,6 +27,9 @@ public class Traveler   {
 
   @JsonProperty("age")
   private Integer age = null;
+
+  @JsonProperty("referenceNumber")
+  private String referenceNumber = null;
 
   @JsonProperty("cardTypes")
   @Valid
@@ -48,8 +50,8 @@ public class Traveler   {
   /**
    * Whether this traveler's identity and properties have been verified by the MaaS provider
    * @return isValidated
-  **/
-  @ApiModelProperty(value = "Whether this traveler's identity and properties have been verified by the MaaS provider")
+   **/
+  @Schema(description = "Whether this traveler's identity and properties have been verified by the MaaS provider")
   
     public Boolean isIsValidated() {
     return isValidated;
@@ -67,8 +69,8 @@ public class Traveler   {
   /**
    * Age of the traveler, may be approximate
    * @return age
-  **/
-  @ApiModelProperty(value = "Age of the traveler, may be approximate")
+   **/
+  @Schema(description = "Age of the traveler, may be approximate")
   
     public Integer getAge() {
     return age;
@@ -76,6 +78,25 @@ public class Traveler   {
 
   public void setAge(Integer age) {
     this.age = age;
+  }
+
+  public Traveler referenceNumber(String referenceNumber) {
+    this.referenceNumber = referenceNumber;
+    return this;
+  }
+
+  /**
+   * reference number of the traveler. This number could be used to refer to in the planning result.
+   * @return referenceNumber
+   **/
+  @Schema(description = "reference number of the traveler. This number could be used to refer to in the planning result.")
+  
+    public String getReferenceNumber() {
+    return referenceNumber;
+  }
+
+  public void setReferenceNumber(String referenceNumber) {
+    this.referenceNumber = referenceNumber;
   }
 
   public Traveler cardTypes(List<CardType> cardTypes) {
@@ -94,8 +115,8 @@ public class Traveler   {
   /**
    * The kind of cards this traveler possesses
    * @return cardTypes
-  **/
-  @ApiModelProperty(value = "The kind of cards this traveler possesses")
+   **/
+  @Schema(description = "The kind of cards this traveler possesses")
       @Valid
     public List<CardType> getCardTypes() {
     return cardTypes;
@@ -121,8 +142,8 @@ public class Traveler   {
   /**
    * The kind of licenses this traveler possesses
    * @return licenseTypes
-  **/
-  @ApiModelProperty(value = "The kind of licenses this traveler possesses")
+   **/
+  @Schema(description = "The kind of licenses this traveler possesses")
       @Valid
     public List<LicenseType> getLicenseTypes() {
     return licenseTypes;
@@ -140,8 +161,8 @@ public class Traveler   {
   /**
    * Get requirements
    * @return requirements
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public Requirements getRequirements() {
@@ -164,6 +185,7 @@ public class Traveler   {
     Traveler traveler = (Traveler) o;
     return Objects.equals(this.isValidated, traveler.isValidated) &&
         Objects.equals(this.age, traveler.age) &&
+        Objects.equals(this.referenceNumber, traveler.referenceNumber) &&
         Objects.equals(this.cardTypes, traveler.cardTypes) &&
         Objects.equals(this.licenseTypes, traveler.licenseTypes) &&
         Objects.equals(this.requirements, traveler.requirements);
@@ -171,7 +193,7 @@ public class Traveler   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(isValidated, age, cardTypes, licenseTypes, requirements);
+    return Objects.hash(isValidated, age, referenceNumber, cardTypes, licenseTypes, requirements);
   }
 
   @Override
@@ -181,6 +203,7 @@ public class Traveler   {
     
     sb.append("    isValidated: ").append(toIndentedString(isValidated)).append("\n");
     sb.append("    age: ").append(toIndentedString(age)).append("\n");
+    sb.append("    referenceNumber: ").append(toIndentedString(referenceNumber)).append("\n");
     sb.append("    cardTypes: ").append(toIndentedString(cardTypes)).append("\n");
     sb.append("    licenseTypes: ").append(toIndentedString(licenseTypes)).append("\n");
     sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");

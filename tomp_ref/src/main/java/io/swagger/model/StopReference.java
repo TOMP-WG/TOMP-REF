@@ -4,8 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,9 +12,9 @@ import javax.validation.constraints.*;
 /**
  * reference to a stop (can be nation specific). This can help to specific pinpoint a (bus) stop. Extra information about the stop is not supplied; you should find it elsewhere.
  */
-@ApiModel(description = "reference to a stop (can be nation specific). This can help to specific pinpoint a (bus) stop. Extra information about the stop is not supplied; you should find it elsewhere.")
+@Schema(description = "reference to a stop (can be nation specific). This can help to specific pinpoint a (bus) stop. Extra information about the stop is not supplied; you should find it elsewhere.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class StopReference   {
@@ -74,8 +73,8 @@ public class StopReference   {
   /**
    * type of external reference (GTFS, CHB).
    * @return type
-  **/
-  @ApiModelProperty(required = true, value = "type of external reference (GTFS, CHB).")
+   **/
+  @Schema(required = true, description = "type of external reference (GTFS, CHB).")
       @NotNull
 
     public TypeEnum getType() {
@@ -94,8 +93,8 @@ public class StopReference   {
   /**
    * this field should contain the complete ID. E.g. NL:S:13121110 or BE:S:79640040
    * @return id
-  **/
-  @ApiModelProperty(required = true, value = "this field should contain the complete ID. E.g. NL:S:13121110 or BE:S:79640040")
+   **/
+  @Schema(required = true, description = "this field should contain the complete ID. E.g. NL:S:13121110 or BE:S:79640040")
       @NotNull
 
     public String getId() {
@@ -114,8 +113,8 @@ public class StopReference   {
   /**
    * Get country
    * @return country
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
   @Size(min=2,max=2)   public String getCountry() {

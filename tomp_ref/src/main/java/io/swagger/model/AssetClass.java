@@ -1,7 +1,7 @@
 package io.swagger.model;
 
 import java.util.Objects;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;

@@ -4,8 +4,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,9 +13,9 @@ import javax.validation.constraints.*;
 /**
  * a formal description of an endpoint.
  */
-@ApiModel(description = "a formal description of an endpoint.")
+@Schema(description = "a formal description of an endpoint.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class Endpoint   {
@@ -147,6 +147,12 @@ public class Endpoint   {
   @JsonProperty("status")
   private StatusEnum status = null;
 
+  @JsonProperty("supportsPaging")
+  private Boolean supportsPaging = false;
+
+  @JsonProperty("maxPageSize")
+  private BigDecimal maxPageSize = null;
+
   public Endpoint method(MethodEnum method) {
     this.method = method;
     return this;
@@ -155,8 +161,8 @@ public class Endpoint   {
   /**
    * Get method
    * @return method
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public MethodEnum getMethod() {
@@ -175,8 +181,8 @@ public class Endpoint   {
   /**
    * the exact path of the endpoint, starting after the base URL
    * @return path
-  **/
-  @ApiModelProperty(example = "/planning-options/", required = true, value = "the exact path of the endpoint, starting after the base URL")
+   **/
+  @Schema(example = "/planning-options/", required = true, description = "the exact path of the endpoint, starting after the base URL")
       @NotNull
 
     public String getPath() {
@@ -195,8 +201,8 @@ public class Endpoint   {
   /**
    * in case the path is ending in /events, the event type/operator enum should be added here.
    * @return eventType
-  **/
-  @ApiModelProperty(value = "in case the path is ending in /events, the event type/operator enum should be added here.")
+   **/
+  @Schema(description = "in case the path is ending in /events, the event type/operator enum should be added here.")
   
     public EventTypeEnum getEventType() {
     return eventType;
@@ -214,8 +220,8 @@ public class Endpoint   {
   /**
    * Get status
    * @return status
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public StatusEnum getStatus() {
@@ -224,6 +230,45 @@ public class Endpoint   {
 
   public void setStatus(StatusEnum status) {
     this.status = status;
+  }
+
+  public Endpoint supportsPaging(Boolean supportsPaging) {
+    this.supportsPaging = supportsPaging;
+    return this;
+  }
+
+  /**
+   * does this endpoint support paging? In that case this endpoint can be accessed using query parameters offset=x and limit=y. Only allowed at endpoints that have specified these query parameters.
+   * @return supportsPaging
+   **/
+  @Schema(description = "does this endpoint support paging? In that case this endpoint can be accessed using query parameters offset=x and limit=y. Only allowed at endpoints that have specified these query parameters.")
+  
+    public Boolean isSupportsPaging() {
+    return supportsPaging;
+  }
+
+  public void setSupportsPaging(Boolean supportsPaging) {
+    this.supportsPaging = supportsPaging;
+  }
+
+  public Endpoint maxPageSize(BigDecimal maxPageSize) {
+    this.maxPageSize = maxPageSize;
+    return this;
+  }
+
+  /**
+   * the maximum size of the pages (only valid when supportsPaging=true). If the limit-parameter of the request is above this amount, a http code 400 will be returned.
+   * @return maxPageSize
+   **/
+  @Schema(description = "the maximum size of the pages (only valid when supportsPaging=true). If the limit-parameter of the request is above this amount, a http code 400 will be returned.")
+  
+    @Valid
+    public BigDecimal getMaxPageSize() {
+    return maxPageSize;
+  }
+
+  public void setMaxPageSize(BigDecimal maxPageSize) {
+    this.maxPageSize = maxPageSize;
   }
 
 
@@ -239,12 +284,14 @@ public class Endpoint   {
     return Objects.equals(this.method, endpoint.method) &&
         Objects.equals(this.path, endpoint.path) &&
         Objects.equals(this.eventType, endpoint.eventType) &&
-        Objects.equals(this.status, endpoint.status);
+        Objects.equals(this.status, endpoint.status) &&
+        Objects.equals(this.supportsPaging, endpoint.supportsPaging) &&
+        Objects.equals(this.maxPageSize, endpoint.maxPageSize);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(method, path, eventType, status);
+    return Objects.hash(method, path, eventType, status, supportsPaging, maxPageSize);
   }
 
   @Override
@@ -256,6 +303,8 @@ public class Endpoint   {
     sb.append("    path: ").append(toIndentedString(path)).append("\n");
     sb.append("    eventType: ").append(toIndentedString(eventType)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    supportsPaging: ").append(toIndentedString(supportsPaging)).append("\n");
+    sb.append("    maxPageSize: ").append(toIndentedString(maxPageSize)).append("\n");
     sb.append("}");
     return sb.toString();
   }

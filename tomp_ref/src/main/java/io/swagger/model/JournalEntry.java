@@ -4,11 +4,10 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.AmountOfMoney;
 import io.swagger.model.BankAccount;
 import io.swagger.model.JournalState;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +18,7 @@ import javax.validation.constraints.*;
  * JournalEntry
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class JournalEntry extends AmountOfMoney  {
@@ -97,8 +96,8 @@ public class JournalEntry extends AmountOfMoney  {
   /**
    * id of the entry, leg id can be reused
    * @return journalId
-  **/
-  @ApiModelProperty(value = "id of the entry, leg id can be reused")
+   **/
+  @Schema(description = "id of the entry, leg id can be reused")
   
     public String getJournalId() {
     return journalId;
@@ -116,8 +115,8 @@ public class JournalEntry extends AmountOfMoney  {
   /**
    * sequence id of the entry, in combination with journalId unique from TO perspective.
    * @return journalSequenceId
-  **/
-  @ApiModelProperty(value = "sequence id of the entry, in combination with journalId unique from TO perspective.")
+   **/
+  @Schema(description = "sequence id of the entry, in combination with journalId unique from TO perspective.")
   
     public String getJournalSequenceId() {
     return journalSequenceId;
@@ -135,8 +134,8 @@ public class JournalEntry extends AmountOfMoney  {
   /**
    * the number of the invoice. Should be filled in when invoiced.
    * @return invoiceId
-  **/
-  @ApiModelProperty(value = "the number of the invoice. Should be filled in when invoiced.")
+   **/
+  @Schema(description = "the number of the invoice. Should be filled in when invoiced.")
   
     public Object getInvoiceId() {
     return invoiceId;
@@ -154,8 +153,8 @@ public class JournalEntry extends AmountOfMoney  {
   /**
    * Get invoiceDate
    * @return invoiceDate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public OffsetDateTime getInvoiceDate() {
@@ -174,8 +173,8 @@ public class JournalEntry extends AmountOfMoney  {
   /**
    * Get state
    * @return state
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public JournalState getState() {
@@ -194,8 +193,8 @@ public class JournalEntry extends AmountOfMoney  {
   /**
    * Get expirationDate
    * @return expirationDate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public OffsetDateTime getExpirationDate() {
@@ -214,8 +213,8 @@ public class JournalEntry extends AmountOfMoney  {
   /**
    * Get comment
    * @return comment
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getComment() {
     return comment;
@@ -233,8 +232,8 @@ public class JournalEntry extends AmountOfMoney  {
   /**
    * the travelled distance. Only if applicable.
    * @return distance
-  **/
-  @ApiModelProperty(value = "the travelled distance. Only if applicable.")
+   **/
+  @Schema(description = "the travelled distance. Only if applicable.")
   
     @Valid
     public BigDecimal getDistance() {
@@ -253,8 +252,8 @@ public class JournalEntry extends AmountOfMoney  {
   /**
    * Get distanceType
    * @return distanceType
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public DistanceTypeEnum getDistanceType() {
     return distanceType;
@@ -272,8 +271,8 @@ public class JournalEntry extends AmountOfMoney  {
   /**
    * the time in seconds that the assed is used. Only if applicable.
    * @return usedTime
-  **/
-  @ApiModelProperty(value = "the time in seconds that the assed is used. Only if applicable.")
+   **/
+  @Schema(description = "the time in seconds that the assed is used. Only if applicable.")
   
     @Valid
     public BigDecimal getUsedTime() {
@@ -292,8 +291,8 @@ public class JournalEntry extends AmountOfMoney  {
   /**
    * Get bankAccount
    * @return bankAccount
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BankAccount getBankAccount() {
@@ -312,8 +311,8 @@ public class JournalEntry extends AmountOfMoney  {
   /**
    * the specification of the amount; how is it composed.
    * @return details
-  **/
-  @ApiModelProperty(value = "the specification of the amount; how is it composed.")
+   **/
+  @Schema(description = "the specification of the amount; how is it composed.")
   
     public Object getDetails() {
     return details;

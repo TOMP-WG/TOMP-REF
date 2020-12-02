@@ -4,8 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.threeten.bp.OffsetDateTime;
@@ -17,7 +16,7 @@ import javax.validation.constraints.*;
  * SystemAlert
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class SystemAlert   {
@@ -93,8 +92,8 @@ public class SystemAlert   {
   /**
    * a unique identifier for this alert
    * @return alertId
-  **/
-  @ApiModelProperty(required = true, value = "a unique identifier for this alert")
+   **/
+  @Schema(required = true, description = "a unique identifier for this alert")
       @NotNull
 
     public String getAlertId() {
@@ -113,8 +112,8 @@ public class SystemAlert   {
   /**
    * Get alertType
    * @return alertType
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public AlertTypeEnum getAlertType() {
@@ -141,8 +140,8 @@ public class SystemAlert   {
   /**
    * Array of hashes with the keys \"start\" and \"end\" indicating when the alert is in effect (e.g. when the system or station is actually closed, or when it is scheduled to be moved). If this array is omitted then the alert should be displayed as long as it is in the feed.
    * @return startAndEndTimes
-  **/
-  @ApiModelProperty(value = "Array of hashes with the keys \"start\" and \"end\" indicating when the alert is in effect (e.g. when the system or station is actually closed, or when it is scheduled to be moved). If this array is omitted then the alert should be displayed as long as it is in the feed.")
+   **/
+  @Schema(description = "Array of hashes with the keys \"start\" and \"end\" indicating when the alert is in effect (e.g. when the system or station is actually closed, or when it is scheduled to be moved). If this array is omitted then the alert should be displayed as long as it is in the feed.")
       @Valid
     public List<List<OffsetDateTime>> getStartAndEndTimes() {
     return startAndEndTimes;
@@ -168,8 +167,8 @@ public class SystemAlert   {
   /**
    * Array of strings - If this is an alert that affects one or more stations, include their ids, otherwise omit this field. If both stationIDs and regionIDs are omitted, assume this alert affects the entire system
    * @return stationIds
-  **/
-  @ApiModelProperty(example = "stationID0001", value = "Array of strings - If this is an alert that affects one or more stations, include their ids, otherwise omit this field. If both stationIDs and regionIDs are omitted, assume this alert affects the entire system")
+   **/
+  @Schema(example = "stationID0001", description = "Array of strings - If this is an alert that affects one or more stations, include their ids, otherwise omit this field. If both stationIDs and regionIDs are omitted, assume this alert affects the entire system")
   
     public List<String> getStationIds() {
     return stationIds;
@@ -195,8 +194,8 @@ public class SystemAlert   {
   /**
    * Array of strings - If this system has regions, and if this alert only affects certain regions, include their ids, otherwise, omit this field. If both stationIDs and regionIDs are omitted, assume this alert affects the entire system
    * @return regionId
-  **/
-  @ApiModelProperty(example = "regionID0001", value = "Array of strings - If this system has regions, and if this alert only affects certain regions, include their ids, otherwise, omit this field. If both stationIDs and regionIDs are omitted, assume this alert affects the entire system")
+   **/
+  @Schema(example = "regionID0001", description = "Array of strings - If this system has regions, and if this alert only affects certain regions, include their ids, otherwise, omit this field. If both stationIDs and regionIDs are omitted, assume this alert affects the entire system")
   
     public List<String> getRegionId() {
     return regionId;
@@ -214,8 +213,8 @@ public class SystemAlert   {
   /**
    * URL where the customer can learn more information about this alert, if there is one
    * @return url
-  **/
-  @ApiModelProperty(example = "http://www.rentmyfreebike.com/alerts", value = "URL where the customer can learn more information about this alert, if there is one")
+   **/
+  @Schema(example = "http://www.rentmyfreebike.com/alerts", description = "URL where the customer can learn more information about this alert, if there is one")
   
     public String getUrl() {
     return url;
@@ -233,8 +232,8 @@ public class SystemAlert   {
   /**
    * A short summary of this alert to be displayed to the customer, should match Content-Language
    * @return summary
-  **/
-  @ApiModelProperty(example = "station closed", required = true, value = "A short summary of this alert to be displayed to the customer, should match Content-Language")
+   **/
+  @Schema(example = "station closed", required = true, description = "A short summary of this alert to be displayed to the customer, should match Content-Language")
       @NotNull
 
     public String getSummary() {
@@ -253,8 +252,8 @@ public class SystemAlert   {
   /**
    * Detailed text description of the alert, should match Content-Language
    * @return description
-  **/
-  @ApiModelProperty(example = "station closed indefinitely due to vandalism", value = "Detailed text description of the alert, should match Content-Language")
+   **/
+  @Schema(example = "station closed indefinitely due to vandalism", description = "Detailed text description of the alert, should match Content-Language")
   
     public String getDescription() {
     return description;
@@ -272,8 +271,8 @@ public class SystemAlert   {
   /**
    * Get lastUpdated
    * @return lastUpdated
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public OffsetDateTime getLastUpdated() {

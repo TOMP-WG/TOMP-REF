@@ -3,9 +3,8 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Fare;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -14,7 +13,7 @@ import javax.validation.constraints.*;
  * SystemPricingPlan
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class SystemPricingPlan   {
@@ -26,6 +25,12 @@ public class SystemPricingPlan   {
 
   @JsonProperty("name")
   private String name = null;
+
+  @JsonProperty("stationId")
+  private String stationId = null;
+
+  @JsonProperty("regionId")
+  private String regionId = null;
 
   @JsonProperty("fare")
   private Fare fare = null;
@@ -44,8 +49,8 @@ public class SystemPricingPlan   {
   /**
    * a unique identifier for this plan in the system
    * @return planId
-  **/
-  @ApiModelProperty(example = "freeplan1", required = true, value = "a unique identifier for this plan in the system")
+   **/
+  @Schema(example = "freeplan1", required = true, description = "a unique identifier for this plan in the system")
       @NotNull
 
     public String getPlanId() {
@@ -64,8 +69,8 @@ public class SystemPricingPlan   {
   /**
    * a fully qualified URL where the customer can learn more about this particular scheme
    * @return url
-  **/
-  @ApiModelProperty(example = "https://www.rentmyfreebike.com/freeplan", value = "a fully qualified URL where the customer can learn more about this particular scheme")
+   **/
+  @Schema(example = "https://www.rentmyfreebike.com/freeplan", description = "a fully qualified URL where the customer can learn more about this particular scheme")
   
     public String getUrl() {
     return url;
@@ -83,8 +88,8 @@ public class SystemPricingPlan   {
   /**
    * name of this pricing scheme, could match Content-Language
    * @return name
-  **/
-  @ApiModelProperty(example = "Free Plan", required = true, value = "name of this pricing scheme, could match Content-Language")
+   **/
+  @Schema(example = "Free Plan", required = true, description = "name of this pricing scheme, could match Content-Language")
       @NotNull
 
     public String getName() {
@@ -95,6 +100,44 @@ public class SystemPricingPlan   {
     this.name = name;
   }
 
+  public SystemPricingPlan stationId(String stationId) {
+    this.stationId = stationId;
+    return this;
+  }
+
+  /**
+   * pricing plan for a specific station
+   * @return stationId
+   **/
+  @Schema(description = "pricing plan for a specific station")
+  
+    public String getStationId() {
+    return stationId;
+  }
+
+  public void setStationId(String stationId) {
+    this.stationId = stationId;
+  }
+
+  public SystemPricingPlan regionId(String regionId) {
+    this.regionId = regionId;
+    return this;
+  }
+
+  /**
+   * pricing plan for a specific region
+   * @return regionId
+   **/
+  @Schema(description = "pricing plan for a specific region")
+  
+    public String getRegionId() {
+    return regionId;
+  }
+
+  public void setRegionId(String regionId) {
+    this.regionId = regionId;
+  }
+
   public SystemPricingPlan fare(Fare fare) {
     this.fare = fare;
     return this;
@@ -103,10 +146,10 @@ public class SystemPricingPlan   {
   /**
    * Get fare
    * @return fare
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
-  
+
     @Valid
     public Fare getFare() {
     return fare;
@@ -124,8 +167,8 @@ public class SystemPricingPlan   {
   /**
    * false indicates that no additional tax will be added (either because tax is not charged, or because it is included) true indicates that tax will be added to the base price
    * @return isTaxable
-  **/
-  @ApiModelProperty(required = true, value = "false indicates that no additional tax will be added (either because tax is not charged, or because it is included) true indicates that tax will be added to the base price")
+   **/
+  @Schema(required = true, description = "false indicates that no additional tax will be added (either because tax is not charged, or because it is included) true indicates that tax will be added to the base price")
       @NotNull
 
     public Boolean isIsTaxable() {
@@ -144,8 +187,8 @@ public class SystemPricingPlan   {
   /**
    * Text field describing the particular pricing plan in human readable terms. This should include the duration, price, conditions, etc. that the publisher would like users to see. This is intended to be a human-readable description and should not be used for automatic calculations, should match Content-Language
    * @return description
-  **/
-  @ApiModelProperty(example = "Unlimited plan for free bikes, as long as you don't break them!", required = true, value = "Text field describing the particular pricing plan in human readable terms. This should include the duration, price, conditions, etc. that the publisher would like users to see. This is intended to be a human-readable description and should not be used for automatic calculations, should match Content-Language")
+   **/
+  @Schema(example = "Unlimited plan for free bikes, as long as you don't break them!", required = true, description = "Text field describing the particular pricing plan in human readable terms. This should include the duration, price, conditions, etc. that the publisher would like users to see. This is intended to be a human-readable description and should not be used for automatic calculations, should match Content-Language")
       @NotNull
 
     public String getDescription() {
@@ -169,6 +212,8 @@ public class SystemPricingPlan   {
     return Objects.equals(this.planId, systemPricingPlan.planId) &&
         Objects.equals(this.url, systemPricingPlan.url) &&
         Objects.equals(this.name, systemPricingPlan.name) &&
+        Objects.equals(this.stationId, systemPricingPlan.stationId) &&
+        Objects.equals(this.regionId, systemPricingPlan.regionId) &&
         Objects.equals(this.fare, systemPricingPlan.fare) &&
         Objects.equals(this.isTaxable, systemPricingPlan.isTaxable) &&
         Objects.equals(this.description, systemPricingPlan.description);
@@ -176,7 +221,7 @@ public class SystemPricingPlan   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(planId, url, name, fare, isTaxable, description);
+    return Objects.hash(planId, url, name, stationId, regionId, fare, isTaxable, description);
   }
 
   @Override
@@ -187,6 +232,8 @@ public class SystemPricingPlan   {
     sb.append("    planId: ").append(toIndentedString(planId)).append("\n");
     sb.append("    url: ").append(toIndentedString(url)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    stationId: ").append(toIndentedString(stationId)).append("\n");
+    sb.append("    regionId: ").append(toIndentedString(regionId)).append("\n");
     sb.append("    fare: ").append(toIndentedString(fare)).append("\n");
     sb.append("    isTaxable: ").append(toIndentedString(isTaxable)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");

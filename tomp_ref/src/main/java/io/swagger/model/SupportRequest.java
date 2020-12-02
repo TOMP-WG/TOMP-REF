@@ -4,9 +4,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Place;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
@@ -16,9 +15,9 @@ import javax.validation.constraints.*;
 /**
  * request for support
  */
-@ApiModel(description = "request for support")
+@Schema(description = "request for support")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class SupportRequest   {
@@ -136,8 +135,8 @@ public class SupportRequest   {
   /**
    * the booking id
    * @return id
-  **/
-  @ApiModelProperty(value = "the booking id")
+   **/
+  @Schema(description = "the booking id")
   
     public String getId() {
     return id;
@@ -155,8 +154,8 @@ public class SupportRequest   {
   /**
    * Get supportType
    * @return supportType
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public SupportTypeEnum getSupportType() {
     return supportType;
@@ -174,8 +173,8 @@ public class SupportRequest   {
   /**
    * Get location
    * @return location
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public Place getLocation() {
@@ -194,8 +193,8 @@ public class SupportRequest   {
   /**
    * Get time
    * @return time
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public OffsetDateTime getTime() {
@@ -214,8 +213,8 @@ public class SupportRequest   {
   /**
    * the priority of the support request.
    * @return priority
-  **/
-  @ApiModelProperty(value = "the priority of the support request.")
+   **/
+  @Schema(description = "the priority of the support request.")
   
     public PriorityEnum getPriority() {
     return priority;
@@ -233,8 +232,8 @@ public class SupportRequest   {
   /**
    * contact information of the end user in case of direct response requests, like phone number
    * @return contactInformationEndUser
-  **/
-  @ApiModelProperty(value = "contact information of the end user in case of direct response requests, like phone number")
+   **/
+  @Schema(description = "contact information of the end user in case of direct response requests, like phone number")
   
     public String getContactInformationEndUser() {
     return contactInformationEndUser;
@@ -252,8 +251,8 @@ public class SupportRequest   {
   /**
    * Get comment
    * @return comment
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getComment() {
     return comment;
@@ -271,8 +270,8 @@ public class SupportRequest   {
   /**
    * time to respond in minutes.
    * @return requestedResponseTime
-  **/
-  @ApiModelProperty(value = "time to respond in minutes.")
+   **/
+  @Schema(description = "time to respond in minutes.")
   
     @Valid
     public BigDecimal getRequestedResponseTime() {

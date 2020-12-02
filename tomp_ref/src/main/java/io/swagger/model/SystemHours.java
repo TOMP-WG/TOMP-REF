@@ -4,9 +4,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Day;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +16,7 @@ import javax.validation.constraints.*;
  * SystemHours
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class SystemHours   {
@@ -57,6 +56,9 @@ public class SystemHours   {
   @JsonProperty("stationId")
   private String stationId = null;
 
+  @JsonProperty("regionId")
+  private String regionId = null;
+
   @JsonProperty("startTime")
   private String startTime = null;
 
@@ -75,8 +77,8 @@ public class SystemHours   {
   /**
    * This indicates that this set of rental hours applies to either members or non-members only.
    * @return userType
-  **/
-  @ApiModelProperty(example = "MEMBER", value = "This indicates that this set of rental hours applies to either members or non-members only.")
+   **/
+  @Schema(example = "MEMBER", description = "This indicates that this set of rental hours applies to either members or non-members only.")
   
     public UserTypeEnum getUserType() {
     return userType;
@@ -92,10 +94,10 @@ public class SystemHours   {
   }
 
   /**
-   * If this parameter is present, it means that starTime and endTime correspond to the opening and closing hour of the station.
+   * If this parameter is present, it means that startTime and endTime correspond to the opening and closing hours of the station. (GET /operator/stations)
    * @return stationId
-  **/
-  @ApiModelProperty(value = "If this parameter is present, it means that starTime and endTime correspond to the opening and closing hour of the station.")
+   **/
+  @Schema(description = "If this parameter is present, it means that startTime and endTime correspond to the opening and closing hours of the station. (GET /operator/stations)")
   
     public String getStationId() {
     return stationId;
@@ -103,6 +105,25 @@ public class SystemHours   {
 
   public void setStationId(String stationId) {
     this.stationId = stationId;
+  }
+
+  public SystemHours regionId(String regionId) {
+    this.regionId = regionId;
+    return this;
+  }
+
+  /**
+   * If this parameter is present, it means that startTime and endTime correspond to the opening and closing hours for the region. (GET /operator/regions)
+   * @return regionId
+   **/
+  @Schema(description = "If this parameter is present, it means that startTime and endTime correspond to the opening and closing hours for the region. (GET /operator/regions)")
+  
+    public String getRegionId() {
+    return regionId;
+  }
+
+  public void setRegionId(String regionId) {
+    this.regionId = regionId;
   }
 
   public SystemHours startTime(String startTime) {
@@ -113,8 +134,8 @@ public class SystemHours   {
   /**
    * Get startTime
    * @return startTime
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getStartTime() {
@@ -133,8 +154,8 @@ public class SystemHours   {
   /**
    * Get endTime
    * @return endTime
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getEndTime() {
@@ -158,8 +179,8 @@ public class SystemHours   {
   /**
    * An array of abbreviations (first 3 letters) of English names of the days of the week that this hour object applies to (i.e. [\"mon\", \"tue\"]). Each day can only appear once within all of the hours objects in this feed.
    * @return days
-  **/
-  @ApiModelProperty(required = true, value = "An array of abbreviations (first 3 letters) of English names of the days of the week that this hour object applies to (i.e. [\"mon\", \"tue\"]). Each day can only appear once within all of the hours objects in this feed.")
+   **/
+  @Schema(required = true, description = "An array of abbreviations (first 3 letters) of English names of the days of the week that this hour object applies to (i.e. [\"mon\", \"tue\"]). Each day can only appear once within all of the hours objects in this feed.")
       @NotNull
     @Valid
     public List<Day> getDays() {
@@ -182,6 +203,7 @@ public class SystemHours   {
     SystemHours systemHours = (SystemHours) o;
     return Objects.equals(this.userType, systemHours.userType) &&
         Objects.equals(this.stationId, systemHours.stationId) &&
+        Objects.equals(this.regionId, systemHours.regionId) &&
         Objects.equals(this.startTime, systemHours.startTime) &&
         Objects.equals(this.endTime, systemHours.endTime) &&
         Objects.equals(this.days, systemHours.days);
@@ -189,7 +211,7 @@ public class SystemHours   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(userType, stationId, startTime, endTime, days);
+    return Objects.hash(userType, stationId, regionId, startTime, endTime, days);
   }
 
   @Override
@@ -199,6 +221,7 @@ public class SystemHours   {
     
     sb.append("    userType: ").append(toIndentedString(userType)).append("\n");
     sb.append("    stationId: ").append(toIndentedString(stationId)).append("\n");
+    sb.append("    regionId: ").append(toIndentedString(regionId)).append("\n");
     sb.append("    startTime: ").append(toIndentedString(startTime)).append("\n");
     sb.append("    endTime: ").append(toIndentedString(endTime)).append("\n");
     sb.append("    days: ").append(toIndentedString(days)).append("\n");

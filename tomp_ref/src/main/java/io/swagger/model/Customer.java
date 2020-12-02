@@ -3,8 +3,6 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Address;
 import io.swagger.model.Card;
 import io.swagger.model.CardType;
@@ -13,6 +11,7 @@ import io.swagger.model.LicenseType;
 import io.swagger.model.Phone;
 import io.swagger.model.Requirements;
 import io.swagger.model.Traveler;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.threeten.bp.LocalDate;
@@ -23,14 +22,17 @@ import javax.validation.constraints.*;
 /**
  * A MaaS user that wishes to make a booking, only use the fields required by booking conditions
  */
-@ApiModel(description = "A MaaS user that wishes to make a booking, only use the fields required by booking conditions")
+@Schema(description = "A MaaS user that wishes to make a booking, only use the fields required by booking conditions")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class Customer extends Traveler  {
   @JsonProperty("id")
   private String id = null;
+
+  @JsonProperty("travelerReference")
+  private String travelerReference = null;
 
   @JsonProperty("initials")
   private String initials = null;
@@ -82,8 +84,8 @@ public class Customer extends Traveler  {
   /**
    * The identifier MaaS uses to identify the customer
    * @return id
-  **/
-  @ApiModelProperty(example = "A0-123456", required = true, value = "The identifier MaaS uses to identify the customer")
+   **/
+  @Schema(example = "A0-123456", required = true, description = "The identifier MaaS uses to identify the customer")
       @NotNull
 
     public String getId() {
@@ -94,6 +96,25 @@ public class Customer extends Traveler  {
     this.id = id;
   }
 
+  public Customer travelerReference(String travelerReference) {
+    this.travelerReference = travelerReference;
+    return this;
+  }
+
+  /**
+   * optional reference field to the travelers in the planning request.
+   * @return travelerReference
+   **/
+  @Schema(description = "optional reference field to the travelers in the planning request.")
+  
+    public String getTravelerReference() {
+    return travelerReference;
+  }
+
+  public void setTravelerReference(String travelerReference) {
+    this.travelerReference = travelerReference;
+  }
+
   public Customer initials(String initials) {
     this.initials = initials;
     return this;
@@ -102,8 +123,8 @@ public class Customer extends Traveler  {
   /**
    * Get initials
    * @return initials
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getInitials() {
     return initials;
@@ -121,8 +142,8 @@ public class Customer extends Traveler  {
   /**
    * First name of the customer
    * @return firstName
-  **/
-  @ApiModelProperty(example = "John", value = "First name of the customer")
+   **/
+  @Schema(example = "John", description = "First name of the customer")
   
     public String getFirstName() {
     return firstName;
@@ -140,8 +161,8 @@ public class Customer extends Traveler  {
   /**
    * Last name of the customer
    * @return lastName
-  **/
-  @ApiModelProperty(example = "Doe", value = "Last name of the customer")
+   **/
+  @Schema(example = "Doe", description = "Last name of the customer")
   
     public String getLastName() {
     return lastName;
@@ -159,8 +180,8 @@ public class Customer extends Traveler  {
   /**
    * Middle name of the customer
    * @return middleName
-  **/
-  @ApiModelProperty(example = "von", value = "Middle name of the customer")
+   **/
+  @Schema(example = "von", description = "Middle name of the customer")
   
     public String getMiddleName() {
     return middleName;
@@ -178,8 +199,8 @@ public class Customer extends Traveler  {
   /**
    * prefix of the customer, like titles
    * @return prefix
-  **/
-  @ApiModelProperty(value = "prefix of the customer, like titles")
+   **/
+  @Schema(description = "prefix of the customer, like titles")
   
     public String getPrefix() {
     return prefix;
@@ -197,8 +218,8 @@ public class Customer extends Traveler  {
   /**
    * postfix of the customer, like titles
    * @return postfix
-  **/
-  @ApiModelProperty(value = "postfix of the customer, like titles")
+   **/
+  @Schema(description = "postfix of the customer, like titles")
   
     public String getPostfix() {
     return postfix;
@@ -224,8 +245,8 @@ public class Customer extends Traveler  {
   /**
    * Get phones
    * @return phones
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
       @Valid
     public List<Phone> getPhones() {
     return phones;
@@ -243,8 +264,8 @@ public class Customer extends Traveler  {
   /**
    * the email address of the customer
    * @return email
-  **/
-  @ApiModelProperty(value = "the email address of the customer")
+   **/
+  @Schema(description = "the email address of the customer")
   
     public String getEmail() {
     return email;
@@ -262,8 +283,8 @@ public class Customer extends Traveler  {
   /**
    * Get birthDate
    * @return birthDate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public LocalDate getBirthDate() {
@@ -282,8 +303,8 @@ public class Customer extends Traveler  {
   /**
    * Get address
    * @return address
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public Address getAddress() {
@@ -302,8 +323,8 @@ public class Customer extends Traveler  {
   /**
    * base64 encoded
    * @return photo
-  **/
-  @ApiModelProperty(value = "base64 encoded")
+   **/
+  @Schema(description = "base64 encoded")
   
     public byte[] getPhoto() {
     return photo;
@@ -329,8 +350,8 @@ public class Customer extends Traveler  {
   /**
    * Get cards
    * @return cards
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
       @Valid
     public List<Card> getCards() {
     return cards;
@@ -356,8 +377,8 @@ public class Customer extends Traveler  {
   /**
    * Get licenses
    * @return licenses
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
       @Valid
     public List<License> getLicenses() {
     return licenses;
@@ -378,6 +399,7 @@ public class Customer extends Traveler  {
     }
     Customer customer = (Customer) o;
     return Objects.equals(this.id, customer.id) &&
+        Objects.equals(this.travelerReference, customer.travelerReference) &&
         Objects.equals(this.initials, customer.initials) &&
         Objects.equals(this.firstName, customer.firstName) &&
         Objects.equals(this.lastName, customer.lastName) &&
@@ -396,7 +418,7 @@ public class Customer extends Traveler  {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, initials, firstName, lastName, middleName, prefix, postfix, phones, email, birthDate, address, photo, cards, licenses, super.hashCode());
+    return Objects.hash(id, travelerReference, initials, firstName, lastName, middleName, prefix, postfix, phones, email, birthDate, address, photo, cards, licenses, super.hashCode());
   }
 
   @Override
@@ -405,6 +427,7 @@ public class Customer extends Traveler  {
     sb.append("class Customer {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    travelerReference: ").append(toIndentedString(travelerReference)).append("\n");
     sb.append("    initials: ").append(toIndentedString(initials)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");

@@ -3,10 +3,9 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.AssetClass;
 import io.swagger.model.LicenseType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -15,9 +14,9 @@ import javax.validation.constraints.*;
 /**
  * driver or usage license for a specific user. Contains the number and the assetType you&#x27;re allowed to operate (e.g. driver license for CAR)
  */
-@ApiModel(description = "driver or usage license for a specific user. Contains the number and the assetType you're allowed to operate (e.g. driver license for CAR)")
+@Schema(description = "driver or usage license for a specific user. Contains the number and the assetType you're allowed to operate (e.g. driver license for CAR)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class License extends LicenseType  {
@@ -38,8 +37,8 @@ public class License extends LicenseType  {
   /**
    * Get number
    * @return number
-  **/
-  @ApiModelProperty(example = "1287948792", value = "")
+   **/
+  @Schema(example = "1287948792", description = "")
   
     public String getNumber() {
     return number;
@@ -57,8 +56,8 @@ public class License extends LicenseType  {
   /**
    * in most countries a driver license has also a code. As TO you can exactly verify, based on this code if the license allows to operate it's assets, if the assetType too generic.
    * @return licenseCode
-  **/
-  @ApiModelProperty(example = "D4", value = "in most countries a driver license has also a code. As TO you can exactly verify, based on this code if the license allows to operate it's assets, if the assetType too generic.")
+   **/
+  @Schema(example = "D4", description = "in most countries a driver license has also a code. As TO you can exactly verify, based on this code if the license allows to operate it's assets, if the assetType too generic.")
   
     public String getLicenseCode() {
     return licenseCode;
@@ -76,8 +75,8 @@ public class License extends LicenseType  {
   /**
    * Get validUntil
    * @return validUntil
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public LocalDate getValidUntil() {

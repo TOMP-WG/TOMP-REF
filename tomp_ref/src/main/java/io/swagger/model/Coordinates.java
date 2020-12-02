@@ -3,8 +3,7 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -13,9 +12,9 @@ import javax.validation.constraints.*;
 /**
  * a lon, lat (WGS84, EPSG:4326)
  */
-@ApiModel(description = "a lon, lat (WGS84, EPSG:4326)")
+@Schema(description = "a lon, lat (WGS84, EPSG:4326)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class Coordinates   {
@@ -33,10 +32,10 @@ public class Coordinates   {
   /**
    * Get lng
    * @return lng
-  **/
-  @ApiModelProperty(example = "6.169639", required = true, value = "")
+   **/
+  @Schema(example = "6.169639", required = true, description = "")
       @NotNull
-  
+
     @Valid
     public BigDecimal getLng() {
     return lng;
@@ -54,10 +53,10 @@ public class Coordinates   {
   /**
    * Get lat
    * @return lat
-  **/
-  @ApiModelProperty(example = "52.253279", required = true, value = "")
+   **/
+  @Schema(example = "52.253279", required = true, description = "")
       @NotNull
-  
+
     @Valid
     public BigDecimal getLat() {
     return lat;

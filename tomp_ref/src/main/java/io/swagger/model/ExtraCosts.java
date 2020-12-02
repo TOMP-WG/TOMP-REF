@@ -4,11 +4,10 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.AmountOfMoney;
 import io.swagger.model.BankAccount;
 import io.swagger.model.JournalCategory;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +19,9 @@ import javax.validation.constraints.*;
 /**
  * Costs that the TO is charging the MP; credits are negative
  */
-@ApiModel(description = "Costs that the TO is charging the MP; credits are negative")
+@Schema(description = "Costs that the TO is charging the MP; credits are negative")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class ExtraCosts extends AmountOfMoney  {
@@ -87,8 +86,8 @@ public class ExtraCosts extends AmountOfMoney  {
   /**
    * Get category
    * @return category
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public JournalCategory getCategory() {
@@ -107,8 +106,8 @@ public class ExtraCosts extends AmountOfMoney  {
   /**
    * free text to describe the extra costs. Mandatory in case of 'OTHER', should match Content-Language
    * @return description
-  **/
-  @ApiModelProperty(required = true, value = "free text to describe the extra costs. Mandatory in case of 'OTHER', should match Content-Language")
+   **/
+  @Schema(required = true, description = "free text to describe the extra costs. Mandatory in case of 'OTHER', should match Content-Language")
       @NotNull
 
     public String getDescription() {
@@ -127,8 +126,8 @@ public class ExtraCosts extends AmountOfMoney  {
   /**
    * e.g. number of litres, number of kilowatthour, etc
    * @return number
-  **/
-  @ApiModelProperty(value = "e.g. number of litres, number of kilowatthour, etc")
+   **/
+  @Schema(description = "e.g. number of litres, number of kilowatthour, etc")
   
     @Valid
     public BigDecimal getNumber() {
@@ -147,8 +146,8 @@ public class ExtraCosts extends AmountOfMoney  {
   /**
    * Get numberType
    * @return numberType
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public NumberTypeEnum getNumberType() {
     return numberType;
@@ -166,8 +165,8 @@ public class ExtraCosts extends AmountOfMoney  {
   /**
    * Get account
    * @return account
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BankAccount getAccount() {
@@ -194,8 +193,8 @@ public class ExtraCosts extends AmountOfMoney  {
   /**
    * Arbitrary metadata that a TO can add, like voucher codes
    * @return meta
-  **/
-  @ApiModelProperty(value = "Arbitrary metadata that a TO can add, like voucher codes")
+   **/
+  @Schema(description = "Arbitrary metadata that a TO can add, like voucher codes")
   
     public Map<String, Object> getMeta() {
     return meta;

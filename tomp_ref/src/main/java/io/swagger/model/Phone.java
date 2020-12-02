@@ -4,8 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -14,7 +13,7 @@ import javax.validation.constraints.*;
  * Phone
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class Phone   {
@@ -100,8 +99,8 @@ public class Phone   {
   /**
    * only one phone in this array can have a true in this property
    * @return preferred
-  **/
-  @ApiModelProperty(value = "only one phone in this array can have a true in this property")
+   **/
+  @Schema(description = "only one phone in this array can have a true in this property")
   
     public Boolean isPreferred() {
     return preferred;
@@ -119,10 +118,10 @@ public class Phone   {
   /**
    * phone number. In case of international usage, always provide the country code.
    * @return number
-  **/
-  @ApiModelProperty(example = "+31-48934758 or +(0075)-834923384 or 020 1234 1234", value = "phone number. In case of international usage, always provide the country code.")
+   **/
+  @Schema(example = "+31-48934758 or +(0075)-834923384 or 020 1234 1234", description = "phone number. In case of international usage, always provide the country code.")
   
-  @Pattern(regexp="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$")   public String getNumber() {
+  @Pattern(regexp="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\.0-9]*$")   public String getNumber() {
     return number;
   }
 
@@ -138,8 +137,8 @@ public class Phone   {
   /**
    * Get kind
    * @return kind
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public KindEnum getKind() {
     return kind;
@@ -157,8 +156,8 @@ public class Phone   {
   /**
    * Get type
    * @return type
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public TypeEnum getType() {
     return type;

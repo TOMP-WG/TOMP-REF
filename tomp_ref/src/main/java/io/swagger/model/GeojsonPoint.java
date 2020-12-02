@@ -1,7 +1,7 @@
 package io.swagger.model;
 
 import java.util.Objects;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +12,9 @@ import javax.validation.constraints.*;
 /**
  * Geojson Coordinate
  */
-@ApiModel(description = "Geojson Coordinate")
+@Schema(description = "Geojson Coordinate")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class GeojsonPoint extends ArrayList<BigDecimal>  {

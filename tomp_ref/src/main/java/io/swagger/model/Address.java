@@ -3,8 +3,7 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,7 +12,7 @@ import javax.validation.constraints.*;
  * Address
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class Address   {
@@ -37,8 +36,8 @@ public class Address   {
   /**
    * street address, including number OR PO box number, eventually extended with internal referencce like room number, could match Content-Language
    * @return streetAddress
-  **/
-  @ApiModelProperty(example = "example street 18, 2nd floor, 18-B33", value = "street address, including number OR PO box number, eventually extended with internal referencce like room number, could match Content-Language")
+   **/
+  @Schema(example = "example street 18, 2nd floor, 18-B33", description = "street address, including number OR PO box number, eventually extended with internal referencce like room number, could match Content-Language")
   
     public String getStreetAddress() {
     return streetAddress;
@@ -56,8 +55,8 @@ public class Address   {
   /**
    * city or town, principal subdivision such as province, state or county, could match Content-Language
    * @return areaReference
-  **/
-  @ApiModelProperty(example = "Smallcity, Pinetree county", value = "city or town, principal subdivision such as province, state or county, could match Content-Language")
+   **/
+  @Schema(example = "Smallcity, Pinetree county", description = "city or town, principal subdivision such as province, state or county, could match Content-Language")
   
     public String getAreaReference() {
     return areaReference;
@@ -75,8 +74,8 @@ public class Address   {
   /**
    * Get postalCode
    * @return postalCode
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPostalCode() {
     return postalCode;
@@ -94,8 +93,8 @@ public class Address   {
   /**
    * Get country
    * @return country
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
   @Size(min=2,max=2)   public String getCountry() {
     return country;

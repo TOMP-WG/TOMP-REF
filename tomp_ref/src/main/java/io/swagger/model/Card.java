@@ -4,10 +4,9 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.AssetClass;
 import io.swagger.model.CardType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
@@ -17,9 +16,9 @@ import javax.validation.constraints.*;
 /**
  * Any kind of card that isn&#x27;t a license, only provide the cards that are required
  */
-@ApiModel(description = "Any kind of card that isn't a license, only provide the cards that are required")
+@Schema(description = "Any kind of card that isn't a license, only provide the cards that are required")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class Card extends CardType  {
@@ -46,8 +45,8 @@ public class Card extends CardType  {
   /**
    * description of the card
    * @return cardDescription
-  **/
-  @ApiModelProperty(value = "description of the card")
+   **/
+  @Schema(description = "description of the card")
   
     public String getCardDescription() {
     return cardDescription;
@@ -65,8 +64,8 @@ public class Card extends CardType  {
   /**
    * number of the card, like ID number, credit card or bank account number
    * @return cardNumber
-  **/
-  @ApiModelProperty(required = true, value = "number of the card, like ID number, credit card or bank account number")
+   **/
+  @Schema(required = true, description = "number of the card, like ID number, credit card or bank account number")
       @NotNull
 
     public String getCardNumber() {
@@ -85,8 +84,8 @@ public class Card extends CardType  {
   /**
    * additional number, like CVC code or IBAN code
    * @return cardAdditionalNumber
-  **/
-  @ApiModelProperty(value = "additional number, like CVC code or IBAN code")
+   **/
+  @Schema(description = "additional number, like CVC code or IBAN code")
   
     public String getCardAdditionalNumber() {
     return cardAdditionalNumber;
@@ -104,8 +103,8 @@ public class Card extends CardType  {
   /**
    * Get validUntil
    * @return validUntil
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -125,8 +124,8 @@ public class Card extends CardType  {
   /**
    * Get country
    * @return country
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
   @Size(min=2,max=2)   public String getCountry() {
     return country;

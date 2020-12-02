@@ -3,9 +3,8 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Booking;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.threeten.bp.OffsetDateTime;
@@ -16,9 +15,9 @@ import javax.validation.constraints.*;
 /**
  * A travel planning with bookable options that fulfil the constraints of the planning
  */
-@ApiModel(description = "A travel planning with bookable options that fulfil the constraints of the planning")
+@Schema(description = "A travel planning with bookable options that fulfil the constraints of the planning")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:11:01.002Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class Planning   {
@@ -37,8 +36,8 @@ public class Planning   {
   /**
    * The time until which the presented options are (likely) available
    * @return validUntil
-  **/
-  @ApiModelProperty(required = true, value = "The time until which the presented options are (likely) available")
+   **/
+  @Schema(required = true, description = "The time until which the presented options are (likely) available")
       @NotNull
 
     @Valid
@@ -63,8 +62,8 @@ public class Planning   {
   /**
    * Get options
    * @return options
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
     @Valid
     public List<Booking> getOptions() {

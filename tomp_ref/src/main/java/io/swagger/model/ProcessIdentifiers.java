@@ -3,8 +3,7 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -15,7 +14,7 @@ import javax.validation.constraints.*;
  * ProcessIdentifiers
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class ProcessIdentifiers   {
@@ -60,8 +59,8 @@ public class ProcessIdentifiers   {
   /**
    * Get operatorInformation
    * @return operatorInformation
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public List<String> getOperatorInformation() {
@@ -85,8 +84,8 @@ public class ProcessIdentifiers   {
   /**
    * Get planning
    * @return planning
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public List<String> getPlanning() {
@@ -110,8 +109,8 @@ public class ProcessIdentifiers   {
   /**
    * Get booking
    * @return booking
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public List<String> getBooking() {
@@ -135,8 +134,8 @@ public class ProcessIdentifiers   {
   /**
    * Get tripExecution
    * @return tripExecution
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public List<String> getTripExecution() {
@@ -160,8 +159,8 @@ public class ProcessIdentifiers   {
   /**
    * Get support
    * @return support
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public List<String> getSupport() {
@@ -185,8 +184,8 @@ public class ProcessIdentifiers   {
   /**
    * Get payment
    * @return payment
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public List<String> getPayment() {
@@ -210,8 +209,8 @@ public class ProcessIdentifiers   {
   /**
    * Get general
    * @return general
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public List<String> getGeneral() {

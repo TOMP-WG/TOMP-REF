@@ -4,9 +4,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.AmountOfMoney;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -18,9 +17,9 @@ import javax.validation.constraints.*;
 /**
  * this describes a part of the fare (or discount). It contains a for instance the startup costs (fixed) or the flex part (e.g. 1.25 EUR per 2.0 MILES). The amount is tax included. In case of discounts, the values are negative. With &#x27;MAX&#x27; you can specify e.g. a maximum of 15 euro per day. Percentage is mainly added for discounts. The &#x60;scale&#x60; properties create the ability to communicate scales (e.g. the first 4 kilometers you&#x27;ve to pay EUR 0.35 per kilometer, the kilometers 4 until 8 EUR 0.50 and above it EUR 0.80 per kilometer).
  */
-@ApiModel(description = "this describes a part of the fare (or discount). It contains a for instance the startup costs (fixed) or the flex part (e.g. 1.25 EUR per 2.0 MILES). The amount is tax included. In case of discounts, the values are negative. With 'MAX' you can specify e.g. a maximum of 15 euro per day. Percentage is mainly added for discounts. The `scale` properties create the ability to communicate scales (e.g. the first 4 kilometers you've to pay EUR 0.35 per kilometer, the kilometers 4 until 8 EUR 0.50 and above it EUR 0.80 per kilometer).")
+@Schema(description = "this describes a part of the fare (or discount). It contains a for instance the startup costs (fixed) or the flex part (e.g. 1.25 EUR per 2.0 MILES). The amount is tax included. In case of discounts, the values are negative. With 'MAX' you can specify e.g. a maximum of 15 euro per day. Percentage is mainly added for discounts. The `scale` properties create the ability to communicate scales (e.g. the first 4 kilometers you've to pay EUR 0.35 per kilometer, the kilometers 4 until 8 EUR 0.50 and above it EUR 0.80 per kilometer).")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class FarePart extends AmountOfMoney  {
@@ -164,8 +163,8 @@ public class FarePart extends AmountOfMoney  {
   /**
    * type of fare part
    * @return type
-  **/
-  @ApiModelProperty(value = "type of fare part")
+   **/
+  @Schema(description = "type of fare part")
   
     public TypeEnum getType() {
     return type;
@@ -183,9 +182,8 @@ public class FarePart extends AmountOfMoney  {
   /**
    * in case of 'FLEX' mandatory. E.g. 0.5 EUR per HOUR
    * @return unitType
-  **/
-  @ApiModelProperty(required = true, value = "in case of 'FLEX' mandatory. E.g. 0.5 EUR per HOUR")
-      @NotNull
+   **/
+  @Schema(description = "in case of 'FLEX' mandatory. E.g. 0.5 EUR per HOUR")
   
     public UnitTypeEnum getUnitType() {
     return unitType;
@@ -203,8 +201,8 @@ public class FarePart extends AmountOfMoney  {
   /**
    * the number of km, seconds etc in the `per` part. In the first example of the description this should be 2.0
    * @return units
-  **/
-  @ApiModelProperty(value = "the number of km, seconds etc in the `per` part. In the first example of the description this should be 2.0")
+   **/
+  @Schema(description = "the number of km, seconds etc in the `per` part. In the first example of the description this should be 2.0")
   
     @Valid
     public BigDecimal getUnits() {
@@ -223,8 +221,8 @@ public class FarePart extends AmountOfMoney  {
   /**
    * Get scaleFrom
    * @return scaleFrom
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getScaleFrom() {
@@ -243,8 +241,8 @@ public class FarePart extends AmountOfMoney  {
   /**
    * Get scaleTo
    * @return scaleTo
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getScaleTo() {
@@ -263,8 +261,8 @@ public class FarePart extends AmountOfMoney  {
   /**
    * Get scaleType
    * @return scaleType
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public ScaleTypeEnum getScaleType() {
     return scaleType;
@@ -282,8 +280,8 @@ public class FarePart extends AmountOfMoney  {
   /**
    * Get name
    * @return name
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getName() {
     return name;
@@ -301,8 +299,8 @@ public class FarePart extends AmountOfMoney  {
   /**
    * Get propertyClass
    * @return propertyClass
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPropertyClass() {
     return propertyClass;
@@ -328,8 +326,8 @@ public class FarePart extends AmountOfMoney  {
   /**
    * Get meta
    * @return meta
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Map<String, Object> getMeta() {
     return meta;

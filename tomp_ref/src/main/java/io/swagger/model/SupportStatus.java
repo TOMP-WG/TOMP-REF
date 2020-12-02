@@ -4,10 +4,9 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Place;
 import io.swagger.model.SupportRequest;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
@@ -17,9 +16,9 @@ import javax.validation.constraints.*;
 /**
  * the current status of support
  */
-@ApiModel(description = "the current status of support")
+@Schema(description = "the current status of support")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class SupportStatus extends SupportRequest  {
@@ -77,8 +76,8 @@ public class SupportStatus extends SupportRequest  {
   /**
    * Get status
    * @return status
-  **/
-  @ApiModelProperty(example = "PROCESSING", value = "")
+   **/
+  @Schema(example = "PROCESSING", description = "")
   
     public StatusEnum getStatus() {
     return status;
@@ -96,8 +95,8 @@ public class SupportStatus extends SupportRequest  {
   /**
    * time in minutes to expected resolution of support request
    * @return timeToResolution
-  **/
-  @ApiModelProperty(example = "9", value = "time in minutes to expected resolution of support request")
+   **/
+  @Schema(example = "9", description = "time in minutes to expected resolution of support request")
   
     public Integer getTimeToResolution() {
     return timeToResolution;
@@ -115,8 +114,8 @@ public class SupportStatus extends SupportRequest  {
   /**
    * the sequence number of status of the support issue
    * @return order
-  **/
-  @ApiModelProperty(value = "the sequence number of status of the support issue")
+   **/
+  @Schema(description = "the sequence number of status of the support issue")
   
     public Integer getOrder() {
     return order;
@@ -134,8 +133,8 @@ public class SupportStatus extends SupportRequest  {
   /**
    * free text to send to the end user.
    * @return comment
-  **/
-  @ApiModelProperty(value = "free text to send to the end user.")
+   **/
+  @Schema(description = "free text to send to the end user.")
   
     public String getComment() {
     return comment;

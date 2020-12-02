@@ -1,6 +1,6 @@
 {
   "systemId": "XXTO0001",
-  "language": "eng",
+  "language": ["eng"],
   "name": "FreeBike",
   "timezone": "IST",
   "typeOfSystem": "free-floating"

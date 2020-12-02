@@ -1,8 +1,8 @@
 package io.swagger.model;
 
 import java.util.Objects;
-import io.swagger.annotations.ApiModel;
 import io.swagger.model.GeojsonPoint;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -12,9 +12,9 @@ import javax.validation.constraints.*;
 /**
  * An array  of WGS84 coordinate pairs
  */
-@ApiModel(description = "An array  of WGS84 coordinate pairs")
+@Schema(description = "An array  of WGS84 coordinate pairs")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:11:01.002Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class GeojsonLine extends ArrayList<GeojsonPoint>  {

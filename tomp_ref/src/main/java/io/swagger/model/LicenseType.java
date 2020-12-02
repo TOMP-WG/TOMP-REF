@@ -3,9 +3,8 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.AssetClass;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,9 +12,9 @@ import javax.validation.constraints.*;
 /**
  * A category of license to use a certain asset class
  */
-@ApiModel(description = "A category of license to use a certain asset class")
+@Schema(description = "A category of license to use a certain asset class")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class LicenseType   {
@@ -33,8 +32,8 @@ public class LicenseType   {
   /**
    * Get assetClass
    * @return assetClass
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -54,8 +53,8 @@ public class LicenseType   {
   /**
    * Get issuingCountry
    * @return issuingCountry
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
   @Size(min=2,max=2)   public String getIssuingCountry() {
     return issuingCountry;

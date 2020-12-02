@@ -20,6 +20,9 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.api.LegsApiController;
 import io.swagger.model.Leg;
 import io.swagger.model.LegEvent;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @RestController
 public class TripExecutionController extends LegsApiController {
@@ -40,11 +43,11 @@ public class TripExecutionController extends LegsApiController {
 
 	@Override
 	public ResponseEntity<Leg> legsIdEventsPost(
-			@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
-			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
-			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
-			@ApiParam(value = "Leg identifier", required = true) @PathVariable("id") String id,
-			@ApiParam(value = "") @Valid @RequestBody LegEvent body) {
+			@Parameter(in = ParameterIn.HEADER, description = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information", required = true, schema = @Schema()) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
+			@Parameter(in = ParameterIn.HEADER, description = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true, schema = @Schema()) @RequestHeader(value = "Api", required = true) String api,
+			@Parameter(in = ParameterIn.HEADER, description = "Version of the API.", required = true, schema = @Schema()) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
+			@Parameter(in = ParameterIn.PATH, description = "Leg identifier", required = true, schema = @Schema()) @PathVariable("id") String id,
+			@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody LegEvent body) {
 
 		HeaderValidator.validateHeader(request);
 		Leg leg = null;
@@ -56,8 +59,6 @@ public class TripExecutionController extends LegsApiController {
 			break;
 		case FINISH:
 			leg = provider.finish(body, acceptLanguage, id, maasId);
-			break;
-		case ISSUE:
 			break;
 		case PAUSE:
 			leg = provider.pause(body, acceptLanguage, id, maasId);
@@ -71,6 +72,8 @@ public class TripExecutionController extends LegsApiController {
 		case START_FINISHING:
 			leg = provider.startFinishing(body, acceptLanguage, id, maasId);
 			break;
+		case TIME_EXTEND:
+		case TIME_POSTPONE:
 		default:
 			break;
 

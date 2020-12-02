@@ -3,11 +3,10 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Asset;
 import io.swagger.model.AssetClass;
 import io.swagger.model.AssetProperties;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +17,7 @@ import javax.validation.constraints.*;
  * AssetType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class AssetType   {
@@ -33,7 +32,7 @@ public class AssetType   {
 
   @JsonProperty("assets")
   @Valid
-  private List<Asset> assets = new ArrayList<Asset>();
+  private List<Asset> assets = null;
 
   @JsonProperty("assetClass")
   private AssetClass assetClass = null;
@@ -52,8 +51,8 @@ public class AssetType   {
   /**
    * Unique identifier of an asset type,
    * @return id
-  **/
-  @ApiModelProperty(required = true, value = "Unique identifier of an asset type,")
+   **/
+  @Schema(required = true, description = "Unique identifier of an asset type,")
       @NotNull
 
     public String getId() {
@@ -72,8 +71,8 @@ public class AssetType   {
   /**
    * If staionId is present, the nrAvailable is expected to find the availableity at that particular station
    * @return stationId
-  **/
-  @ApiModelProperty(value = "If staionId is present, the nrAvailable is expected to find the availableity at that particular station")
+   **/
+  @Schema(description = "If staionId is present, the nrAvailable is expected to find the availableity at that particular station")
   
     public String getStationId() {
     return stationId;
@@ -91,8 +90,8 @@ public class AssetType   {
   /**
    * Get nrAvailable
    * @return nrAvailable
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getNrAvailable() {
     return nrAvailable;
@@ -108,6 +107,9 @@ public class AssetType   {
   }
 
   public AssetType addAssetsItem(Asset assetsItem) {
+    if (this.assets == null) {
+      this.assets = new ArrayList<Asset>();
+    }
     this.assets.add(assetsItem);
     return this;
   }
@@ -115,10 +117,9 @@ public class AssetType   {
   /**
    * Get assets
    * @return assets
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
-    @Valid
+   **/
+  @Schema(description = "")
+      @Valid
     public List<Asset> getAssets() {
     return assets;
   }
@@ -135,8 +136,8 @@ public class AssetType   {
   /**
    * Get assetClass
    * @return assetClass
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -156,8 +157,8 @@ public class AssetType   {
   /**
    * a more precise classification of the asset, like 'cargo bike', 'public bus', 'coach bus', 'office bus', 'water taxi',  'segway'. This is mandatory when using 'OTHER' as class.
    * @return assetSubClass
-  **/
-  @ApiModelProperty(value = "a more precise classification of the asset, like 'cargo bike', 'public bus', 'coach bus', 'office bus', 'water taxi',  'segway'. This is mandatory when using 'OTHER' as class.")
+   **/
+  @Schema(description = "a more precise classification of the asset, like 'cargo bike', 'public bus', 'coach bus', 'office bus', 'water taxi',  'segway'. This is mandatory when using 'OTHER' as class.")
   
     public String getAssetSubClass() {
     return assetSubClass;
@@ -175,8 +176,8 @@ public class AssetType   {
   /**
    * Get sharedProperties
    * @return sharedProperties
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid

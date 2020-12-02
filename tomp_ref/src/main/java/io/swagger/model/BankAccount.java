@@ -3,8 +3,7 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,7 +12,7 @@ import javax.validation.constraints.*;
  * BankAccount
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class BankAccount   {
@@ -37,8 +36,8 @@ public class BankAccount   {
   /**
    * account name
    * @return name
-  **/
-  @ApiModelProperty(value = "account name")
+   **/
+  @Schema(description = "account name")
   
     public String getName() {
     return name;
@@ -56,8 +55,8 @@ public class BankAccount   {
   /**
    * account number
    * @return number
-  **/
-  @ApiModelProperty(value = "account number")
+   **/
+  @Schema(description = "account number")
   
     public String getNumber() {
     return number;
@@ -75,8 +74,8 @@ public class BankAccount   {
   /**
    * Get country
    * @return country
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
   @Size(min=2,max=2)   public String getCountry() {
     return country;
@@ -94,8 +93,8 @@ public class BankAccount   {
   /**
    * bank identification, like BIC code
    * @return bankIdentification
-  **/
-  @ApiModelProperty(value = "bank identification, like BIC code")
+   **/
+  @Schema(description = "bank identification, like BIC code")
   
     public String getBankIdentification() {
     return bankIdentification;

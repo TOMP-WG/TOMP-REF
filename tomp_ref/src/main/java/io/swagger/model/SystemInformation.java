@@ -4,10 +4,9 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.AssetClass;
 import io.swagger.model.ChamberOfCommerceInfo;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.threeten.bp.LocalDate;
@@ -19,7 +18,7 @@ import javax.validation.constraints.*;
  * SystemInformation
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class SystemInformation   {
@@ -45,6 +44,18 @@ public class SystemInformation   {
   @JsonProperty("purchaseUrl")
   private String purchaseUrl = null;
 
+  @JsonProperty("discoveryUriAndroid")
+  private String discoveryUriAndroid = null;
+
+  @JsonProperty("discoveryUriIOS")
+  private String discoveryUriIOS = null;
+
+  @JsonProperty("storeUriAndroid")
+  private String storeUriAndroid = null;
+
+  @JsonProperty("storeUriIOS")
+  private String storeUriIOS = null;
+
   @JsonProperty("startDate")
   private LocalDate startDate = null;
 
@@ -53,6 +64,9 @@ public class SystemInformation   {
 
   @JsonProperty("email")
   private String email = null;
+
+  @JsonProperty("feedContactEmail")
+  private String feedContactEmail = null;
 
   @JsonProperty("timezone")
   private String timezone = null;
@@ -150,8 +164,8 @@ public class SystemInformation   {
   /**
    * identifier for this transport system. This should be globally unique (even between different systems)
    * @return systemId
-  **/
-  @ApiModelProperty(example = "XXTO0001", required = true, value = "identifier for this transport system. This should be globally unique (even between different systems)")
+   **/
+  @Schema(example = "XXTO0001", required = true, description = "identifier for this transport system. This should be globally unique (even between different systems)")
       @NotNull
 
     public String getSystemId() {
@@ -175,8 +189,8 @@ public class SystemInformation   {
   /**
    * The languages supported by this operator for user-facing text. These can be requested using the Accept-Language header and should then be returned in Content-Language
    * @return language
-  **/
-  @ApiModelProperty(required = true, value = "The languages supported by this operator for user-facing text. These can be requested using the Accept-Language header and should then be returned in Content-Language")
+   **/
+  @Schema(required = true, description = "The languages supported by this operator for user-facing text. These can be requested using the Accept-Language header and should then be returned in Content-Language")
       @NotNull
 
     public List<String> getLanguage() {
@@ -195,8 +209,8 @@ public class SystemInformation   {
   /**
    * Full name of the system to be displayed to customers, could match Content-Language
    * @return name
-  **/
-  @ApiModelProperty(example = "FreeBike", required = true, value = "Full name of the system to be displayed to customers, could match Content-Language")
+   **/
+  @Schema(example = "FreeBike", required = true, description = "Full name of the system to be displayed to customers, could match Content-Language")
       @NotNull
 
     public String getName() {
@@ -215,8 +229,8 @@ public class SystemInformation   {
   /**
    * Optional abbreviation for a system
    * @return shortName
-  **/
-  @ApiModelProperty(example = "FB", value = "Optional abbreviation for a system")
+   **/
+  @Schema(example = "FB", description = "Optional abbreviation for a system")
   
     public String getShortName() {
     return shortName;
@@ -234,8 +248,8 @@ public class SystemInformation   {
   /**
    * Name of the operator of the system, could match Content-Language
    * @return operator
-  **/
-  @ApiModelProperty(example = "FreeBike", value = "Name of the operator of the system, could match Content-Language")
+   **/
+  @Schema(example = "FreeBike", description = "Name of the operator of the system, could match Content-Language")
   
     public String getOperator() {
     return operator;
@@ -253,8 +267,8 @@ public class SystemInformation   {
   /**
    * The URL of the transport operator. The value must be a fully qualified URL that includes http:// or https://, and any special characters in the URL must be correctly escaped.
    * @return url
-  **/
-  @ApiModelProperty(example = "https://www.rentmyfreebike.com", value = "The URL of the transport operator. The value must be a fully qualified URL that includes http:// or https://, and any special characters in the URL must be correctly escaped.")
+   **/
+  @Schema(example = "https://www.rentmyfreebike.com", description = "The URL of the transport operator. The value must be a fully qualified URL that includes http:// or https://, and any special characters in the URL must be correctly escaped.")
   
     public String getUrl() {
     return url;
@@ -272,8 +286,8 @@ public class SystemInformation   {
   /**
    * A fully qualified URL where a customer can purchase a membership or learn more about purchasing memberships
    * @return purchaseUrl
-  **/
-  @ApiModelProperty(example = "https://www.rentmyfreebike.com/purchase", value = "A fully qualified URL where a customer can purchase a membership or learn more about purchasing memberships")
+   **/
+  @Schema(example = "https://www.rentmyfreebike.com/purchase", description = "A fully qualified URL where a customer can purchase a membership or learn more about purchasing memberships")
   
     public String getPurchaseUrl() {
     return purchaseUrl;
@@ -281,6 +295,82 @@ public class SystemInformation   {
 
   public void setPurchaseUrl(String purchaseUrl) {
     this.purchaseUrl = purchaseUrl;
+  }
+
+  public SystemInformation discoveryUriAndroid(String discoveryUriAndroid) {
+    this.discoveryUriAndroid = discoveryUriAndroid;
+    return this;
+  }
+
+  /**
+   * Uri to detect if the app is available at the mobile.
+   * @return discoveryUriAndroid
+   **/
+  @Schema(description = "Uri to detect if the app is available at the mobile.")
+  
+    public String getDiscoveryUriAndroid() {
+    return discoveryUriAndroid;
+  }
+
+  public void setDiscoveryUriAndroid(String discoveryUriAndroid) {
+    this.discoveryUriAndroid = discoveryUriAndroid;
+  }
+
+  public SystemInformation discoveryUriIOS(String discoveryUriIOS) {
+    this.discoveryUriIOS = discoveryUriIOS;
+    return this;
+  }
+
+  /**
+   * Uri to detect if the app is available at the mobile.
+   * @return discoveryUriIOS
+   **/
+  @Schema(description = "Uri to detect if the app is available at the mobile.")
+  
+    public String getDiscoveryUriIOS() {
+    return discoveryUriIOS;
+  }
+
+  public void setDiscoveryUriIOS(String discoveryUriIOS) {
+    this.discoveryUriIOS = discoveryUriIOS;
+  }
+
+  public SystemInformation storeUriAndroid(String storeUriAndroid) {
+    this.storeUriAndroid = storeUriAndroid;
+    return this;
+  }
+
+  /**
+   * Uri to the app in the store.
+   * @return storeUriAndroid
+   **/
+  @Schema(example = "https://play.google.com/store/apps/details?id=com.rentmyfreebike.android", description = "Uri to the app in the store.")
+  
+    public String getStoreUriAndroid() {
+    return storeUriAndroid;
+  }
+
+  public void setStoreUriAndroid(String storeUriAndroid) {
+    this.storeUriAndroid = storeUriAndroid;
+  }
+
+  public SystemInformation storeUriIOS(String storeUriIOS) {
+    this.storeUriIOS = storeUriIOS;
+    return this;
+  }
+
+  /**
+   * Uri to the app in the store.
+   * @return storeUriIOS
+   **/
+  @Schema(example = "itms-apps://itunes.apple.com/app/idcom.rentmyfreebike.ios", description = "Uri to the app in the store.")
+  
+    public String getStoreUriIOS() {
+    return storeUriIOS;
+  }
+
+  public void setStoreUriIOS(String storeUriIOS) {
+    this.storeUriIOS = storeUriIOS;
   }
 
   public SystemInformation startDate(LocalDate startDate) {
@@ -291,8 +381,8 @@ public class SystemInformation   {
   /**
    * Get startDate
    * @return startDate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public LocalDate getStartDate() {
@@ -311,8 +401,8 @@ public class SystemInformation   {
   /**
    * A single voice telephone number for the specified system. This field is a string value that presents the telephone number as typical for the system's service area. It can and should contain punctuation marks to group the digits of the number.
    * @return phoneNumber
-  **/
-  @ApiModelProperty(example = "555-12345", value = "A single voice telephone number for the specified system. This field is a string value that presents the telephone number as typical for the system's service area. It can and should contain punctuation marks to group the digits of the number.")
+   **/
+  @Schema(example = "555-12345", description = "A single voice telephone number for the specified system. This field is a string value that presents the telephone number as typical for the system's service area. It can and should contain punctuation marks to group the digits of the number.")
   
     public String getPhoneNumber() {
     return phoneNumber;
@@ -330,8 +420,8 @@ public class SystemInformation   {
   /**
    * A single contact email address for customers to address questions about the system
    * @return email
-  **/
-  @ApiModelProperty(example = "rent@freebike.com", value = "A single contact email address for customers to address questions about the system")
+   **/
+  @Schema(example = "rent@freebike.com", description = "A single contact email address for customers to address questions about the system")
   
     public String getEmail() {
     return email;
@@ -339,6 +429,25 @@ public class SystemInformation   {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public SystemInformation feedContactEmail(String feedContactEmail) {
+    this.feedContactEmail = feedContactEmail;
+    return this;
+  }
+
+  /**
+   * A single contact email address for consumers of this feed to report technical issues.
+   * @return feedContactEmail
+   **/
+  @Schema(description = "A single contact email address for consumers of this feed to report technical issues.")
+  
+    public String getFeedContactEmail() {
+    return feedContactEmail;
+  }
+
+  public void setFeedContactEmail(String feedContactEmail) {
+    this.feedContactEmail = feedContactEmail;
   }
 
   public SystemInformation timezone(String timezone) {
@@ -349,8 +458,8 @@ public class SystemInformation   {
   /**
    * The time zone where the system is located. Time zone names never contain the space character but may contain an underscore. Please refer to the \"TZ\" value in https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for a list of valid values
    * @return timezone
-  **/
-  @ApiModelProperty(example = "IST", required = true, value = "The time zone where the system is located. Time zone names never contain the space character but may contain an underscore. Please refer to the \"TZ\" value in https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for a list of valid values")
+   **/
+  @Schema(example = "IST", required = true, description = "The time zone where the system is located. Time zone names never contain the space character but may contain an underscore. Please refer to the \"TZ\" value in https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for a list of valid values")
       @NotNull
 
     public String getTimezone() {
@@ -369,8 +478,8 @@ public class SystemInformation   {
   /**
    * A fully qualified URL of a page that defines the license terms for the GBFS data for this system, as well as any other license terms the system would like to define (including the use of corporate trademarks, etc)
    * @return licenseUrl
-  **/
-  @ApiModelProperty(example = "https://www.rentmyfreebike.com/license", value = "A fully qualified URL of a page that defines the license terms for the GBFS data for this system, as well as any other license terms the system would like to define (including the use of corporate trademarks, etc)")
+   **/
+  @Schema(example = "https://www.rentmyfreebike.com/license", description = "A fully qualified URL of a page that defines the license terms for the GBFS data for this system, as well as any other license terms the system would like to define (including the use of corporate trademarks, etc)")
   
     public String getLicenseUrl() {
     return licenseUrl;
@@ -388,8 +497,8 @@ public class SystemInformation   {
   /**
    * Describes the type of system
    * @return typeOfSystem
-  **/
-  @ApiModelProperty(example = "FREE_FLOATING", required = true, value = "Describes the type of system")
+   **/
+  @Schema(example = "FREE_FLOATING", required = true, description = "Describes the type of system")
       @NotNull
 
     public TypeOfSystemEnum getTypeOfSystem() {
@@ -408,8 +517,8 @@ public class SystemInformation   {
   /**
    * Get chamberOfCommerceInfo
    * @return chamberOfCommerceInfo
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public ChamberOfCommerceInfo getChamberOfCommerceInfo() {
@@ -428,8 +537,8 @@ public class SystemInformation   {
   /**
    * Added to include possibility to communicatie general rental conditions like minimum age, max. reservation time etc. [amended]
    * @return conditions
-  **/
-  @ApiModelProperty(value = "Added to include possibility to communicatie general rental conditions like minimum age, max. reservation time etc. [amended]")
+   **/
+  @Schema(description = "Added to include possibility to communicatie general rental conditions like minimum age, max. reservation time etc. [amended]")
   
     public String getConditions() {
     return conditions;
@@ -447,8 +556,8 @@ public class SystemInformation   {
   /**
    * the type of product offered. SHARING should also be used for public transport.
    * @return productType
-  **/
-  @ApiModelProperty(value = "the type of product offered. SHARING should also be used for public transport.")
+   **/
+  @Schema(description = "the type of product offered. SHARING should also be used for public transport.")
   
     public ProductTypeEnum getProductType() {
     return productType;
@@ -474,8 +583,8 @@ public class SystemInformation   {
   /**
    * Get assetClasses
    * @return assetClasses
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
       @Valid
     public List<AssetClass> getAssetClasses() {
     return assetClasses;
@@ -502,9 +611,14 @@ public class SystemInformation   {
         Objects.equals(this.operator, systemInformation.operator) &&
         Objects.equals(this.url, systemInformation.url) &&
         Objects.equals(this.purchaseUrl, systemInformation.purchaseUrl) &&
+        Objects.equals(this.discoveryUriAndroid, systemInformation.discoveryUriAndroid) &&
+        Objects.equals(this.discoveryUriIOS, systemInformation.discoveryUriIOS) &&
+        Objects.equals(this.storeUriAndroid, systemInformation.storeUriAndroid) &&
+        Objects.equals(this.storeUriIOS, systemInformation.storeUriIOS) &&
         Objects.equals(this.startDate, systemInformation.startDate) &&
         Objects.equals(this.phoneNumber, systemInformation.phoneNumber) &&
         Objects.equals(this.email, systemInformation.email) &&
+        Objects.equals(this.feedContactEmail, systemInformation.feedContactEmail) &&
         Objects.equals(this.timezone, systemInformation.timezone) &&
         Objects.equals(this.licenseUrl, systemInformation.licenseUrl) &&
         Objects.equals(this.typeOfSystem, systemInformation.typeOfSystem) &&
@@ -516,7 +630,7 @@ public class SystemInformation   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(systemId, language, name, shortName, operator, url, purchaseUrl, startDate, phoneNumber, email, timezone, licenseUrl, typeOfSystem, chamberOfCommerceInfo, conditions, productType, assetClasses);
+    return Objects.hash(systemId, language, name, shortName, operator, url, purchaseUrl, discoveryUriAndroid, discoveryUriIOS, storeUriAndroid, storeUriIOS, startDate, phoneNumber, email, feedContactEmail, timezone, licenseUrl, typeOfSystem, chamberOfCommerceInfo, conditions, productType, assetClasses);
   }
 
   @Override
@@ -531,9 +645,14 @@ public class SystemInformation   {
     sb.append("    operator: ").append(toIndentedString(operator)).append("\n");
     sb.append("    url: ").append(toIndentedString(url)).append("\n");
     sb.append("    purchaseUrl: ").append(toIndentedString(purchaseUrl)).append("\n");
+    sb.append("    discoveryUriAndroid: ").append(toIndentedString(discoveryUriAndroid)).append("\n");
+    sb.append("    discoveryUriIOS: ").append(toIndentedString(discoveryUriIOS)).append("\n");
+    sb.append("    storeUriAndroid: ").append(toIndentedString(storeUriAndroid)).append("\n");
+    sb.append("    storeUriIOS: ").append(toIndentedString(storeUriIOS)).append("\n");
     sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
     sb.append("    phoneNumber: ").append(toIndentedString(phoneNumber)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
+    sb.append("    feedContactEmail: ").append(toIndentedString(feedContactEmail)).append("\n");
     sb.append("    timezone: ").append(toIndentedString(timezone)).append("\n");
     sb.append("    licenseUrl: ").append(toIndentedString(licenseUrl)).append("\n");
     sb.append("    typeOfSystem: ").append(toIndentedString(typeOfSystem)).append("\n");

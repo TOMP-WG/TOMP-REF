@@ -4,10 +4,9 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Address;
 import io.swagger.model.Coordinates;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +17,7 @@ import javax.validation.constraints.*;
  * StationInformation
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class StationInformation   {
@@ -91,6 +90,12 @@ public class StationInformation   {
   @JsonProperty("rentalUrl")
   private String rentalUrl = null;
 
+  @JsonProperty("rentalUrlAndroid")
+  private String rentalUrlAndroid = null;
+
+  @JsonProperty("rentalUrlIOS")
+  private String rentalUrlIOS = null;
+
   public StationInformation stationId(String stationId) {
     this.stationId = stationId;
     return this;
@@ -99,8 +104,8 @@ public class StationInformation   {
   /**
    * unique identifier of a station
    * @return stationId
-  **/
-  @ApiModelProperty(example = "XX:Y:12345678", required = true, value = "unique identifier of a station")
+   **/
+  @Schema(example = "XX:Y:12345678", required = true, description = "unique identifier of a station")
       @NotNull
 
     public String getStationId() {
@@ -119,8 +124,8 @@ public class StationInformation   {
   /**
    * public name of the station, could match Content-Language
    * @return name
-  **/
-  @ApiModelProperty(example = "Island Central", required = true, value = "public name of the station, could match Content-Language")
+   **/
+  @Schema(example = "Island Central", required = true, description = "public name of the station, could match Content-Language")
       @NotNull
 
     public String getName() {
@@ -139,8 +144,8 @@ public class StationInformation   {
   /**
    * Get coordinates
    * @return coordinates
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -160,8 +165,8 @@ public class StationInformation   {
   /**
    * Get physicalAddress
    * @return physicalAddress
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public Address getPhysicalAddress() {
@@ -180,8 +185,8 @@ public class StationInformation   {
   /**
    * Cross street of where the station is located. This field is intended to be a descriptive field for human consumption. In cities, this would be a cross street, but could also be a description of a location in a park, etc, should match Content-Language
    * @return crossStreet
-  **/
-  @ApiModelProperty(example = "on the corner with Secondary Road", value = "Cross street of where the station is located. This field is intended to be a descriptive field for human consumption. In cities, this would be a cross street, but could also be a description of a location in a park, etc, should match Content-Language")
+   **/
+  @Schema(example = "on the corner with Secondary Road", description = "Cross street of where the station is located. This field is intended to be a descriptive field for human consumption. In cities, this would be a cross street, but could also be a description of a location in a park, etc, should match Content-Language")
   
     public String getCrossStreet() {
     return crossStreet;
@@ -199,8 +204,8 @@ public class StationInformation   {
   /**
    * ID of the region where the station operates (see \"systemRegions\")
    * @return regionId
-  **/
-  @ApiModelProperty(value = "ID of the region where the station operates (see \"systemRegions\")")
+   **/
+  @Schema(description = "ID of the region where the station operates (see \"systemRegions\")")
   
     public String getRegionId() {
     return regionId;
@@ -226,8 +231,8 @@ public class StationInformation   {
   /**
    * Array of enumerables containing the payment methods accepted at this station.
    * @return rentalMethods
-  **/
-  @ApiModelProperty(example = "[\"CREDITCARD\",\"PAYPASS\",\"APPLEPAY\"]", value = "Array of enumerables containing the payment methods accepted at this station.")
+   **/
+  @Schema(example = "[\"CREDITCARD\",\"PAYPASS\",\"APPLEPAY\"]", description = "Array of enumerables containing the payment methods accepted at this station.")
   
     public List<RentalMethodsEnum> getRentalMethods() {
     return rentalMethods;
@@ -243,10 +248,10 @@ public class StationInformation   {
   }
 
   /**
-   * Get rentalUrl
+   * web uri for renting assets at this station. Only added to be consistent with GBFS 2.0.
    * @return rentalUrl
-  **/
-  @ApiModelProperty(example = "https://www.rentmyfreebike.com", value = "")
+   **/
+  @Schema(example = "https://www.rentmyfreebike.com", description = "web uri for renting assets at this station. Only added to be consistent with GBFS 2.0.")
   
     public String getRentalUrl() {
     return rentalUrl;
@@ -254,6 +259,44 @@ public class StationInformation   {
 
   public void setRentalUrl(String rentalUrl) {
     this.rentalUrl = rentalUrl;
+  }
+
+  public StationInformation rentalUrlAndroid(String rentalUrlAndroid) {
+    this.rentalUrlAndroid = rentalUrlAndroid;
+    return this;
+  }
+
+  /**
+   * android uri for renting assets at this station. Only added to be consistent with GBFS 2.0.
+   * @return rentalUrlAndroid
+   **/
+  @Schema(example = "https://www.rentmyfreebikecom/app?sid=1234567890&platform=android", description = "android uri for renting assets at this station. Only added to be consistent with GBFS 2.0.")
+  
+    public String getRentalUrlAndroid() {
+    return rentalUrlAndroid;
+  }
+
+  public void setRentalUrlAndroid(String rentalUrlAndroid) {
+    this.rentalUrlAndroid = rentalUrlAndroid;
+  }
+
+  public StationInformation rentalUrlIOS(String rentalUrlIOS) {
+    this.rentalUrlIOS = rentalUrlIOS;
+    return this;
+  }
+
+  /**
+   * ios uri for renting assets at this station. Only added to be consistent with GBFS 2.0.
+   * @return rentalUrlIOS
+   **/
+  @Schema(example = "https://www.rentmyfreebike.com/app?sid=1234567890&platform=ios", description = "ios uri for renting assets at this station. Only added to be consistent with GBFS 2.0.")
+  
+    public String getRentalUrlIOS() {
+    return rentalUrlIOS;
+  }
+
+  public void setRentalUrlIOS(String rentalUrlIOS) {
+    this.rentalUrlIOS = rentalUrlIOS;
   }
 
 
@@ -273,12 +316,14 @@ public class StationInformation   {
         Objects.equals(this.crossStreet, stationInformation.crossStreet) &&
         Objects.equals(this.regionId, stationInformation.regionId) &&
         Objects.equals(this.rentalMethods, stationInformation.rentalMethods) &&
-        Objects.equals(this.rentalUrl, stationInformation.rentalUrl);
+        Objects.equals(this.rentalUrl, stationInformation.rentalUrl) &&
+        Objects.equals(this.rentalUrlAndroid, stationInformation.rentalUrlAndroid) &&
+        Objects.equals(this.rentalUrlIOS, stationInformation.rentalUrlIOS);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(stationId, name, coordinates, physicalAddress, crossStreet, regionId, rentalMethods, rentalUrl);
+    return Objects.hash(stationId, name, coordinates, physicalAddress, crossStreet, regionId, rentalMethods, rentalUrl, rentalUrlAndroid, rentalUrlIOS);
   }
 
   @Override
@@ -294,6 +339,8 @@ public class StationInformation   {
     sb.append("    regionId: ").append(toIndentedString(regionId)).append("\n");
     sb.append("    rentalMethods: ").append(toIndentedString(rentalMethods)).append("\n");
     sb.append("    rentalUrl: ").append(toIndentedString(rentalUrl)).append("\n");
+    sb.append("    rentalUrlAndroid: ").append(toIndentedString(rentalUrlAndroid)).append("\n");
+    sb.append("    rentalUrlIOS: ").append(toIndentedString(rentalUrlIOS)).append("\n");
     sb.append("}");
     return sb.toString();
   }

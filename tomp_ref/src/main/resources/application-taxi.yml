@@ -8,7 +8,7 @@ tomp:
    api-version: 0.9.0
    lookup-service: http://localhost:7999/
    allowUnknownOperators: true
-   # authenticationRequired: false
+   authenticationRequired: false
    system-information-file: src/main/resources/system-info-generic.json
    condition-file: src/main/resources/conditions.json
    regions-file: src/main/resources/regions.json

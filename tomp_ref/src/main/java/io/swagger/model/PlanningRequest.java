@@ -3,10 +3,9 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Place;
 import io.swagger.model.Traveler;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +17,9 @@ import javax.validation.constraints.*;
 /**
  * A travel planning for which bookable options are requested
  */
-@ApiModel(description = "A travel planning for which bookable options are requested")
+@Schema(description = "A travel planning for which bookable options are requested")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:11:01.002Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class PlanningRequest   {
@@ -50,6 +49,14 @@ public class PlanningRequest   {
   @Valid
   private List<String> useAssets = null;
 
+  @JsonProperty("userGroups")
+  @Valid
+  private List<String> userGroups = null;
+
+  @JsonProperty("useAssetTypes")
+  @Valid
+  private List<String> useAssetTypes = null;
+
   public PlanningRequest from(Place from) {
     this.from = from;
     return this;
@@ -58,8 +65,8 @@ public class PlanningRequest   {
   /**
    * Get from
    * @return from
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -79,8 +86,8 @@ public class PlanningRequest   {
   /**
    * Maximum distance in meters a user wants to travel to reach the travel option
    * @return radius
-  **/
-  @ApiModelProperty(value = "Maximum distance in meters a user wants to travel to reach the travel option")
+   **/
+  @Schema(description = "Maximum distance in meters a user wants to travel to reach the travel option")
   
     @Valid
     public BigDecimal getRadius() {
@@ -99,8 +106,8 @@ public class PlanningRequest   {
   /**
    * Get to
    * @return to
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public Place getTo() {
@@ -119,8 +126,8 @@ public class PlanningRequest   {
   /**
    * The intended departure time. If left out and no arrivalTime is set, the current time should be assumed.
    * @return departureTime
-  **/
-  @ApiModelProperty(value = "The intended departure time. If left out and no arrivalTime is set, the current time should be assumed.")
+   **/
+  @Schema(description = "The intended departure time. If left out and no arrivalTime is set, the current time should be assumed.")
   
     @Valid
     public OffsetDateTime getDepartureTime() {
@@ -139,8 +146,8 @@ public class PlanningRequest   {
   /**
    * The intended arrival time, at the to place if set otherwise the time the user intends to stop using the asset.
    * @return arrivalTime
-  **/
-  @ApiModelProperty(value = "The intended arrival time, at the to place if set otherwise the time the user intends to stop using the asset.")
+   **/
+  @Schema(description = "The intended arrival time, at the to place if set otherwise the time the user intends to stop using the asset.")
   
     @Valid
     public OffsetDateTime getArrivalTime() {
@@ -149,7 +156,7 @@ public class PlanningRequest   {
 
   public void setArrivalTime(OffsetDateTime arrivalTime) {
     this.arrivalTime = arrivalTime;
-    }
+  }
 
   public PlanningRequest nrOfTravelers(Integer nrOfTravelers) {
     this.nrOfTravelers = nrOfTravelers;
@@ -160,9 +167,10 @@ public class PlanningRequest   {
    * The number of people that intend to travel, including the customer.
    * minimum: 1
    * @return nrOfTravelers
-  **/
-  @ApiModelProperty(value = "The number of people that intend to travel, including the customer.")
-  
+   **/
+  @Schema(required = true, description = "The number of people that intend to travel, including the customer.")
+      @NotNull
+
   @Min(1)  public Integer getNrOfTravelers() {
     return nrOfTravelers;
   }
@@ -187,8 +195,8 @@ public class PlanningRequest   {
   /**
    * Extra information about the people that intend to travel if relevant, length must be less than or equal to nrOftravelers.
    * @return travelers
-  **/
-  @ApiModelProperty(value = "Extra information about the people that intend to travel if relevant, length must be less than or equal to nrOftravelers.")
+   **/
+  @Schema(description = "Extra information about the people that intend to travel if relevant, length must be less than or equal to nrOftravelers.")
       @Valid
     public List<Traveler> getTravelers() {
     return travelers;
@@ -212,10 +220,10 @@ public class PlanningRequest   {
   }
 
   /**
-   * The specific asset(s), the user wishes to receive leg options for
+   * The specific asset(s) the user wishes to receive leg options for
    * @return useAssets
-  **/
-  @ApiModelProperty(value = "The specific asset(s), the user wishes to receive leg options for")
+   **/
+  @Schema(description = "The specific asset(s) the user wishes to receive leg options for")
   
     public List<String> getUseAssets() {
     return useAssets;
@@ -223,6 +231,60 @@ public class PlanningRequest   {
 
   public void setUseAssets(List<String> useAssets) {
     this.useAssets = useAssets;
+  }
+
+  public PlanningRequest userGroups(List<String> userGroups) {
+    this.userGroups = userGroups;
+    return this;
+  }
+
+  public PlanningRequest addUserGroupsItem(String userGroupsItem) {
+    if (this.userGroups == null) {
+      this.userGroups = new ArrayList<String>();
+    }
+    this.userGroups.add(userGroupsItem);
+    return this;
+  }
+
+  /**
+   * Id(s) of user groups that the user belongs to. This provides access to exclusive assets that are hidden to the public. Id's are agreed upon by TO and MP.
+   * @return userGroups
+   **/
+  @Schema(description = "Id(s) of user groups that the user belongs to. This provides access to exclusive assets that are hidden to the public. Id's are agreed upon by TO and MP.")
+  
+    public List<String> getUserGroups() {
+    return userGroups;
+  }
+
+  public void setUserGroups(List<String> userGroups) {
+    this.userGroups = userGroups;
+  }
+
+  public PlanningRequest useAssetTypes(List<String> useAssetTypes) {
+    this.useAssetTypes = useAssetTypes;
+    return this;
+  }
+
+  public PlanningRequest addUseAssetTypesItem(String useAssetTypesItem) {
+    if (this.useAssetTypes == null) {
+      this.useAssetTypes = new ArrayList<String>();
+    }
+    this.useAssetTypes.add(useAssetTypesItem);
+    return this;
+  }
+
+  /**
+   * The specific asset type(s) the user wishes to receive leg options for
+   * @return useAssetTypes
+   **/
+  @Schema(description = "The specific asset type(s) the user wishes to receive leg options for")
+  
+    public List<String> getUseAssetTypes() {
+    return useAssetTypes;
+  }
+
+  public void setUseAssetTypes(List<String> useAssetTypes) {
+    this.useAssetTypes = useAssetTypes;
   }
 
 
@@ -242,12 +304,14 @@ public class PlanningRequest   {
         Objects.equals(this.arrivalTime, planningRequest.arrivalTime) &&
         Objects.equals(this.nrOfTravelers, planningRequest.nrOfTravelers) &&
         Objects.equals(this.travelers, planningRequest.travelers) &&
-        Objects.equals(this.useAssets, planningRequest.useAssets);
+        Objects.equals(this.useAssets, planningRequest.useAssets) &&
+        Objects.equals(this.userGroups, planningRequest.userGroups) &&
+        Objects.equals(this.useAssetTypes, planningRequest.useAssetTypes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(from, radius, to, departureTime, arrivalTime, nrOfTravelers, travelers, useAssets);
+    return Objects.hash(from, radius, to, departureTime, arrivalTime, nrOfTravelers, travelers, useAssets, userGroups, useAssetTypes);
   }
 
   @Override
@@ -263,6 +327,8 @@ public class PlanningRequest   {
     sb.append("    nrOfTravelers: ").append(toIndentedString(nrOfTravelers)).append("\n");
     sb.append("    travelers: ").append(toIndentedString(travelers)).append("\n");
     sb.append("    useAssets: ").append(toIndentedString(useAssets)).append("\n");
+    sb.append("    userGroups: ").append(toIndentedString(userGroups)).append("\n");
+    sb.append("    useAssetTypes: ").append(toIndentedString(useAssetTypes)).append("\n");
     sb.append("}");
     return sb.toString();
   }

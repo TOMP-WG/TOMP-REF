@@ -3,12 +3,10 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Condition;
 import io.swagger.model.Coordinates;
-import io.swagger.model.GeojsonPolygon;
 import io.swagger.model.SystemHours;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -18,9 +16,9 @@ import javax.validation.constraints.*;
 /**
  * a return area. In the condition list there can be multiple return area&#x27;s.
  */
-@ApiModel(description = "a return area. In the condition list there can be multiple return area's.")
+@Schema(description = "a return area. In the condition list there can be multiple return area's.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:11:01.002Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class ConditionReturnArea extends Condition implements OneOfcondition {
@@ -28,7 +26,7 @@ public class ConditionReturnArea extends Condition implements OneOfcondition {
   private String stationId = null;
 
   @JsonProperty("returnArea")
-  private GeojsonPolygon returnArea = null;
+  private Object returnArea = null;
 
   @JsonProperty("coordinates")
   private Coordinates coordinates = null;
@@ -45,8 +43,8 @@ public class ConditionReturnArea extends Condition implements OneOfcondition {
   /**
    * station to which the asset should be returned
    * @return stationId
-  **/
-  @ApiModelProperty(value = "station to which the asset should be returned")
+   **/
+  @Schema(description = "station to which the asset should be returned")
   
     public String getStationId() {
     return stationId;
@@ -56,23 +54,22 @@ public class ConditionReturnArea extends Condition implements OneOfcondition {
     this.stationId = stationId;
   }
 
-  public ConditionReturnArea returnArea(GeojsonPolygon returnArea) {
+  public ConditionReturnArea returnArea(Object returnArea) {
     this.returnArea = returnArea;
     return this;
   }
 
   /**
-   * Get returnArea
+   * area in which the asset should be returned as GeoJSON Polygon coordinates
    * @return returnArea
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "area in which the asset should be returned as GeoJSON Polygon coordinates")
   
-    @Valid
-    public GeojsonPolygon getReturnArea() {
+    public Object getReturnArea() {
     return returnArea;
   }
 
-  public void setReturnArea(GeojsonPolygon returnArea) {
+  public void setReturnArea(Object returnArea) {
     this.returnArea = returnArea;
   }
 
@@ -84,8 +81,8 @@ public class ConditionReturnArea extends Condition implements OneOfcondition {
   /**
    * Get coordinates
    * @return coordinates
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public Coordinates getCoordinates() {
@@ -112,8 +109,8 @@ public class ConditionReturnArea extends Condition implements OneOfcondition {
   /**
    * the return hours of the facility (if different from operating-hours)
    * @return returnHours
-  **/
-  @ApiModelProperty(value = "the return hours of the facility (if different from operating-hours)")
+   **/
+  @Schema(description = "the return hours of the facility (if different from operating-hours)")
       @Valid
     public List<SystemHours> getReturnHours() {
     return returnHours;

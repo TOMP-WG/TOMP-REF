@@ -3,8 +3,7 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +15,9 @@ import javax.validation.constraints.*;
 /**
  * The validity token (such as booking ID, travel ticket etc.) that MaaS clients will display to show their right to travel, or use to access an asset
  */
-@ApiModel(description = "The validity token (such as booking ID, travel ticket etc.) that MaaS clients will display to show their right to travel, or use to access an asset")
+@Schema(description = "The validity token (such as booking ID, travel ticket etc.) that MaaS clients will display to show their right to travel, or use to access an asset")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class Token   {
@@ -43,8 +42,8 @@ public class Token   {
   /**
    * Get validFrom
    * @return validFrom
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -54,7 +53,7 @@ public class Token   {
 
   public void setValidFrom(OffsetDateTime validFrom) {
     this.validFrom = validFrom;
-    }
+  }
 
   public Token validUntil(OffsetDateTime validUntil) {
     this.validUntil = validUntil;
@@ -64,11 +63,11 @@ public class Token   {
   /**
    * Get validUntil
    * @return validUntil
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
-      @Valid
+    @Valid
     public OffsetDateTime getValidUntil() {
     return validUntil;
   }
@@ -85,8 +84,8 @@ public class Token   {
   /**
    * The type of data held in this token, will later be an enum
    * @return tokenType
-  **/
-  @ApiModelProperty(example = "QR-code", required = true, value = "The type of data held in this token, will later be an enum")
+   **/
+  @Schema(example = "QR-code", required = true, description = "The type of data held in this token, will later be an enum")
       @NotNull
 
     public String getTokenType() {
@@ -110,8 +109,8 @@ public class Token   {
   /**
    * Arbitrary data the TO may pass along the ticket to the client (e.g. a booking code, base64 encoded binary, QR code), later will be one of several types
    * @return tokenData
-  **/
-  @ApiModelProperty(required = true, value = "Arbitrary data the TO may pass along the ticket to the client (e.g. a booking code, base64 encoded binary, QR code), later will be one of several types")
+   **/
+  @Schema(required = true, description = "Arbitrary data the TO may pass along the ticket to the client (e.g. a booking code, base64 encoded binary, QR code), later will be one of several types")
       @NotNull
 
     public Map<String, Object> getTokenData() {

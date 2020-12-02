@@ -3,9 +3,8 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Coordinates;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,9 +12,9 @@ import javax.validation.constraints.*;
 /**
  * provides current asset location &amp; duration and distance of the current leg
  */
-@ApiModel(description = "provides current asset location & duration and distance of the current leg")
+@Schema(description = "provides current asset location & duration and distance of the current leg")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class LegProgress   {
@@ -36,8 +35,8 @@ public class LegProgress   {
   /**
    * Get coordinates
    * @return coordinates
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -57,8 +56,8 @@ public class LegProgress   {
   /**
    * Get duration
    * @return duration
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getDuration() {
     return duration;
@@ -76,8 +75,8 @@ public class LegProgress   {
   /**
    * Get distance
    * @return distance
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getDistance() {
     return distance;

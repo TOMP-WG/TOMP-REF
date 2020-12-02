@@ -3,8 +3,7 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,7 +13,7 @@ import javax.validation.constraints.*;
  * AmountOfMoney
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class AmountOfMoney   {
@@ -41,8 +40,8 @@ public class AmountOfMoney   {
   /**
    * This should be in the base unit as defined by the ISO 4217 currency code with the appropriate number of decimal places and omitting the currency symbol. e.g. if the price is in US Dollars the price would be 9.95. This is inclusive VAT
    * @return amount
-  **/
-  @ApiModelProperty(example = "9.95", value = "This should be in the base unit as defined by the ISO 4217 currency code with the appropriate number of decimal places and omitting the currency symbol. e.g. if the price is in US Dollars the price would be 9.95. This is inclusive VAT")
+   **/
+  @Schema(example = "9.95", description = "This should be in the base unit as defined by the ISO 4217 currency code with the appropriate number of decimal places and omitting the currency symbol. e.g. if the price is in US Dollars the price would be 9.95. This is inclusive VAT")
   
     @Valid
     public BigDecimal getAmount() {
@@ -61,8 +60,8 @@ public class AmountOfMoney   {
   /**
    * Get amountExVat
    * @return amountExVat
-  **/
-  @ApiModelProperty(example = "8.95", value = "")
+   **/
+  @Schema(example = "8.95", description = "")
   
     @Valid
     public BigDecimal getAmountExVat() {
@@ -81,8 +80,8 @@ public class AmountOfMoney   {
   /**
    * ISO 4217 currency code
    * @return currencyCode
-  **/
-  @ApiModelProperty(value = "ISO 4217 currency code")
+   **/
+  @Schema(description = "ISO 4217 currency code")
   
   @Size(min=3,max=3)   public String getCurrencyCode() {
     return currencyCode;
@@ -100,8 +99,8 @@ public class AmountOfMoney   {
   /**
    * value added tax rate (percentage of amount)
    * @return vatRate
-  **/
-  @ApiModelProperty(example = "21", value = "value added tax rate (percentage of amount)")
+   **/
+  @Schema(example = "21", description = "value added tax rate (percentage of amount)")
   
     @Valid
     public BigDecimal getVatRate() {
@@ -120,8 +119,8 @@ public class AmountOfMoney   {
   /**
    * Get vatCountryCode
    * @return vatCountryCode
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
   @Size(min=2,max=2)   public String getVatCountryCode() {
     return vatCountryCode;

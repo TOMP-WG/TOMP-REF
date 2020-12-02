@@ -4,9 +4,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Place;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -18,9 +17,9 @@ import javax.validation.constraints.*;
 /**
  * what kind of asset is this? Classify it, give the aspects. Most aspects are optional and should be used when applicable.
  */
-@ApiModel(description = "what kind of asset is this? Classify it, give the aspects. Most aspects are optional and should be used when applicable.")
+@Schema(description = "what kind of asset is this? Classify it, give the aspects. Most aspects are optional and should be used when applicable.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-07-31T14:20:13.675Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
 
 public class AssetProperties   {
@@ -231,9 +230,6 @@ public class AssetProperties   {
   @JsonProperty("image")
   private String image = null;
 
-  @JsonProperty("rentalUrl")
-  private String rentalUrl = null;
-
   @JsonProperty("infantSeat")
   private Boolean infantSeat = null;
 
@@ -316,8 +312,8 @@ public class AssetProperties   {
   /**
    * name of asset (type), required in either assetType or asset, should match Content-Language
    * @return name
-  **/
-  @ApiModelProperty(value = "name of asset (type), required in either assetType or asset, should match Content-Language")
+   **/
+  @Schema(description = "name of asset (type), required in either assetType or asset, should match Content-Language")
   
     public String getName() {
     return name;
@@ -335,8 +331,8 @@ public class AssetProperties   {
   /**
    * Get location
    * @return location
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public Place getLocation() {
@@ -355,8 +351,8 @@ public class AssetProperties   {
   /**
    * Get fuel
    * @return fuel
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public FuelEnum getFuel() {
     return fuel;
@@ -374,8 +370,8 @@ public class AssetProperties   {
   /**
    * Energy efficiency
    * @return energyLabel
-  **/
-  @ApiModelProperty(value = "Energy efficiency")
+   **/
+  @Schema(description = "Energy efficiency")
   
     public EnergyLabelEnum getEnergyLabel() {
     return energyLabel;
@@ -393,8 +389,8 @@ public class AssetProperties   {
   /**
    * Get co2PerKm
    * @return co2PerKm
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getCo2PerKm() {
@@ -413,8 +409,8 @@ public class AssetProperties   {
   /**
    * brand of the asset
    * @return brand
-  **/
-  @ApiModelProperty(value = "brand of the asset")
+   **/
+  @Schema(description = "brand of the asset")
   
     public String getBrand() {
     return brand;
@@ -432,8 +428,8 @@ public class AssetProperties   {
   /**
    * Get model
    * @return model
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getModel() {
     return model;
@@ -451,8 +447,8 @@ public class AssetProperties   {
   /**
    * Get buildingYear
    * @return buildingYear
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getBuildingYear() {
     return buildingYear;
@@ -470,8 +466,8 @@ public class AssetProperties   {
   /**
    * true indicates asset is allowed to travel abroad
    * @return travelAbroad
-  **/
-  @ApiModelProperty(value = "true indicates asset is allowed to travel abroad")
+   **/
+  @Schema(description = "true indicates asset is allowed to travel abroad")
   
     public Boolean isTravelAbroad() {
     return travelAbroad;
@@ -489,8 +485,8 @@ public class AssetProperties   {
   /**
    * true indicates airconditioning required
    * @return airConditioning
-  **/
-  @ApiModelProperty(value = "true indicates airconditioning required")
+   **/
+  @Schema(description = "true indicates airconditioning required")
   
     public Boolean isAirConditioning() {
     return airConditioning;
@@ -508,8 +504,8 @@ public class AssetProperties   {
   /**
    * true indicates cabrio required
    * @return cabrio
-  **/
-  @ApiModelProperty(value = "true indicates cabrio required")
+   **/
+  @Schema(description = "true indicates cabrio required")
   
     public Boolean isCabrio() {
     return cabrio;
@@ -527,8 +523,8 @@ public class AssetProperties   {
   /**
    * colour of the asset, should match Content-Language
    * @return colour
-  **/
-  @ApiModelProperty(value = "colour of the asset, should match Content-Language")
+   **/
+  @Schema(description = "colour of the asset, should match Content-Language")
   
     public String getColour() {
     return colour;
@@ -546,8 +542,8 @@ public class AssetProperties   {
   /**
    * describes options to carry cargo, should match Content-Language
    * @return cargo
-  **/
-  @ApiModelProperty(value = "describes options to carry cargo, should match Content-Language")
+   **/
+  @Schema(description = "describes options to carry cargo, should match Content-Language")
   
     public String getCargo() {
     return cargo;
@@ -565,8 +561,8 @@ public class AssetProperties   {
   /**
    * describes if asset is or needs to be easily accessible
    * @return easyAccessibility
-  **/
-  @ApiModelProperty(value = "describes if asset is or needs to be easily accessible")
+   **/
+  @Schema(description = "describes if asset is or needs to be easily accessible")
   
     public EasyAccessibilityEnum getEasyAccessibility() {
     return easyAccessibility;
@@ -584,8 +580,8 @@ public class AssetProperties   {
   /**
    * number of gears of the asset
    * @return gears
-  **/
-  @ApiModelProperty(value = "number of gears of the asset")
+   **/
+  @Schema(description = "number of gears of the asset")
   
     public Integer getGears() {
     return gears;
@@ -603,8 +599,8 @@ public class AssetProperties   {
   /**
    * type of gearbox
    * @return gearbox
-  **/
-  @ApiModelProperty(value = "type of gearbox")
+   **/
+  @Schema(description = "type of gearbox")
   
     public GearboxEnum getGearbox() {
     return gearbox;
@@ -622,8 +618,8 @@ public class AssetProperties   {
   /**
    * Link to an image of the asset
    * @return image
-  **/
-  @ApiModelProperty(example = "https://files.fietsersbond.nl/app/uploads/2014/10/30151126/ST2_Men_Side_CityKit-Stromer.jpg", value = "Link to an image of the asset")
+   **/
+  @Schema(example = "https://files.fietsersbond.nl/app/uploads/2014/10/30151126/ST2_Men_Side_CityKit-Stromer.jpg", description = "Link to an image of the asset")
   
     public String getImage() {
     return image;
@@ -631,25 +627,6 @@ public class AssetProperties   {
 
   public void setImage(String image) {
     this.image = image;
-  }
-
-  public AssetProperties rentalUrl(String rentalUrl) {
-    this.rentalUrl = rentalUrl;
-    return this;
-  }
-
-  /**
-   * deep-linking option from GBFS+
-   * @return rentalUrl
-  **/
-  @ApiModelProperty(example = "https://www.rentmyfreebike.com/rental", value = "deep-linking option from GBFS+")
-  
-    public String getRentalUrl() {
-    return rentalUrl;
-  }
-
-  public void setRentalUrl(String rentalUrl) {
-    this.rentalUrl = rentalUrl;
   }
 
   public AssetProperties infantSeat(Boolean infantSeat) {
@@ -660,8 +637,8 @@ public class AssetProperties   {
   /**
    * true indicates infant seat required
    * @return infantSeat
-  **/
-  @ApiModelProperty(value = "true indicates infant seat required")
+   **/
+  @Schema(description = "true indicates infant seat required")
   
     public Boolean isInfantSeat() {
     return infantSeat;
@@ -680,8 +657,8 @@ public class AssetProperties   {
    * number of persons able to use the asset
    * minimum: 1
    * @return persons
-  **/
-  @ApiModelProperty(value = "number of persons able to use the asset")
+   **/
+  @Schema(description = "number of persons able to use the asset")
   
   @Min(1)  public Integer getPersons() {
     return persons;
@@ -699,8 +676,8 @@ public class AssetProperties   {
   /**
    * true indicates pets are allowed on asset
    * @return pets
-  **/
-  @ApiModelProperty(value = "true indicates pets are allowed on asset")
+   **/
+  @Schema(description = "true indicates pets are allowed on asset")
   
     public Boolean isPets() {
     return pets;
@@ -718,8 +695,8 @@ public class AssetProperties   {
   /**
    * way in which the asset is powered
    * @return propulsion
-  **/
-  @ApiModelProperty(value = "way in which the asset is powered")
+   **/
+  @Schema(description = "way in which the asset is powered")
   
     public PropulsionEnum getPropulsion() {
     return propulsion;
@@ -737,8 +714,8 @@ public class AssetProperties   {
   /**
    * true indicates smoking is allowed on asset
    * @return smoking
-  **/
-  @ApiModelProperty(value = "true indicates smoking is allowed on asset")
+   **/
+  @Schema(description = "true indicates smoking is allowed on asset")
   
     public Boolean isSmoking() {
     return smoking;
@@ -758,8 +735,8 @@ public class AssetProperties   {
    * minimum: 0
    * maximum: 100
    * @return stateOfCharge
-  **/
-  @ApiModelProperty(value = "percentage of charge available")
+   **/
+  @Schema(description = "percentage of charge available")
   
   @Min(0) @Max(100)   public Integer getStateOfCharge() {
     return stateOfCharge;
@@ -777,8 +754,8 @@ public class AssetProperties   {
   /**
    * true indicates towing hook required
    * @return towingHook
-  **/
-  @ApiModelProperty(value = "true indicates towing hook required")
+   **/
+  @Schema(description = "true indicates towing hook required")
   
     public Boolean isTowingHook() {
     return towingHook;
@@ -796,8 +773,8 @@ public class AssetProperties   {
   /**
    * true indicates underground parking is allowed with asset
    * @return undergroundParking
-  **/
-  @ApiModelProperty(value = "true indicates underground parking is allowed with asset")
+   **/
+  @Schema(description = "true indicates underground parking is allowed with asset")
   
     public Boolean isUndergroundParking() {
     return undergroundParking;
@@ -815,8 +792,8 @@ public class AssetProperties   {
   /**
    * true indicates winter tires required
    * @return winterTires
-  **/
-  @ApiModelProperty(value = "true indicates winter tires required")
+   **/
+  @Schema(description = "true indicates winter tires required")
   
     public Boolean isWinterTires() {
     return winterTires;
@@ -834,8 +811,8 @@ public class AssetProperties   {
   /**
    * free text to describe asset, should match Content-Language
    * @return other
-  **/
-  @ApiModelProperty(value = "free text to describe asset, should match Content-Language")
+   **/
+  @Schema(description = "free text to describe asset, should match Content-Language")
   
     public String getOther() {
     return other;
@@ -861,8 +838,8 @@ public class AssetProperties   {
   /**
    * this object can contain extra information about the type of asset. For instance values from the 'Woordenboek Reizigerskenmerken'. [https://github.com/efel85/TOMP-API/issues/17]. These values can also be used in the planning.
    * @return meta
-  **/
-  @ApiModelProperty(value = "this object can contain extra information about the type of asset. For instance values from the 'Woordenboek Reizigerskenmerken'. [https://github.com/efel85/TOMP-API/issues/17]. These values can also be used in the planning.")
+   **/
+  @Schema(description = "this object can contain extra information about the type of asset. For instance values from the 'Woordenboek Reizigerskenmerken'. [https://github.com/efel85/TOMP-API/issues/17]. These values can also be used in the planning.")
   
     public Map<String, Object> getMeta() {
     return meta;
@@ -899,7 +876,6 @@ public class AssetProperties   {
         Objects.equals(this.gears, assetProperties.gears) &&
         Objects.equals(this.gearbox, assetProperties.gearbox) &&
         Objects.equals(this.image, assetProperties.image) &&
-        Objects.equals(this.rentalUrl, assetProperties.rentalUrl) &&
         Objects.equals(this.infantSeat, assetProperties.infantSeat) &&
         Objects.equals(this.persons, assetProperties.persons) &&
         Objects.equals(this.pets, assetProperties.pets) &&
@@ -915,7 +891,7 @@ public class AssetProperties   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, location, fuel, energyLabel, co2PerKm, brand, model, buildingYear, travelAbroad, airConditioning, cabrio, colour, cargo, easyAccessibility, gears, gearbox, image, rentalUrl, infantSeat, persons, pets, propulsion, smoking, stateOfCharge, towingHook, undergroundParking, winterTires, other, meta);
+    return Objects.hash(name, location, fuel, energyLabel, co2PerKm, brand, model, buildingYear, travelAbroad, airConditioning, cabrio, colour, cargo, easyAccessibility, gears, gearbox, image, infantSeat, persons, pets, propulsion, smoking, stateOfCharge, towingHook, undergroundParking, winterTires, other, meta);
   }
 
   @Override
@@ -940,7 +916,6 @@ public class AssetProperties   {
     sb.append("    gears: ").append(toIndentedString(gears)).append("\n");
     sb.append("    gearbox: ").append(toIndentedString(gearbox)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
-    sb.append("    rentalUrl: ").append(toIndentedString(rentalUrl)).append("\n");
     sb.append("    infantSeat: ").append(toIndentedString(infantSeat)).append("\n");
     sb.append("    persons: ").append(toIndentedString(persons)).append("\n");
     sb.append("    pets: ").append(toIndentedString(pets)).append("\n");
