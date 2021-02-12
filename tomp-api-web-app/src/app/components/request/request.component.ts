@@ -24,6 +24,7 @@ export class RequestComponent implements OnInit {
   public endpoints: Endpoint[];
   public endpoint: Endpoint;
   public version = '1.0.0';
+  public xApiKey = null;
   public headers: CustomHeaders = new CustomHeaders();
   public id: string;
 
@@ -51,6 +52,12 @@ export class RequestComponent implements OnInit {
         this.headers['Api-Version'] = apiVersion;
         this.version = apiVersion;
       }
+      const x = param.get('x-api-key');
+      if ( x != null)  {
+        this.headers['X-API-Key'] = x;
+        this.xApiKey = x;
+      }
+
       this.apiService.loadEndpointConfig(externalUrl, this.version, this.headers).subscribe(data => {
         this.endpoints = data;
         if (this.endpoints.length > 0) {
@@ -137,8 +144,12 @@ export class RequestComponent implements OnInit {
 
   public headerChanged(key: string, value: string) {
     this.headers[key] = value;
-    if (key === 'Api-Version') {
-      this.version = value;
+    if (key === 'Api-Version' || key === 'X-API-Key') {
+      if (key === 'Api-Version') {
+        this.version = value;
+      } else {
+        this.xApiKey = value;
+      }
       this.apiService.loadEndpointConfig(this.url, this.version, this.headers).subscribe(data => {
         const index = this.endpoints.indexOf(this.endpoint);
         this.endpoints = data;
