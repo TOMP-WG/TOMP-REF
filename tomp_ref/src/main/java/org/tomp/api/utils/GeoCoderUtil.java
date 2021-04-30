@@ -79,8 +79,10 @@ public class GeoCoderUtil {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
-		address.setStreetAddress(JsonUtil.getValue(geoDecodeConfiguration.getStreetAddress(), map));
-		address.setAreaReference(JsonUtil.getValue(geoDecodeConfiguration.getArea(), map));
+		String street = JsonUtil.getValue(geoDecodeConfiguration.getStreetAddress(), map);
+		address.setStreetAddress(street);
+		String area = JsonUtil.getValue(geoDecodeConfiguration.getArea(), map);
+		address.setAreaReference(area);
 		address.setPostalCode(JsonUtil.getValue(geoDecodeConfiguration.getPostalCode(), map));
 		address.setCountry(JsonUtil.getValue(geoDecodeConfiguration.getCountry(), map));
 		return address;

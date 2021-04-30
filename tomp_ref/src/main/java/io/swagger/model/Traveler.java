@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "A generic description of a traveler, not including any identifying information")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
 
 
 public class Traveler   {
@@ -41,6 +41,12 @@ public class Traveler   {
 
   @JsonProperty("requirements")
   private Requirements requirements = null;
+
+  @JsonProperty("knownIdentifier")
+  private String knownIdentifier = null;
+
+  @JsonProperty("knownIdentifierProvider")
+  private String knownIdentifierProvider = null;
 
   public Traveler isValidated(Boolean isValidated) {
     this.isValidated = isValidated;
@@ -173,6 +179,44 @@ public class Traveler   {
     this.requirements = requirements;
   }
 
+  public Traveler knownIdentifier(String knownIdentifier) {
+    this.knownIdentifier = knownIdentifier;
+    return this;
+  }
+
+  /**
+   * identifier for this traveler in the personal data store. This identifier can be used to get personal information from the provider specified in the \"knownIdentifierProvider\"
+   * @return knownIdentifier
+   **/
+  @Schema(description = "identifier for this traveler in the personal data store. This identifier can be used to get personal information from the provider specified in the \"knownIdentifierProvider\"")
+  
+    public String getKnownIdentifier() {
+    return knownIdentifier;
+  }
+
+  public void setKnownIdentifier(String knownIdentifier) {
+    this.knownIdentifier = knownIdentifier;
+  }
+
+  public Traveler knownIdentifierProvider(String knownIdentifierProvider) {
+    this.knownIdentifierProvider = knownIdentifierProvider;
+    return this;
+  }
+
+  /**
+   * provider for personal information. Can be a URI or identifier.
+   * @return knownIdentifierProvider
+   **/
+  @Schema(description = "provider for personal information. Can be a URI or identifier.")
+  
+    public String getKnownIdentifierProvider() {
+    return knownIdentifierProvider;
+  }
+
+  public void setKnownIdentifierProvider(String knownIdentifierProvider) {
+    this.knownIdentifierProvider = knownIdentifierProvider;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -188,12 +232,14 @@ public class Traveler   {
         Objects.equals(this.referenceNumber, traveler.referenceNumber) &&
         Objects.equals(this.cardTypes, traveler.cardTypes) &&
         Objects.equals(this.licenseTypes, traveler.licenseTypes) &&
-        Objects.equals(this.requirements, traveler.requirements);
+        Objects.equals(this.requirements, traveler.requirements) &&
+        Objects.equals(this.knownIdentifier, traveler.knownIdentifier) &&
+        Objects.equals(this.knownIdentifierProvider, traveler.knownIdentifierProvider);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(isValidated, age, referenceNumber, cardTypes, licenseTypes, requirements);
+    return Objects.hash(isValidated, age, referenceNumber, cardTypes, licenseTypes, requirements, knownIdentifier, knownIdentifierProvider);
   }
 
   @Override
@@ -207,6 +253,8 @@ public class Traveler   {
     sb.append("    cardTypes: ").append(toIndentedString(cardTypes)).append("\n");
     sb.append("    licenseTypes: ").append(toIndentedString(licenseTypes)).append("\n");
     sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
+    sb.append("    knownIdentifier: ").append(toIndentedString(knownIdentifier)).append("\n");
+    sb.append("    knownIdentifierProvider: ").append(toIndentedString(knownIdentifierProvider)).append("\n");
     sb.append("}");
     return sb.toString();
   }

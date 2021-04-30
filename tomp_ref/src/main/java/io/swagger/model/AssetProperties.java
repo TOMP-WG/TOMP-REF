@@ -4,9 +4,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.model.AssetAccessMethods;
 import io.swagger.model.Place;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +21,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "what kind of asset is this? Classify it, give the aspects. Most aspects are optional and should be used when applicable.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
 
 
 public class AssetProperties   {
@@ -303,6 +305,10 @@ public class AssetProperties   {
   @JsonProperty("meta")
   @Valid
   private Map<String, Object> meta = null;
+
+  @JsonProperty("accessMethods")
+  @Valid
+  private List<AssetAccessMethods> accessMethods = null;
 
   public AssetProperties name(String name) {
     this.name = name;
@@ -849,6 +855,33 @@ public class AssetProperties   {
     this.meta = meta;
   }
 
+  public AssetProperties accessMethods(List<AssetAccessMethods> accessMethods) {
+    this.accessMethods = accessMethods;
+    return this;
+  }
+
+  public AssetProperties addAccessMethodsItem(AssetAccessMethods accessMethodsItem) {
+    if (this.accessMethods == null) {
+      this.accessMethods = new ArrayList<AssetAccessMethods>();
+    }
+    this.accessMethods.add(accessMethodsItem);
+    return this;
+  }
+
+  /**
+   * access method for trip execution. Data will be delivered in the response of /booking/{id}/events - COMMIT or /leg/{id}/events - PREPARE (preferred).
+   * @return accessMethods
+   **/
+  @Schema(description = "access method for trip execution. Data will be delivered in the response of /booking/{id}/events - COMMIT or /leg/{id}/events - PREPARE (preferred).")
+      @Valid
+    public List<AssetAccessMethods> getAccessMethods() {
+    return accessMethods;
+  }
+
+  public void setAccessMethods(List<AssetAccessMethods> accessMethods) {
+    this.accessMethods = accessMethods;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -886,12 +919,13 @@ public class AssetProperties   {
         Objects.equals(this.undergroundParking, assetProperties.undergroundParking) &&
         Objects.equals(this.winterTires, assetProperties.winterTires) &&
         Objects.equals(this.other, assetProperties.other) &&
-        Objects.equals(this.meta, assetProperties.meta);
+        Objects.equals(this.meta, assetProperties.meta) &&
+        Objects.equals(this.accessMethods, assetProperties.accessMethods);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, location, fuel, energyLabel, co2PerKm, brand, model, buildingYear, travelAbroad, airConditioning, cabrio, colour, cargo, easyAccessibility, gears, gearbox, image, infantSeat, persons, pets, propulsion, smoking, stateOfCharge, towingHook, undergroundParking, winterTires, other, meta);
+    return Objects.hash(name, location, fuel, energyLabel, co2PerKm, brand, model, buildingYear, travelAbroad, airConditioning, cabrio, colour, cargo, easyAccessibility, gears, gearbox, image, infantSeat, persons, pets, propulsion, smoking, stateOfCharge, towingHook, undergroundParking, winterTires, other, meta, accessMethods);
   }
 
   @Override
@@ -927,6 +961,7 @@ public class AssetProperties   {
     sb.append("    winterTires: ").append(toIndentedString(winterTires)).append("\n");
     sb.append("    other: ").append(toIndentedString(other)).append("\n");
     sb.append("    meta: ").append(toIndentedString(meta)).append("\n");
+    sb.append("    accessMethods: ").append(toIndentedString(accessMethods)).append("\n");
     sb.append("}");
     return sb.toString();
   }

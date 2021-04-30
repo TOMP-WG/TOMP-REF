@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * Condition
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T12:24:01.312Z[GMT]")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "conditionType", visible = true )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ConditionDeposit.class, name = "conditionDeposit"),

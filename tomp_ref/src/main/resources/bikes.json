@@ -24,7 +24,7 @@
 		"assets": [
 			{
 				"id" : "bike123",
-				"properties" : {
+				"overriddenProperties" : {
 				"location": {
 						"coordinates": {
 							"lng": 6.169639,

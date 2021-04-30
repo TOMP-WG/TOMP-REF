@@ -2,8 +2,12 @@ package org.tomp.api.payment;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.threeten.bp.OffsetDateTime;
 import org.tomp.api.repository.DefaultRepository;
@@ -38,7 +42,8 @@ public class GenericPaymentProvider implements PaymentProvider {
 
 	@Override
 	public List<JournalEntry> getJournalEntries(String acceptLanguage, String api, String apiVersion,
-			OffsetDateTime from, OffsetDateTime to, JournalState state, String category, String id, String maasId) {
+			@NotNull @Valid OffsetDateTime from, @NotNull @Valid OffsetDateTime to, JournalState state, String category,
+			String id, String maasId) {
 		return repository.getJournalEntries(acceptLanguage, from, to, state, category, id, maasId);
 	}
 

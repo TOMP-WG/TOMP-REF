@@ -30,6 +30,9 @@ import io.swagger.api.BookingsApiController;
 import io.swagger.model.Booking;
 import io.swagger.model.BookingOperation;
 import io.swagger.model.BookingRequest;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @RestController
 public class BookingsController extends BookingsApiController {
@@ -54,40 +57,29 @@ public class BookingsController extends BookingsApiController {
 		this.request = request;
 	}
 
+	@Override
 	public ResponseEntity<Booking> bookingsPost(
-			@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
-			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
-			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
-			@ApiParam(value = "One of available legs, returned by /plannings, with an ID.", required = true) @Valid @RequestBody BookingRequest body)
-
-	// @Override
-	// public ResponseEntity<Booking> bookingsPost(
-	// @ApiParam(value = "One of available options, returned by /planning-options,
-	// with an ID.", required = true) @Valid @RequestBody BookingRequest body,
-	// @ApiParam(value = "ISO 639-1 two letter language code", required = true)
-	// @RequestHeader(value = "Accept-Language", required = true) String
-	// acceptLanguage,
-	// @ApiParam(value = "API description, can be TOMP or maybe other
-	// (specific/derived) API definitions", required = true) @RequestHeader(value =
-	// "Api", required = true) String api,
-	// @ApiParam(value = "Version of the API.", required = true)
-	// @RequestHeader(value = "Api-Version", required = true) String apiVersion) {
-	{
-
+			@Parameter(in = ParameterIn.HEADER, description = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information", required = true, schema = @Schema()) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
+			@Parameter(in = ParameterIn.HEADER, description = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true, schema = @Schema()) @RequestHeader(value = "Api", required = true) String api,
+			@Parameter(in = ParameterIn.HEADER, description = "Version of the API.", required = true, schema = @Schema()) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
+			@Parameter(in = ParameterIn.HEADER, description = "The ID of the sending maas operator", required = true, schema = @Schema()) @RequestHeader(value = "maas-id", required = true) String maasId,
+			@Parameter(in = ParameterIn.DEFAULT, description = "One of available booking options, returned by /plannings, with an ID.", required = true, schema = @Schema()) @Valid @RequestBody BookingRequest body,
+			@Parameter(in = ParameterIn.HEADER, description = "The ID of the maas operator that has to receive this message", schema = @Schema()) @RequestHeader(value = "addressed-to", required = false) String addressedTo) {
 		HeaderValidator.validateHeader(request);
 
 		Booking booking = provider.addNewBooking(body, acceptLanguage);
-
 		return new ResponseEntity<>(booking, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<Booking> bookingsIdEventsPost(
-			@ApiParam(value = "ISO 639-1 two letter language code", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
-			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
-			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
-			@ApiParam(value = "Leg identifier", required = true) @PathVariable("id") String id,
-			@ApiParam(value = "") @Valid @RequestBody BookingOperation body) {
+			@Parameter(in = ParameterIn.HEADER, description = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information", required = true, schema = @Schema()) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
+			@Parameter(in = ParameterIn.HEADER, description = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true, schema = @Schema()) @RequestHeader(value = "Api", required = true) String api,
+			@Parameter(in = ParameterIn.HEADER, description = "Version of the API.", required = true, schema = @Schema()) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
+			@Parameter(in = ParameterIn.HEADER, description = "The ID of the sending maas operator", required = true, schema = @Schema()) @RequestHeader(value = "maas-id", required = true) String maasId,
+			@Parameter(in = ParameterIn.PATH, description = "Leg identifier", required = true, schema = @Schema()) @PathVariable("id") String id,
+			@Parameter(in = ParameterIn.HEADER, description = "The ID of the maas operator that has to receive this message", schema = @Schema()) @RequestHeader(value = "addressed-to", required = false) String addressedTo,
+			@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody BookingOperation body) {
 
 		HeaderValidator.validateHeader(request);
 		provider.setRequest(request);
@@ -97,21 +89,37 @@ public class BookingsController extends BookingsApiController {
 	}
 
 	@Override
-	public ResponseEntity<Booking> bookingsIdGet(String acceptLanguage, String api, String apiVersion, String id) {
+	public ResponseEntity<Booking> bookingsIdGet(
+			@Parameter(in = ParameterIn.HEADER, description = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information", required = true, schema = @Schema()) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
+			@Parameter(in = ParameterIn.HEADER, description = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true, schema = @Schema()) @RequestHeader(value = "Api", required = true) String api,
+			@Parameter(in = ParameterIn.HEADER, description = "Version of the API.", required = true, schema = @Schema()) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
+			@Parameter(in = ParameterIn.HEADER, description = "The ID of the sending maas operator", required = true, schema = @Schema()) @RequestHeader(value = "maas-id", required = true) String maasId,
+			@Parameter(in = ParameterIn.PATH, description = "Booking identifier", required = true, schema = @Schema()) @PathVariable("id") String id,
+			@Parameter(in = ParameterIn.HEADER, description = "The ID of the maas operator that has to receive this message", schema = @Schema()) @RequestHeader(value = "addressed-to", required = false) String addressedTo) {
 		HeaderValidator.validateHeader(request);
 		return new ResponseEntity<>(provider.getBooking(id), HttpStatus.OK);
 	}
 
 	@Override
-	public ResponseEntity<Void> bookingsIdSubscriptionPost(String acceptLanguage, String api, String apiVersion,
-			String id) {
+	public ResponseEntity<Void> bookingsIdSubscriptionPost(
+			@Parameter(in = ParameterIn.HEADER, description = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information", required = true, schema = @Schema()) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
+			@Parameter(in = ParameterIn.HEADER, description = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true, schema = @Schema()) @RequestHeader(value = "Api", required = true) String api,
+			@Parameter(in = ParameterIn.HEADER, description = "Version of the API.", required = true, schema = @Schema()) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
+			@Parameter(in = ParameterIn.HEADER, description = "The ID of the sending maas operator", required = true, schema = @Schema()) @RequestHeader(value = "maas-id", required = true) String maasId,
+			@Parameter(in = ParameterIn.PATH, description = "Booking identifier", required = true, schema = @Schema()) @PathVariable("id") String id,
+			@Parameter(in = ParameterIn.HEADER, description = "The ID of the maas operator that has to receive this message", schema = @Schema()) @RequestHeader(value = "addressed-to", required = false) String addressedTo) {
 		provider.subscribeToBookings(acceptLanguage, api, apiVersion, id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@Override
-	public ResponseEntity<Void> bookingsIdSubscriptionDelete(String acceptLanguage, String api, String apiVersion,
-			String id) {
+	public ResponseEntity<Void> bookingsIdSubscriptionDelete(
+			@Parameter(in = ParameterIn.HEADER, description = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information", required = true, schema = @Schema()) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
+			@Parameter(in = ParameterIn.HEADER, description = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true, schema = @Schema()) @RequestHeader(value = "Api", required = true) String api,
+			@Parameter(in = ParameterIn.HEADER, description = "Version of the API.", required = true, schema = @Schema()) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
+			@Parameter(in = ParameterIn.HEADER, description = "The ID of the sending maas operator", required = true, schema = @Schema()) @RequestHeader(value = "maas-id", required = true) String maasId,
+			@Parameter(in = ParameterIn.PATH, description = "Booking identifier", required = true, schema = @Schema()) @PathVariable("id") String id,
+			@Parameter(in = ParameterIn.HEADER, description = "The ID of the maas operator that has to receive this message", schema = @Schema()) @RequestHeader(value = "addressed-to", required = false) String addressedTo) {
 		provider.unsubscribeToBookings(acceptLanguage, api, apiVersion, id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

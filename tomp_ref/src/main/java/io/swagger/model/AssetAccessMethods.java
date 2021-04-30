@@ -1,7 +1,6 @@
 package io.swagger.model;
 
 import java.util.Objects;
-import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -10,21 +9,22 @@ import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * status of a leg
+ * Gets or Sets assetAccessMethods
  */
-public enum LegState {
-  NOT_STARTED("NOT_STARTED"),
-    PREPARING("PREPARING"),
-    IN_USE("IN_USE"),
-    PAUSED("PAUSED"),
-    FINISHING("FINISHING"),
-    FINISHED("FINISHED"),
-    ISSUE_REPORTED("ISSUE_REPORTED"),
-    CANCELLED("CANCELLED");
+public enum AssetAccessMethods {
+  DEEPLINK("DEEPLINK"),
+    QR("QR"),
+    AZTEC("AZTEC"),
+    TOMP_API("TOMP-API"),
+    AXA_EKEY_OTP("AXA-EKEY-OTP"),
+    PHYSICAL_KEY("PHYSICAL-KEY"),
+    OVC("OVC"),
+    EMV("EMV"),
+    NONE("NONE");
 
   private String value;
 
-  LegState(String value) {
+  AssetAccessMethods(String value) {
     this.value = value;
   }
 
@@ -35,8 +35,8 @@ public enum LegState {
   }
 
   @JsonCreator
-  public static LegState fromValue(String text) {
-    for (LegState b : LegState.values()) {
+  public static AssetAccessMethods fromValue(String text) {
+    for (AssetAccessMethods b : AssetAccessMethods.values()) {
       if (String.valueOf(b.value).equals(text)) {
         return b;
       }

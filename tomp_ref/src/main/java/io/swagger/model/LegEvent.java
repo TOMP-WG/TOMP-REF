@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "event for the execution")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
 
 
 public class LegEvent   {
@@ -43,7 +43,9 @@ public class LegEvent   {
     
     TIME_EXTEND("TIME_EXTEND"),
     
-    TIME_POSTPONE("TIME_POSTPONE");
+    TIME_POSTPONE("TIME_POSTPONE"),
+    
+    CANCEL("CANCEL");
 
     private String value;
 

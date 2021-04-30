@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.model.Condition;
 import io.swagger.model.Coordinates;
+import io.swagger.model.GeojsonPolygon;
 import io.swagger.model.SystemHours;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "a return area. In the condition list there can be multiple return area's.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
 
 
 public class ConditionReturnArea extends Condition implements OneOfcondition {
@@ -26,7 +27,7 @@ public class ConditionReturnArea extends Condition implements OneOfcondition {
   private String stationId = null;
 
   @JsonProperty("returnArea")
-  private Object returnArea = null;
+  private GeojsonPolygon returnArea = null;
 
   @JsonProperty("coordinates")
   private Coordinates coordinates = null;
@@ -54,22 +55,23 @@ public class ConditionReturnArea extends Condition implements OneOfcondition {
     this.stationId = stationId;
   }
 
-  public ConditionReturnArea returnArea(Object returnArea) {
+  public ConditionReturnArea returnArea(GeojsonPolygon returnArea) {
     this.returnArea = returnArea;
     return this;
   }
 
   /**
-   * area in which the asset should be returned as GeoJSON Polygon coordinates
+   * Get returnArea
    * @return returnArea
    **/
-  @Schema(description = "area in which the asset should be returned as GeoJSON Polygon coordinates")
+  @Schema(description = "")
   
-    public Object getReturnArea() {
+    @Valid
+    public GeojsonPolygon getReturnArea() {
     return returnArea;
   }
 
-  public void setReturnArea(Object returnArea) {
+  public void setReturnArea(GeojsonPolygon returnArea) {
     this.returnArea = returnArea;
   }
 

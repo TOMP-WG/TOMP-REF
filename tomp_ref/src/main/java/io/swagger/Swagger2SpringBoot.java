@@ -4,18 +4,16 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
 @SpringBootApplication
-@EnableSwagger2
-// @ComponentScan(basePackages = { "io.swagger", "io.swagger.api" ,
-// "io.swagger.configuration"})
+@EnableOpenApi
+//@ComponentScan(basePackages = { "io.swagger", "io.swagger.api", "io.swagger.configuration" })
 @ComponentScan(basePackages = { "org.tomp.api", "io.swagger.client" })
 public class Swagger2SpringBoot implements CommandLineRunner {
 
@@ -26,8 +24,7 @@ public class Swagger2SpringBoot implements CommandLineRunner {
 		}
 	}
 
-	public static void main(String[] args) {
-		System.setProperty("spring.profiles.default", "dummy");
+	public static void main(String[] args) throws Exception {
 		new SpringApplication(Swagger2SpringBoot.class).run(args);
 	}
 
@@ -40,7 +37,7 @@ public class Swagger2SpringBoot implements CommandLineRunner {
 		}
 
 	}
-	
+
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {

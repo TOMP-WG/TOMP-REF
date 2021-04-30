@@ -22,8 +22,10 @@ import io.swagger.model.JournalState;
 import io.swagger.model.Leg;
 import io.swagger.model.LegEvent;
 import io.swagger.model.LegState;
+import io.swagger.model.OneOftokenTokenData;
 import io.swagger.model.Suboperator;
 import io.swagger.model.Token;
+import io.swagger.model.TokenDefault;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.tripexecution", havingValue = "generic", matchIfMissing = true)
@@ -48,8 +50,8 @@ public class GenericTripExecutionProvider implements TripExecutionProvider {
 		Token token = new Token();
 		token.setValidFrom(body.getTime());
 		token.setValidUntil(ChronoUnit.SECONDS.addTo(planning.getDepartureTime(), -3600));
-		HashMap<String, Object> tokenData = new HashMap<String, Object>();
-		tokenData.put("code", UUID.randomUUID());
+		OneOftokenTokenData tokenData = new TokenDefault();
+		((TokenDefault) tokenData).put("code", UUID.randomUUID());
 		token.setTokenData(tokenData);
 		return token;
 	}

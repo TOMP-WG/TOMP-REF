@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "in case the TO demands a direct payment after usage.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-28T07:34:31.139Z[GMT]")
 
 
 public class ConditionPayWhenFinished extends Condition implements OneOfcondition {

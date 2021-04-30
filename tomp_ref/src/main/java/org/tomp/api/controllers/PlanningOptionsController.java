@@ -21,6 +21,9 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.api.PlanningsApiController;
 import io.swagger.model.Planning;
 import io.swagger.model.PlanningRequest;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @RestController
 public class PlanningOptionsController extends PlanningsApiController {
@@ -38,16 +41,15 @@ public class PlanningOptionsController extends PlanningsApiController {
 		this.request = request;
 	}
 
-	// @Override
-	// public ResponseEntity<Planning> planningsPost(String acceptLanguage, String
-	// api, String apiVersion,
-	// @Valid PlanningRequest body, @Valid Boolean bookingIntent) {
+	@Override
 	public ResponseEntity<Planning> planningsPost(
-			@ApiParam(value = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information", required = true) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
-			@ApiParam(value = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true) @RequestHeader(value = "Api", required = true) String api,
-			@ApiParam(value = "Version of the API.", required = true) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
-			@ApiParam(value = "Specifies whether IDs should be returned for the leg options that can be referred to when booking", defaultValue = "false") @Valid @RequestParam(value = "booking-intent", required = false, defaultValue = "false") Boolean bookingIntent,
-			@ApiParam(value = "") @Valid @RequestBody PlanningRequest body) {
+			@Parameter(in = ParameterIn.HEADER, description = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information", required = true, schema = @Schema()) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
+			@Parameter(in = ParameterIn.HEADER, description = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true, schema = @Schema()) @RequestHeader(value = "Api", required = true) String api,
+			@Parameter(in = ParameterIn.HEADER, description = "Version of the API.", required = true, schema = @Schema()) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
+			@Parameter(in = ParameterIn.HEADER, description = "The ID of the sending maas operator", required = true, schema = @Schema()) @RequestHeader(value = "maas-id", required = true) String maasId,
+			@Parameter(in = ParameterIn.HEADER, description = "The ID of the maas operator that has to receive this message", schema = @Schema()) @RequestHeader(value = "addressed-to", required = false) String addressedTo,
+			@Parameter(in = ParameterIn.QUERY, description = "Specifies whether IDs should be returned for the leg options that can be referred to when booking", schema = @Schema(defaultValue = "false")) @Valid @RequestParam(value = "booking-intent", required = false, defaultValue = "false") Boolean bookingIntent,
+			@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody PlanningRequest body) {
 		HeaderValidator.validateHeader(request);
 
 		Planning options = planningProvider.getOptions(body, acceptLanguage, bookingIntent.booleanValue());

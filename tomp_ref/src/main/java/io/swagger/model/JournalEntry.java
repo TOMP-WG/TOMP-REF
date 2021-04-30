@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  * JournalEntry
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
 
 
 public class JournalEntry extends AmountOfMoney  {
@@ -29,7 +29,7 @@ public class JournalEntry extends AmountOfMoney  {
   private String journalSequenceId = null;
 
   @JsonProperty("invoiceId")
-  private Object invoiceId = null;
+  private String invoiceId = null;
 
   @JsonProperty("invoiceDate")
   private OffsetDateTime invoiceDate = null;
@@ -126,7 +126,7 @@ public class JournalEntry extends AmountOfMoney  {
     this.journalSequenceId = journalSequenceId;
   }
 
-  public JournalEntry invoiceId(Object invoiceId) {
+  public JournalEntry invoiceId(String invoiceId) {
     this.invoiceId = invoiceId;
     return this;
   }
@@ -137,11 +137,11 @@ public class JournalEntry extends AmountOfMoney  {
    **/
   @Schema(description = "the number of the invoice. Should be filled in when invoiced.")
   
-    public Object getInvoiceId() {
+    public String getInvoiceId() {
     return invoiceId;
   }
 
-  public void setInvoiceId(Object invoiceId) {
+  public void setInvoiceId(String invoiceId) {
     this.invoiceId = invoiceId;
   }
 

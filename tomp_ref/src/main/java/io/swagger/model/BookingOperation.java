@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "operation on the bookingOption")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
 
 
 public class BookingOperation   {
@@ -55,6 +55,43 @@ public class BookingOperation   {
   @JsonProperty("operation")
   private OperationEnum operation = null;
 
+  /**
+   * This operation can be done on behalf of another party. The MP can act on behalf of the END_USER (cancel this booking for me); to override the default origin. In case this field is missing, it must be assumed that the events the MP is sending, this field should contain \"MP\". And in case the TO is sending, \"TO\".
+   */
+  public enum OriginEnum {
+    TO("TO"),
+    
+    MP("MP"),
+    
+    END_USER("END_USER"),
+    
+    OTHER("OTHER");
+
+    private String value;
+
+    OriginEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static OriginEnum fromValue(String text) {
+      for (OriginEnum b : OriginEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+  @JsonProperty("origin")
+  private OriginEnum origin = null;
+
   public BookingOperation operation(OperationEnum operation) {
     this.operation = operation;
     return this;
@@ -75,6 +112,25 @@ public class BookingOperation   {
     this.operation = operation;
   }
 
+  public BookingOperation origin(OriginEnum origin) {
+    this.origin = origin;
+    return this;
+  }
+
+  /**
+   * This operation can be done on behalf of another party. The MP can act on behalf of the END_USER (cancel this booking for me); to override the default origin. In case this field is missing, it must be assumed that the events the MP is sending, this field should contain \"MP\". And in case the TO is sending, \"TO\".
+   * @return origin
+   **/
+  @Schema(description = "This operation can be done on behalf of another party. The MP can act on behalf of the END_USER (cancel this booking for me); to override the default origin. In case this field is missing, it must be assumed that the events the MP is sending, this field should contain \"MP\". And in case the TO is sending, \"TO\".")
+  
+    public OriginEnum getOrigin() {
+    return origin;
+  }
+
+  public void setOrigin(OriginEnum origin) {
+    this.origin = origin;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -85,12 +141,13 @@ public class BookingOperation   {
       return false;
     }
     BookingOperation bookingOperation = (BookingOperation) o;
-    return Objects.equals(this.operation, bookingOperation.operation);
+    return Objects.equals(this.operation, bookingOperation.operation) &&
+        Objects.equals(this.origin, bookingOperation.origin);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(operation);
+    return Objects.hash(operation, origin);
   }
 
   @Override
@@ -99,6 +156,7 @@ public class BookingOperation   {
     sb.append("class BookingOperation {\n");
     
     sb.append("    operation: ").append(toIndentedString(operation)).append("\n");
+    sb.append("    origin: ").append(toIndentedString(origin)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.tomp.api</groupId>
-	<version>1.0.0</version>
+	<version>1.2.0</version>
 	<artifactId>reference</artifactId>
 	<packaging>jar</packaging>
 	<name>swagger-spring</name>
@@ -19,7 +19,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.0.RELEASE</version>
+		<version>2.3.3.RELEASE</version>
 	</parent>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -120,7 +120,7 @@
 		<!--SpringFox dependencies -->
 		<dependency>
 			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
+			<artifactId>springfox-oas</artifactId>
 			<version>${springfox-version}</version>
 		</dependency>
 		<dependency>

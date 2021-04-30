@@ -5,7 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.model.BookingRequest;
 import io.swagger.model.BookingState;
+import io.swagger.model.Customer;
+import io.swagger.model.Fare;
 import io.swagger.model.Leg;
+import io.swagger.model.Place;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +23,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "The booking information describing the state and details of an agreed upon trip")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
 
 
 public class Booking extends BookingRequest  {
@@ -32,7 +35,7 @@ public class Booking extends BookingRequest  {
   private List<Leg> legs = new ArrayList<Leg>();
 
   @JsonProperty("pricing")
-  private Object pricing = null;
+  private Fare pricing = null;
 
   @JsonProperty("extraData")
   @Valid
@@ -83,22 +86,23 @@ public class Booking extends BookingRequest  {
     this.legs = legs;
   }
 
-  public Booking pricing(Object pricing) {
+  public Booking pricing(Fare pricing) {
     this.pricing = pricing;
     return this;
   }
 
   /**
-   * The pricing information of the overall booking, in addition to any leg pricing, if not all legs have pricing the booking should have the fare
+   * Get pricing
    * @return pricing
    **/
-  @Schema(description = "The pricing information of the overall booking, in addition to any leg pricing, if not all legs have pricing the booking should have the fare")
+  @Schema(description = "")
   
-    public Object getPricing() {
+    @Valid
+    public Fare getPricing() {
     return pricing;
   }
 
-  public void setPricing(Object pricing) {
+  public void setPricing(Fare pricing) {
     this.pricing = pricing;
   }
 

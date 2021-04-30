@@ -4,9 +4,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -17,10 +14,10 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "The validity token (such as booking ID, travel ticket etc.) that MaaS clients will display to show their right to travel, or use to access an asset")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-28T07:34:31.139Z[GMT]")
 
 
-public class Token   {
+public class Token  implements OneOflegAssetAccessData {
   @JsonProperty("validFrom")
   private OffsetDateTime validFrom = null;
 
@@ -31,8 +28,7 @@ public class Token   {
   private String tokenType = null;
 
   @JsonProperty("tokenData")
-  @Valid
-  private Map<String, Object> tokenData = new HashMap<String, Object>();
+  private OneOftokenTokenData tokenData = null;
 
   public Token validFrom(OffsetDateTime validFrom) {
     this.validFrom = validFrom;
@@ -96,28 +92,22 @@ public class Token   {
     this.tokenType = tokenType;
   }
 
-  public Token tokenData(Map<String, Object> tokenData) {
+  public Token tokenData(OneOftokenTokenData tokenData) {
     this.tokenData = tokenData;
     return this;
   }
 
-  public Token putTokenDataItem(String key, Object tokenDataItem) {
-    this.tokenData.put(key, tokenDataItem);
-    return this;
-  }
-
   /**
-   * Arbitrary data the TO may pass along the ticket to the client (e.g. a booking code, base64 encoded binary, QR code), later will be one of several types
+   * Get tokenData
    * @return tokenData
    **/
-  @Schema(required = true, description = "Arbitrary data the TO may pass along the ticket to the client (e.g. a booking code, base64 encoded binary, QR code), later will be one of several types")
-      @NotNull
-
-    public Map<String, Object> getTokenData() {
+  @Schema(description = "")
+  
+    public OneOftokenTokenData getTokenData() {
     return tokenData;
   }
 
-  public void setTokenData(Map<String, Object> tokenData) {
+  public void setTokenData(OneOftokenTokenData tokenData) {
     this.tokenData = tokenData;
   }
 

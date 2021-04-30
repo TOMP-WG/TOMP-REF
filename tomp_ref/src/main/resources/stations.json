@@ -8,7 +8,13 @@
     },
     "physicalAddress": {
       "streetAddress": "example street 18, 2nd floor, 18-B33",
+      "street": "example street",
+      "houseNumber": 18,
+      "houseNumberAddition": "B33",
+      "addressAdditionalInfo": "2nd floor",
       "areaReference": "Smallcity, Pinetree county",
+      "city": "Smallcity",
+      "state": "Pinetree county",
       "postalCode": "string",
       "country": "NL"
     },

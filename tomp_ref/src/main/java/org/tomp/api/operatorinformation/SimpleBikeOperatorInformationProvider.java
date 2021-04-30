@@ -52,7 +52,10 @@ public class SimpleBikeOperatorInformationProvider implements OperatorInformatio
 
 	@Override
 	public List<StationInformation> getStations(String acceptLanguage) {
-		return null;
+		ObjectFromFileProvider<StationInformation[]> provider = new ObjectFromFileProvider<>();
+
+		return Arrays.asList(
+				provider.getObject(acceptLanguage, StationInformation[].class, configuration.getStationsFile()));
 	}
 
 	@Override
