@@ -164,7 +164,8 @@ public class FarePart extends AmountOfMoney  {
    * type of fare part
    * @return type
    **/
-  @Schema(description = "type of fare part")
+  @Schema(required = true, description = "type of fare part")
+      @NotNull
   
     public TypeEnum getType() {
     return type;

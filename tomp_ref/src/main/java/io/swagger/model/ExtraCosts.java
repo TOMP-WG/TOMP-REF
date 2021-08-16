@@ -17,9 +17,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Costs that the TO is charging the MP; credits are negative
+ * Costs that the TO is charging the MP; credits are negative. Other amounts should be positive
  */
-@Schema(description = "Costs that the TO is charging the MP; credits are negative")
+@Schema(description = "Costs that the TO is charging the MP; credits are negative. Other amounts should be positive")
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 
@@ -87,7 +87,8 @@ public class ExtraCosts extends AmountOfMoney  {
    * Get category
    * @return category
    **/
-  @Schema(description = "")
+  @Schema(required = true, description = "")
+      @NotNull
   
     @Valid
     public JournalCategory getCategory() {

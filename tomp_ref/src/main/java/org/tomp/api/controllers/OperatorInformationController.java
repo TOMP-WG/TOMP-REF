@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -16,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.tomp.api.operatorinformation.OperatorInformationProvider;
 import org.tomp.api.utils.HeaderValidator;
+import org.tomp.api.utils.RouterUtil;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.swagger.annotations.ApiParam;
 import io.swagger.api.OperatorApiController;
 import io.swagger.model.AssetType;
 import io.swagger.model.EndpointImplementation;
@@ -41,6 +42,9 @@ public class OperatorInformationController extends OperatorApiController {
 
 	@Autowired
 	private OperatorInformationProvider provider;
+
+	@Autowired
+	private RouterUtil routerUtil;
 
 	private HttpServletRequest request;
 	private ObjectMapper objectMapper;
@@ -66,10 +70,12 @@ public class OperatorInformationController extends OperatorApiController {
 		HeaderValidator.validateHeader(request);
 		try {
 			List<AssetType> list = provider.getAvailableAssetTypes(acceptLanguage);
-			return new ResponseEntity<>(list, HttpStatus.OK);
+			HttpHeaders headers = routerUtil.createHeadersToMP("GET", "/operator/available-assets", null,
+					request.getHeader("MPID"));
+			return new ResponseEntity<>(list, headers, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("operatorAvailableAssetsGet", e);
-			throw e;
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -82,11 +88,12 @@ public class OperatorInformationController extends OperatorApiController {
 			@Parameter(in = ParameterIn.HEADER, description = "The ID of the maas operator that has to receive this message", schema = @Schema()) @RequestHeader(value = "addressed-to", required = false) String addressedTo) {
 		HeaderValidator.validateHeader(request);
 		try {
-			return new ResponseEntity<>(provider.getOperatorInformation(acceptLanguage), HttpStatus.OK);
+			HttpHeaders headers = routerUtil.createHeadersToMP("GET", "/operator/information", null,
+					request.getHeader("MPID"));
+			return new ResponseEntity<>(provider.getOperatorInformation(acceptLanguage), headers, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("operatorInformationGet", e);
-
-			throw e;
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -106,10 +113,12 @@ public class OperatorInformationController extends OperatorApiController {
 
 		HeaderValidator.validateHeader(request);
 		try {
-			return new ResponseEntity<>(provider.getStations(acceptLanguage), HttpStatus.OK);
+			HttpHeaders headers = routerUtil.createHeadersToMP("GET", "/operator/stations", null,
+					request.getHeader("MPID"));
+			return new ResponseEntity<>(provider.getStations(acceptLanguage), headers, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("operatorStationsGet", e);
-			throw e;
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -125,10 +134,12 @@ public class OperatorInformationController extends OperatorApiController {
 
 		HeaderValidator.validateHeader(request);
 		try {
-			return new ResponseEntity<>(provider.getRegions(acceptLanguage), HttpStatus.OK);
+			HttpHeaders headers = routerUtil.createHeadersToMP("GET", "/operator/regions", null,
+					request.getHeader("MPID"));
+			return new ResponseEntity<>(provider.getRegions(acceptLanguage), headers, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("operatorRegionsGet", e);
-			throw e;
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -143,29 +154,37 @@ public class OperatorInformationController extends OperatorApiController {
 			@Parameter(in = ParameterIn.QUERY, description = "optional id of the station to use in the filter (/operator/stations)", schema = @Schema()) @Valid @RequestParam(value = "stationId", required = false) String stationId) {
 		HeaderValidator.validateHeader(request);
 		try {
-			return new ResponseEntity<>(provider.getPricingPlans(acceptLanguage), HttpStatus.OK);
+			HttpHeaders headers = routerUtil.createHeadersToMP("GET", "/operator/pricing-plans", null,
+					request.getHeader("MPID"));
+			return new ResponseEntity<>(provider.getPricingPlans(acceptLanguage), headers, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("operatorRegionsGet", e);
-			throw e;
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@Override
 	public ResponseEntity<List<SystemHours>> operatorOperatingHoursGet(
-			@Parameter(in = ParameterIn.HEADER, description = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information", required = true, schema = @Schema()) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
-			@Parameter(in = ParameterIn.HEADER, description = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = true, schema = @Schema()) @RequestHeader(value = "Api", required = true) String api,
-			@Parameter(in = ParameterIn.HEADER, description = "Version of the API.", required = true, schema = @Schema()) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
-			@Parameter(in = ParameterIn.HEADER, description = "The ID of the sending maas operator", required = true, schema = @Schema()) @RequestHeader(value = "maas-id", required = true) String maasId,
+			@Parameter(in = ParameterIn.HEADER, description = "A list of the languages/localizations the user would like to see the results in. For user privacy and ease of use on the TO side, this list should be kept as short as possible, ideally just one language tag from the list in operator/information", required = false, schema = @Schema()) @RequestHeader(value = "Accept-Language", required = true) String acceptLanguage,
+			@Parameter(in = ParameterIn.HEADER, description = "API description, can be TOMP or maybe other (specific/derived) API definitions", required = false, schema = @Schema()) @RequestHeader(value = "Api", required = false) String api,
+			@Parameter(in = ParameterIn.HEADER, description = "Version of the API.", required = true, schema = @Schema()) @RequestHeader(value = "Api-Version", required = false) String apiVersion,
+			@Parameter(in = ParameterIn.HEADER, description = "The ID of the sending maas operator", required = true, schema = @Schema()) @RequestHeader(value = "maas-id", required = false) String maasId,
 			@Parameter(in = ParameterIn.HEADER, description = "The ID of the maas operator that has to receive this message", schema = @Schema()) @RequestHeader(value = "addressed-to", required = false) String addressedTo,
 			@Parameter(in = ParameterIn.QUERY, description = "optional id of the region to use in the filter (/operator/regions)", schema = @Schema()) @Valid @RequestParam(value = "regionId", required = false) String regionId,
 			@Parameter(in = ParameterIn.QUERY, description = "optional id of the station to use in the filter (/operator/stations)", schema = @Schema()) @Valid @RequestParam(value = "stationId", required = false) String stationId) {
 
-		HeaderValidator.validateHeader(request);
+		log.info("GET /operator/operating-hours");
+		// HeaderValidator.validateHeader(request);
+		log.info("GET /operator/operating-hours - headers validated");
 		try {
-			return new ResponseEntity<>(provider.getHours(acceptLanguage), HttpStatus.OK);
+			
+			HttpHeaders headers = routerUtil.createHeadersToMP("GET", "/operator/operating-hours", null,
+					request.getHeader("MPID"));
+			log.info("GET /operator/operating-hours - return headers created");
+			return new ResponseEntity<>(provider.getHours(acceptLanguage), headers, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("operatorRegionsGet", e);
-			throw e;
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -180,10 +199,12 @@ public class OperatorInformationController extends OperatorApiController {
 			@Parameter(in = ParameterIn.QUERY, description = "optional id of the station to use in the filter (/operator/stations)", schema = @Schema()) @Valid @RequestParam(value = "stationId", required = false) String stationId) {
 		HeaderValidator.validateHeader(request);
 		try {
-			return new ResponseEntity<>(provider.getCalendar(acceptLanguage), HttpStatus.OK);
+			HttpHeaders headers = routerUtil.createHeadersToMP("GET", "/operator/operating-calendar", null,
+					request.getHeader("MPID"));
+			return new ResponseEntity<>(provider.getCalendar(acceptLanguage), headers, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("operatorRegionsGet", e);
-			throw e;
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -195,10 +216,12 @@ public class OperatorInformationController extends OperatorApiController {
 		HeaderValidator.validateHeader(request);
 
 		try {
-			return new ResponseEntity<>(provider.getMeta(acceptLanguage), HttpStatus.OK);
+			HttpHeaders headers = routerUtil.createHeadersToMP("GET", "/operator/meta", null,
+					request.getHeader("MPID"));
+			return new ResponseEntity<>(provider.getMeta(acceptLanguage), headers, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("operatorRegionsGet", e);
-			throw e;
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

@@ -3,6 +3,7 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.model.TokenData;
 import io.swagger.model.TokenEKeyEkey;
 import io.swagger.model.TokenEKeyLock;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,7 +19,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-28T07:34:31.139Z[GMT]")
 
 
-public class TokenEKey  implements OneOftokenTokenData {
+public class TokenEKey extends TokenData  {
   @JsonProperty("ekey")
   private TokenEKeyEkey ekey = null;
 
@@ -78,19 +79,20 @@ public class TokenEKey  implements OneOftokenTokenData {
     }
     TokenEKey tokenEKey = (TokenEKey) o;
     return Objects.equals(this.ekey, tokenEKey.ekey) &&
-        Objects.equals(this.lock, tokenEKey.lock);
+        Objects.equals(this.lock, tokenEKey.lock) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ekey, lock);
+    return Objects.hash(ekey, lock, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TokenEKey {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    ekey: ").append(toIndentedString(ekey)).append("\n");
     sb.append("    lock: ").append(toIndentedString(lock)).append("\n");
     sb.append("}");

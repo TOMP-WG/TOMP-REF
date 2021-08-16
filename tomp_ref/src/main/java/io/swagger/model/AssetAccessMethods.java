@@ -18,6 +18,9 @@ public enum AssetAccessMethods {
     TOMP_API("TOMP-API"),
     AXA_EKEY_OTP("AXA-EKEY-OTP"),
     PHYSICAL_KEY("PHYSICAL-KEY"),
+    BARCODE("BARCODE"),
+    PDF("PDF"),
+    HTML("HTML"),
     OVC("OVC"),
     EMV("EMV"),
     NONE("NONE");

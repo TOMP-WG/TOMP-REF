@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-28T07:34:31.139Z[GMT]")
 
 
-public class TokenArray extends ArrayList<Token> implements OneOflegAssetAccessData {
+public class TokenArray extends ArrayList<Token>  {
 
   @Override
   public boolean equals(java.lang.Object o) {

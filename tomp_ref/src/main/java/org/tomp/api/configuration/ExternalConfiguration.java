@@ -50,10 +50,19 @@ public class ExternalConfiguration {
 	private String currencyCode;
 	private long vatRate;
 
+	private String pw;
+	private String pfx;
+
 	private String versionFile;
 	private boolean refreshOnStartUp = true;
 	private boolean allowUnknownOperators = false;
 	private boolean authenticationRequired = true;
+	
+	// Router
+	private String routerUrl;
+	private String sensorId;
+	private String toID;
+	private String thumbprint;
 
 	private MaasEnvironmentType environmentType = MaasEnvironmentType.TO;
 
@@ -259,5 +268,53 @@ public class ExternalConfiguration {
 
 	public void setAuthenticationRequired(boolean authenticationRequired) {
 		this.authenticationRequired = authenticationRequired;
+	}
+
+	public String getPw() {
+		return pw;
+	}
+
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+
+	public String getPfx() {
+		return pfx;
+	}
+
+	public void setPfx(String pfx) {
+		this.pfx = pfx;
+	}
+
+	public String getRouterUrl() {
+		return routerUrl;
+	}
+
+	public void setRouterUrl(String routerUrl) {
+		this.routerUrl = routerUrl;
+	}
+
+	public String getSensorId() {
+		return sensorId;
+	}
+
+	public void setSensorId(String sensorId) {
+		this.sensorId = sensorId;
+	}
+
+	public String getToID() {
+		return toID;
+	}
+
+	public void setToID(String toID) {
+		this.toID = toID;
+	}
+
+	public String getThumbprint() {
+		return thumbprint;
+	}
+
+	public void setThumbprint(String thumbprint) {
+		this.thumbprint = thumbprint;
 	}
 }

@@ -12,6 +12,7 @@ import io.swagger.model.LegState;
 import io.swagger.model.Place;
 import io.swagger.model.Suboperator;
 import io.swagger.model.Token;
+import io.swagger.model.TokenArray;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +87,10 @@ public class Leg   {
   private Token ticket = null;
 
   @JsonProperty("assetAccessData")
-  private OneOflegAssetAccessData assetAccessData = null;
+  private Token assetAccessData = null;
+
+  @JsonProperty("allAssetAccessData")
+  private TokenArray allAssetAccessData = null;
 
   public Leg id(String id) {
     this.id = id;
@@ -459,23 +463,44 @@ public class Leg   {
     this.ticket = ticket;
   }
 
-  public Leg assetAccessData(OneOflegAssetAccessData assetAccessData) {
+  public Leg assetAccessData(Token assetAccessData) {
     this.assetAccessData = assetAccessData;
     return this;
   }
 
   /**
-   * Data to open a specific asset (e.g. QR code, image base64)
+   * Get assetAccessData
    * @return assetAccessData
    **/
-  @Schema(description = "Data to open a specific asset (e.g. QR code, image base64)")
+  @Schema(description = "")
   
-    public OneOflegAssetAccessData getAssetAccessData() {
+    @Valid
+    public Token getAssetAccessData() {
     return assetAccessData;
   }
 
-  public void setAssetAccessData(OneOflegAssetAccessData assetAccessData) {
+  public void setAssetAccessData(Token assetAccessData) {
     this.assetAccessData = assetAccessData;
+  }
+
+  public Leg allAssetAccessData(TokenArray allAssetAccessData) {
+    this.allAssetAccessData = allAssetAccessData;
+    return this;
+  }
+
+  /**
+   * Get allAssetAccessData
+   * @return allAssetAccessData
+   **/
+  @Schema(description = "")
+  
+    @Valid
+    public TokenArray getAllAssetAccessData() {
+    return allAssetAccessData;
+  }
+
+  public void setAllAssetAccessData(TokenArray allAssetAccessData) {
+    this.allAssetAccessData = allAssetAccessData;
   }
 
 
@@ -506,12 +531,13 @@ public class Leg   {
         Objects.equals(this.distance, leg.distance) &&
         Objects.equals(this.progressGeometry, leg.progressGeometry) &&
         Objects.equals(this.ticket, leg.ticket) &&
-        Objects.equals(this.assetAccessData, leg.assetAccessData);
+        Objects.equals(this.assetAccessData, leg.assetAccessData) &&
+        Objects.equals(this.allAssetAccessData, leg.allAssetAccessData);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, from, to, departureTime, arrivalTime, travelerReferenceNumbers, assetType, legSequenceNumber, asset, pricing, suboperator, conditions, state, departureDelay, arrivalDelay, distance, progressGeometry, ticket, assetAccessData);
+    return Objects.hash(id, from, to, departureTime, arrivalTime, travelerReferenceNumbers, assetType, legSequenceNumber, asset, pricing, suboperator, conditions, state, departureDelay, arrivalDelay, distance, progressGeometry, ticket, assetAccessData, allAssetAccessData);
   }
 
   @Override
@@ -538,6 +564,7 @@ public class Leg   {
     sb.append("    progressGeometry: ").append(toIndentedString(progressGeometry)).append("\n");
     sb.append("    ticket: ").append(toIndentedString(ticket)).append("\n");
     sb.append("    assetAccessData: ").append(toIndentedString(assetAccessData)).append("\n");
+    sb.append("    allAssetAccessData: ").append(toIndentedString(allAssetAccessData)).append("\n");
     sb.append("}");
     return sb.toString();
   }

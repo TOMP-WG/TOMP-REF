@@ -3,6 +3,7 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.model.TokenData;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-28T07:34:31.139Z[GMT]")
 
 
-public class TokenDeeplink  implements OneOftokenTokenData {
+public class TokenDeeplink extends TokenData  {
   @JsonProperty("url")
   private String url = null;
 
@@ -83,19 +84,20 @@ public class TokenDeeplink  implements OneOftokenTokenData {
     }
     TokenDeeplink tokenDeeplink = (TokenDeeplink) o;
     return Objects.equals(this.url, tokenDeeplink.url) &&
-        Objects.equals(this.knownParameters, tokenDeeplink.knownParameters);
+        Objects.equals(this.knownParameters, tokenDeeplink.knownParameters) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(url, knownParameters);
+    return Objects.hash(url, knownParameters, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TokenDeeplink {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    url: ").append(toIndentedString(url)).append("\n");
     sb.append("    knownParameters: ").append(toIndentedString(knownParameters)).append("\n");
     sb.append("}");

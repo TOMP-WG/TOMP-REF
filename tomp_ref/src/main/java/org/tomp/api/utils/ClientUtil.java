@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,11 +43,17 @@ public class ClientUtil {
 
 	public <T> T get(MaasOperator to, String localVarPath, Class<T> class1) throws ApiException {
 		return get(to, configuration.getAcceptLanguage(), configuration.getApiVersion(), localVarPath,
-				configuration.getMaasId(), class1);
+				configuration.getMaasId(), class1, null);
 	}
 
-	private <T> T get(MaasOperator to, String acceptLanguage, String apiVersion, String localVarPath, String maasId,
-			Class<T> class1) throws ApiException {
+	public <T> T get(MaasOperator to, String localVarPath, Class<T> class1, Map<String, String> headers)
+			throws ApiException {
+		return get(to, configuration.getAcceptLanguage(), configuration.getApiVersion(), localVarPath,
+				configuration.getMaasId(), class1, headers);
+	}
+
+	public <T> T get(MaasOperator to, String acceptLanguage, String apiVersion, String localVarPath, String maasId,
+			Class<T> class1, Map<String, String> headers) throws ApiException {
 		ApiClient apiClient = new ApiClient();
 		apiClient.setVerifyingSsl(false);
 		String url = to.getUrl();
@@ -72,8 +79,15 @@ public class ClientUtil {
 
 		final String[] localVarAccepts = { "application/json" };
 		final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-		if (localVarAccept != null)
+		if (localVarAccept != null) {
 			localVarHeaderParams.put("Accept", localVarAccept);
+		}
+
+		if (headers != null) {
+			for (Entry<String, String> entry : headers.entrySet()) {
+				localVarHeaderParams.put(entry.getKey(), entry.getValue());
+			}
+		}
 
 		final String[] localVarContentTypes = {
 
@@ -94,8 +108,14 @@ public class ClientUtil {
 				configuration.getMaasId(), localVarPostBody, class1);
 	}
 
-	private <T> T post(MaasOperator to, String acceptLanguage, String apiVersion, String localVarPath, String maasId,
+	public <T> T post(MaasOperator to, String acceptLanguage, String apiVersion, String localVarPath, String maasId,
 			Object localVarPostBody, Class<T> class1) throws ApiException {
+		return post(to, acceptLanguage, apiVersion, localVarPath, maasId, null, localVarPostBody, class1);
+
+	}
+
+	public <T> T post(MaasOperator to, String acceptLanguage, String apiVersion, String localVarPath, String maasId,
+			Map<String, String> headers, Object localVarPostBody, Class<T> class1) throws ApiException {
 
 		ApiClient apiClient = new ApiClient();
 		apiClient.setConnectTimeout(20000);
@@ -120,6 +140,12 @@ public class ClientUtil {
 			localVarHeaderParams.put("Api-Version", apiClient.parameterToString(apiVersion));
 
 		localVarHeaderParams.put("maas-id", maasId);
+
+		if (headers != null) {
+			for (Entry<String, String> entry : headers.entrySet()) {
+				localVarHeaderParams.put(entry.getKey(), entry.getValue());
+			}
+		}
 
 		Map<String, Object> localVarFormParams = new HashMap<>();
 

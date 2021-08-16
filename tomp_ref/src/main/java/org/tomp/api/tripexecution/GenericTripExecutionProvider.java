@@ -1,7 +1,6 @@
 package org.tomp.api.tripexecution;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +21,6 @@ import io.swagger.model.JournalState;
 import io.swagger.model.Leg;
 import io.swagger.model.LegEvent;
 import io.swagger.model.LegState;
-import io.swagger.model.OneOftokenTokenData;
 import io.swagger.model.Suboperator;
 import io.swagger.model.Token;
 import io.swagger.model.TokenDefault;
@@ -50,7 +48,7 @@ public class GenericTripExecutionProvider implements TripExecutionProvider {
 		Token token = new Token();
 		token.setValidFrom(body.getTime());
 		token.setValidUntil(ChronoUnit.SECONDS.addTo(planning.getDepartureTime(), -3600));
-		OneOftokenTokenData tokenData = new TokenDefault();
+		TokenDefault tokenData = new TokenDefault();
 		((TokenDefault) tokenData).put("code", UUID.randomUUID());
 		token.setTokenData(tokenData);
 		return token;

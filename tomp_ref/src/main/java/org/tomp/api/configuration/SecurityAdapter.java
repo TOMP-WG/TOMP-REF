@@ -68,6 +68,7 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable().authorizeRequests()
 				.antMatchers("/postponed/**").permitAll()
 				.antMatchers("/ws2").permitAll()
+				.antMatchers("/operator/**").permitAll()
 				.and()
 				.antMatcher("/**").cors(corsCustomizer).sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

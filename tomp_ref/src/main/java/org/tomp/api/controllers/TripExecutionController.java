@@ -16,7 +16,6 @@ import org.tomp.api.utils.HeaderValidator;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.swagger.annotations.ApiParam;
 import io.swagger.api.LegsApiController;
 import io.swagger.model.Leg;
 import io.swagger.model.LegEvent;

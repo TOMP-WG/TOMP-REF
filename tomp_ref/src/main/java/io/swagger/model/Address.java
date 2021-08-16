@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "street address, including number OR PO box number, eventually extended with internal reference like room number, could match Content-Language")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-29T10:34:56.570Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-06-08T10:19:00.171Z[GMT]")
 
 
 public class Address   {
@@ -57,10 +57,10 @@ public class Address   {
   }
 
   /**
-   * street address, including number OR PO box number, eventually extended with internal referencce like room number, could match Content-Language
+   * Get streetAddress
    * @return streetAddress
    **/
-  @Schema(example = "example street 18, 2nd floor, 18-B33", required = true, description = "street address, including number OR PO box number, eventually extended with internal referencce like room number, could match Content-Language")
+  @Schema(example = "example street 18, 2nd floor, 18-B33", required = true, description = "")
       @NotNull
 
     public String getStreetAddress() {

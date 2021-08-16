@@ -25,6 +25,9 @@ public class BookingRequest   {
   @JsonProperty("from")
   private Place from = null;
 
+  @JsonProperty("callbackUrl")
+  private String callbackUrl = null;
+
   @JsonProperty("to")
   private Place to = null;
 
@@ -68,6 +71,25 @@ public class BookingRequest   {
 
   public void setFrom(Place from) {
     this.from = from;
+  }
+
+  public BookingRequest callbackUrl(String callbackUrl) {
+    this.callbackUrl = callbackUrl;
+    return this;
+  }
+
+  /**
+   * The callback URL of the Maas Provider, to use as base url for callback, f.x. the POST legs/{id}/events and POST /bookings/{id}/events. Only to be provided when this deviates from standard or agreed URL.
+   * @return callbackUrl
+   **/
+  @Schema(description = "The callback URL of the Maas Provider, to use as base url for callback, f.x. the POST legs/{id}/events and POST /bookings/{id}/events. Only to be provided when this deviates from standard or agreed URL.")
+  
+    public String getCallbackUrl() {
+    return callbackUrl;
+  }
+
+  public void setCallbackUrl(String callbackUrl) {
+    this.callbackUrl = callbackUrl;
   }
 
   public BookingRequest to(Place to) {
@@ -122,13 +144,14 @@ public class BookingRequest   {
     BookingRequest bookingRequest = (BookingRequest) o;
     return Objects.equals(this.id, bookingRequest.id) &&
         Objects.equals(this.from, bookingRequest.from) &&
+        Objects.equals(this.callbackUrl, bookingRequest.callbackUrl) &&
         Objects.equals(this.to, bookingRequest.to) &&
         Objects.equals(this.customer, bookingRequest.customer);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, from, to, customer);
+    return Objects.hash(id, from, callbackUrl, to, customer);
   }
 
   @Override
@@ -138,6 +161,7 @@ public class BookingRequest   {
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    from: ").append(toIndentedString(from)).append("\n");
+    sb.append("    callbackUrl: ").append(toIndentedString(callbackUrl)).append("\n");
     sb.append("    to: ").append(toIndentedString(to)).append("\n");
     sb.append("    customer: ").append(toIndentedString(customer)).append("\n");
     sb.append("}");

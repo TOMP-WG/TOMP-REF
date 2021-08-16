@@ -19,7 +19,6 @@ import org.tomp.api.payment.PaymentProvider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.swagger.annotations.ApiParam;
 import io.swagger.api.PaymentApiController;
 import io.swagger.model.ExtraCosts;
 import io.swagger.model.JournalEntry;
@@ -33,11 +32,9 @@ public class PaymentController extends PaymentApiController {
 
 	@Autowired
 	PaymentProvider provider;
-	private HttpServletRequest request;
 
 	public PaymentController(ObjectMapper objectMapper, HttpServletRequest request) {
 		super(objectMapper, request);
-		this.request = request;
 	}
 
 	@Override

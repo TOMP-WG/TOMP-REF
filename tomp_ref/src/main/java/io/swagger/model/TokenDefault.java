@@ -1,22 +1,21 @@
 package io.swagger.model;
 
 import java.util.Objects;
+import io.swagger.model.TokenData;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Arbitrary data the TO may pass along the ticket to the client (e.g. a booking code, base64 encoded binary, QR code), later will be one of several types
+ * Arbitrary data the TO may pass along the ticket to the client
  */
-@Schema(description = "Arbitrary data the TO may pass along the ticket to the client (e.g. a booking code, base64 encoded binary, QR code), later will be one of several types")
+@Schema(description = "Arbitrary data the TO may pass along the ticket to the client")
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-28T07:34:31.139Z[GMT]")
 
 
-public class TokenDefault extends HashMap<String, Object> implements OneOftokenTokenData {
+public class TokenDefault extends TokenData  {
 
   @Override
   public boolean equals(java.lang.Object o) {

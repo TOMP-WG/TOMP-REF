@@ -32,6 +32,8 @@ public class SupportRequest   {
     
     NOT_AT_LOCATION("NOT_AT_LOCATION"),
     
+    MISSING_AFTER_PAUSE("MISSING_AFTER_PAUSE"),
+    
     NOT_CLEAN("NOT_CLEAN"),
     
     NOT_AVAILABLE("NOT_AVAILABLE"),

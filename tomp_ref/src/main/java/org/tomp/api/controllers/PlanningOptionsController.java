@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.swagger.annotations.ApiParam;
 import io.swagger.api.PlanningsApiController;
 import io.swagger.model.Planning;
 import io.swagger.model.PlanningRequest;

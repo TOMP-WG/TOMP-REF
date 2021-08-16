@@ -3,6 +3,7 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.model.TokenData;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -16,7 +17,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-28T07:34:31.139Z[GMT]")
 
 
-public class TokenQR  implements OneOftokenTokenData {
+public class TokenQR extends TokenData  {
   @JsonProperty("base64")
   private String base64 = null;
 
@@ -73,19 +74,20 @@ public class TokenQR  implements OneOftokenTokenData {
     }
     TokenQR tokenQR = (TokenQR) o;
     return Objects.equals(this.base64, tokenQR.base64) &&
-        Objects.equals(this.version, tokenQR.version);
+        Objects.equals(this.version, tokenQR.version) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(base64, version);
+    return Objects.hash(base64, version, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TokenQR {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    base64: ").append(toIndentedString(base64)).append("\n");
     sb.append("    version: ").append(toIndentedString(version)).append("\n");
     sb.append("}");

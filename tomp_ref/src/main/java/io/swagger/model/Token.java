@@ -3,6 +3,7 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.model.TokenData;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +18,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-28T07:34:31.139Z[GMT]")
 
 
-public class Token  implements OneOflegAssetAccessData {
+public class Token   {
   @JsonProperty("validFrom")
   private OffsetDateTime validFrom = null;
 
@@ -28,7 +29,7 @@ public class Token  implements OneOflegAssetAccessData {
   private String tokenType = null;
 
   @JsonProperty("tokenData")
-  private OneOftokenTokenData tokenData = null;
+  private TokenData tokenData = null;
 
   public Token validFrom(OffsetDateTime validFrom) {
     this.validFrom = validFrom;
@@ -92,7 +93,7 @@ public class Token  implements OneOflegAssetAccessData {
     this.tokenType = tokenType;
   }
 
-  public Token tokenData(OneOftokenTokenData tokenData) {
+  public Token tokenData(TokenData tokenData) {
     this.tokenData = tokenData;
     return this;
   }
@@ -103,11 +104,12 @@ public class Token  implements OneOflegAssetAccessData {
    **/
   @Schema(description = "")
   
-    public OneOftokenTokenData getTokenData() {
+    @Valid
+    public TokenData getTokenData() {
     return tokenData;
   }
 
-  public void setTokenData(OneOftokenTokenData tokenData) {
+  public void setTokenData(TokenData tokenData) {
     this.tokenData = tokenData;
   }
 

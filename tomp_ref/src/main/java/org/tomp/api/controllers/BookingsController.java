@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.swagger.annotations.ApiParam;
 import io.swagger.api.BookingsApiController;
 import io.swagger.model.Booking;
 import io.swagger.model.BookingOperation;
