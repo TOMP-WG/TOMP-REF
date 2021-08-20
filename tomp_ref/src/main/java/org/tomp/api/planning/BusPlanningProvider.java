@@ -8,28 +8,19 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.model.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.threeten.bp.OffsetDateTime;
 
-import io.swagger.model.AssetClass;
-import io.swagger.model.AssetProperties;
-import io.swagger.model.AssetType;
-import io.swagger.model.Booking;
-import io.swagger.model.Coordinates;
-import io.swagger.model.Fare;
-import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
-import io.swagger.model.Leg;
-import io.swagger.model.Place;
-import io.swagger.model.Planning;
-import io.swagger.model.PlanningRequest;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "bus", matchIfMissing = false)
 public class BusPlanningProvider implements PlanningProvider {
 
 	private @NotNull @Valid Coordinates from;
+	private List<String> assets;
 	private @Valid Coordinates to;
 	private @Valid OffsetDateTime start;
 	private @Valid OffsetDateTime end;

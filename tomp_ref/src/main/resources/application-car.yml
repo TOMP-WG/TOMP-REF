@@ -9,7 +9,7 @@ tomp:
    asset-file: src/main/resources/cars.json
    lookup-service: http://localhost:7999/
    accept-language: nl
-   api-version: 0.9.0
+   api-version: 1.0.0
    allowUnknownOperators: true
    authenticationRequired: false
    

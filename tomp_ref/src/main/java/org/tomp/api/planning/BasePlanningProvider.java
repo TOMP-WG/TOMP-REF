@@ -1,11 +1,10 @@
 package org.tomp.api.planning;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import javax.validation.Valid;
 
+import io.swagger.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +14,6 @@ import org.tomp.api.providers.conditions.ConditionProvider;
 import org.tomp.api.repository.DefaultRepository;
 import org.tomp.api.utils.LegUtil;
 
-import io.swagger.model.AssetType;
-import io.swagger.model.Booking;
-import io.swagger.model.BookingState;
-import io.swagger.model.Condition;
-import io.swagger.model.Fare;
-import io.swagger.model.Leg;
-import io.swagger.model.Place;
-import io.swagger.model.Planning;
-import io.swagger.model.PlanningRequest;
-
 public abstract class BasePlanningProvider implements PlanningProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(BasePlanningProvider.class);
@@ -33,7 +22,7 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 	protected Place to;
 	protected @Valid OffsetDateTime start;
 	protected @Valid OffsetDateTime end;
-
+	protected String assetId = "";
 	@Autowired
 	protected DefaultRepository repository;
 	@Autowired
@@ -53,6 +42,13 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		to = body.getTo();
 		start = body.getDepartureTime();
 		end = body.getArrivalTime();
+
+		if (body.getUseAssets() != null) {
+			assetId = body.getUseAssets().get(0);
+		}else {
+			assetId = "";
+		}
+
 		options.setOptions(getResults(body, acceptLanguage, bookingIntent));
 		if (provideIds) {
 			repository.saveBookingOption(options);
@@ -68,18 +64,35 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		Booking booking = new Booking();
 		booking.setState(BookingState.NEW);
 
+		Asset asset = new Asset();
+		asset.setId(assetId);
+
 		Leg leg = new Leg();
 		leg.setAssetType(getAssetType());
 		leg.setFrom(body.getFrom());
 		leg.setTo(body.getTo());
+
+		//Add conditons
+		Condition condition1 = new Condition();
+		condition1.setConditionType("conditionRequireBookingData");
+		condition1.setId("minAge18");
+
+		Condition condition2 = new Condition();
+		condition2.setConditionType("conditionRequireBookingData");
+		condition2.setId("driverLicense");
+
+		List<Condition> conditions = new ArrayList<>();
+
+		conditions.add(condition1);
+		conditions.add(condition2);
+
+		log.info("conditons: {}", conditions);
+
+		leg.setConditions(conditions);
 		leg.setDepartureTime(getStartTime());
 		leg.setArrivalTime(getEndTime());
-		if (getEndTime() == null) {
-			double duration = legUtil.getDuration(leg);
-			leg.setArrivalTime(getStartTime().plusSeconds((long) duration));
-		}
+		leg.setAsset(asset);
 		leg.setPricing(getFare());
-		leg.setConditions(getConditionsForLeg(leg, acceptLanguage));
 
 		if (provideIds) {
 			String uuid = UUID.randomUUID().toString();
@@ -90,6 +103,7 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		booking.setLegs(Arrays.asList(leg));
 		booking.setFrom(body.getFrom());
 		booking.setTo(body.getTo());
+
 //		booking.setDepartureTime(leg.getDepartureTime());
 //		booking.setArrivalTime(leg.getArrivalTime());
 //		booking.setNrOfTravelers(body.getNrOfTravelers());

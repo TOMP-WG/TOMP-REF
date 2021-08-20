@@ -6,7 +6,7 @@ server:
    port: 8086
 tomp:
    maas-id: e54f5550-f577-4718-99e0-fce0cd973ba4
-   api-version: 0.9.0
+   api-version: 1.0.0
    lookup-service: http://localhost:7999/
    allowUnknownOperators: true
    authenticationRequired: false

@@ -8,7 +8,7 @@ tomp:
    maas-id: d52bfad0-ee4b-4f72-9f38-efce115ffb49
    lookup-service: http://localhost:7999/
    accept-language: nl
-   api-version: 0.9.0
+   api-version: 1.0.0
    allowUnknownOperators: true
    authenticationRequired: false
 
