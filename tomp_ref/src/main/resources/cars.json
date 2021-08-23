@@ -1,6 +1,41 @@
 [
     {
-        "assetClass": "CAR",
-        "nrAvailable": 11
+        "assetClass":"CAR",
+        "nrAvailable":3,
+        "assets":[
+            {
+                "id":"TOMP_VIN_1",
+                "overriddenProperties":{
+                    "location":{
+                        "coordinates":{
+                            "lng":3.32131,
+                            "lat":4.4443
+                        }
+                    }
+                }
+            },
+            {
+                "id":"TOMP_VIN_2",
+                "overriddenProperties":{
+                    "location":{
+                        "coordinates":{
+                            "lng":6.32131,
+                            "lat":7.4443
+                        }
+                    }
+                }
+            },
+            {
+                "id":"TOMP_VIN_3",
+                "overriddenProperties":{
+                    "location":{
+                        "coordinates":{
+                            "lng":8.32131,
+                            "lat":7.4443
+                        }
+                    }
+                }
+            }
+        ]
     }
 ]
