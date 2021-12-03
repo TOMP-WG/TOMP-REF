@@ -1,0 +1,34 @@
+[
+    {
+      "coordinates": {
+        "alt": 0.8008281904610115,
+        "lat": 52.253279,
+        "lng": 6.169639
+      },
+      "crossStreet": "on the corner with Secondary Road",
+      "name": "Island Central",
+      "physicalAddress": {
+        "addressAdditionalInfo": "addressAdditionalInfo",
+        "areaReference": "Smallcity, Pinetree county",
+        "city": "city",
+        "country": "NL",
+        "houseNumber": 0.6027456183070403,
+        "houseNumberAddition": "houseNumberAddition",
+        "postalCode": "postalCode",
+        "province": "province",
+        "state": "state",
+        "street": "street",
+        "streetAddress": "example street 18, 2nd floor, 18-B33"
+      },
+      "regionId": "regionId",
+      "rentalMethods": [
+        "CREDITCARD",
+        "PAYPASS",
+        "APPLEPAY"
+      ],
+      "rentalUrl": "https://www.rentmyfreebike.com",
+      "rentalUrlAndroid": "https://www.rentmyfreebikecom/app?sid=1234567890&platform=android",
+      "rentalUrlIOS": "https://www.rentmyfreebike.com/app?sid=1234567890&platform=ios",
+      "stationId": "XX:Y:12345678"
+    }
+  ]

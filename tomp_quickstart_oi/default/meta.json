@@ -1,0 +1,29 @@
+[
+  {
+    "baseUrl": "http://localhost/",
+    "endpoints": [ 
+      { "method": "POST", "path": "/operator/alerts", "status": "IMPLEMENTED", "supportsPaging": true, "maxPageSize": 100 },
+      { "method": "POST", "path": "/operator/available_assets", "status": "IMPLEMENTED", "supportsPaging": true, "maxPageSize": 100 },
+      { "method": "POST", "path": "/operator/information", "status": "IMPLEMENTED" },
+      { "method": "POST", "path": "/operator/meta", "status": "IMPLEMENTED" },
+      { "method": "POST", "path": "/operator/operating_calendar", "status": "IMPLEMENTED" },
+      { "method": "POST", "path": "/operator/operating_hours", "status": "IMPLEMENTED" },
+      { "method": "POST", "path": "/operator/ping", "status": "IMPLEMENTED" },
+      { "method": "POST", "path": "/operator/pricing_plans", "status": "IMPLEMENTED" },
+      { "method": "POST", "path": "/operator/regions", "status": "IMPLEMENTED" },
+      { "method": "POST", "path": "/operator/stations", "status": "IMPLEMENTED", "supportsPaging": true, "maxPageSize": 10 }
+    ],
+    "processIdentifiers": {
+      "booking": [
+        "ACCESS_CODE_DEEPLINK",
+        "ACCESS_CODE_IN_COMMIT_EVENT",
+        "ATOMIC_BOOKING_UNLOCKING"
+      ],
+      "planning": [
+        "ASSET_BASED", "BARCODE_SCAN", "ATOMIC_PLANNING_AND_BOOKING"
+      ]
+    },
+    "scenarios": [],
+    "version": "1.3.0"
+  }
+]

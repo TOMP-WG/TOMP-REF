@@ -1,0 +1,23 @@
+{
+    "assetClasses": [ "BIKE" ],
+    "chamberOfCommerceInfo": {
+      "number": "9320482984",
+      "place": "city of registration"
+    },
+    "conditions": "free format text to describe the general terms and conditions of this operator.",
+    "email": "rent@freebike.com",
+    "feedContactEmail": "",
+    "language": [ "fr-FR" ],
+    "licenseUrl": "https://www.rentmyfreebike.com/license",
+    "name": "FreeBike",
+    "operator": "FreeBike",
+    "phoneNumber": "555-12345",
+    "productType": "RENTAL",
+    "purchaseUrl": "https://www.rentmyfreebike.com/purchase",
+    "shortName": "FB",
+    "startDate": "2000-01-23",
+    "systemId": "XXTO0001",
+    "timezone": "CET",
+    "typeOfSystem": "allowed values: FREE_FLOATING, STATION_BASED, VIRTUAL_STATION_BASED",
+    "url": "https://www.rentmyfreebike.com"
+  }

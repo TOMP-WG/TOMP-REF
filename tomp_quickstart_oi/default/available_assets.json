@@ -1,0 +1,71 @@
+[
+    {
+      "id": "unique id for this asset type. Can be a descriptive one, like simple-bike",
+      "nrAvailable": 10,
+      "sharedProperties": {
+        "accessMethods": [ "DEEPLINK" ],
+        "gears": 15,
+        "helmetRequired": false,
+        "propulsion": "MUSCLE"
+      },
+      "stationId": "if applicable, you can specify the station id here. When you use asset types to group them per station",
+      "applicablePricings": [
+        {
+          "planId": "some unique id for this plan",
+          "description": "Default rate for these bikes",
+          "fare": {
+            "class": "FAIR",
+            "description": "3 Euro's starting tarif, after that 0.50 per quarter of an hour for the first hour, after this 0.40 per quarter of an hour",
+            "estimated": true,
+            "parts": [
+              { "amount": 3.00, "currencyCode": "EUR", "type": "FIXED" },
+              { "amount": 0.50, "currencyCode": "EUR", "type": "FLEX", 
+                "unitType": "HOUR", "units": 0.25,
+                "scaleFrom": 0, "scaleTo": 1, "scaleType": "HOUR"
+              },
+              {
+                "amount": 0.40, "currencyCode": "EUR", "type": "FLEX",
+                "unitType": "HOUR", "units": 0.25,
+                "scaleFrom": 1, "scaleType": "HOUR"
+              }
+            ]
+          },
+          "isTaxable": true,
+          "name": "Default"
+        }
+      ],
+      "assetClass": "BIKE",
+      "assetSubClass": "normal bike",
+      "assets": [
+        {
+          "id": "rotating ID, after each booking this asset should have another ID, to become GDPR compliant",
+          "isDisabled": false,
+          "isReserved": false,
+          "licensePlate": "not applicable in available_assets.",
+          "mileage": 6.027456183070403,
+          "overriddenProperties": {
+            "accessMethods": [ "DEEPLINK" ],
+            "location": {
+              "coordinates": {
+                "lat": 52.253279,
+                "lng": 6.169639
+              },
+              "extraInfo": "Only expose coordinates when you want to display them on a map",
+              "stationId": "station1"
+            },
+            "propulsion": "MUSCLE"
+          },
+          "rentalUrl": "https://www.bike-to.com/app?sid=1234567890",
+          "rentalUrlAndroid": "https://www.bike-to.com/app?sid=1234567890&platform=android",
+          "rentalUrlIOS": "https://www.bike-to.com/app?sid=1234567890&platform=ios"
+        }
+      ],
+      "conditions": [
+        {
+          "conditionType": "conditionReturnArea",
+          "id": "station1",
+          "coordinates": { "lng": 6.169639, "lat": 52.253279 }
+        }
+      ]
+    }
+  ]

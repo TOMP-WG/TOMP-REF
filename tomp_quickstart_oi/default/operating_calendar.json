@@ -1,0 +1,12 @@
+[
+    {
+      "endDay": 31,
+      "endMonth": 12,
+      "endYear": 2099,
+      "regionId": "regionId",
+      "startDay": 1,
+      "startMonth": 1,
+      "startYear": 2019,
+      "stationId": "stationId"
+    }
+  ]

@@ -1,0 +1,34 @@
+[
+    {
+      "description": "Unlimited plan for free bikes, as long as you don't break them!",
+      "fare": {
+        "class": "class",
+        "description": "description",
+        "estimated": true,
+        "parts": [
+          {
+            "amount": 9.96,
+            "currencyCode": "EUR",
+            "type": "FLEX",
+            "unitType": "HOUR",
+            "units": 1,
+            "vatRate": 21
+          },
+          {
+            "amount": 9.96,
+            "currencyCode": "EUR",
+            "type": "FLEX",
+            "unitType": "HOUR",
+            "units": 1,
+            "vatRate": 21
+          }
+        ]
+      },
+      "isTaxable": true,
+      "name": "Free Plan",
+      "planId": "freeplan1",
+      "regionId": "regionId",
+      "stationId": "stationId",
+      "url": "https://www.rentmyfreebike.com/freeplan"
+    }
+  ]

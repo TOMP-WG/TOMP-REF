@@ -1,0 +1,18 @@
+[
+    {
+      "alertId": "791ab120-0297-445d-b391-435bba0f352d",
+      "alertType": "choose from: SYSTEM_CLOSURE, STATION_CLOSURE, STATION_MOVE, OTHER",
+      "description": "station closed indefinitely due to vandalism",
+      "lastUpdated": "2000-01-23T04:56:07+00:00",
+      "startAndEndTimes": [
+        [
+          "2000-01-23T04:56:07+00:00",
+          "2020-01-23T04:56:07+00:00"
+        ]
+      ],
+      "regionId": ["you can specify here the applicable region, if any"],
+      "stationIds": ["you can specify the applicable stations, if any"],
+      "summary": "station closed",
+      "url": "https://www.default-to.com/alerts/791ab120-0297-445d-b391-435bba0f352d"
+    }
+  ]

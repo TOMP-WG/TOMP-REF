@@ -1,0 +1,13 @@
+[
+    {
+      "days": [
+        "MON",
+        "MON"
+      ],
+      "endTime": "endTime",
+      "regionId": "regionId",
+      "startTime": "startTime",
+      "stationId": "stationId",
+      "userType": "MEMBER"
+    }
+  ]
