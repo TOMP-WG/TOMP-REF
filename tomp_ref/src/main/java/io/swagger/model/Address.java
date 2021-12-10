@@ -4,7 +4,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -25,7 +24,7 @@ public class Address   {
   private String street = null;
 
   @JsonProperty("houseNumber")
-  private BigDecimal houseNumber = null;
+  private Integer houseNumber = null;
 
   @JsonProperty("houseNumberAddition")
   private String houseNumberAddition = null;
@@ -90,7 +89,7 @@ public class Address   {
     this.street = street;
   }
 
-  public Address houseNumber(BigDecimal houseNumber) {
+  public Address houseNumber(Integer houseNumber) {
     this.houseNumber = houseNumber;
     return this;
   }
@@ -102,12 +101,11 @@ public class Address   {
    **/
   @Schema(description = "house number, consistent with streetAddress")
   
-    @Valid
-  @DecimalMin("0")  public BigDecimal getHouseNumber() {
+  @Min(0)  public Integer getHouseNumber() {
     return houseNumber;
   }
 
-  public void setHouseNumber(BigDecimal houseNumber) {
+  public void setHouseNumber(Integer houseNumber) {
     this.houseNumber = houseNumber;
   }
 
@@ -251,10 +249,10 @@ public class Address   {
   }
 
   /**
-   * Get country
+   * two-letter country codes according to ISO 3166-1
    * @return country
    **/
-  @Schema(description = "")
+  @Schema(example = "NL", description = "two-letter country codes according to ISO 3166-1")
   
   @Size(min=2,max=2)   public String getCountry() {
     return country;

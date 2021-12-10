@@ -16,10 +16,10 @@ import javax.validation.constraints.*;
  * ConditionRequireBookingData
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T07:58:28.459Z[GMT]")
 
 
-public class ConditionRequireBookingData extends Condition implements OneOfcondition {
+public class ConditionRequireBookingData extends Condition implements OneOfassetTypeConditionsItems, OneOflegConditionsItems {
   /**
    * Gets or Sets requiredFields
    */
@@ -50,7 +50,9 @@ public class ConditionRequireBookingData extends Condition implements OneOfcondi
     
     NAME("NAME"),
     
-    AGE("AGE");
+    AGE("AGE"),
+    
+    BLOCKCHAIN_CLAIMS("BLOCKCHAIN_CLAIMS");
 
     private String value;
 
@@ -78,6 +80,10 @@ public class ConditionRequireBookingData extends Condition implements OneOfcondi
   @Valid
   private List<RequiredFieldsEnum> requiredFields = new ArrayList<RequiredFieldsEnum>();
 
+  @JsonProperty("claims")
+  @Valid
+  private List<String> claims = null;
+
   public ConditionRequireBookingData requiredFields(List<RequiredFieldsEnum> requiredFields) {
     this.requiredFields = requiredFields;
     return this;
@@ -103,6 +109,33 @@ public class ConditionRequireBookingData extends Condition implements OneOfcondi
     this.requiredFields = requiredFields;
   }
 
+  public ConditionRequireBookingData claims(List<String> claims) {
+    this.claims = claims;
+    return this;
+  }
+
+  public ConditionRequireBookingData addClaimsItem(String claimsItem) {
+    if (this.claims == null) {
+      this.claims = new ArrayList<String>();
+    }
+    this.claims.add(claimsItem);
+    return this;
+  }
+
+  /**
+   * when in the 'requiredFields' array 'BLOCKCHAIN_CLAIMS' is specified, in this array claims can be specified. On the WIKI page, the known ones are enlisted, but this list isn't finalized yet. https://github.com/TOMP-WG/TOMP-API/wiki/Blockchain---Verifiable-credentials
+   * @return claims
+   **/
+  @Schema(description = "when in the 'requiredFields' array 'BLOCKCHAIN_CLAIMS' is specified, in this array claims can be specified. On the WIKI page, the known ones are enlisted, but this list isn't finalized yet. https://github.com/TOMP-WG/TOMP-API/wiki/Blockchain---Verifiable-credentials")
+  
+    public List<String> getClaims() {
+    return claims;
+  }
+
+  public void setClaims(List<String> claims) {
+    this.claims = claims;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -114,12 +147,13 @@ public class ConditionRequireBookingData extends Condition implements OneOfcondi
     }
     ConditionRequireBookingData conditionRequireBookingData = (ConditionRequireBookingData) o;
     return Objects.equals(this.requiredFields, conditionRequireBookingData.requiredFields) &&
+        Objects.equals(this.claims, conditionRequireBookingData.claims) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(requiredFields, super.hashCode());
+    return Objects.hash(requiredFields, claims, super.hashCode());
   }
 
   @Override
@@ -128,6 +162,7 @@ public class ConditionRequireBookingData extends Condition implements OneOfcondi
     sb.append("class ConditionRequireBookingData {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    requiredFields: ").append(toIndentedString(requiredFields)).append("\n");
+    sb.append("    claims: ").append(toIndentedString(claims)).append("\n");
     sb.append("}");
     return sb.toString();
   }

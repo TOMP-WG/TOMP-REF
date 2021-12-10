@@ -3,9 +3,6 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeId;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -15,20 +12,11 @@ import javax.validation.constraints.*;
  * Condition
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T12:24:01.312Z[GMT]")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "conditionType", visible = true )
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = ConditionDeposit.class, name = "conditionDeposit"),
-        @JsonSubTypes.Type(value = ConditionPostponedCommit.class, name = "conditionPostponedCommit"),
-        @JsonSubTypes.Type(value = ConditionUpfrontPayment.class, name = "conditionUpfrontPayment"),
-        @JsonSubTypes.Type(value = ConditionPayWhenFinished.class, name = "conditionPayWhenFinished"),
-        @JsonSubTypes.Type(value = ConditionRequireBookingData.class, name = "conditionRequireBookingData"),
-        @JsonSubTypes.Type(value = ConditionReturnArea.class, name = "conditionReturnArea"),
-})
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T07:58:28.459Z[GMT]")
 
 
-public class Condition  implements OneOfcondition {
-  @JsonTypeId
+public class Condition   {
+  @JsonProperty("conditionType")
   private String conditionType = null;
 
   @JsonProperty("id")

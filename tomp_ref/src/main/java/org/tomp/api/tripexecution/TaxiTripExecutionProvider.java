@@ -1,6 +1,7 @@
 package org.tomp.api.tripexecution;
 
 import java.math.BigDecimal;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.UUID;
@@ -62,12 +63,13 @@ public class TaxiTripExecutionProvider implements TripExecutionProvider {
 
 	Random random = new Random();
 
+	@SuppressWarnings("unchecked")
 	public void startExecution(String tripId) {
 		this.tripId = tripId;
 
 		Booking booking = repository.getBooking(tripId);
 
-		for (Entry<String, Object> kv : booking.getExtraData().entrySet()) {
+		for (Entry<String, Object> kv : ((Map<String, Object>) booking.getExtraData()).entrySet()) {
 			if (kv.getKey().equals(MAAS_ID)) {
 				maasIdFromMP = kv.getValue().toString();
 			}
@@ -119,7 +121,7 @@ public class TaxiTripExecutionProvider implements TripExecutionProvider {
 		if (mp != null) {
 			try {
 				ExtraCosts toSend = new ExtraCosts();
-				toSend.setAmount(BigDecimal.valueOf(3.12));
+				toSend.setAmount(3.12F);
 				toSend.setCategory(JournalCategory.EXTRA_USAGE);
 				toSend.setCurrencyCode("EUR");
 				toSend.setDescription("Difference between estimated initial costs");

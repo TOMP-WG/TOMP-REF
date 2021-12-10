@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.model.Place;
 import io.swagger.model.SupportRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -18,7 +17,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "the current status of support")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class SupportStatus extends SupportRequest  {
@@ -113,11 +112,12 @@ public class SupportStatus extends SupportRequest  {
 
   /**
    * the sequence number of status of the support issue
+   * minimum: 0
    * @return order
    **/
   @Schema(description = "the sequence number of status of the support issue")
   
-    public Integer getOrder() {
+  @Min(0)  public Integer getOrder() {
     return order;
   }
 

@@ -16,10 +16,10 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "Axa EKey information")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-28T07:34:31.139Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
-public class TokenEKey extends TokenData  {
+public class TokenEKey extends TokenData implements OneOftokenTokenData {
   @JsonProperty("ekey")
   private TokenEKeyEkey ekey = null;
 

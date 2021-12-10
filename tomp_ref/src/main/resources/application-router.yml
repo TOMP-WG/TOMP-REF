@@ -1,0 +1,38 @@
+spring:
+   profiles: router
+   application:
+      name: router
+server:
+   port: 8082
+tomp:
+   maas-id: 5affbd0b-cfff-42b0-9bc4-649455146103
+   lookup-service: http://localhost:7999/
+   accept-language: nl
+   api-version: 1.2.2
+   allowUnknownOperators: true
+   authenticationRequired: false
+
+   version-file: src/main/resources/versions.json
+   system-information-file: src/main/resources/system-info-generic.json
+   regions-file: src/main/resources/regions.json
+   stations-file: src/main/resources/stations.json
+   area-file: src/main/resources/area.json
+   asset-file: src/main/resources/bikes.json
+   condition-file: src/main/resources/conditions.json
+
+   providers:
+      operatorinformation: router
+      planning: router
+   
+   pw: Dat4All!
+   pfx: C:\sources\tomp-ref\tomp_ref\src\main\resources\reference_environment.pfx
+   
+   routerUrl: https://maas-nl-hub.westeurope.cloudapp.azure.com/TOMP/v1/
+   sensorId: 5affbd0b-cfff-42b0-9bc4-649455146103
+   toID: 528000000000010
+   thumbprint: 3034fa61889c75a27c8165dd927a1c7f11932db8
+   
+
+logging:
+   level:
+      org.springframework: ERROR      

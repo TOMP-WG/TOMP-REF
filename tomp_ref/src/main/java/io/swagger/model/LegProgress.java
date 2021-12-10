@@ -54,12 +54,14 @@ public class LegProgress   {
   }
 
   /**
-   * Get duration
+   * A duration of some time (relative to a time) in milliseconds
+   * minimum: 0
+   * maximum: 2147483647
    * @return duration
    **/
-  @Schema(description = "")
+  @Schema(example = "11112", description = "A duration of some time (relative to a time) in milliseconds")
   
-    public Integer getDuration() {
+  @Min(0) @Max(2147483647)   public Integer getDuration() {
     return duration;
   }
 
@@ -73,12 +75,13 @@ public class LegProgress   {
   }
 
   /**
-   * Get distance
+   * The estimated distance travelled in the leg (in meters)
+   * minimum: 0
    * @return distance
    **/
-  @Schema(description = "")
+  @Schema(example = "7250", description = "The estimated distance travelled in the leg (in meters)")
   
-    public Integer getDistance() {
+  @Min(0)  public Integer getDistance() {
     return distance;
   }
 

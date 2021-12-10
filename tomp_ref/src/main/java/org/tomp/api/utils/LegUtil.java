@@ -18,14 +18,14 @@ public class LegUtil {
 	/*
 	 * Duration in seconds
 	 */
-	public double getDuration(Leg leg) {
+	public Integer getDuration(Leg leg) {
 		if (leg.getDepartureTime() != null && leg.getArrivalTime() != null) {
-			return ChronoUnit.MINUTES.between(leg.getDepartureTime(), leg.getArrivalTime());
+			return (int)ChronoUnit.MINUTES.between(leg.getDepartureTime(), leg.getArrivalTime());
 		}
 		// avg 30 km/h => 30000 m/h => 30000/3600 = 8.3 m/s
 		double duration = getDistance(leg) / 8.3;
 		log.info("Duration (seconds): {}", duration);
-		return duration;
+		return (int)duration;
 	}
 
 	/*

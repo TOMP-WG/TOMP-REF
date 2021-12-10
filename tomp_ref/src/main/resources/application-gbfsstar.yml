@@ -11,7 +11,7 @@ tomp:
    allowUnknownOperators: true
    authenticationRequired: false
    accept-language: nl
-   api-version: 0.9.0
+   api-version: 1.3.0
    version-file: src/main/resources/versions.json
    fare-file: src/main/resources/fare.json
    providers:

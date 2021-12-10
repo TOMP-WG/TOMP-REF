@@ -70,8 +70,8 @@ public class TrainPlanningProvider implements PlanningProvider {
 		FarePart part = new FarePart();
 		part.setType(TypeEnum.FIXED);
 		part.setCurrencyCode("EUR");
-		part.setAmount(BigDecimal.valueOf(10.33));
-		part.setVatRate(BigDecimal.valueOf(21.0));
+		part.setAmount(10.33F);
+		part.setVatRate(21.0F);
 		fare.addPartsItem(part);
 		return fare;
 	}

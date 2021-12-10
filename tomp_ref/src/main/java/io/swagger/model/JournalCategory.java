@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import java.util.Objects;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -9,7 +10,7 @@ import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * Gets or Sets journalCategory
+ * ALL and FARE are not allowed to use in the journalEntry object. They are there for filtering purposes in the journal entry endpoint.
  */
 public enum JournalCategory {
   ALL("ALL"),
@@ -23,7 +24,8 @@ public enum JournalCategory {
     CREDIT("CREDIT"),
     VOUCHER("VOUCHER"),
     DEPOSIT("DEPOSIT"),
-    OTHER("OTHER");
+    OTHER("OTHER"),
+    FARE("FARE");
 
   private String value;
 

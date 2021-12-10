@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.model.AmountOfMoney;
 import io.swagger.model.BankAccount;
+import io.swagger.model.JournalCategory;
 import io.swagger.model.JournalState;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -18,10 +18,13 @@ import javax.validation.constraints.*;
  * JournalEntry
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class JournalEntry extends AmountOfMoney  {
+  @JsonProperty("category")
+  private JournalCategory category = null;
+
   @JsonProperty("journalId")
   private String journalId = null;
 
@@ -44,7 +47,7 @@ public class JournalEntry extends AmountOfMoney  {
   private String comment = null;
 
   @JsonProperty("distance")
-  private BigDecimal distance = null;
+  private Float distance = null;
 
   /**
    * Gets or Sets distanceType
@@ -80,13 +83,36 @@ public class JournalEntry extends AmountOfMoney  {
   private DistanceTypeEnum distanceType = null;
 
   @JsonProperty("usedTime")
-  private BigDecimal usedTime = null;
+  private Integer usedTime = null;
+
+  @JsonProperty("rentalStartMileage")
+  private Float rentalStartMileage = null;
 
   @JsonProperty("bankAccount")
   private BankAccount bankAccount = null;
 
   @JsonProperty("details")
   private Object details = null;
+
+  public JournalEntry category(JournalCategory category) {
+    this.category = category;
+    return this;
+  }
+
+  /**
+   * Get category
+   * @return category
+   **/
+  @Schema(description = "")
+  
+    @Valid
+    public JournalCategory getCategory() {
+    return category;
+  }
+
+  public void setCategory(JournalCategory category) {
+    this.category = category;
+  }
 
   public JournalEntry journalId(String journalId) {
     this.journalId = journalId;
@@ -224,23 +250,23 @@ public class JournalEntry extends AmountOfMoney  {
     this.comment = comment;
   }
 
-  public JournalEntry distance(BigDecimal distance) {
+  public JournalEntry distance(Float distance) {
     this.distance = distance;
     return this;
   }
 
   /**
    * the travelled distance. Only if applicable.
+   * minimum: 0
    * @return distance
    **/
   @Schema(description = "the travelled distance. Only if applicable.")
   
-    @Valid
-    public BigDecimal getDistance() {
+  @DecimalMin("0")  public Float getDistance() {
     return distance;
   }
 
-  public void setDistance(BigDecimal distance) {
+  public void setDistance(Float distance) {
     this.distance = distance;
   }
 
@@ -263,24 +289,44 @@ public class JournalEntry extends AmountOfMoney  {
     this.distanceType = distanceType;
   }
 
-  public JournalEntry usedTime(BigDecimal usedTime) {
+  public JournalEntry usedTime(Integer usedTime) {
     this.usedTime = usedTime;
     return this;
   }
 
   /**
    * the time in seconds that the assed is used. Only if applicable.
+   * minimum: 0
    * @return usedTime
    **/
   @Schema(description = "the time in seconds that the assed is used. Only if applicable.")
   
-    @Valid
-    public BigDecimal getUsedTime() {
+  @Min(0)  public Integer getUsedTime() {
     return usedTime;
   }
 
-  public void setUsedTime(BigDecimal usedTime) {
+  public void setUsedTime(Integer usedTime) {
     this.usedTime = usedTime;
+  }
+
+  public JournalEntry rentalStartMileage(Float rentalStartMileage) {
+    this.rentalStartMileage = rentalStartMileage;
+    return this;
+  }
+
+  /**
+   * the mileage at the start of the rental. 'DistanceType' field is also applicable here
+   * minimum: 0
+   * @return rentalStartMileage
+   **/
+  @Schema(description = "the mileage at the start of the rental. 'DistanceType' field is also applicable here")
+  
+  @DecimalMin("0")  public Float getRentalStartMileage() {
+    return rentalStartMileage;
+  }
+
+  public void setRentalStartMileage(Float rentalStartMileage) {
+    this.rentalStartMileage = rentalStartMileage;
   }
 
   public JournalEntry bankAccount(BankAccount bankAccount) {
@@ -332,7 +378,8 @@ public class JournalEntry extends AmountOfMoney  {
       return false;
     }
     JournalEntry journalEntry = (JournalEntry) o;
-    return Objects.equals(this.journalId, journalEntry.journalId) &&
+    return Objects.equals(this.category, journalEntry.category) &&
+        Objects.equals(this.journalId, journalEntry.journalId) &&
         Objects.equals(this.journalSequenceId, journalEntry.journalSequenceId) &&
         Objects.equals(this.invoiceId, journalEntry.invoiceId) &&
         Objects.equals(this.invoiceDate, journalEntry.invoiceDate) &&
@@ -342,6 +389,7 @@ public class JournalEntry extends AmountOfMoney  {
         Objects.equals(this.distance, journalEntry.distance) &&
         Objects.equals(this.distanceType, journalEntry.distanceType) &&
         Objects.equals(this.usedTime, journalEntry.usedTime) &&
+        Objects.equals(this.rentalStartMileage, journalEntry.rentalStartMileage) &&
         Objects.equals(this.bankAccount, journalEntry.bankAccount) &&
         Objects.equals(this.details, journalEntry.details) &&
         super.equals(o);
@@ -349,7 +397,7 @@ public class JournalEntry extends AmountOfMoney  {
 
   @Override
   public int hashCode() {
-    return Objects.hash(journalId, journalSequenceId, invoiceId, invoiceDate, state, expirationDate, comment, distance, distanceType, usedTime, bankAccount, details, super.hashCode());
+    return Objects.hash(category, journalId, journalSequenceId, invoiceId, invoiceDate, state, expirationDate, comment, distance, distanceType, usedTime, rentalStartMileage, bankAccount, details, super.hashCode());
   }
 
   @Override
@@ -357,6 +405,7 @@ public class JournalEntry extends AmountOfMoney  {
     StringBuilder sb = new StringBuilder();
     sb.append("class JournalEntry {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    journalId: ").append(toIndentedString(journalId)).append("\n");
     sb.append("    journalSequenceId: ").append(toIndentedString(journalSequenceId)).append("\n");
     sb.append("    invoiceId: ").append(toIndentedString(invoiceId)).append("\n");
@@ -367,6 +416,7 @@ public class JournalEntry extends AmountOfMoney  {
     sb.append("    distance: ").append(toIndentedString(distance)).append("\n");
     sb.append("    distanceType: ").append(toIndentedString(distanceType)).append("\n");
     sb.append("    usedTime: ").append(toIndentedString(usedTime)).append("\n");
+    sb.append("    rentalStartMileage: ").append(toIndentedString(rentalStartMileage)).append("\n");
     sb.append("    bankAccount: ").append(toIndentedString(bankAccount)).append("\n");
     sb.append("    details: ").append(toIndentedString(details)).append("\n");
     sb.append("}");

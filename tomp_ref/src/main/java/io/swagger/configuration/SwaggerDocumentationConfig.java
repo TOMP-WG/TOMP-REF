@@ -35,7 +35,7 @@ public class SwaggerDocumentationConfig {
             .license("Apache 2.0")
             .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
             .termsOfServiceUrl("")
-            .version("1.2.2")
+            .version("1.3.0")
             .contact(new Contact("","", ""))
             .build();
     }
@@ -47,7 +47,7 @@ public class SwaggerDocumentationConfig {
                 .title("Transport Operator MaaS Provider API")
                 .description("An API between MaaS providers and transport operators for booking trips and corresponding assets. <p>The documentation (examples, process flows and sequence diagrams) can be found at <a href=\"https://github.com/TOMP-WG/TOMP-API/\">github</a>.")
                 .termsOfService("")
-                .version("1.2.0")
+                .version("1.3.0")
                 .license(new License()
                     .name("Apache 2.0")
                     .url("http://www.apache.org/licenses/LICENSE-2.0.html"))

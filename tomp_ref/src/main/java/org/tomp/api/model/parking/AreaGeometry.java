@@ -1,14 +1,12 @@
 package org.tomp.api.model.parking;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AreaGeometry {
 	@JsonProperty("type")
 	private String type;
 	@JsonProperty("coordinates")
-	private BigDecimal[][][] polygon;
+	private Float[][][] polygon;
 
 	public String getType() {
 		return type;
@@ -18,11 +16,11 @@ public class AreaGeometry {
 		this.type = type;
 	}
 
-	public BigDecimal[][][] getPolygon() {
+	public Float[][][] getPolygon() {
 		return polygon;
 	}
 
-	public void setPolygon(BigDecimal[][][] polygon) {
+	public void setPolygon(Float[][][] polygon) {
 		this.polygon = polygon;
 	}
 }

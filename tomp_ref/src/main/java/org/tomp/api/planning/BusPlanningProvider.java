@@ -72,8 +72,8 @@ public class BusPlanningProvider implements PlanningProvider {
 		FarePart part = new FarePart();
 		part.setType(TypeEnum.FIXED);
 		part.setCurrencyCode("EUR");
-		part.setAmount(BigDecimal.valueOf(10.33));
-		part.setVatRate(BigDecimal.valueOf(21.0));
+		part.setAmount((float)(10.33));
+		part.setVatRate((float)(21.0));
 		fare.addPartsItem(part);
 		return fare;
 	}

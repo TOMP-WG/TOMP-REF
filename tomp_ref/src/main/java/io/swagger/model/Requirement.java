@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -13,57 +12,19 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Requirement
+ * describes an (dis)ability or ancillary.
  */
+@Schema(description = "describes an (dis)ability or ancillary.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class Requirement   {
-  /**
-   * references to the first column of the specification
-   */
-  public enum CategoryEnum {
-    HR("HR"),
-    
-    AV("AV"),
-    
-    HV("HV"),
-    
-    AB("AB"),
-    
-    AER("AER"),
-    
-    K("K"),
-    
-    ZR("ZR"),
-    
-    RR("RR");
+  @JsonProperty("source")
+  private String source = null;
 
-    private String value;
-
-    CategoryEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static CategoryEnum fromValue(String text) {
-      for (CategoryEnum b : CategoryEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
   @JsonProperty("category")
-  private CategoryEnum category = null;
+  private String category = null;
 
   @JsonProperty("number")
   private String number = null;
@@ -75,7 +36,7 @@ public class Requirement   {
   private String memo = null;
 
   @JsonProperty("variable-number")
-  private BigDecimal variableNumber = null;
+  private Integer variableNumber = null;
 
   /**
    * Gets or Sets applicableDays
@@ -121,23 +82,42 @@ public class Requirement   {
   @Valid
   private List<ApplicableDaysEnum> applicableDays = null;
 
-  public Requirement category(CategoryEnum category) {
+  public Requirement source(String source) {
+    this.source = source;
+    return this;
+  }
+
+  /**
+   * if obsolete, it is referencing the travelers' dictionary (https://github.com/TOMP-WG/TOMP-API/blob/master/documents/CROW%20passenger%20characteristics.xlsx)
+   * @return source
+   **/
+  @Schema(description = "if obsolete, it is referencing the travelers' dictionary (https://github.com/TOMP-WG/TOMP-API/blob/master/documents/CROW%20passenger%20characteristics.xlsx)")
+  
+    public String getSource() {
+    return source;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
+  }
+
+  public Requirement category(String category) {
     this.category = category;
     return this;
   }
 
   /**
-   * references to the first column of the specification
+   * references to the first column of the specification initial values [ HR, AV, HV, AB, AER, K, ZR, RR ]
    * @return category
    **/
-  @Schema(required = true, description = "references to the first column of the specification")
+  @Schema(required = true, description = "references to the first column of the specification initial values [ HR, AV, HV, AB, AER, K, ZR, RR ]")
       @NotNull
 
-    public CategoryEnum getCategory() {
+    public String getCategory() {
     return category;
   }
 
-  public void setCategory(CategoryEnum category) {
+  public void setCategory(String category) {
     this.category = category;
   }
 
@@ -199,23 +179,23 @@ public class Requirement   {
     this.memo = memo;
   }
 
-  public Requirement variableNumber(BigDecimal variableNumber) {
+  public Requirement variableNumber(Integer variableNumber) {
     this.variableNumber = variableNumber;
     return this;
   }
 
   /**
    * in some requirements there is references to '[variable number]' e.g. of meters (like ZR06)
+   * minimum: 0
    * @return variableNumber
    **/
   @Schema(description = "in some requirements there is references to '[variable number]' e.g. of meters (like ZR06)")
   
-    @Valid
-    public BigDecimal getVariableNumber() {
+  @Min(0)  public Integer getVariableNumber() {
     return variableNumber;
   }
 
-  public void setVariableNumber(BigDecimal variableNumber) {
+  public void setVariableNumber(Integer variableNumber) {
     this.variableNumber = variableNumber;
   }
 
@@ -256,7 +236,8 @@ public class Requirement   {
       return false;
     }
     Requirement requirement = (Requirement) o;
-    return Objects.equals(this.category, requirement.category) &&
+    return Objects.equals(this.source, requirement.source) &&
+        Objects.equals(this.category, requirement.category) &&
         Objects.equals(this.number, requirement.number) &&
         Objects.equals(this.type, requirement.type) &&
         Objects.equals(this.memo, requirement.memo) &&
@@ -266,7 +247,7 @@ public class Requirement   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(category, number, type, memo, variableNumber, applicableDays);
+    return Objects.hash(source, category, number, type, memo, variableNumber, applicableDays);
   }
 
   @Override
@@ -274,6 +255,7 @@ public class Requirement   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Requirement {\n");
     
+    sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");

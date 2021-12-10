@@ -126,8 +126,8 @@ public class GbfsRepository implements RegionContainer, StationContainer {
 	private Place toPlace(Object lat, Object lng) {
 		Place p = new Place();
 		Coordinates coordinates = new Coordinates();
-		coordinates.setLat(BigDecimal.valueOf((Double) lat));
-		coordinates.setLng(BigDecimal.valueOf((Double) lng));
+		coordinates.setLat((float) lat);
+		coordinates.setLng((float) lng);
 		p.setCoordinates(coordinates);
 		return p;
 	}
@@ -152,19 +152,20 @@ public class GbfsRepository implements RegionContainer, StationContainer {
 		this.freeBikes = freeBikes;
 	}
 
-	public List<AssetType> getNearestAssets(@NotNull @Valid Place from, @Valid BigDecimal radius) {
+	public List<AssetType> getNearestAssets(@NotNull @Valid Place from, @Valid Integer radius) {
 		List<AssetType> results = new ArrayList<>();
 		for (AssetType assetType : getAssets()) {
 			if (assetType.getNrAvailable() == null) {
 				for (Asset asset : assetType.getAssets()) {
-					if (GeoUtil.isNearby(asset.getOverriddenProperties().getLocation().getCoordinates(), from.getCoordinates(),
-							radius.doubleValue())) {
+					if (GeoUtil.isNearby(asset.getOverriddenProperties().getLocation().getCoordinates(),
+							from.getCoordinates(), radius.doubleValue())) {
 						AssetType clone = clone(assetType);
 						clone.setAssets(Arrays.asList(asset));
 						results.add(clone);
 					}
 				}
-			} else if (GeoUtil.isNearby(assetType.getAssets().get(0).getOverriddenProperties().getLocation().getCoordinates(),
+			} else if (GeoUtil.isNearby(
+					assetType.getAssets().get(0).getOverriddenProperties().getLocation().getCoordinates(),
 					from.getCoordinates(), radius.doubleValue())) {
 				results.add(assetType);
 			}

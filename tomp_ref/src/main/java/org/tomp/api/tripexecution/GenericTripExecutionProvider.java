@@ -127,7 +127,7 @@ public class GenericTripExecutionProvider implements TripExecutionProvider {
 		repository.saveJournalEntry(entry, maasId);
 	}
 
-	private BigDecimal calculateFare(Leg execution) {
+	private Float calculateFare(Leg execution) {
 		double amount = 0;
 		Fare fare = execution.getPricing();
 
@@ -150,7 +150,7 @@ public class GenericTripExecutionProvider implements TripExecutionProvider {
 			}
 		}
 
-		return BigDecimal.valueOf(amount);
+		return (float) amount;
 	}
 
 	private double calculateFlexPart(FarePart part, Leg execution) {
@@ -176,32 +176,31 @@ public class GenericTripExecutionProvider implements TripExecutionProvider {
 
 	private void finaliseJournalItem(String id, Leg execution, LegEvent legEvent, String maasId) {
 		JournalEntry entry = repository.getLastStartJournalEntry(maasId, id);
-		entry.setUsedTime(BigDecimal
-				.valueOf(ChronoUnit.SECONDS.between(execution.getDepartureTime(), execution.getArrivalTime())));
-		entry.setDistance(calculateDistance(entry, legEvent));
-		BigDecimal amount = calculateFare(execution);
+		entry.setUsedTime((int) ChronoUnit.SECONDS.between(execution.getDepartureTime(), execution.getArrivalTime()));
+		entry.setDistance((float)calculateDistance(entry, legEvent));
+		Float amount = calculateFare(execution);
 		entry.setAmount(amount);
 		entry.setCurrencyCode(configuration.getCurrencyCode());
 		long vatRate = configuration.getVatRate();
-		entry.setVatRate(BigDecimal.valueOf(vatRate));
-		entry.setAmountExVat(BigDecimal.valueOf(amount.doubleValue() * ((100.0 - vatRate) / 100.0)));
+		entry.setVatRate((float)vatRate);
+		entry.setAmountExVat((float)(amount.doubleValue() * ((100.0 - vatRate) / 100.0)));
 		entry.setVatCountryCode(configuration.getCurrencyCode());
 		entry.setExpirationDate(ChronoUnit.DAYS.addTo(OffsetDateTime.now(), configuration.getExpirationDays()));
 		entry.setState(JournalState.TO_INVOICE);
 	}
 
-	private BigDecimal calculateDistance(JournalEntry entry, LegEvent legEvent) {
+	private int calculateDistance(JournalEntry entry, LegEvent legEvent) {
 		List<LegEvent> legEvents = repository.getLegEvents(entry.getJournalId());
 		Coordinates coordinates = legEvents.get(0).getAsset().getOverriddenProperties().getLocation().getCoordinates();
 		Coordinates coordinates2 = legEvent.getAsset().getOverriddenProperties().getLocation().getCoordinates();
 
-		BigDecimal lat = coordinates.getLat().subtract(coordinates2.getLat()).abs();
-		BigDecimal lon = coordinates.getLng().subtract(coordinates2.getLng()).abs();
+		Float lat = coordinates.getLat() - Math.abs(coordinates2.getLat());
+		Float lon = coordinates.getLng() - Math.abs(coordinates2.getLng());
 
-		lat = lat.multiply(lat);
-		lon = lon.multiply(lon);
+		lat = lat * lat;
+		lon = lon * lon;
 
-		return BigDecimal.valueOf(Math.sqrt(lat.doubleValue() + lon.doubleValue()));
+		return (int) (Math.sqrt(lat.doubleValue() + lon.doubleValue()));
 	}
 
 }

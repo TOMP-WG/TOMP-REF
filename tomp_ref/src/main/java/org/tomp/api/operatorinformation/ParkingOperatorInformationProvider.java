@@ -214,7 +214,7 @@ public class ParkingOperatorInformationProvider implements OperatorInformationPr
 		return regionList;
 	}
 
-	private GeojsonPolygon toServiceArea(BigDecimal[][][] area) {
+	private GeojsonPolygon toServiceArea(Float[][][] area) {
 		GeojsonPolygon p = new GeojsonPolygon();
 		for (Coordinates c : toCoordinates(area)) {
 			GeoUtil.addPoint(p, c.getLng(), c.getLat());
@@ -222,12 +222,12 @@ public class ParkingOperatorInformationProvider implements OperatorInformationPr
 		return p;
 	}
 
-	private List<Coordinates> toCoordinates(BigDecimal[][][] polygon) {
+	private List<Coordinates> toCoordinates(Float[][][] polygon) {
 		List<Coordinates> coords = new ArrayList<>();
 		if (polygon != null) {
-			for (BigDecimal[][] b : polygon) {
+			for (Float [][] b : polygon) {
 				if (b != null) {
-					for (BigDecimal[] c : b) {
+					for (Float[] c : b) {
 						Coordinates e = new Coordinates();
 						e.setLng(c[0]);
 						e.setLat(c[1]);

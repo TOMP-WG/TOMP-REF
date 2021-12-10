@@ -51,7 +51,7 @@ public class TaxiBookingProvider extends SharedCarBookingProvider {
 
 		Fare pricing = new Fare();
 		FarePart partsItem = new FarePart();
-		partsItem.setAmount(BigDecimal.valueOf(fare));
+		partsItem.setAmount((float)(fare));
 		partsItem.setType(TypeEnum.FIXED);
 		partsItem.setCurrencyCode(booking.getLegs().get(0).getPricing().getParts().get(0).getCurrencyCode());
 		pricing.addPartsItem(partsItem);

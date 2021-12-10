@@ -14,10 +14,10 @@ import javax.validation.constraints.*;
  * ConditionPostponedCommit
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T07:58:28.459Z[GMT]")
 
 
-public class ConditionPostponedCommit extends Condition implements OneOfcondition {
+public class ConditionPostponedCommit extends Condition implements OneOfassetTypeConditionsItems, OneOflegConditionsItems {
   @JsonProperty("ultimateResponseTime")
   private OffsetDateTime ultimateResponseTime = null;
 

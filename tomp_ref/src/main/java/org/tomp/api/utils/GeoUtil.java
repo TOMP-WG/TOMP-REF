@@ -33,8 +33,9 @@ public class GeoUtil {
 		return distance < meters;
 	}
 
-	/* Distance in meters
-	 * */
+	/*
+	 * Distance in meters
+	 */
 	public static float distanceInMeters(float lat1, float lng1, float lat2, float lng2) {
 		double earthRadius = 6371000; // meters
 		double dLat = Math.toRadians(lat2 - lat1);
@@ -47,8 +48,8 @@ public class GeoUtil {
 
 	public static Coordinates toCoordinates(double lat, double lng) {
 		Coordinates c = new Coordinates();
-		c.setLat(BigDecimal.valueOf(lat));
-		c.setLng(BigDecimal.valueOf(lng));
+		c.setLat((float) lat);
+		c.setLng((float) lng);
 		return c;
 	}
 
@@ -59,7 +60,7 @@ public class GeoUtil {
 		return toPolygon(c, radius);
 	}
 
-	public static void addPoint(GeojsonPolygon polygon, BigDecimal lng, BigDecimal lat) {
+	public static void addPoint(GeojsonPolygon polygon, Float lng, Float lat) {
 		if (polygon.isEmpty()) {
 			polygon.add(new GeojsonLine());
 		}
@@ -70,19 +71,19 @@ public class GeoUtil {
 	}
 
 	public static void addPoint(GeojsonPolygon polygon, double lng, double lat) {
-		addPoint(polygon, BigDecimal.valueOf(lng), BigDecimal.valueOf(lat));
+		addPoint(polygon, (float) (lng), (float) (lat));
 	}
 
 	public static GeojsonPolygon toPolygon(Coordinates location, double radius) {
 		GeojsonPolygon p = new GeojsonPolygon();
 
-		BigDecimal r = BigDecimal.valueOf(radius);
+		Float r = (float) (radius);
 
-		addPoint(p, location.getLng().subtract(r), location.getLat().subtract(r));
-		addPoint(p, location.getLng().add(r), location.getLat().subtract(r));
-		addPoint(p, location.getLng().add(r), location.getLat().add(r));
-		addPoint(p, location.getLng().subtract(r), location.getLat().add(r));
-		addPoint(p, location.getLng().subtract(r), location.getLat().subtract(r));
+		addPoint(p, location.getLng() - r, location.getLat() - r);
+		addPoint(p, location.getLng() + r, location.getLat() - r);
+		addPoint(p, location.getLng() + r, location.getLat() + r);
+		addPoint(p, location.getLng() - r, location.getLat() + r);
+		addPoint(p, location.getLng() - r, location.getLat() - r);
 
 		return p;
 	}

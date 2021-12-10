@@ -47,8 +47,9 @@ public class HeaderValidator {
 				throw new MissingArgumentException(required);
 			}
 			String value = requiredHeaderValues.get(required);
-			if (!value.equals("*") && !request.getHeader(required).equalsIgnoreCase(value)) {
-				log.error("{} contains invalid value: {}", required, value);
+			String headerValue = request.getHeader(required);
+			if (!value.equals("*") && !headerValue.equalsIgnoreCase(value)) {
+				log.error("{} contains invalid value: {} ({})", required, value, headerValue);
 				throw new IllegalArgumentException(required);
 			}
 		}

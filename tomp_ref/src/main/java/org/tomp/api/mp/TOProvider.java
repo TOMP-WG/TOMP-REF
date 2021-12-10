@@ -136,8 +136,8 @@ public class TOProvider {
 
 	private GeojsonPoint toCoordinates(double minLng, double minLat) {
 		GeojsonPoint start = new GeojsonPoint();
-		start.add(BigDecimal.valueOf(minLng));
-		start.add(BigDecimal.valueOf(minLat));
+		start.add((float)(minLng));
+		start.add((float)(minLat));
 		return start;
 	}
 

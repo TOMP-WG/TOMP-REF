@@ -65,8 +65,8 @@ public class OSMUtil {
 			double lon = Double.parseDouble(element.get("lon").toString());
 			Place p = new Place();
 			Coordinates coordinates = new Coordinates();
-			coordinates.setLat(BigDecimal.valueOf(lat));
-			coordinates.setLng(BigDecimal.valueOf(lon));
+			coordinates.setLat((float) (lat));
+			coordinates.setLng((float) (lon));
 			HashMap<String, Object> extraInfo = new HashMap<>();
 			extraInfo.put("osm_id", id);
 			p.setExtraInfo(extraInfo);

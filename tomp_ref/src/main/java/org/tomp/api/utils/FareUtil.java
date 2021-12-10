@@ -34,7 +34,7 @@ public class FareUtil {
 
 	public double calculateFare(Fare fare, double minutes, double distanceInMeters) {
 		double amount = 0;
-		BigDecimal max = null;
+		Float max = null;
 
 		for (FarePart part : fare.getParts()) {
 			switch (part.getType()) {

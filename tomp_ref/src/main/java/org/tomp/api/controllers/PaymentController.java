@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,10 +65,10 @@ public class PaymentController extends PaymentApiController {
 					"ALL", "DAMAGE", "LOSS", "STOLEN", "EXTRA_USAGE", "REFUND", "FINE", "OTHER_ASSET_USED", "CREDIT",
 					"VOUCHER", "DEPOSIT",
 					"OTHER" })) @Valid @RequestParam(value = "category", required = false) String category,
-			@Parameter(in = ParameterIn.QUERY, description = "start of the selection", schema = @Schema(defaultValue = "0")) @Valid @RequestParam(value = "offset", required = false, defaultValue = "0") BigDecimal offset,
-			@Parameter(in = ParameterIn.QUERY, description = "count of the selection", schema = @Schema()) @Valid @RequestParam(value = "limit", required = false) BigDecimal limit) {
+			@Min(0) @Parameter(in = ParameterIn.QUERY, description = "start of the selection", schema = @Schema(allowableValues = {}, defaultValue = "0")) @Valid @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset,
+			@Min(0) @Parameter(in = ParameterIn.QUERY, description = "count of the selection", schema = @Schema(allowableValues = {})) @Valid @RequestParam(value = "limit", required = false) Integer limit) {
 		List<JournalEntry> journalEntries = provider.getJournalEntries(acceptLanguage, api, apiVersion, from, to, state,
-						category, id, maasId);
+				category, id, maasId);
 		return new ResponseEntity<>(journalEntries, HttpStatus.OK);
 	}
 }

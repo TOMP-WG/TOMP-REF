@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.model.Asset;
 import io.swagger.model.AssetType;
-import io.swagger.model.Condition;
 import io.swagger.model.Fare;
 import io.swagger.model.GeojsonLine;
 import io.swagger.model.LegState;
@@ -26,7 +25,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "A planned (segment of) a booked trip using one asset type")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class Leg   {
@@ -66,7 +65,7 @@ public class Leg   {
 
   @JsonProperty("conditions")
   @Valid
-  private List<Condition> conditions = null;
+  private List<OneOflegConditionsItems> conditions = null;
 
   @JsonProperty("state")
   private LegState state = null;
@@ -81,7 +80,7 @@ public class Leg   {
   private Integer distance = null;
 
   @JsonProperty("progressGeometry")
-  private GeojsonLine progressGeometry = null;
+  private GeojsonLine progressGeometry = new GeojsonLine();
 
   @JsonProperty("ticket")
   private Token ticket = null;
@@ -90,7 +89,7 @@ public class Leg   {
   private Token assetAccessData = null;
 
   @JsonProperty("allAssetAccessData")
-  private TokenArray allAssetAccessData = null;
+  private TokenArray allAssetAccessData = new TokenArray();
 
   public Leg id(String id) {
     this.id = id;
@@ -319,14 +318,14 @@ public class Leg   {
     this.suboperator = suboperator;
   }
 
-  public Leg conditions(List<Condition> conditions) {
+  public Leg conditions(List<OneOflegConditionsItems> conditions) {
     this.conditions = conditions;
     return this;
   }
 
-  public Leg addConditionsItem(Condition conditionsItem) {
+  public Leg addConditionsItem(OneOflegConditionsItems conditionsItem) {
     if (this.conditions == null) {
-      this.conditions = new ArrayList<Condition>();
+      this.conditions = new ArrayList<OneOflegConditionsItems>();
     }
     this.conditions.add(conditionsItem);
     return this;
@@ -337,12 +336,12 @@ public class Leg   {
    * @return conditions
    **/
   @Schema(description = "The conditions that apply to this leg, there may be more conditions in a parent booking and planning object (if this is returned as part of those)")
-      @Valid
-    public List<Condition> getConditions() {
+  
+    public List<OneOflegConditionsItems> getConditions() {
     return conditions;
   }
 
-  public void setConditions(List<Condition> conditions) {
+  public void setConditions(List<OneOflegConditionsItems> conditions) {
     this.conditions = conditions;
   }
 
@@ -372,12 +371,14 @@ public class Leg   {
   }
 
   /**
-   * Get departureDelay
+   * A duration of some time (relative to a time) in milliseconds
+   * minimum: 0
+   * maximum: 2147483647
    * @return departureDelay
    **/
-  @Schema(description = "")
+  @Schema(example = "11112", description = "A duration of some time (relative to a time) in milliseconds")
   
-    public Integer getDepartureDelay() {
+  @Min(0) @Max(2147483647)   public Integer getDepartureDelay() {
     return departureDelay;
   }
 
@@ -391,12 +392,14 @@ public class Leg   {
   }
 
   /**
-   * Get arrivalDelay
+   * A duration of some time (relative to a time) in milliseconds
+   * minimum: 0
+   * maximum: 2147483647
    * @return arrivalDelay
    **/
-  @Schema(description = "")
+  @Schema(example = "11112", description = "A duration of some time (relative to a time) in milliseconds")
   
-    public Integer getArrivalDelay() {
+  @Min(0) @Max(2147483647)   public Integer getArrivalDelay() {
     return arrivalDelay;
   }
 
@@ -410,12 +413,13 @@ public class Leg   {
   }
 
   /**
-   * Get distance
+   * The estimated distance travelled in the leg (in meters)
+   * minimum: 0
    * @return distance
    **/
-  @Schema(description = "")
+  @Schema(example = "7250", description = "The estimated distance travelled in the leg (in meters)")
   
-    public Integer getDistance() {
+  @Min(0)  public Integer getDistance() {
     return distance;
   }
 
@@ -429,10 +433,10 @@ public class Leg   {
   }
 
   /**
-   * Get progressGeometry
+   * An array  of WGS84 coordinate pairs
    * @return progressGeometry
    **/
-  @Schema(description = "")
+  @Schema(example = "[[6.169639,52.253279],[6.05623,52.63473]]", description = "An array  of WGS84 coordinate pairs")
   
     @Valid
     public GeojsonLine getProgressGeometry() {

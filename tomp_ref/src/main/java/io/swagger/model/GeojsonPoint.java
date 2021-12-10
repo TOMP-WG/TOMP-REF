@@ -2,7 +2,6 @@ package io.swagger.model;
 
 import java.util.Objects;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -14,10 +13,10 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "Geojson Coordinate")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
-public class GeojsonPoint extends ArrayList<BigDecimal>  {
+public class GeojsonPoint extends ArrayList<Float>  {
 
   @Override
   public boolean equals(java.lang.Object o) {

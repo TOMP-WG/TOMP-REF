@@ -11,6 +11,7 @@ import io.swagger.model.Condition;
 import io.swagger.model.ConditionPostponedCommit;
 import io.swagger.model.ConditionRequireBookingData;
 import io.swagger.model.Leg;
+import io.swagger.model.OneOflegConditionsItems;
 import io.swagger.model.ConditionRequireBookingData.RequiredFieldsEnum;
 
 @Component
@@ -18,8 +19,8 @@ import io.swagger.model.ConditionRequireBookingData.RequiredFieldsEnum;
 public class TaxiPlanningProvider extends SharedCarPlanningProvider {
 
 	@Override
-	protected List<Condition> getConditionsForLeg(Leg leg, String acceptLanguage) {
-		List<Condition> conditions = new ArrayList<>();
+	protected List<OneOflegConditionsItems> getConditionsForLeg(Leg leg, String acceptLanguage) {
+		List<OneOflegConditionsItems> conditions = new ArrayList<>();
 		ConditionPostponedCommit condition = new ConditionPostponedCommit();
 		condition.setConditionType("conditionPostponedCommit");
 		condition.setUltimateResponseTime(ChronoUnit.SECONDS.addTo(this.getStartTime(), -3600));

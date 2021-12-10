@@ -16,10 +16,10 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "deeplink info")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-28T07:34:31.139Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
-public class TokenDeeplink extends TokenData  {
+public class TokenDeeplink extends TokenData implements OneOftokenTokenData {
   @JsonProperty("url")
   private String url = null;
 

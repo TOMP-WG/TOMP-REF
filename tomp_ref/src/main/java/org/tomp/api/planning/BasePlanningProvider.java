@@ -21,6 +21,7 @@ import io.swagger.model.BookingState;
 import io.swagger.model.Condition;
 import io.swagger.model.Fare;
 import io.swagger.model.Leg;
+import io.swagger.model.OneOflegConditionsItems;
 import io.swagger.model.Place;
 import io.swagger.model.Planning;
 import io.swagger.model.PlanningRequest;
@@ -106,7 +107,7 @@ public abstract class BasePlanningProvider implements PlanningProvider {
 		return start;
 	}
 
-	protected List<Condition> getConditionsForLeg(Leg result, String acceptLanguage) {
+	protected List<OneOflegConditionsItems> getConditionsForLeg(Leg result, String acceptLanguage) {
 		return conditionProvider.getApplyingConditions(acceptLanguage, result);
 	}
 

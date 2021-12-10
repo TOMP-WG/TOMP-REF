@@ -16,9 +16,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * a origin or destination of a leg, non 3D. lon/lat in WGS84.
+ * a origin or destination of a leg, 3D. lon/lat in WGS84.
  */
-@Schema(description = "a origin or destination of a leg, non 3D. lon/lat in WGS84.")
+@Schema(description = "a origin or destination of a leg, 3D. lon/lat in WGS84.")
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
 

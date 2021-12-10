@@ -16,6 +16,7 @@ import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
 import io.swagger.model.FarePart.UnitTypeEnum;
 import io.swagger.model.Leg;
+import io.swagger.model.OneOflegConditionsItems;
 
 @Component
 @ConditionalOnProperty(value = "tomp.providers.planning", havingValue = "shared-car", matchIfMissing = false)
@@ -27,24 +28,24 @@ public class SharedCarPlanningProvider extends GenericPlanningProvider {
 		fare.setEstimated(true);
 
 		FarePart part = new FarePart();
-		part.setAmount(BigDecimal.valueOf(5));
+		part.setAmount(5F);
 		part.setCurrencyCode("EUR");
 		part.setType(TypeEnum.FIXED);
 		fare.addPartsItem(part);
 
 		FarePart part2 = new FarePart();
-		part2.setAmount(BigDecimal.valueOf(1));
+		part2.setAmount(1F);
 		part2.setCurrencyCode("EUR");
 		part2.setType(TypeEnum.FLEX);
-		part2.setUnits(BigDecimal.valueOf(0.5));
+		part2.setUnits(0.5F);
 		part2.setUnitType(UnitTypeEnum.HOUR);
 		fare.addPartsItem(part2);
 		return fare;
 	}
 
 	@Override
-	protected List<Condition> getConditionsForLeg(Leg leg, String acceptLanguage) {
-		List<Condition> conditions = super.getConditionsForLeg(leg, acceptLanguage);
+	protected List<OneOflegConditionsItems> getConditionsForLeg(Leg leg, String acceptLanguage) {
+		List<OneOflegConditionsItems> conditions = super.getConditionsForLeg(leg, acceptLanguage);
 		ConditionPostponedCommit condition = new ConditionPostponedCommit();
 		condition.setConditionType("conditionPostponedCommit");
 

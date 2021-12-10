@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.model.Place;
 import io.swagger.model.Traveler;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.threeten.bp.OffsetDateTime;
@@ -19,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "A travel planning for which bookable options are requested")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class PlanningRequest   {
@@ -27,10 +26,13 @@ public class PlanningRequest   {
   private Place from = null;
 
   @JsonProperty("radius")
-  private BigDecimal radius = null;
+  private Integer radius = null;
 
   @JsonProperty("to")
   private Place to = null;
+
+  @JsonProperty("estimatedDistance")
+  private Integer estimatedDistance = null;
 
   @JsonProperty("departureTime")
   private OffsetDateTime departureTime = null;
@@ -78,23 +80,23 @@ public class PlanningRequest   {
     this.from = from;
   }
 
-  public PlanningRequest radius(BigDecimal radius) {
+  public PlanningRequest radius(Integer radius) {
     this.radius = radius;
     return this;
   }
 
   /**
    * Maximum distance in meters a user wants to travel to reach the travel option
+   * minimum: 0
    * @return radius
    **/
   @Schema(description = "Maximum distance in meters a user wants to travel to reach the travel option")
   
-    @Valid
-    public BigDecimal getRadius() {
+  @Min(0)  public Integer getRadius() {
     return radius;
   }
 
-  public void setRadius(BigDecimal radius) {
+  public void setRadius(Integer radius) {
     this.radius = radius;
   }
 
@@ -116,6 +118,26 @@ public class PlanningRequest   {
 
   public void setTo(Place to) {
     this.to = to;
+  }
+
+  public PlanningRequest estimatedDistance(Integer estimatedDistance) {
+    this.estimatedDistance = estimatedDistance;
+    return this;
+  }
+
+  /**
+   * instead of using the from/to construct, it is also possible to give an indication of the distance to travel. The process identifier 'USE_ESTIMATED_DISTANCE' is used to indicate this scenario. Also in meters
+   * minimum: 0
+   * @return estimatedDistance
+   **/
+  @Schema(description = "instead of using the from/to construct, it is also possible to give an indication of the distance to travel. The process identifier 'USE_ESTIMATED_DISTANCE' is used to indicate this scenario. Also in meters")
+  
+  @Min(0)  public Integer getEstimatedDistance() {
+    return estimatedDistance;
+  }
+
+  public void setEstimatedDistance(Integer estimatedDistance) {
+    this.estimatedDistance = estimatedDistance;
   }
 
   public PlanningRequest departureTime(OffsetDateTime departureTime) {
@@ -168,9 +190,8 @@ public class PlanningRequest   {
    * minimum: 1
    * @return nrOfTravelers
    **/
-  @Schema(required = true, description = "The number of people that intend to travel, including the customer.")
-      @NotNull
-
+  @Schema(description = "The number of people that intend to travel, including the customer.")
+  
   @Min(1)  public Integer getNrOfTravelers() {
     return nrOfTravelers;
   }
@@ -300,6 +321,7 @@ public class PlanningRequest   {
     return Objects.equals(this.from, planningRequest.from) &&
         Objects.equals(this.radius, planningRequest.radius) &&
         Objects.equals(this.to, planningRequest.to) &&
+        Objects.equals(this.estimatedDistance, planningRequest.estimatedDistance) &&
         Objects.equals(this.departureTime, planningRequest.departureTime) &&
         Objects.equals(this.arrivalTime, planningRequest.arrivalTime) &&
         Objects.equals(this.nrOfTravelers, planningRequest.nrOfTravelers) &&
@@ -311,7 +333,7 @@ public class PlanningRequest   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(from, radius, to, departureTime, arrivalTime, nrOfTravelers, travelers, useAssets, userGroups, useAssetTypes);
+    return Objects.hash(from, radius, to, estimatedDistance, departureTime, arrivalTime, nrOfTravelers, travelers, useAssets, userGroups, useAssetTypes);
   }
 
   @Override
@@ -322,6 +344,7 @@ public class PlanningRequest   {
     sb.append("    from: ").append(toIndentedString(from)).append("\n");
     sb.append("    radius: ").append(toIndentedString(radius)).append("\n");
     sb.append("    to: ").append(toIndentedString(to)).append("\n");
+    sb.append("    estimatedDistance: ").append(toIndentedString(estimatedDistance)).append("\n");
     sb.append("    departureTime: ").append(toIndentedString(departureTime)).append("\n");
     sb.append("    arrivalTime: ").append(toIndentedString(arrivalTime)).append("\n");
     sb.append("    nrOfTravelers: ").append(toIndentedString(nrOfTravelers)).append("\n");

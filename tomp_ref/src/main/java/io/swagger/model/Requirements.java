@@ -14,9 +14,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Requirements the users has ((dis)abilities, share [TRUE|FALSE], preferences [TBD]). See also &#x27;https://github.com/TOMP-WG/TOMP-API/blob/master/documents/Woordenboek%20Reizigerskenmerken%20CROW.pdf&#x27;
+ * Requirements from the end user side.
  */
-@Schema(description = "Requirements the users has ((dis)abilities, share [TRUE|FALSE], preferences [TBD]). See also 'https://github.com/TOMP-WG/TOMP-API/blob/master/documents/Woordenboek%20Reizigerskenmerken%20CROW.pdf'")
+@Schema(description = "Requirements from the end user side.")
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
 
@@ -25,6 +25,10 @@ public class Requirements extends HashMap<String, Object>  {
   @JsonProperty("abilities")
   @Valid
   private List<Requirement> abilities = null;
+
+  @JsonProperty("bringAlong")
+  @Valid
+  private List<Requirement> bringAlong = null;
 
   public Requirements abilities(List<Requirement> abilities) {
     this.abilities = abilities;
@@ -53,6 +57,33 @@ public class Requirements extends HashMap<String, Object>  {
     this.abilities = abilities;
   }
 
+  public Requirements bringAlong(List<Requirement> bringAlong) {
+    this.bringAlong = bringAlong;
+    return this;
+  }
+
+  public Requirements addBringAlongItem(Requirement bringAlongItem) {
+    if (this.bringAlong == null) {
+      this.bringAlong = new ArrayList<Requirement>();
+    }
+    this.bringAlong.add(bringAlongItem);
+    return this;
+  }
+
+  /**
+   * Get bringAlong
+   * @return bringAlong
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Requirement> getBringAlong() {
+    return bringAlong;
+  }
+
+  public void setBringAlong(List<Requirement> bringAlong) {
+    this.bringAlong = bringAlong;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -64,12 +95,13 @@ public class Requirements extends HashMap<String, Object>  {
     }
     Requirements requirements = (Requirements) o;
     return Objects.equals(this.abilities, requirements.abilities) &&
+        Objects.equals(this.bringAlong, requirements.bringAlong) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(abilities, super.hashCode());
+    return Objects.hash(abilities, bringAlong, super.hashCode());
   }
 
   @Override
@@ -78,6 +110,7 @@ public class Requirements extends HashMap<String, Object>  {
     sb.append("class Requirements {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    abilities: ").append(toIndentedString(abilities)).append("\n");
+    sb.append("    bringAlong: ").append(toIndentedString(bringAlong)).append("\n");
     sb.append("}");
     return sb.toString();
   }

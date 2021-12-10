@@ -4,7 +4,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -14,12 +13,12 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "An error that the service may send, e.g. in case of invalid input, missing authorization or internal service error. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for further explanation of error code.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class Error   {
   @JsonProperty("errorcode")
-  private BigDecimal errorcode = null;
+  private Integer errorcode = null;
 
   @JsonProperty("type")
   private String type = null;
@@ -36,7 +35,7 @@ public class Error   {
   @JsonProperty("instance")
   private String instance = null;
 
-  public Error errorcode(BigDecimal errorcode) {
+  public Error errorcode(Integer errorcode) {
     this.errorcode = errorcode;
     return this;
   }
@@ -47,12 +46,11 @@ public class Error   {
    **/
   @Schema(description = "The TOMP specific error code. See https://github.com/TOMP-WG/TOMP-API/wiki/Error-handling-in-TOMP for more details of this error.")
   
-    @Valid
-    public BigDecimal getErrorcode() {
+    public Integer getErrorcode() {
     return errorcode;
   }
 
-  public void setErrorcode(BigDecimal errorcode) {
+  public void setErrorcode(Integer errorcode) {
     this.errorcode = errorcode;
   }
 

@@ -167,10 +167,10 @@ public class MaaSPlanningProvider implements PlanningProvider {
 
 		Coordinates to = body.getTo().getCoordinates();
 
-		BigDecimal deltaX = to.getLat().subtract(from.getLat());
-		deltaX = deltaX.divide(BigDecimal.valueOf(numberOfLegs), RoundingMode.DOWN);
-		BigDecimal deltaY = to.getLng().subtract(from.getLng());
-		deltaY = deltaY.divide(BigDecimal.valueOf(numberOfLegs), RoundingMode.DOWN);
+		Float deltaX = to.getLat() - from.getLat();
+		deltaX = deltaX / numberOfLegs;
+		Float deltaY = to.getLng() - from.getLng();
+		deltaY = deltaY / numberOfLegs;
 		// int deltaT = (body.getEndTime().subtract(body.getStartTime())).intValue();
 		long deltaT = ChronoUnit.SECONDS.between(body.getArrivalTime(), body.getDepartureTime());
 		deltaT = deltaT / numberOfLegs;
@@ -256,10 +256,10 @@ public class MaaSPlanningProvider implements PlanningProvider {
 		return ChronoUnit.SECONDS.addTo(offsetDateTime, i * deltaT);
 	}
 
-	private Coordinates applyDelta(Coordinates coord, int i, BigDecimal deltaX, BigDecimal deltaY) {
+	private Coordinates applyDelta(Coordinates coord, int i, Float deltaX, Float deltaY) {
 		Coordinates result = new Coordinates();
-		result.setLat(coord.getLat().add(deltaX.multiply(BigDecimal.valueOf(i))));
-		result.setLng(coord.getLng().add(deltaY.multiply(BigDecimal.valueOf(i))));
+		result.setLat(coord.getLat() + (deltaX * i));
+		result.setLng(coord.getLng() + (deltaY * i));
 		return result;
 	}
 }

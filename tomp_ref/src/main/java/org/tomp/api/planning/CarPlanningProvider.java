@@ -23,8 +23,8 @@ public class CarPlanningProvider extends BasePlanningProvider {
 		FarePart part = new FarePart();
 		part.setType(TypeEnum.FIXED);
 		part.setCurrencyCode("EUR");
-		part.setAmount(BigDecimal.valueOf(3.33));
-		part.setVatRate(BigDecimal.valueOf(21.0));
+		part.setAmount((float)(3.33));
+		part.setVatRate((float)(21.0));
 		fare.addPartsItem(part);
 		return fare;
 	}

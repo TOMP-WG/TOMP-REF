@@ -3,9 +3,6 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeId;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,18 +14,11 @@ import javax.validation.constraints.*;
  * TokenData
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-06-08T10:25:25.468Z[GMT]")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tokenType", visible = true )
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = TokenDeeplink.class, name = "tokenDeeplink"),
-        @JsonSubTypes.Type(value = TokenDefault.class, name = "tokenDefault"),
-        @JsonSubTypes.Type(value = TokenQR.class, name = "tokenQR"),
-        @JsonSubTypes.Type(value = TokenEKey.class, name = "tokenEKey"),
-})
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class TokenData extends HashMap<String, Object>  {
-  @JsonTypeId
+  @JsonProperty("tokenType")
   private String tokenType = null;
 
   public TokenData tokenType(String tokenType) {

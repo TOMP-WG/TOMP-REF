@@ -7,23 +7,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class LonLatLocation {
 
 	@JsonProperty("latitude")
-	private BigDecimal latitude;
+	private Float latitude;
 	@JsonProperty("longitude")
-	private BigDecimal longitude;
+	private Float longitude;
 
-	public BigDecimal getLatitude() {
+	public Float getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(BigDecimal latitude) {
+	public void setLatitude(Float latitude) {
 		this.latitude = latitude;
 	}
 
-	public BigDecimal getLongitude() {
+	public Float getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(BigDecimal longitude) {
+	public void setLongitude(Float longitude) {
 		this.longitude = longitude;
 	}
 }

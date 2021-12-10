@@ -102,8 +102,8 @@ public class GeoCoderUtil {
 			p.add(new GeojsonLine());
 		}
 		GeojsonPoint c = new GeojsonPoint();
-		c.add(BigDecimal.valueOf(Double.valueOf(bb.get(indexLng))));
-		c.add(BigDecimal.valueOf(Double.valueOf(bb.get(indexLat))));
+		c.add(Float.valueOf(bb.get(indexLng)));
+		c.add(Float.valueOf(bb.get(indexLat)));
 		p.get(0).add(c);
 	}
 

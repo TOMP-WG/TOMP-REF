@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  * SystemAlert
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class SystemAlert   {
@@ -168,7 +168,7 @@ public class SystemAlert   {
    * Array of strings - If this is an alert that affects one or more stations, include their ids, otherwise omit this field. If both stationIDs and regionIDs are omitted, assume this alert affects the entire system
    * @return stationIds
    **/
-  @Schema(example = "stationID0001", description = "Array of strings - If this is an alert that affects one or more stations, include their ids, otherwise omit this field. If both stationIDs and regionIDs are omitted, assume this alert affects the entire system")
+  @Schema(example = "[\"stationID0001\"]", description = "Array of strings - If this is an alert that affects one or more stations, include their ids, otherwise omit this field. If both stationIDs and regionIDs are omitted, assume this alert affects the entire system")
   
     public List<String> getStationIds() {
     return stationIds;
@@ -195,7 +195,7 @@ public class SystemAlert   {
    * Array of strings - If this system has regions, and if this alert only affects certain regions, include their ids, otherwise, omit this field. If both stationIDs and regionIDs are omitted, assume this alert affects the entire system
    * @return regionId
    **/
-  @Schema(example = "regionID0001", description = "Array of strings - If this system has regions, and if this alert only affects certain regions, include their ids, otherwise, omit this field. If both stationIDs and regionIDs are omitted, assume this alert affects the entire system")
+  @Schema(example = "[\"regionID0001\"]", description = "Array of strings - If this system has regions, and if this alert only affects certain regions, include their ids, otherwise, omit this field. If both stationIDs and regionIDs are omitted, assume this alert affects the entire system")
   
     public List<String> getRegionId() {
     return regionId;

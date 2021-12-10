@@ -45,6 +45,10 @@ public class RouterUtil {
 			throws UnrecoverableKeyException, InvalidKeyException, FileNotFoundException, KeyStoreException,
 			CertificateException, UnsupportedEncodingException, NoSuchAlgorithmException, SignatureException {
 		String url = configuration.getRouterUrl();
+
+		if (url == null) {
+			return new HttpHeaders();
+		}
 		String thumbprint = configuration.getThumbprint();
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSSZ");

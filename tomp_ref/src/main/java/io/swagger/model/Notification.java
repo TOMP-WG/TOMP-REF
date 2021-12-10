@@ -4,18 +4,18 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.model.Asset;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * notifies the MaaS operator of issues with a booking [addendum]
+ * notifies the MaaS operator of issues with a booking. Asset information can be provided when needed.
  */
-@Schema(description = "notifies the MaaS operator of issues with a booking [addendum]")
+@Schema(description = "notifies the MaaS operator of issues with a booking. Asset information can be provided when needed.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class Notification   {
@@ -61,7 +61,10 @@ public class Notification   {
   private TypeEnum type = null;
 
   @JsonProperty("minutes")
-  private BigDecimal minutes = null;
+  private Integer minutes = null;
+
+  @JsonProperty("asset")
+  private Asset asset = null;
 
   @JsonProperty("comment")
   private String comment = null;
@@ -86,24 +89,44 @@ public class Notification   {
     this.type = type;
   }
 
-  public Notification minutes(BigDecimal minutes) {
+  public Notification minutes(Integer minutes) {
     this.minutes = minutes;
     return this;
   }
 
   /**
    * in case of ETA, the number of minutes until arrival at the pickup location
+   * minimum: 0
    * @return minutes
    **/
   @Schema(description = "in case of ETA, the number of minutes until arrival at the pickup location")
   
-    @Valid
-    public BigDecimal getMinutes() {
+  @Min(0)  public Integer getMinutes() {
     return minutes;
   }
 
-  public void setMinutes(BigDecimal minutes) {
+  public void setMinutes(Integer minutes) {
     this.minutes = minutes;
+  }
+
+  public Notification asset(Asset asset) {
+    this.asset = asset;
+    return this;
+  }
+
+  /**
+   * Get asset
+   * @return asset
+   **/
+  @Schema(description = "")
+  
+    @Valid
+    public Asset getAsset() {
+    return asset;
+  }
+
+  public void setAsset(Asset asset) {
+    this.asset = asset;
   }
 
   public Notification comment(String comment) {
@@ -137,12 +160,13 @@ public class Notification   {
     Notification notification = (Notification) o;
     return Objects.equals(this.type, notification.type) &&
         Objects.equals(this.minutes, notification.minutes) &&
+        Objects.equals(this.asset, notification.asset) &&
         Objects.equals(this.comment, notification.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, minutes, comment);
+    return Objects.hash(type, minutes, asset, comment);
   }
 
   @Override
@@ -152,6 +176,7 @@ public class Notification   {
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    minutes: ").append(toIndentedString(minutes)).append("\n");
+    sb.append("    asset: ").append(toIndentedString(asset)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

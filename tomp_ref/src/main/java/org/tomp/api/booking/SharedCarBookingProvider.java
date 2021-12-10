@@ -127,9 +127,9 @@ public class SharedCarBookingProvider implements BookingProvider {
 
 			double calculated = fareUtil.calculateFare(savedOption);
 			if (calculated > 0) {
-				entry.setAmount(BigDecimal.valueOf(calculated * 0.05)); // 5% fine in case of cancelling a booked leg
+				entry.setAmount((float)(calculated * 0.05)); // 5% fine in case of cancelling a booked leg
 				ExtraCosts costs = new ExtraCosts();
-				costs.setAmount(BigDecimal.valueOf(calculated * 0.05));
+				costs.setAmount((float)(calculated * 0.05));
 				costs.setCategory(JournalCategory.FINE);
 				entry.setDetails(costs);
 				repository.saveJournalEntry(entry, request.getHeader("maas-id"));
@@ -160,13 +160,13 @@ public class SharedCarBookingProvider implements BookingProvider {
 		LegUtil l = new LegUtil();
 
 		double distance = l.getDistance(leg);
-		entry.setDistance(BigDecimal.valueOf(distance / 1000));
+		entry.setDistance((float)(distance / 1000));
 		entry.setDistanceType(DistanceTypeEnum.KM);
 
-		double duration = l.getDuration(leg);
-		entry.setUsedTime(BigDecimal.valueOf(duration));
+		int duration = l.getDuration(leg);
+		entry.setUsedTime(duration);
 
-		entry.setAmount(BigDecimal.valueOf(f.calculateFare(leg.getPricing(), duration / 60, distance)));
+		entry.setAmount((float)(f.calculateFare(leg.getPricing(), duration / 60, distance)));
 		repository.saveJournalEntry(entry, request.getHeader("maas-id"));
 
 		sendMail(booking);
@@ -283,6 +283,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 				+ "</div>" + "<input type=\"submit\" value=\"Submit\"> " + "</form>";
 	}
 
+	@SuppressWarnings("unchecked")
 	public void saveResult(String id, boolean committed, String remark) {
 		Booking booking = repository.getBooking(id);
 		booking.setState(committed ? BookingState.CONFIRMED : BookingState.CANCELLED);
@@ -298,7 +299,7 @@ public class SharedCarBookingProvider implements BookingProvider {
 
 		BookingOperation operation = new BookingOperation();
 		operation.setOperation(committed ? OperationEnum.COMMIT : OperationEnum.DENY);
-		for (Entry<String, Object> kv : booking.getExtraData().entrySet()) {
+		for (Entry<String, Object> kv : ((Map<String, Object>) booking.getExtraData()).entrySet()) {
 			if (kv.getKey().equals(MAAS_ID)) {
 				MaasOperator mp = lookupService.getMaasOperator(kv.getValue().toString());
 				if (mp != null) {

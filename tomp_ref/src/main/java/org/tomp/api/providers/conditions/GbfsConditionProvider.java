@@ -13,6 +13,7 @@ import org.tomp.api.utils.GeoUtil;
 import io.swagger.model.Condition;
 import io.swagger.model.ConditionReturnArea;
 import io.swagger.model.Leg;
+import io.swagger.model.OneOflegConditionsItems;
 import io.swagger.model.StationInformation;
 
 @Component
@@ -22,8 +23,8 @@ public class GbfsConditionProvider implements ConditionProvider {
 	@Autowired
 	GbfsRepository repository;
 
-	public List<Condition> getConditions(String acceptLanguage) {
-		ArrayList<Condition> conditions = new ArrayList<>();
+	public List<OneOflegConditionsItems> getConditions(String acceptLanguage) {
+		ArrayList<OneOflegConditionsItems> conditions = new ArrayList<>();
 		for (StationInformation station : repository.getStations()) {
 			ConditionReturnArea condition = new ConditionReturnArea();
 			condition.setId("RA_" + station.getStationId());
@@ -37,10 +38,19 @@ public class GbfsConditionProvider implements ConditionProvider {
 	}
 
 	@Override
-	public List<Condition> getApplyingConditions(String acceptLanguage, Leg leg) {
-		String fromStationId = leg.getAssetType().getAssets().get(0).getOverriddenProperties().getLocation().getStationId();
-		return getConditions(acceptLanguage).stream().filter(x -> x.getId().equals("RA_" + fromStationId))
-				.collect(Collectors.toList());
+	public List<OneOflegConditionsItems> getApplyingConditions(String acceptLanguage, Leg result) {
+		return getConditions(acceptLanguage);
 	}
+
+	// @Override
+	// public List<OneOflegConditionsItems> getApplyingConditions(String
+	// acceptLanguage, Leg leg) {
+	// String fromStationId =
+	// leg.getAssetType().getAssets().get(0).getOverriddenProperties().getLocation()
+	// .getStationId();
+	// return getConditions(acceptLanguage).stream().filter(x ->
+	// x.getId().equals("RA_" + fromStationId))
+	// .collect(Collectors.toList());
+	// }
 
 }

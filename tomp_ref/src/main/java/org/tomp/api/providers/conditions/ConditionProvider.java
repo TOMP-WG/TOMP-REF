@@ -4,7 +4,8 @@ import java.util.List;
 
 import io.swagger.model.Condition;
 import io.swagger.model.Leg;
+import io.swagger.model.OneOflegConditionsItems;
 
 public interface ConditionProvider {
-	public List<Condition> getApplyingConditions(String acceptLanguage, Leg result);
+	public List<OneOflegConditionsItems> getApplyingConditions(String acceptLanguage, Leg result);
 }

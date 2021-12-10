@@ -111,10 +111,10 @@ public class StopReference   {
   }
 
   /**
-   * Get country
+   * two-letter country codes according to ISO 3166-1
    * @return country
    **/
-  @Schema(required = true, description = "")
+  @Schema(example = "NL", required = true, description = "two-letter country codes according to ISO 3166-1")
       @NotNull
 
   @Size(min=2,max=2)   public String getCountry() {

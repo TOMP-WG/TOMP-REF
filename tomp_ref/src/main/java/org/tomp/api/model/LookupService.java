@@ -46,6 +46,11 @@ public class LookupService {
 	}
 
 	public MaasOperator getMaasOperator(String id) {
+
+		if (configuration.isAllowUnknownOperators()) {
+			return null;
+		}
+
 		MaasOperator operator = cache.get(id);
 		if (operator == null && !cache.containsKey(id)) {
 			operator = callEndpoint("GET", "/operators/" + id, null, MaasOperator.class);

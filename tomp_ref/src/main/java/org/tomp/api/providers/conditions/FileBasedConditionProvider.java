@@ -13,6 +13,7 @@ import org.tomp.api.utils.ObjectFromFileProvider;
 
 import io.swagger.model.Condition;
 import io.swagger.model.Leg;
+import io.swagger.model.OneOflegConditionsItems;
 
 @Component
 @ConditionalOnProperty(value = "tomp.condition-file", matchIfMissing = false)
@@ -21,21 +22,20 @@ public class FileBasedConditionProvider implements ConditionProvider {
 	@Autowired
 	protected ExternalConfiguration configuration;
 
-	public List<Condition> getConditions(String acceptLanguage) {
-		ObjectFromFileProvider<Condition[]> conditionFileProvider = new ObjectFromFileProvider<>();
-		Condition[] conditions = conditionFileProvider.getObject(acceptLanguage, Condition[].class,
-				configuration.getConditionFile());
-		List<Condition> conditionList = new ArrayList<>();
-		for (Condition c : conditions) {
+	public List<OneOflegConditionsItems> getConditions(String acceptLanguage) {
+		ObjectFromFileProvider<OneOflegConditionsItems[]> conditionFileProvider = new ObjectFromFileProvider<>();
+		OneOflegConditionsItems[] conditions = conditionFileProvider.getObject(acceptLanguage,
+				OneOflegConditionsItems[].class, configuration.getConditionFile());
+		List<OneOflegConditionsItems> conditionList = new ArrayList<>();
+		for (OneOflegConditionsItems c : conditions) {
 			conditionList.add(c);
 		}
 		return conditionList;
 	}
 
 	@Override
-	public List<Condition> getApplyingConditions(String acceptLanguage, Leg result) {
-		Random r = new Random();
-		return getConditions(acceptLanguage).stream().filter(x -> r.nextBoolean()).collect(Collectors.toList());
+	public List<OneOflegConditionsItems> getApplyingConditions(String acceptLanguage, Leg result) {
+		return getConditions(acceptLanguage);
 	}
 
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.model.Asset;
 import io.swagger.model.AssetClass;
 import io.swagger.model.AssetProperties;
+import io.swagger.model.SystemPricingPlan;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import javax.validation.constraints.*;
  * AssetType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T07:58:28.459Z[GMT]")
 
 
 public class AssetType   {
@@ -42,6 +43,14 @@ public class AssetType   {
 
   @JsonProperty("sharedProperties")
   private AssetProperties sharedProperties = null;
+
+  @JsonProperty("applicablePricings")
+  @Valid
+  private List<SystemPricingPlan> applicablePricings = null;
+
+  @JsonProperty("conditions")
+  @Valid
+  private List<OneOfassetTypeConditionsItems> conditions = null;
 
   public AssetType id(String id) {
     this.id = id;
@@ -69,10 +78,10 @@ public class AssetType   {
   }
 
   /**
-   * If staionId is present, the nrAvailable is expected to find the availableity at that particular station
+   * If stationId is present, the nrAvailable is expected to find the availability at that particular station
    * @return stationId
    **/
-  @Schema(description = "If staionId is present, the nrAvailable is expected to find the availableity at that particular station")
+  @Schema(description = "If stationId is present, the nrAvailable is expected to find the availability at that particular station")
   
     public String getStationId() {
     return stationId;
@@ -137,9 +146,8 @@ public class AssetType   {
    * Get assetClass
    * @return assetClass
    **/
-  @Schema(required = true, description = "")
-      @NotNull
-
+  @Schema(description = "")
+  
     @Valid
     public AssetClass getAssetClass() {
     return assetClass;
@@ -177,9 +185,8 @@ public class AssetType   {
    * Get sharedProperties
    * @return sharedProperties
    **/
-  @Schema(required = true, description = "")
-      @NotNull
-
+  @Schema(description = "")
+  
     @Valid
     public AssetProperties getSharedProperties() {
     return sharedProperties;
@@ -187,6 +194,60 @@ public class AssetType   {
 
   public void setSharedProperties(AssetProperties sharedProperties) {
     this.sharedProperties = sharedProperties;
+  }
+
+  public AssetType applicablePricings(List<SystemPricingPlan> applicablePricings) {
+    this.applicablePricings = applicablePricings;
+    return this;
+  }
+
+  public AssetType addApplicablePricingsItem(SystemPricingPlan applicablePricingsItem) {
+    if (this.applicablePricings == null) {
+      this.applicablePricings = new ArrayList<SystemPricingPlan>();
+    }
+    this.applicablePricings.add(applicablePricingsItem);
+    return this;
+  }
+
+  /**
+   * pricing plans that can be applicable for this assetType. Business logic to determine the final pricing plan is not exposed. Just call the plannings endpoint (v1.2) or the inquiries endpoint (v.1.3)
+   * @return applicablePricings
+   **/
+  @Schema(description = "pricing plans that can be applicable for this assetType. Business logic to determine the final pricing plan is not exposed. Just call the plannings endpoint (v1.2) or the inquiries endpoint (v.1.3)")
+      @Valid
+    public List<SystemPricingPlan> getApplicablePricings() {
+    return applicablePricings;
+  }
+
+  public void setApplicablePricings(List<SystemPricingPlan> applicablePricings) {
+    this.applicablePricings = applicablePricings;
+  }
+
+  public AssetType conditions(List<OneOfassetTypeConditionsItems> conditions) {
+    this.conditions = conditions;
+    return this;
+  }
+
+  public AssetType addConditionsItem(OneOfassetTypeConditionsItems conditionsItem) {
+    if (this.conditions == null) {
+      this.conditions = new ArrayList<OneOfassetTypeConditionsItems>();
+    }
+    this.conditions.add(conditionsItem);
+    return this;
+  }
+
+  /**
+   * extra information about the asset type, making it possible to f.x. specifying that booking this car requires a driver license.
+   * @return conditions
+   **/
+  @Schema(description = "extra information about the asset type, making it possible to f.x. specifying that booking this car requires a driver license.")
+  
+    public List<OneOfassetTypeConditionsItems> getConditions() {
+    return conditions;
+  }
+
+  public void setConditions(List<OneOfassetTypeConditionsItems> conditions) {
+    this.conditions = conditions;
   }
 
 
@@ -205,12 +266,14 @@ public class AssetType   {
         Objects.equals(this.assets, assetType.assets) &&
         Objects.equals(this.assetClass, assetType.assetClass) &&
         Objects.equals(this.assetSubClass, assetType.assetSubClass) &&
-        Objects.equals(this.sharedProperties, assetType.sharedProperties);
+        Objects.equals(this.sharedProperties, assetType.sharedProperties) &&
+        Objects.equals(this.applicablePricings, assetType.applicablePricings) &&
+        Objects.equals(this.conditions, assetType.conditions);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, stationId, nrAvailable, assets, assetClass, assetSubClass, sharedProperties);
+    return Objects.hash(id, stationId, nrAvailable, assets, assetClass, assetSubClass, sharedProperties, applicablePricings, conditions);
   }
 
   @Override
@@ -225,6 +288,8 @@ public class AssetType   {
     sb.append("    assetClass: ").append(toIndentedString(assetClass)).append("\n");
     sb.append("    assetSubClass: ").append(toIndentedString(assetSubClass)).append("\n");
     sb.append("    sharedProperties: ").append(toIndentedString(sharedProperties)).append("\n");
+    sb.append("    applicablePricings: ").append(toIndentedString(applicablePricings)).append("\n");
+    sb.append("    conditions: ").append(toIndentedString(conditions)).append("\n");
     sb.append("}");
     return sb.toString();
   }

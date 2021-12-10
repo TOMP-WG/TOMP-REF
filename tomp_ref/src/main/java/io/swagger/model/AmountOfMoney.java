@@ -4,7 +4,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -18,57 +17,57 @@ import javax.validation.constraints.*;
 
 public class AmountOfMoney   {
   @JsonProperty("amount")
-  private BigDecimal amount = null;
+  private Float amount = null;
 
   @JsonProperty("amountExVat")
-  private BigDecimal amountExVat = null;
+  private Float amountExVat = null;
 
   @JsonProperty("currencyCode")
   private String currencyCode = null;
 
   @JsonProperty("vatRate")
-  private BigDecimal vatRate = null;
+  private Float vatRate = null;
 
   @JsonProperty("vatCountryCode")
   private String vatCountryCode = null;
 
-  public AmountOfMoney amount(BigDecimal amount) {
+  public AmountOfMoney amount(Float amount) {
     this.amount = amount;
     return this;
   }
 
   /**
    * This should be in the base unit as defined by the ISO 4217 currency code with the appropriate number of decimal places and omitting the currency symbol. e.g. if the price is in US Dollars the price would be 9.95. This is inclusive VAT
+   * minimum: 0
    * @return amount
    **/
   @Schema(example = "9.95", description = "This should be in the base unit as defined by the ISO 4217 currency code with the appropriate number of decimal places and omitting the currency symbol. e.g. if the price is in US Dollars the price would be 9.95. This is inclusive VAT")
   
-    @Valid
-    public BigDecimal getAmount() {
+  @DecimalMin("0")  public Float getAmount() {
     return amount;
   }
 
-  public void setAmount(BigDecimal amount) {
+  public void setAmount(Float amount) {
     this.amount = amount;
   }
 
-  public AmountOfMoney amountExVat(BigDecimal amountExVat) {
+  public AmountOfMoney amountExVat(Float amountExVat) {
     this.amountExVat = amountExVat;
     return this;
   }
 
   /**
    * Get amountExVat
+   * minimum: 0
    * @return amountExVat
    **/
   @Schema(example = "8.95", description = "")
   
-    @Valid
-    public BigDecimal getAmountExVat() {
+  @DecimalMin("0")  public Float getAmountExVat() {
     return amountExVat;
   }
 
-  public void setAmountExVat(BigDecimal amountExVat) {
+  public void setAmountExVat(Float amountExVat) {
     this.amountExVat = amountExVat;
   }
 
@@ -91,23 +90,23 @@ public class AmountOfMoney   {
     this.currencyCode = currencyCode;
   }
 
-  public AmountOfMoney vatRate(BigDecimal vatRate) {
+  public AmountOfMoney vatRate(Float vatRate) {
     this.vatRate = vatRate;
     return this;
   }
 
   /**
    * value added tax rate (percentage of amount)
+   * minimum: 0
    * @return vatRate
    **/
   @Schema(example = "21", description = "value added tax rate (percentage of amount)")
   
-    @Valid
-    public BigDecimal getVatRate() {
+  @DecimalMin("0")  public Float getVatRate() {
     return vatRate;
   }
 
-  public void setVatRate(BigDecimal vatRate) {
+  public void setVatRate(Float vatRate) {
     this.vatRate = vatRate;
   }
 
@@ -117,10 +116,10 @@ public class AmountOfMoney   {
   }
 
   /**
-   * Get vatCountryCode
+   * two-letter country codes according to ISO 3166-1
    * @return vatCountryCode
    **/
-  @Schema(description = "")
+  @Schema(example = "NL", description = "two-letter country codes according to ISO 3166-1")
   
   @Size(min=2,max=2)   public String getVatCountryCode() {
     return vatCountryCode;

@@ -3,6 +3,7 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.model.AssetType;
 import io.swagger.model.BookingRequest;
 import io.swagger.model.BookingState;
 import io.swagger.model.Customer;
@@ -11,9 +12,9 @@ import io.swagger.model.Leg;
 import io.swagger.model.Place;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -32,14 +33,22 @@ public class Booking extends BookingRequest  {
 
   @JsonProperty("legs")
   @Valid
-  private List<Leg> legs = new ArrayList<Leg>();
+  private List<Leg> legs = null;
 
   @JsonProperty("pricing")
   private Fare pricing = null;
 
+  @JsonProperty("departureTime")
+  private OffsetDateTime departureTime = null;
+
+  @JsonProperty("arrivalTime")
+  private OffsetDateTime arrivalTime = null;
+
+  @JsonProperty("mainAssetType")
+  private AssetType mainAssetType = null;
+
   @JsonProperty("extraData")
-  @Valid
-  private Map<String, Object> extraData = null;
+  private Map extraData = null;
 
   public Booking state(BookingState state) {
     this.state = state;
@@ -67,17 +76,19 @@ public class Booking extends BookingRequest  {
   }
 
   public Booking addLegsItem(Leg legsItem) {
+    if (this.legs == null) {
+      this.legs = new ArrayList<Leg>();
+    }
     this.legs.add(legsItem);
     return this;
   }
 
   /**
-   * The legs of this booking, generally just one for simple legs, in order of how they will be travelled
+   * The legs of this booking, generally just one for simple legs, in order of how they will be travelled. If this part is not present, it means that there is only one leg. This leg can be constructed * leg[0].id = booking.id * leg[0].departureTime = booking.departureTime * leg[0].arrivalTime = booking.arrivalTime * leg[0].assetType = booking.mainAssetType * leg[0].pricing = booking.pricing This approach is not allowed in the trip execution part
    * @return legs
    **/
-  @Schema(required = true, description = "The legs of this booking, generally just one for simple legs, in order of how they will be travelled")
-      @NotNull
-    @Valid
+  @Schema(description = "The legs of this booking, generally just one for simple legs, in order of how they will be travelled. If this part is not present, it means that there is only one leg. This leg can be constructed * leg[0].id = booking.id * leg[0].departureTime = booking.departureTime * leg[0].arrivalTime = booking.arrivalTime * leg[0].assetType = booking.mainAssetType * leg[0].pricing = booking.pricing This approach is not allowed in the trip execution part")
+      @Valid
     public List<Leg> getLegs() {
     return legs;
   }
@@ -106,30 +117,83 @@ public class Booking extends BookingRequest  {
     this.pricing = pricing;
   }
 
-  public Booking extraData(Map<String, Object> extraData) {
-    this.extraData = extraData;
-    return this;
-  }
-
-  public Booking putExtraDataItem(String key, Object extraDataItem) {
-    if (this.extraData == null) {
-      this.extraData = new HashMap<String, Object>();
-    }
-    this.extraData.put(key, extraDataItem);
+  public Booking departureTime(OffsetDateTime departureTime) {
+    this.departureTime = departureTime;
     return this;
   }
 
   /**
-   * Arbitrary information that a TO can add
+   * The initial departure time (over all legs)
+   * @return departureTime
+   **/
+  @Schema(description = "The initial departure time (over all legs)")
+  
+    @Valid
+    public OffsetDateTime getDepartureTime() {
+    return departureTime;
+  }
+
+  public void setDepartureTime(OffsetDateTime departureTime) {
+    this.departureTime = departureTime;
+  }
+
+  public Booking arrivalTime(OffsetDateTime arrivalTime) {
+    this.arrivalTime = arrivalTime;
+    return this;
+  }
+
+  /**
+   * The intended arrival time at the destination of the booking (over all legs)
+   * @return arrivalTime
+   **/
+  @Schema(description = "The intended arrival time at the destination of the booking (over all legs)")
+  
+    @Valid
+    public OffsetDateTime getArrivalTime() {
+    return arrivalTime;
+  }
+
+  public void setArrivalTime(OffsetDateTime arrivalTime) {
+    this.arrivalTime = arrivalTime;
+  }
+
+  public Booking mainAssetType(AssetType mainAssetType) {
+    this.mainAssetType = mainAssetType;
+    return this;
+  }
+
+  /**
+   * Get mainAssetType
+   * @return mainAssetType
+   **/
+  @Schema(description = "")
+  
+    @Valid
+    public AssetType getMainAssetType() {
+    return mainAssetType;
+  }
+
+  public void setMainAssetType(AssetType mainAssetType) {
+    this.mainAssetType = mainAssetType;
+  }
+
+  public Booking extraData(Map extraData) {
+    this.extraData = extraData;
+    return this;
+  }
+
+  /**
+   * Get extraData
    * @return extraData
    **/
-  @Schema(description = "Arbitrary information that a TO can add")
+  @Schema(description = "")
   
-    public Map<String, Object> getExtraData() {
+    @Valid
+    public Map getExtraData() {
     return extraData;
   }
 
-  public void setExtraData(Map<String, Object> extraData) {
+  public void setExtraData(Map extraData) {
     this.extraData = extraData;
   }
 
@@ -146,13 +210,16 @@ public class Booking extends BookingRequest  {
     return Objects.equals(this.state, booking.state) &&
         Objects.equals(this.legs, booking.legs) &&
         Objects.equals(this.pricing, booking.pricing) &&
+        Objects.equals(this.departureTime, booking.departureTime) &&
+        Objects.equals(this.arrivalTime, booking.arrivalTime) &&
+        Objects.equals(this.mainAssetType, booking.mainAssetType) &&
         Objects.equals(this.extraData, booking.extraData) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(state, legs, pricing, extraData, super.hashCode());
+    return Objects.hash(state, legs, pricing, departureTime, arrivalTime, mainAssetType, extraData, super.hashCode());
   }
 
   @Override
@@ -163,6 +230,9 @@ public class Booking extends BookingRequest  {
     sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("    legs: ").append(toIndentedString(legs)).append("\n");
     sb.append("    pricing: ").append(toIndentedString(pricing)).append("\n");
+    sb.append("    departureTime: ").append(toIndentedString(departureTime)).append("\n");
+    sb.append("    arrivalTime: ").append(toIndentedString(arrivalTime)).append("\n");
+    sb.append("    mainAssetType: ").append(toIndentedString(mainAssetType)).append("\n");
     sb.append("    extraData: ").append(toIndentedString(extraData)).append("\n");
     sb.append("}");
     return sb.toString();

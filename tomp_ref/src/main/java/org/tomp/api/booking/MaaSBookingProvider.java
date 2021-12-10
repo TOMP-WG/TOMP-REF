@@ -31,6 +31,7 @@ import io.swagger.model.Condition;
 import io.swagger.model.ConditionRequireBookingData;
 import io.swagger.model.ConditionRequireBookingData.RequiredFieldsEnum;
 import io.swagger.model.Leg;
+import io.swagger.model.OneOflegConditionsItems;
 import io.swagger.model.Planning;
 
 @Component
@@ -245,7 +246,7 @@ public class MaaSBookingProvider extends GenericBookingProvider {
 
 	private void addRequiredFields(BookingRequest option, Planning result, Booking booking) {
 		for (Leg leg : booking.getLegs()) {
-			for (Condition condition : leg.getConditions()) {
+			for (OneOflegConditionsItems condition : leg.getConditions()) {
 				if (condition instanceof ConditionRequireBookingData) {
 					for (RequiredFieldsEnum field : ((ConditionRequireBookingData) condition).getRequiredFields()) {
 						addRequiredField(option, field);

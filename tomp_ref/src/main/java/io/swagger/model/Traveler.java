@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "A generic description of a traveler, not including any identifying information")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class Traveler   {
@@ -40,7 +40,7 @@ public class Traveler   {
   private List<LicenseType> licenseTypes = null;
 
   @JsonProperty("requirements")
-  private Requirements requirements = null;
+  private Requirements requirements = new Requirements();
 
   @JsonProperty("knownIdentifier")
   private String knownIdentifier = null;
@@ -165,10 +165,10 @@ public class Traveler   {
   }
 
   /**
-   * Get requirements
+   * Requirements from the end user side.
    * @return requirements
    **/
-  @Schema(description = "")
+  @Schema(description = "Requirements from the end user side.")
   
     @Valid
     public Requirements getRequirements() {

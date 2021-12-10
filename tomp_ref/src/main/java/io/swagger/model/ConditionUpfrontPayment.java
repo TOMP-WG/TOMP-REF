@@ -12,10 +12,10 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "in case the TO demands a upfront payment before usage. The payment should be made in the booking phase.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-28T07:34:31.139Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T07:58:28.459Z[GMT]")
 
 
-public class ConditionUpfrontPayment extends Condition implements OneOfcondition {
+public class ConditionUpfrontPayment extends Condition implements OneOfassetTypeConditionsItems, OneOflegConditionsItems {
 
   @Override
   public boolean equals(java.lang.Object o) {

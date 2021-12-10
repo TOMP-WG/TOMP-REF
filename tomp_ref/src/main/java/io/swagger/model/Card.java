@@ -122,10 +122,10 @@ public class Card extends CardType  {
   }
 
   /**
-   * Get country
+   * two-letter country codes according to ISO 3166-1
    * @return country
    **/
-  @Schema(description = "")
+  @Schema(example = "NL", description = "two-letter country codes according to ISO 3166-1")
   
   @Size(min=2,max=2)   public String getCountry() {
     return country;

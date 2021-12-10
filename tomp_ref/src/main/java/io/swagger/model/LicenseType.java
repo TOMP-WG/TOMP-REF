@@ -51,10 +51,10 @@ public class LicenseType   {
   }
 
   /**
-   * Get issuingCountry
+   * two-letter country codes according to ISO 3166-1
    * @return issuingCountry
    **/
-  @Schema(description = "")
+  @Schema(example = "NL", description = "two-letter country codes according to ISO 3166-1")
   
   @Size(min=2,max=2)   public String getIssuingCountry() {
     return issuingCountry;

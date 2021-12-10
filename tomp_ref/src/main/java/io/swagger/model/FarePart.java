@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.model.AmountOfMoney;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,12 +18,12 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "this describes a part of the fare (or discount). It contains a for instance the startup costs (fixed) or the flex part (e.g. 1.25 EUR per 2.0 MILES). The amount is tax included. In case of discounts, the values are negative. With 'MAX' you can specify e.g. a maximum of 15 euro per day. Percentage is mainly added for discounts. The `scale` properties create the ability to communicate scales (e.g. the first 4 kilometers you've to pay EUR 0.35 per kilometer, the kilometers 4 until 8 EUR 0.50 and above it EUR 0.80 per kilometer).")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class FarePart extends AmountOfMoney  {
   /**
-   * type of fare part
+   * type of fare part. If there is only one farepart and this field is missing, it should be assumed it is 'FIXED'. In all other situations this field is mandatory.
    */
   public enum TypeEnum {
     FIXED("FIXED"),
@@ -59,7 +58,42 @@ public class FarePart extends AmountOfMoney  {
   private TypeEnum type = null;
 
   /**
-   * in case of 'FLEX' mandatory. E.g. 0.5 EUR per HOUR
+   * is this the default price or is this an additional part (discount, price surge). In case of a DISCOUNT, the amount must always be negative and in case of SURGE it must be positive. This also means, that when you're working with discounts or surges, you have to deliver 2 fareparts, one for the default price and one for the discount/surge. This can be used in combination with as well the fixed price parts as with the flex price parts.
+   */
+  public enum KindEnum {
+    DEFAULT("DEFAULT"),
+    
+    DISCOUNT("DISCOUNT"),
+    
+    SURGE("SURGE");
+
+    private String value;
+
+    KindEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static KindEnum fromValue(String text) {
+      for (KindEnum b : KindEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+  @JsonProperty("kind")
+  private KindEnum kind = null;
+
+  /**
+   * in case of 'FLEX' mandatory, otherwise not allowed. E.g. 0.5 EUR per HOUR
    */
   public enum UnitTypeEnum {
     KM("KM"),
@@ -100,13 +134,13 @@ public class FarePart extends AmountOfMoney  {
   private UnitTypeEnum unitType = null;
 
   @JsonProperty("units")
-  private BigDecimal units = null;
+  private Float units = null;
 
   @JsonProperty("scaleFrom")
-  private BigDecimal scaleFrom = null;
+  private Float scaleFrom = null;
 
   @JsonProperty("scaleTo")
-  private BigDecimal scaleTo = null;
+  private Float scaleTo = null;
 
   /**
    * Gets or Sets scaleType
@@ -148,8 +182,44 @@ public class FarePart extends AmountOfMoney  {
   @JsonProperty("name")
   private String name = null;
 
+  /**
+   * class of this fare part. Could be FARE or ANCILLARY
+   */
+  public enum PropertyClassEnum {
+    FARE("FARE"),
+    
+    ANCILLARY("ANCILLARY");
+
+    private String value;
+
+    PropertyClassEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static PropertyClassEnum fromValue(String text) {
+      for (PropertyClassEnum b : PropertyClassEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
   @JsonProperty("class")
-  private String propertyClass = null;
+  private PropertyClassEnum propertyClass = PropertyClassEnum.FARE;
+
+  @JsonProperty("minimumAmount")
+  private Float minimumAmount = null;
+
+  @JsonProperty("maximumAmount")
+  private Float maximumAmount = null;
 
   @JsonProperty("meta")
   @Valid
@@ -161,11 +231,10 @@ public class FarePart extends AmountOfMoney  {
   }
 
   /**
-   * type of fare part
+   * type of fare part. If there is only one farepart and this field is missing, it should be assumed it is 'FIXED'. In all other situations this field is mandatory.
    * @return type
    **/
-  @Schema(required = true, description = "type of fare part")
-      @NotNull
+  @Schema(description = "type of fare part. If there is only one farepart and this field is missing, it should be assumed it is 'FIXED'. In all other situations this field is mandatory.")
   
     public TypeEnum getType() {
     return type;
@@ -175,16 +244,35 @@ public class FarePart extends AmountOfMoney  {
     this.type = type;
   }
 
+  public FarePart kind(KindEnum kind) {
+    this.kind = kind;
+    return this;
+  }
+
+  /**
+   * is this the default price or is this an additional part (discount, price surge). In case of a DISCOUNT, the amount must always be negative and in case of SURGE it must be positive. This also means, that when you're working with discounts or surges, you have to deliver 2 fareparts, one for the default price and one for the discount/surge. This can be used in combination with as well the fixed price parts as with the flex price parts.
+   * @return kind
+   **/
+  @Schema(description = "is this the default price or is this an additional part (discount, price surge). In case of a DISCOUNT, the amount must always be negative and in case of SURGE it must be positive. This also means, that when you're working with discounts or surges, you have to deliver 2 fareparts, one for the default price and one for the discount/surge. This can be used in combination with as well the fixed price parts as with the flex price parts.")
+  
+    public KindEnum getKind() {
+    return kind;
+  }
+
+  public void setKind(KindEnum kind) {
+    this.kind = kind;
+  }
+
   public FarePart unitType(UnitTypeEnum unitType) {
     this.unitType = unitType;
     return this;
   }
 
   /**
-   * in case of 'FLEX' mandatory. E.g. 0.5 EUR per HOUR
+   * in case of 'FLEX' mandatory, otherwise not allowed. E.g. 0.5 EUR per HOUR
    * @return unitType
    **/
-  @Schema(description = "in case of 'FLEX' mandatory. E.g. 0.5 EUR per HOUR")
+  @Schema(description = "in case of 'FLEX' mandatory, otherwise not allowed. E.g. 0.5 EUR per HOUR")
   
     public UnitTypeEnum getUnitType() {
     return unitType;
@@ -194,63 +282,63 @@ public class FarePart extends AmountOfMoney  {
     this.unitType = unitType;
   }
 
-  public FarePart units(BigDecimal units) {
+  public FarePart units(Float units) {
     this.units = units;
     return this;
   }
 
   /**
-   * the number of km, seconds etc in the `per` part. In the first example of the description this should be 2.0
+   * the number of km, seconds etc. Mandatory when the type is 'FLEX', otherwise not allowed. In case of 0.5 EUR per 15 MINUTES, `units` should contain 15 and `unitType` MINUTES.
+   * minimum: 0
    * @return units
    **/
-  @Schema(description = "the number of km, seconds etc in the `per` part. In the first example of the description this should be 2.0")
+  @Schema(description = "the number of km, seconds etc. Mandatory when the type is 'FLEX', otherwise not allowed. In case of 0.5 EUR per 15 MINUTES, `units` should contain 15 and `unitType` MINUTES.")
   
-    @Valid
-    public BigDecimal getUnits() {
+  @DecimalMin("0")  public Float getUnits() {
     return units;
   }
 
-  public void setUnits(BigDecimal units) {
+  public void setUnits(Float units) {
     this.units = units;
   }
 
-  public FarePart scaleFrom(BigDecimal scaleFrom) {
+  public FarePart scaleFrom(Float scaleFrom) {
     this.scaleFrom = scaleFrom;
     return this;
   }
 
   /**
-   * Get scaleFrom
+   * in case of scaling, this is the bottom value (f.x. in the first hour 3 CAD, the `scaleFrom` should contain 0 and the `scaleType` HOUR). When `scaleTo` is used, but this field is missing, it should be assumed it is a 0.
+   * minimum: 0
    * @return scaleFrom
    **/
-  @Schema(description = "")
+  @Schema(description = "in case of scaling, this is the bottom value (f.x. in the first hour 3 CAD, the `scaleFrom` should contain 0 and the `scaleType` HOUR). When `scaleTo` is used, but this field is missing, it should be assumed it is a 0.")
   
-    @Valid
-    public BigDecimal getScaleFrom() {
+  @DecimalMin("0")  public Float getScaleFrom() {
     return scaleFrom;
   }
 
-  public void setScaleFrom(BigDecimal scaleFrom) {
+  public void setScaleFrom(Float scaleFrom) {
     this.scaleFrom = scaleFrom;
   }
 
-  public FarePart scaleTo(BigDecimal scaleTo) {
+  public FarePart scaleTo(Float scaleTo) {
     this.scaleTo = scaleTo;
     return this;
   }
 
   /**
-   * Get scaleTo
+   * the upper value of the scale (f.x. 3 CAD in the first hour, this field should contain 1, `scaleFrom` 0 and `scaleType` HOUR)
+   * minimum: 0
    * @return scaleTo
    **/
-  @Schema(description = "")
+  @Schema(description = "the upper value of the scale (f.x. 3 CAD in the first hour, this field should contain 1, `scaleFrom` 0 and `scaleType` HOUR)")
   
-    @Valid
-    public BigDecimal getScaleTo() {
+  @DecimalMin("0")  public Float getScaleTo() {
     return scaleTo;
   }
 
-  public void setScaleTo(BigDecimal scaleTo) {
+  public void setScaleTo(Float scaleTo) {
     this.scaleTo = scaleTo;
   }
 
@@ -279,10 +367,10 @@ public class FarePart extends AmountOfMoney  {
   }
 
   /**
-   * Get name
+   * an optional description of this fare part.
    * @return name
    **/
-  @Schema(description = "")
+  @Schema(description = "an optional description of this fare part.")
   
     public String getName() {
     return name;
@@ -292,23 +380,63 @@ public class FarePart extends AmountOfMoney  {
     this.name = name;
   }
 
-  public FarePart propertyClass(String propertyClass) {
+  public FarePart propertyClass(PropertyClassEnum propertyClass) {
     this.propertyClass = propertyClass;
     return this;
   }
 
   /**
-   * Get propertyClass
+   * class of this fare part. Could be FARE or ANCILLARY
    * @return propertyClass
    **/
-  @Schema(description = "")
+  @Schema(description = "class of this fare part. Could be FARE or ANCILLARY")
   
-    public String getPropertyClass() {
+    public PropertyClassEnum getPropertyClass() {
     return propertyClass;
   }
 
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClass(PropertyClassEnum propertyClass) {
     this.propertyClass = propertyClass;
+  }
+
+  public FarePart minimumAmount(Float minimumAmount) {
+    this.minimumAmount = minimumAmount;
+    return this;
+  }
+
+  /**
+   * The minimum price, in the same currency as amount. Place in `amount` the most likely value.
+   * minimum: 0
+   * @return minimumAmount
+   **/
+  @Schema(example = "9", description = "The minimum price, in the same currency as amount. Place in `amount` the most likely value.")
+  
+  @DecimalMin("0")  public Float getMinimumAmount() {
+    return minimumAmount;
+  }
+
+  public void setMinimumAmount(Float minimumAmount) {
+    this.minimumAmount = minimumAmount;
+  }
+
+  public FarePart maximumAmount(Float maximumAmount) {
+    this.maximumAmount = maximumAmount;
+    return this;
+  }
+
+  /**
+   * The minimum price, in the same currency as amount. Place in `amount` the most likely value.
+   * minimum: 0
+   * @return maximumAmount
+   **/
+  @Schema(example = "11", description = "The minimum price, in the same currency as amount. Place in `amount` the most likely value.")
+  
+  @DecimalMin("0")  public Float getMaximumAmount() {
+    return maximumAmount;
+  }
+
+  public void setMaximumAmount(Float maximumAmount) {
+    this.maximumAmount = maximumAmount;
   }
 
   public FarePart meta(Map<String, Object> meta) {
@@ -349,6 +477,7 @@ public class FarePart extends AmountOfMoney  {
     }
     FarePart farePart = (FarePart) o;
     return Objects.equals(this.type, farePart.type) &&
+        Objects.equals(this.kind, farePart.kind) &&
         Objects.equals(this.unitType, farePart.unitType) &&
         Objects.equals(this.units, farePart.units) &&
         Objects.equals(this.scaleFrom, farePart.scaleFrom) &&
@@ -356,13 +485,15 @@ public class FarePart extends AmountOfMoney  {
         Objects.equals(this.scaleType, farePart.scaleType) &&
         Objects.equals(this.name, farePart.name) &&
         Objects.equals(this.propertyClass, farePart.propertyClass) &&
+        Objects.equals(this.minimumAmount, farePart.minimumAmount) &&
+        Objects.equals(this.maximumAmount, farePart.maximumAmount) &&
         Objects.equals(this.meta, farePart.meta) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, unitType, units, scaleFrom, scaleTo, scaleType, name, propertyClass, meta, super.hashCode());
+    return Objects.hash(type, kind, unitType, units, scaleFrom, scaleTo, scaleType, name, propertyClass, minimumAmount, maximumAmount, meta, super.hashCode());
   }
 
   @Override
@@ -371,6 +502,7 @@ public class FarePart extends AmountOfMoney  {
     sb.append("class FarePart {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    kind: ").append(toIndentedString(kind)).append("\n");
     sb.append("    unitType: ").append(toIndentedString(unitType)).append("\n");
     sb.append("    units: ").append(toIndentedString(units)).append("\n");
     sb.append("    scaleFrom: ").append(toIndentedString(scaleFrom)).append("\n");
@@ -378,6 +510,8 @@ public class FarePart extends AmountOfMoney  {
     sb.append("    scaleType: ").append(toIndentedString(scaleType)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
+    sb.append("    minimumAmount: ").append(toIndentedString(minimumAmount)).append("\n");
+    sb.append("    maximumAmount: ").append(toIndentedString(maximumAmount)).append("\n");
     sb.append("    meta: ").append(toIndentedString(meta)).append("\n");
     sb.append("}");
     return sb.toString();

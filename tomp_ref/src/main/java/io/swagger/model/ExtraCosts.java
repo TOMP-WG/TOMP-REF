@@ -8,7 +8,6 @@ import io.swagger.model.AmountOfMoney;
 import io.swagger.model.BankAccount;
 import io.swagger.model.JournalCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "Costs that the TO is charging the MP; credits are negative. Other amounts should be positive")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class ExtraCosts extends AmountOfMoney  {
@@ -32,7 +31,7 @@ public class ExtraCosts extends AmountOfMoney  {
   private String description = null;
 
   @JsonProperty("number")
-  private BigDecimal number = null;
+  private Float number = null;
 
   /**
    * Gets or Sets numberType
@@ -89,7 +88,7 @@ public class ExtraCosts extends AmountOfMoney  {
    **/
   @Schema(required = true, description = "")
       @NotNull
-  
+
     @Valid
     public JournalCategory getCategory() {
     return category;
@@ -119,23 +118,23 @@ public class ExtraCosts extends AmountOfMoney  {
     this.description = description;
   }
 
-  public ExtraCosts number(BigDecimal number) {
+  public ExtraCosts number(Float number) {
     this.number = number;
     return this;
   }
 
   /**
    * e.g. number of litres, number of kilowatthour, etc
+   * minimum: 0
    * @return number
    **/
   @Schema(description = "e.g. number of litres, number of kilowatthour, etc")
   
-    @Valid
-    public BigDecimal getNumber() {
+  @DecimalMin("0")  public Float getNumber() {
     return number;
   }
 
-  public void setNumber(BigDecimal number) {
+  public void setNumber(Float number) {
     this.number = number;
   }
 

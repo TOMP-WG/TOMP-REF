@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,8 +65,8 @@ public class OperatorInformationController extends OperatorApiController {
 			@Parameter(in = ParameterIn.HEADER, description = "Version of the API.", required = true, schema = @Schema()) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
 			@Parameter(in = ParameterIn.HEADER, description = "The ID of the sending maas operator", required = true, schema = @Schema()) @RequestHeader(value = "maas-id", required = true) String maasId,
 			@Parameter(in = ParameterIn.HEADER, description = "The ID of the maas operator that has to receive this message", schema = @Schema()) @RequestHeader(value = "addressed-to", required = false) String addressedTo,
-			@Parameter(in = ParameterIn.QUERY, description = "start of the selection", schema = @Schema(defaultValue = "0")) @Valid @RequestParam(value = "offset", required = false, defaultValue = "0") BigDecimal offset,
-			@Parameter(in = ParameterIn.QUERY, description = "count of the selection", schema = @Schema()) @Valid @RequestParam(value = "limit", required = false) BigDecimal limit,
+			@Min(0) @Parameter(in = ParameterIn.QUERY, description = "start of the selection", schema = @Schema(allowableValues = {}, defaultValue = "0")) @Valid @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset,
+			@Min(0) @Parameter(in = ParameterIn.QUERY, description = "count of the selection", schema = @Schema(allowableValues = {})) @Valid @RequestParam(value = "limit", required = false) Integer limit,
 			@Parameter(in = ParameterIn.QUERY, description = "optional id of the region to use in the filter (/operator/regions)", schema = @Schema()) @Valid @RequestParam(value = "regionId", required = false) String regionId,
 			@Parameter(in = ParameterIn.QUERY, description = "optional id of the station to use in the filter (/operator/stations)", schema = @Schema()) @Valid @RequestParam(value = "stationId", required = false) String stationId) {
 		HeaderValidator.validateHeader(request);
@@ -104,12 +106,12 @@ public class OperatorInformationController extends OperatorApiController {
 			@Parameter(in = ParameterIn.HEADER, description = "Version of the API.", required = true, schema = @Schema()) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
 			@Parameter(in = ParameterIn.HEADER, description = "The ID of the sending maas operator", required = true, schema = @Schema()) @RequestHeader(value = "maas-id", required = true) String maasId,
 			@Parameter(in = ParameterIn.HEADER, description = "The ID of the maas operator that has to receive this message", schema = @Schema()) @RequestHeader(value = "addressed-to", required = false) String addressedTo,
-			@Parameter(in = ParameterIn.QUERY, description = "start of the selection", schema = @Schema(defaultValue = "0")) @Valid @RequestParam(value = "offset", required = false, defaultValue = "0") BigDecimal offset,
-			@Parameter(in = ParameterIn.QUERY, description = "count of the selection", schema = @Schema()) @Valid @RequestParam(value = "limit", required = false) BigDecimal limit,
+			@Min(0) @Parameter(in = ParameterIn.QUERY, description = "start of the selection", schema = @Schema(allowableValues = {}, defaultValue = "0")) @Valid @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset,
+			@Min(0) @Parameter(in = ParameterIn.QUERY, description = "count of the selection", schema = @Schema(allowableValues = {})) @Valid @RequestParam(value = "limit", required = false) Integer limit,
 			@Parameter(in = ParameterIn.QUERY, description = "optional id of the region to use in the filter (/operator/regions)", schema = @Schema()) @Valid @RequestParam(value = "regionId", required = false) String regionId,
-			@Parameter(in = ParameterIn.QUERY, description = "the longitude of the search location (WGS84)", schema = @Schema()) @Valid @RequestParam(value = "lon", required = false) BigDecimal lon,
-			@Parameter(in = ParameterIn.QUERY, description = "the latitude of the search location (WGS84)", schema = @Schema()) @Valid @RequestParam(value = "lat", required = false) BigDecimal lat,
-			@Parameter(in = ParameterIn.QUERY, description = "the range in meters from the search location to look for stations", schema = @Schema()) @Valid @RequestParam(value = "radius", required = false) BigDecimal radius) {
+			@DecimalMin("0") @Parameter(in = ParameterIn.QUERY, description = "the longitude of the search location (WGS84)", schema = @Schema()) @Valid @RequestParam(value = "lon", required = false) Float lon,
+			@DecimalMin("0") @Parameter(in = ParameterIn.QUERY, description = "the latitude of the search location (WGS84)", schema = @Schema()) @Valid @RequestParam(value = "lat", required = false) Float lat,
+			@DecimalMin("0") @Parameter(in = ParameterIn.QUERY, description = "the range in meters from the search location to look for stations", schema = @Schema()) @Valid @RequestParam(value = "radius", required = false) Float radius) {
 
 		HeaderValidator.validateHeader(request);
 		try {
@@ -129,8 +131,8 @@ public class OperatorInformationController extends OperatorApiController {
 			@Parameter(in = ParameterIn.HEADER, description = "Version of the API.", required = true, schema = @Schema()) @RequestHeader(value = "Api-Version", required = true) String apiVersion,
 			@Parameter(in = ParameterIn.HEADER, description = "The ID of the sending maas operator", required = true, schema = @Schema()) @RequestHeader(value = "maas-id", required = true) String maasId,
 			@Parameter(in = ParameterIn.HEADER, description = "The ID of the maas operator that has to receive this message", schema = @Schema()) @RequestHeader(value = "addressed-to", required = false) String addressedTo,
-			@Parameter(in = ParameterIn.QUERY, description = "start of the selection", schema = @Schema(defaultValue = "0")) @Valid @RequestParam(value = "offset", required = false, defaultValue = "0") BigDecimal offset,
-			@Parameter(in = ParameterIn.QUERY, description = "count of the selection", schema = @Schema()) @Valid @RequestParam(value = "limit", required = false) BigDecimal limit) {
+			@Min(0) @Parameter(in = ParameterIn.QUERY, description = "start of the selection", schema = @Schema(allowableValues = {}, defaultValue = "0")) @Valid @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset,
+			@Min(0) @Parameter(in = ParameterIn.QUERY, description = "count of the selection", schema = @Schema(allowableValues = {})) @Valid @RequestParam(value = "limit", required = false) Integer limit) {
 
 		HeaderValidator.validateHeader(request);
 		try {
@@ -177,7 +179,7 @@ public class OperatorInformationController extends OperatorApiController {
 		// HeaderValidator.validateHeader(request);
 		log.info("GET /operator/operating-hours - headers validated");
 		try {
-			
+
 			HttpHeaders headers = routerUtil.createHeadersToMP("GET", "/operator/operating-hours", null,
 					request.getHeader("MPID"));
 			log.info("GET /operator/operating-hours - return headers created");

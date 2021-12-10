@@ -36,14 +36,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 																							// })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
-	protected Error handleHttpMessageNotReadable(RuntimeException exception) {
+	protected Object handleHttpMessageNotReadable(RuntimeException exception) {
 
 		log.error(exception.getMessage(), exception);
 
 		return toError(exception, HttpStatus.BAD_REQUEST);
 	}
 
-	private Error toError(Exception exception, HttpStatus status) {
+	private Object toError(Exception exception, HttpStatus status) {
 		Error error = new Error();
 		error.setStatus(status.value());
 		error.setTitle(exception.getMessage());

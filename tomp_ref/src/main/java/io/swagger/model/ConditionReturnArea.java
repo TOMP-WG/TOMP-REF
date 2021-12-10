@@ -19,15 +19,15 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "a return area. In the condition list there can be multiple return area's.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
-public class ConditionReturnArea extends Condition implements OneOfcondition {
+public class ConditionReturnArea extends Condition implements OneOfassetTypeConditionsItems, OneOflegConditionsItems {
   @JsonProperty("stationId")
   private String stationId = null;
 
   @JsonProperty("returnArea")
-  private GeojsonPolygon returnArea = null;
+  private GeojsonPolygon returnArea = new GeojsonPolygon();
 
   @JsonProperty("coordinates")
   private Coordinates coordinates = null;
@@ -61,10 +61,10 @@ public class ConditionReturnArea extends Condition implements OneOfcondition {
   }
 
   /**
-   * Get returnArea
+   * geojson representation of a polygon. First and last point must be equal. See also https://geojson.org/geojson-spec.html#polygon and example https://geojson.org/geojson-spec.html#id4. The order should be lon, lat [[[lon1, lat1], [lon2,lat2], [lon3,lat3], [lon1,lat1]]], the first point should match the last point.
    * @return returnArea
    **/
-  @Schema(description = "")
+  @Schema(example = "[[[1,1],[0,1],[0,0],[1,0],[1,1]]]", description = "geojson representation of a polygon. First and last point must be equal. See also https://geojson.org/geojson-spec.html#polygon and example https://geojson.org/geojson-spec.html#id4. The order should be lon, lat [[[lon1, lat1], [lon2,lat2], [lon3,lat3], [lon1,lat1]]], the first point should match the last point.")
   
     @Valid
     public GeojsonPolygon getReturnArea() {

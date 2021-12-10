@@ -37,7 +37,7 @@ public class CarOperatorInformationProvider implements OperatorInformationProvid
 
 	@Autowired
 	AssetProvider assetProvider;
-	
+
 	@Autowired
 	ExternalFileService fileService;
 
@@ -82,7 +82,7 @@ public class CarOperatorInformationProvider implements OperatorInformationProvid
 		membersOnly.setName("Members only");
 		Fare fare = new Fare();
 		FarePart partsItem = new FarePart();
-		partsItem.setAmount(BigDecimal.valueOf(1.25));
+		partsItem.setAmount((float) (1.25));
 		partsItem.setCurrencyCode("NL");
 		partsItem.setUnitType(UnitTypeEnum.KM);
 		partsItem.setType(TypeEnum.FLEX);
@@ -96,14 +96,14 @@ public class CarOperatorInformationProvider implements OperatorInformationProvid
 		nonMembers.setName("Non members");
 		fare = new Fare();
 		partsItem = new FarePart();
-		partsItem.setAmount(BigDecimal.valueOf(1.55));
+		partsItem.setAmount((float) (1.55));
 		partsItem.setCurrencyCode("NL");
 		partsItem.setUnitType(UnitTypeEnum.KM);
 		partsItem.setType(TypeEnum.FLEX);
 		fare.addPartsItem(partsItem);
 
 		partsItem = new FarePart();
-		partsItem.setAmount(BigDecimal.valueOf(10));
+		partsItem.setAmount((float) (10));
 		partsItem.setCurrencyCode("NL");
 		partsItem.setType(TypeEnum.FIXED);
 		fare.addPartsItem(partsItem);

@@ -288,8 +288,8 @@ public class GbfsOperatorInformation implements OperatorInformationProvider {
 		for (HashMap<String, Object> info : stationData) {
 			StationInformation station = new StationInformation();
 			Coordinates coordinates = new Coordinates();
-			coordinates.setLat(BigDecimal.valueOf(Double.valueOf(info.get("lat").toString())));
-			coordinates.setLng(BigDecimal.valueOf(Double.valueOf(info.get("lon").toString())));
+			coordinates.setLat(Double.valueOf(info.get("lat").toString()).floatValue());
+			coordinates.setLng(Double.valueOf(info.get("lon").toString()).floatValue());
 			station.setCoordinates(coordinates);
 			station.setName(info.get("name").toString());
 			if (info.containsKey("region_id")) {

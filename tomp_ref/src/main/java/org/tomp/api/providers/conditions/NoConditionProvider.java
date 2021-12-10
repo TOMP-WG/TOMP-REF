@@ -11,6 +11,7 @@ import org.tomp.api.configuration.ExternalConfiguration;
 
 import io.swagger.model.Condition;
 import io.swagger.model.Leg;
+import io.swagger.model.OneOflegConditionsItems;
 
 @Component
 @ConditionalOnProperty(value = "tomp.condition-file", havingValue = "empty", matchIfMissing = false)
@@ -20,7 +21,7 @@ public class NoConditionProvider implements ConditionProvider {
 	protected ExternalConfiguration configuration;
 
 	@Override
-	public List<Condition> getApplyingConditions(String acceptLanguage, Leg result) {
+	public List<OneOflegConditionsItems> getApplyingConditions(String acceptLanguage, Leg result) {
 		return new ArrayList<>();
 	}
 }

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -15,7 +14,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "a formal description of an endpoint.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class Endpoint   {
@@ -151,7 +150,7 @@ public class Endpoint   {
   private Boolean supportsPaging = false;
 
   @JsonProperty("maxPageSize")
-  private BigDecimal maxPageSize = null;
+  private Integer maxPageSize = null;
 
   public Endpoint method(MethodEnum method) {
     this.method = method;
@@ -182,7 +181,7 @@ public class Endpoint   {
    * the exact path of the endpoint, starting after the base URL
    * @return path
    **/
-  @Schema(example = "/planning-options/", required = true, description = "the exact path of the endpoint, starting after the base URL")
+  @Schema(example = "/plannings/", required = true, description = "the exact path of the endpoint, starting after the base URL")
       @NotNull
 
     public String getPath() {
@@ -251,23 +250,23 @@ public class Endpoint   {
     this.supportsPaging = supportsPaging;
   }
 
-  public Endpoint maxPageSize(BigDecimal maxPageSize) {
+  public Endpoint maxPageSize(Integer maxPageSize) {
     this.maxPageSize = maxPageSize;
     return this;
   }
 
   /**
    * the maximum size of the pages (only valid when supportsPaging=true). If the limit-parameter of the request is above this amount, a http code 400 will be returned.
+   * minimum: 1
    * @return maxPageSize
    **/
   @Schema(description = "the maximum size of the pages (only valid when supportsPaging=true). If the limit-parameter of the request is above this amount, a http code 400 will be returned.")
   
-    @Valid
-    public BigDecimal getMaxPageSize() {
+  @Min(1)  public Integer getMaxPageSize() {
     return maxPageSize;
   }
 
-  public void setMaxPageSize(BigDecimal maxPageSize) {
+  public void setMaxPageSize(Integer maxPageSize) {
     this.maxPageSize = maxPageSize;
   }
 

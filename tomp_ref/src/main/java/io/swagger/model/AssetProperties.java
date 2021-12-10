@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.model.AssetAccessMethods;
 import io.swagger.model.Place;
+import io.swagger.model.Requirement;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,11 +17,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * what kind of asset is this? Classify it, give the aspects. Most aspects are optional and should be used when applicable.
+ * Aspects of an asset or assetType. Most aspects are optional and should only be used when applicable.
  */
-@Schema(description = "what kind of asset is this? Classify it, give the aspects. Most aspects are optional and should be used when applicable.")
+@Schema(description = "Aspects of an asset or assetType. Most aspects are optional and should only be used when applicable.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class AssetProperties   {
@@ -124,7 +124,7 @@ public class AssetProperties   {
   private EnergyLabelEnum energyLabel = null;
 
   @JsonProperty("co2PerKm")
-  private BigDecimal co2PerKm = null;
+  private Float co2PerKm = null;
 
   @JsonProperty("brand")
   private String brand = null;
@@ -299,8 +299,17 @@ public class AssetProperties   {
   @JsonProperty("winterTires")
   private Boolean winterTires = null;
 
+  @JsonProperty("maxSpeed")
+  private Integer maxSpeed = null;
+
+  @JsonProperty("helmetRequired")
+  private Boolean helmetRequired = false;
+
   @JsonProperty("other")
   private String other = null;
+
+  @JsonProperty("nrOfDoors")
+  private Integer nrOfDoors = null;
 
   @JsonProperty("meta")
   @Valid
@@ -309,6 +318,10 @@ public class AssetProperties   {
   @JsonProperty("accessMethods")
   @Valid
   private List<AssetAccessMethods> accessMethods = null;
+
+  @JsonProperty("ancillaries")
+  @Valid
+  private List<Requirement> ancillaries = null;
 
   public AssetProperties name(String name) {
     this.name = name;
@@ -387,23 +400,23 @@ public class AssetProperties   {
     this.energyLabel = energyLabel;
   }
 
-  public AssetProperties co2PerKm(BigDecimal co2PerKm) {
+  public AssetProperties co2PerKm(Float co2PerKm) {
     this.co2PerKm = co2PerKm;
     return this;
   }
 
   /**
    * Get co2PerKm
+   * minimum: 0
    * @return co2PerKm
    **/
   @Schema(description = "")
   
-    @Valid
-    public BigDecimal getCo2PerKm() {
+  @DecimalMin("0")  public Float getCo2PerKm() {
     return co2PerKm;
   }
 
-  public void setCo2PerKm(BigDecimal co2PerKm) {
+  public void setCo2PerKm(Float co2PerKm) {
     this.co2PerKm = co2PerKm;
   }
 
@@ -809,6 +822,44 @@ public class AssetProperties   {
     this.winterTires = winterTires;
   }
 
+  public AssetProperties maxSpeed(Integer maxSpeed) {
+    this.maxSpeed = maxSpeed;
+    return this;
+  }
+
+  /**
+   * the maximum allowed speed for this asset (in km/h)
+   * @return maxSpeed
+   **/
+  @Schema(description = "the maximum allowed speed for this asset (in km/h)")
+  
+    public Integer getMaxSpeed() {
+    return maxSpeed;
+  }
+
+  public void setMaxSpeed(Integer maxSpeed) {
+    this.maxSpeed = maxSpeed;
+  }
+
+  public AssetProperties helmetRequired(Boolean helmetRequired) {
+    this.helmetRequired = helmetRequired;
+    return this;
+  }
+
+  /**
+   * is a helmet required to operate this asset
+   * @return helmetRequired
+   **/
+  @Schema(description = "is a helmet required to operate this asset")
+  
+    public Boolean isHelmetRequired() {
+    return helmetRequired;
+  }
+
+  public void setHelmetRequired(Boolean helmetRequired) {
+    this.helmetRequired = helmetRequired;
+  }
+
   public AssetProperties other(String other) {
     this.other = other;
     return this;
@@ -826,6 +877,25 @@ public class AssetProperties   {
 
   public void setOther(String other) {
     this.other = other;
+  }
+
+  public AssetProperties nrOfDoors(Integer nrOfDoors) {
+    this.nrOfDoors = nrOfDoors;
+    return this;
+  }
+
+  /**
+   * the number of doors of the vehicle. Return only when applicable
+   * @return nrOfDoors
+   **/
+  @Schema(description = "the number of doors of the vehicle. Return only when applicable")
+  
+    public Integer getNrOfDoors() {
+    return nrOfDoors;
+  }
+
+  public void setNrOfDoors(Integer nrOfDoors) {
+    this.nrOfDoors = nrOfDoors;
   }
 
   public AssetProperties meta(Map<String, Object> meta) {
@@ -882,6 +952,33 @@ public class AssetProperties   {
     this.accessMethods = accessMethods;
   }
 
+  public AssetProperties ancillaries(List<Requirement> ancillaries) {
+    this.ancillaries = ancillaries;
+    return this;
+  }
+
+  public AssetProperties addAncillariesItem(Requirement ancillariesItem) {
+    if (this.ancillaries == null) {
+      this.ancillaries = new ArrayList<Requirement>();
+    }
+    this.ancillaries.add(ancillariesItem);
+    return this;
+  }
+
+  /**
+   * Get ancillaries
+   * @return ancillaries
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Requirement> getAncillaries() {
+    return ancillaries;
+  }
+
+  public void setAncillaries(List<Requirement> ancillaries) {
+    this.ancillaries = ancillaries;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -918,14 +1015,18 @@ public class AssetProperties   {
         Objects.equals(this.towingHook, assetProperties.towingHook) &&
         Objects.equals(this.undergroundParking, assetProperties.undergroundParking) &&
         Objects.equals(this.winterTires, assetProperties.winterTires) &&
+        Objects.equals(this.maxSpeed, assetProperties.maxSpeed) &&
+        Objects.equals(this.helmetRequired, assetProperties.helmetRequired) &&
         Objects.equals(this.other, assetProperties.other) &&
+        Objects.equals(this.nrOfDoors, assetProperties.nrOfDoors) &&
         Objects.equals(this.meta, assetProperties.meta) &&
-        Objects.equals(this.accessMethods, assetProperties.accessMethods);
+        Objects.equals(this.accessMethods, assetProperties.accessMethods) &&
+        Objects.equals(this.ancillaries, assetProperties.ancillaries);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, location, fuel, energyLabel, co2PerKm, brand, model, buildingYear, travelAbroad, airConditioning, cabrio, colour, cargo, easyAccessibility, gears, gearbox, image, infantSeat, persons, pets, propulsion, smoking, stateOfCharge, towingHook, undergroundParking, winterTires, other, meta, accessMethods);
+    return Objects.hash(name, location, fuel, energyLabel, co2PerKm, brand, model, buildingYear, travelAbroad, airConditioning, cabrio, colour, cargo, easyAccessibility, gears, gearbox, image, infantSeat, persons, pets, propulsion, smoking, stateOfCharge, towingHook, undergroundParking, winterTires, maxSpeed, helmetRequired, other, nrOfDoors, meta, accessMethods, ancillaries);
   }
 
   @Override
@@ -959,9 +1060,13 @@ public class AssetProperties   {
     sb.append("    towingHook: ").append(toIndentedString(towingHook)).append("\n");
     sb.append("    undergroundParking: ").append(toIndentedString(undergroundParking)).append("\n");
     sb.append("    winterTires: ").append(toIndentedString(winterTires)).append("\n");
+    sb.append("    maxSpeed: ").append(toIndentedString(maxSpeed)).append("\n");
+    sb.append("    helmetRequired: ").append(toIndentedString(helmetRequired)).append("\n");
     sb.append("    other: ").append(toIndentedString(other)).append("\n");
+    sb.append("    nrOfDoors: ").append(toIndentedString(nrOfDoors)).append("\n");
     sb.append("    meta: ").append(toIndentedString(meta)).append("\n");
     sb.append("    accessMethods: ").append(toIndentedString(accessMethods)).append("\n");
+    sb.append("    ancillaries: ").append(toIndentedString(ancillaries)).append("\n");
     sb.append("}");
     return sb.toString();
   }

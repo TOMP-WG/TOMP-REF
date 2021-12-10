@@ -20,6 +20,7 @@ import io.swagger.model.FarePart;
 import io.swagger.model.FarePart.TypeEnum;
 import io.swagger.model.GeojsonPolygon;
 import io.swagger.model.Leg;
+import io.swagger.model.OneOflegConditionsItems;
 import io.swagger.model.SystemHours;
 
 @Component
@@ -32,8 +33,8 @@ public class BikePlanningProvider extends BasePlanningProvider {
 		FarePart part = new FarePart();
 		part.setType(TypeEnum.FIXED);
 		part.setCurrencyCode("EUR");
-		part.setAmount(BigDecimal.valueOf(10.33));
-		part.setVatRate(BigDecimal.valueOf(21.0));
+		part.setAmount((float)(10.33));
+		part.setVatRate((float)(21.0));
 		fare.addPartsItem(part);
 		return fare;
 	}
@@ -51,7 +52,7 @@ public class BikePlanningProvider extends BasePlanningProvider {
 	}
 
 	@Override
-	protected List<Condition> getConditionsForLeg(Leg result, String acceptLanguage) {
+	protected List<OneOflegConditionsItems> getConditionsForLeg(Leg result, String acceptLanguage) {
 		ConditionReturnArea condition = new ConditionReturnArea();
 		condition.setConditionType("conditionReturnArea");
 		condition.setId("Haarlem");
@@ -67,6 +68,6 @@ public class BikePlanningProvider extends BasePlanningProvider {
 		period.setEndTime("13:02");
 		period.setDays(Arrays.asList(Day.MON));
 		condition.setReturnHours(Arrays.asList(period));
-		return Arrays.asList((Condition) condition);
+		return Arrays.asList((OneOflegConditionsItems) condition);
 	}
 }

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.model.Place;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -17,7 +16,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "request for support")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class SupportRequest   {
@@ -127,7 +126,7 @@ public class SupportRequest   {
   private String comment = null;
 
   @JsonProperty("requestedResponseTime")
-  private BigDecimal requestedResponseTime = null;
+  private Float requestedResponseTime = null;
 
   public SupportRequest id(String id) {
     this.id = id;
@@ -264,23 +263,23 @@ public class SupportRequest   {
     this.comment = comment;
   }
 
-  public SupportRequest requestedResponseTime(BigDecimal requestedResponseTime) {
+  public SupportRequest requestedResponseTime(Float requestedResponseTime) {
     this.requestedResponseTime = requestedResponseTime;
     return this;
   }
 
   /**
    * time to respond in minutes.
+   * minimum: 0
    * @return requestedResponseTime
    **/
   @Schema(description = "time to respond in minutes.")
   
-    @Valid
-    public BigDecimal getRequestedResponseTime() {
+  @DecimalMin("0")  public Float getRequestedResponseTime() {
     return requestedResponseTime;
   }
 
-  public void setRequestedResponseTime(BigDecimal requestedResponseTime) {
+  public void setRequestedResponseTime(Float requestedResponseTime) {
     this.requestedResponseTime = requestedResponseTime;
   }
 

@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * Asset
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-12-02T11:35:19.171Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T11:36:21.130Z[GMT]")
 
 
 public class Asset   {
@@ -41,6 +41,12 @@ public class Asset   {
 
   @JsonProperty("rentalUrlIOS")
   private String rentalUrlIOS = null;
+
+  @JsonProperty("mileage")
+  private Float mileage = null;
+
+  @JsonProperty("licensePlate")
+  private String licensePlate = null;
 
   @JsonProperty("overriddenProperties")
   private AssetProperties overriddenProperties = null;
@@ -200,6 +206,45 @@ public class Asset   {
     this.rentalUrlIOS = rentalUrlIOS;
   }
 
+  public Asset mileage(Float mileage) {
+    this.mileage = mileage;
+    return this;
+  }
+
+  /**
+   * the current mileage of the asset
+   * minimum: 0
+   * @return mileage
+   **/
+  @Schema(description = "the current mileage of the asset")
+  
+  @DecimalMin("0")  public Float getMileage() {
+    return mileage;
+  }
+
+  public void setMileage(Float mileage) {
+    this.mileage = mileage;
+  }
+
+  public Asset licensePlate(String licensePlate) {
+    this.licensePlate = licensePlate;
+    return this;
+  }
+
+  /**
+   * the usage of this field requires a secure environment. When assets are published in available-assets, this field can be used to track assets. Be aware of this.
+   * @return licensePlate
+   **/
+  @Schema(description = "the usage of this field requires a secure environment. When assets are published in available-assets, this field can be used to track assets. Be aware of this.")
+  
+    public String getLicensePlate() {
+    return licensePlate;
+  }
+
+  public void setLicensePlate(String licensePlate) {
+    this.licensePlate = licensePlate;
+  }
+
   public Asset overriddenProperties(AssetProperties overriddenProperties) {
     this.overriddenProperties = overriddenProperties;
     return this;
@@ -239,12 +284,14 @@ public class Asset   {
         Objects.equals(this.rentalUrl, asset.rentalUrl) &&
         Objects.equals(this.rentalUrlAndroid, asset.rentalUrlAndroid) &&
         Objects.equals(this.rentalUrlIOS, asset.rentalUrlIOS) &&
+        Objects.equals(this.mileage, asset.mileage) &&
+        Objects.equals(this.licensePlate, asset.licensePlate) &&
         Objects.equals(this.overriddenProperties, asset.overriddenProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, isReserved, isReservedFrom, isReservedTo, isDisabled, rentalUrl, rentalUrlAndroid, rentalUrlIOS, overriddenProperties);
+    return Objects.hash(id, isReserved, isReservedFrom, isReservedTo, isDisabled, rentalUrl, rentalUrlAndroid, rentalUrlIOS, mileage, licensePlate, overriddenProperties);
   }
 
   @Override
@@ -260,6 +307,8 @@ public class Asset   {
     sb.append("    rentalUrl: ").append(toIndentedString(rentalUrl)).append("\n");
     sb.append("    rentalUrlAndroid: ").append(toIndentedString(rentalUrlAndroid)).append("\n");
     sb.append("    rentalUrlIOS: ").append(toIndentedString(rentalUrlIOS)).append("\n");
+    sb.append("    mileage: ").append(toIndentedString(mileage)).append("\n");
+    sb.append("    licensePlate: ").append(toIndentedString(licensePlate)).append("\n");
     sb.append("    overriddenProperties: ").append(toIndentedString(overriddenProperties)).append("\n");
     sb.append("}");
     return sb.toString();

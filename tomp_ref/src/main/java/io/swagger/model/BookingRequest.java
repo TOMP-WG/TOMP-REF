@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "A booking requested by the MP")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-04-26T08:47:05.979Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-12-10T07:58:28.459Z[GMT]")
 
 
 public class BookingRequest   {
