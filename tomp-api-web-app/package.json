@@ -25,7 +25,7 @@
     "@stomp/ng2-stompjs": "^7.2.0",
     "leaflet": "^1.6.0",
     "leaflet-defaulticon-compatibility": "^0.1.1",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "ngx-json-viewer": "^2.4.0",
     "ngx-material-timepicker": "^5.5.3",
     "rxjs": "^6.5.5",
